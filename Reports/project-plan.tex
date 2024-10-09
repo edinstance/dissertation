@@ -1,6 +1,6 @@
 \documentclass[]{project_report}
 \usepackage{graphicx}
-\usepackage{hyperref}
+\usepackage[hidelinks ]{hyperref}
 \usepackage{tikz}
 
 
@@ -56,8 +56,16 @@ Signature:
 
 Online shopping has become an integral part of everyday life, with over 50 million users in the UK this year alone. This number is projected to rise by more than 10 million in the next five years [1]. Most online stores charge transaction fees for sales made on their platforms. For example, Amazon profits from transactions between third-party sellers and users [2]. While these fees are lucrative for the platform, they significantly reduce profit margins for sellers, particularly small-scale vendors with already tight margins, making it potentially detrimental. In addition to transaction fees, most payment gateways charge interchange, scheme, and processing fees. Typically, companies integrate these costs into their pricing structure, passing the burden onto the end user to maintain profitability [3].
 
-In response to this growing demand, this project aims to develop a full-stack web application that [briefly describe the purpose or unique value of your app], catering to both individual users and businesses.
+Instead of using these pricing models I am planning on using a subscription-based model, this would allow users to pay a monthly fee that would give them access to the application, but there are still some downfalls to this model. One of the key conditions for commercial success of cloud services is the clearness and transparency of pricing [4] and there must be added value in subscription-based online
+services to make consumer feel that it is worth paying for [5]. based on this I need to research other applications and be able to justify my pricing so that it is fair and competitive. I am planning on adding multiple levels to the model as solo users do not need the same amount of features as enterprise level users.
 
+The application will need to have a Role Based Access Control (RBAC) implemented to improve data security and to help manage users https://www.dataversity.net/4-benefits-of-role-based-access-control-rbac-and-how-to-implement-it/ RBAC will be important to the project as it means that I will be able to grant users least privilege which means that a user or entity should only have access to the specific data, resources and applications needed to complete a required task . RBAC will also help me manage users as after assigning each user a role I can then easily change what they are allowed to see based on this role. 
+% https://www.paloaltonetworks.co.uk/cyberpedia/what-is-the-principle-of-least-privilege#:~:text=The%20principle%20of%20least%20privilege%20(PoLP)%20is%20an%20information%20security,to%20complete%20a%20required%20task.
+
+
+I plan on researching a way to deploy this application either to a server or to a cloud provider, the main reason I am considering this is that because this is an online shop it will need to be deployed at some stage in the development so that users can access it. But I think it is important to think about this from the start so that the architecture can constantly evolve rather than leaving it late in the project and having to plan and provision it near the end of the project. The reason I am debating both types of deployments are that there are both advantages and disadvantages to either options. The main difference with the two is that you trade fixed expense for variable expense [https://docs.aws.amazon.com/pdfs/whitepapers/latest/aws-overview/aws-overview.pdf#six-advantages-of-cloud-computing] when working with the cloud, as you don't have to pay the upfront cost for the servers.
+
+I think this approach is important as it prioritises the users over making money, I think a user centered design and approach to creating this project will elevate it while also providing real world challenges that developers face. As well as that, the amount of features that a online store requires that I have mentioned will help me create a unique project where I can use both technologies I've learnt about but also new ones.
 
 \newpage
 
@@ -66,10 +74,10 @@ In response to this growing demand, this project aims to develop a full-stack we
 \chapter{Timeline}
 
 
-I plan to spend the beginning of term one working on my project plan and deciding on the technologies and frameworks that I will be using. Then I will start building my application, I will be focusing on the Web and Application tier's as the data model will be defined based on them. I am hoping to have an Minimum viable product (MVP) by the end of week 8 so that I have time to test it and create my interim report by the end of week 10. After the report is submitted and I have completed the presentation I am planning to re-evaluate my plan for term 2, I am also planning to do a review in week 6 to ensure that I am on track and to help me prioritise work.
+I plan to spend the beginning of term one working on my project plan and deciding on the technologies and frameworks that I will be using. Then I will start building my application, I will be focusing on the Web and Application tier's as the data model will be defined based on them. I am hoping to have an Minimum viable product (MVP) by the end of week 8 so that I have time to test it and create my interim report by the end of week 10. After the report is submitted and I have completed the presentation I am planning to re-evaluate my plan for term 2, I am also planning to do a review in week 6 to ensure that I am on track and to help me prioritise work. \newline
 
+While there is an outline for a timeline for term 2 there is a high chance that this could change, and my plan to work around this is to consistently going back to the plan and timeline and reviewing where I am, what has changed and what I can approve so that even if I go off track I will be fine.
 
- 
 
 \section{Term 1}
 
@@ -134,26 +142,84 @@ I plan to spend the beginning of term one working on my project plan and decidin
 
 \section{Term 2}
 
+
+\begin{center}
+    \begin{tikzpicture}[scale=1, every node/.style={scale=1}]
+
+        \def\yshift{-1}  % Adjust the shift for better spacing
+        % Draw the vertical timeline
+        \draw[thick] (0,-1) -- (0,-11);  % Timeline from 0 to -10
+        
+        % Create the weeks and the dots for them
+        \node[anchor=east] at (-0.5,\yshift) {Week 1:};
+        \node[anchor=west, text width=12cm] at (0.2,\yshift) {Review the work I have done in term 1 and the holiday and plan out this term.};
+        \draw[fill] (0,\yshift) circle (0.1);  
+
+        \node[anchor=east] at (-0.5,2*\yshift) {Week 2:};
+        \node[anchor=west, text width=12cm] at (0.2,2*\yshift) {Work on the key features I have outlined in the terms plan.};
+        \draw[fill] (0,2*\yshift) circle (0.1);  
+
+        \node[anchor=east] at (-0.5,3*\yshift) {Week 3:};
+        \node[anchor=west, text width=12cm] at (0.2,3*\yshift) {Finalise and test the deployment of the application.};
+        \draw[fill] (0,3*\yshift) circle (0.1);  
+
+        \node[anchor=east] at (-0.5,4*\yshift) {Week 4:};
+        \node[anchor=west, text width=12cm] at (0.2,4*\yshift) {Once one deployment is completed check if I can create multiple deployment plans and or environments.};
+        \draw[fill] (0,4*\yshift) circle (0.1);  
+
+        \node[anchor=east] at (-0.5,5*\yshift) {Week 5:};
+        \node[anchor=west, text width=12cm] at (0.2,5*\yshift) {Continue developing the application and start creating the final report.};
+        \draw[fill] (0,5*\yshift) circle (0.1);  
+
+        \node[anchor=east] at (-0.5,6*\yshift) {Week 6:};
+        \node[anchor=west, text width=12cm] at (0.2,6*\yshift) {Review the progress so far and plan out re-prioritise work for last weeks in the term.};
+        \draw[fill] (0,6*\yshift) circle (0.1);  
+
+        \node[anchor=east] at (-0.5,7*\yshift) {Week 7:};
+        \node[anchor=west, text width=12cm] at (0.2,7*\yshift) {Meet my supervisor and check if there is anything my project is missing.};
+        \draw[fill] (0,7*\yshift) circle (0.1);  
+
+        \node[anchor=east] at (-0.5,8*\yshift) {Week 8:};
+        \node[anchor=west, text width=12cm] at (0.2,8*\yshift) {Work of the prioritised work and complete as much as I can while also working on the final report.};
+        \draw[fill] (0,8*\yshift) circle (0.1);  
+
+        \node[anchor=east] at (-0.5,9*\yshift) {Week 9:};
+        \node[anchor=west, text width=12cm] at (0.2,9*\yshift) {Test the project and ensure there are no bugs or missing features.};
+        \draw[fill] (0,9*\yshift) circle (0.1);  
+
+        \node[anchor=east] at (-0.5,10*\yshift) {Week 10:};
+        \node[anchor=west, text width=12cm] at (0.2,10*\yshift) {Finish the project and final report so there aren't many changes required in the last week, as well as preparing the presentation and demo.};
+        \draw[fill] (0,10*\yshift) circle (0.1);  
+        
+        \node[anchor=east] at (-0.5,11*\yshift) {Week 11:};
+        \node[anchor=west, text width=12cm] at (0.2,11*\yshift) {Finalise and submit the final report.};
+        \draw[fill] (0,11*\yshift) circle (0.1);  
+
+    \end{tikzpicture}
+\end{center}
+
+
+
 \chapter{Risks and Mitigation's}
 
 \section{GDPR (General Data Protection Regulation) Concerns}
 
-The risk here is failing to meet standards set by GDPR, failing to meet these standards can occur warnings, fines up to £20 million or 4\% of the business’s total annual worldwide turnover and potential bans on processing [4]. I have researched some of the main policies that an online shop should meet and how I plan to mitigate the overall risk of not meeting standards.
+The risk here is failing to meet standards set by GDPR, failing to meet these standards can occur warnings, fines up to £20 million or 4\% of the business’s total annual worldwide turnover and potential bans on processing [6]. I have researched some of the main policies that an online shop should meet and how I plan to mitigate the overall risk of not meeting standards.
 
 \subsection{Data Collection and Consent}
-GDPR requires not only that data is only collected after obtaining consent from the user, but also that data is collected and used only for specific purposes, and must be deleted when those purpose are no longer applicable [5]. To ensure compliance, I will obtain explicit user consent before collecting personal data. This will be achieved through clear consent forms and notifications that have been based on the conditions for consent [6][Article 7 ] , this will ensure users understand how their data will be used.
+GDPR requires not only that data is only collected after obtaining consent from the user, but also that data is collected and used only for specific purposes, and must be deleted when those purpose are no longer applicable [7]. To ensure compliance, I will obtain explicit user consent before collecting personal data. This will be achieved through clear consent forms and notifications that have been based on the conditions for consent [8][Article 7 ] , this will ensure users understand how their data will be used.
 
 \subsection{Data Minimisation}
-“[Personal data shall be] adequate, relevant and limited to what is necessary in relation to the purposes for which they are processed [...]”[6] [Article 5, Sect. 1(c)]. Therefore only the necessary data for the service will be collected, the application will be designed to avoid unnecessary data collection in order to comply with the principle of data minimisation. I will also occasionally review what data I am collecting and if it is required.
+“[Personal data shall be] adequate, relevant and limited to what is necessary in relation to the purposes for which they are processed [...]”[8] [Article 5, Sect. 1(c)]. Therefore only the necessary data for the service will be collected, the application will be designed to avoid unnecessary data collection in order to comply with the principle of data minimisation. I will also occasionally review what data I am collecting and if it is required.
 
 \subsection{Data Security}
-The controller and the processor shall implement appropriate technical and organisational measures to ensure a level of security appropriate to the risk[6] [Article 32, Sect. 1]. Some of the initial measures will be Data encryption both at rest and in transit will be implemented, but to ensure a good level of data security throughout the project I will also research and implement best practices.
+The controller and the processor shall implement appropriate technical and organisational measures to ensure a level of security appropriate to the risk[8] [Article 32, Sect. 1]. Some of the initial measures will be Data encryption both at rest and in transit will be implemented, but to ensure a good level of data security throughout the project I will also research and implement best practices.
 
 \subsection{Data Retention}
-Data should not be stored no longer than is necessary for the purposes for which the personal data are processed[6] [Article 5, Sect. 1(e)]. To mitigate this risk a clear data retention policy will be enforced, ensuring that personal data is not stored longer than necessary and data that is no longer needed will be securely deleted.
+Data should not be stored no longer than is necessary for the purposes for which the personal data are processed[8] [Article 5, Sect. 1(e)]. To mitigate this risk a clear data retention policy will be enforced, ensuring that personal data is not stored longer than necessary and data that is no longer needed will be securely deleted.
 
 \subsection{User Rights}
-Mechanisms will be in place to allow users to exercise their rights under GDPR which are listed here [6] [Chapter 3], including access to their data, the right to rectification, and the right to be forgotten.
+Mechanisms will be in place to allow users to exercise their rights under GDPR which are listed here [8] [Chapter 3], including access to their data, the right to rectification, and the right to be forgotten.
 
 \subsection{Third Parties}
 Any third-party services used, such as payment gateways, authentication providers and more will be GDPR compliant. To ensure this I will look into documentation and check their policies.\newline
@@ -166,7 +232,7 @@ plan on how to deal with data security and knowing what I might need to implemen
 
 \section{Security Risks}
 
-There are many security risks when it comes to web applications and each of these require different solutions. My plan is to mitigate these vulnerabilities by focusing on the Open Worldwide Application Security Project (OWASP) Top Ten Web Application Security Risks [7]. This list highlights the most common and severe risks, which are frequently exploited by attackers, and thus have a high likelihood of being targeted. In addition to addressing these known vulnerabilities, I will continue to check for new risks as I progress.
+There are many security risks when it comes to web applications and each of these require different solutions. My plan is to mitigate these vulnerabilities by focusing on the Open Worldwide Application Security Project (OWASP) Top Ten Web Application Security Risks [9]. This list highlights the most common and severe risks, which are frequently exploited by attackers, and thus have a high likelihood of being targeted. In addition to addressing these known vulnerabilities, I will continue to check for new risks as I progress.
 
 
 \section{Scalability Issues}
@@ -175,7 +241,11 @@ As the application grows and creates a large user base there are issues related 
 
 \section{Cost}
 
-I am planing to either deploy this application on a server or by using a cloud provider and both of these solutions will incur costs. The main benefit to using a cloud provider is that it will trade the Capital Expense of setting up a server to Operational expenses, this can be a benefit as it means we do not need as much money to deploy the application but cloud computing costs can rapidly increase and go out of control. To mitigate this I am planning on setting up budget alarms and consistently monitoring the costs of the deployments so that it stays within a fixed budget I will decide on.
+I am planing to either deploy this application on a server or by using a cloud provider and both of these solutions will incur costs. The main benefit to using a cloud provider is that it will trade the Capital Expense of setting up a server to Operational expenses, this can be a benefit as it means we do not need as much money to deploy the application but cloud computing costs can rapidly increase and go out of control. To mitigate this I am planning on setting up budget alarms and consistently monitoring the costs of the deployments so that it stays within a fixed budget I will decide on. 
+
+\section{Pricing}
+The pricing of the final application can also pose a risk as if the pricing is too high or too unreasonable, it will mean that I won't convert any users and wont be able to run the application long term. To mitigate this risk I plan on researching other pricing models and also asking users if they think the pricing is fair. 
+
 
 \section{User Authentication and Authorization Risks}
 
@@ -188,6 +258,12 @@ I am planing to either deploy this application on a server or by using a cloud p
 \section{Uneven Balance Between Report/Code}
 
 \section{Over Optimistic Timeline}
+
+\section{Data Backup and Recovery}
+
+\section{User Experience (UX) Risks}
+
+\section{Plan and timeline changes}
 
 %%%% ADD YOUR BIBLIOGRAPHY HERE
 \newpage
