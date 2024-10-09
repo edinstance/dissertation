@@ -53,6 +53,12 @@ Signature:
 %%% Your Abstract here
 \chapter*{Abstract}
 \addcontentsline{toc}{chapter}{Abstract}
+
+Online shopping has become an integral part of everyday life, with over 50 million users in the UK this year alone. This number is projected to rise by more than 10 million in the next five years [1]. Most online stores charge transaction fees for sales made on their platforms. For example, Amazon profits from transactions between third-party sellers and users [2]. While these fees are lucrative for the platform, they significantly reduce profit margins for sellers, particularly small-scale vendors with already tight margins, making it potentially detrimental. In addition to transaction fees, most payment gateways charge interchange, scheme, and processing fees. Typically, companies integrate these costs into their pricing structure, passing the burden onto the end user to maintain profitability [3].
+
+In response to this growing demand, this project aims to develop a full-stack web application that [briefly describe the purpose or unique value of your app], catering to both individual users and businesses.
+
+
 \newpage
 
 %%%%%%%%%%%%%%%%%%%%%%
@@ -130,6 +136,58 @@ I plan to spend the beginning of term one working on my project plan and decidin
 
 \chapter{Risks and Mitigation's}
 
+\section{GDPR (General Data Protection Regulation) Concerns}
+
+The risk here is failing to meet standards set by GDPR, failing to meet these standards can occur warnings, fines up to £20 million or 4\% of the business’s total annual worldwide turnover and potential bans on processing [4]. I have researched some of the main policies that an online shop should meet and how I plan to mitigate the overall risk of not meeting standards.
+
+\subsection{Data Collection and Consent}
+GDPR requires not only that data is only collected after obtaining consent from the user, but also that data is collected and used only for specific purposes, and must be deleted when those purpose are no longer applicable [5]. To ensure compliance, I will obtain explicit user consent before collecting personal data. This will be achieved through clear consent forms and notifications that have been based on the conditions for consent [6][Article 7 ] , this will ensure users understand how their data will be used.
+
+\subsection{Data Minimisation}
+“[Personal data shall be] adequate, relevant and limited to what is necessary in relation to the purposes for which they are processed [...]”[6] [Article 5, Sect. 1(c)]. Therefore only the necessary data for the service will be collected, the application will be designed to avoid unnecessary data collection in order to comply with the principle of data minimisation. I will also occasionally review what data I am collecting and if it is required.
+
+\subsection{Data Security}
+The controller and the processor shall implement appropriate technical and organisational measures to ensure a level of security appropriate to the risk[6] [Article 32, Sect. 1]. Some of the initial measures will be Data encryption both at rest and in transit will be implemented, but to ensure a good level of data security throughout the project I will also research and implement best practices.
+
+\subsection{Data Retention}
+Data should not be stored no longer than is necessary for the purposes for which the personal data are processed[6] [Article 5, Sect. 1(e)]. To mitigate this risk a clear data retention policy will be enforced, ensuring that personal data is not stored longer than necessary and data that is no longer needed will be securely deleted.
+
+\subsection{User Rights}
+Mechanisms will be in place to allow users to exercise their rights under GDPR which are listed here [6] [Chapter 3], including access to their data, the right to rectification, and the right to be forgotten.
+
+\subsection{Third Parties}
+Any third-party services used, such as payment gateways, authentication providers and more will be GDPR compliant. To ensure this I will look into documentation and check their policies.\newline
+
+
+
+All of these GDPR policies affect the web application I will be building and the mitigation to them is to ensure that when any user data is being used or requested to make sure that it is for a reason, and to also have a 
+plan on how to deal with data security and knowing what I might need to implement into the project as I have identified this risk.
+
+
+\section{Security Risks}
+
+There are many security risks when it comes to web applications and each of these require different solutions. My plan is to mitigate these vulnerabilities by focusing on the Open Worldwide Application Security Project (OWASP) Top Ten Web Application Security Risks [7]. This list highlights the most common and severe risks, which are frequently exploited by attackers, and thus have a high likelihood of being targeted. In addition to addressing these known vulnerabilities, I will continue to check for new risks as I progress.
+
+
+\section{Scalability Issues}
+
+As the application grows and creates a large user base there are issues related to scaling, if there are too many users for the application it could create unknown errors and potentially deny users access to the application. To mitigate this I plan to add load balancing and auto-scaling to the deployment steps, this should insure that the application will be able to handle increased and spiked traffic.
+
+\section{Cost}
+
+I am planing to either deploy this application on a server or by using a cloud provider and both of these solutions will incur costs. The main benefit to using a cloud provider is that it will trade the Capital Expense of setting up a server to Operational expenses, this can be a benefit as it means we do not need as much money to deploy the application but cloud computing costs can rapidly increase and go out of control. To mitigate this I am planning on setting up budget alarms and consistently monitoring the costs of the deployments so that it stays within a fixed budget I will decide on.
+
+\section{User Authentication and Authorization Risks}
+
+\section{Third-Party Dependencies}
+
+\section{Cross-Browser Compatibility}
+
+\section{Hardware Failure}
+
+\section{Uneven Balance Between Report/Code}
+
+\section{Over Optimistic Timeline}
 
 %%%% ADD YOUR BIBLIOGRAPHY HERE
 \newpage
