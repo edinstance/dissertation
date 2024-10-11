@@ -37,11 +37,11 @@ Student Name: \studentname
 
 \vskip3em
 
-Date of Submission: 
+Date of Submission: 11/10/2024
 
 \vskip3em
 
-Signature:
+Signature: einstance
 
 \newpage
 
@@ -209,25 +209,30 @@ Across the two terms the main thing I want to focus on is splitting my focus bet
 The risk here is failing to meet standards set by GDPR, failing to meet these standards can occur warnings, fines up to £20 million or 4\% of the business’s total annual worldwide turnover and potential bans on processing \cite{europeancommission_2023}. I have researched some of the main policies that an online shop should meet and how I plan to mitigate the overall risk of not meeting standards.
 
 \subsection{Data Collection and Consent}
+
 GDPR requires not only that data is only collected after obtaining consent from the user, but also that data is collected and used only for specific purposes, and must be deleted when those purpose are no longer applicable \cite{basin_2018}. To ensure compliance, I will obtain explicit user consent before collecting personal data, based on the conditions for consent \cite{gdpr_2016}[Article 7 ].
 
 \subsection{Data Minimisation}
+
 “[Personal data shall be] adequate, relevant and limited to what is necessary in relation to the purposes for which they are processed [...]” \cite{gdpr_2016} [Article 5, Sect. 1(c)]. Therefore only the necessary data for the service will be collected, in order to comply with the principle of data minimisation. I will also occasionally review what data I am collecting and if it is required.
 
 \subsection{Data Security}
+
 The controller and the processor shall implement appropriate technical and organisational measures to ensure a level of security appropriate to the risk \cite{gdpr_2016} [Article 32, Sect. 1]. To ensure a good level of data security throughout the project I will research and implement best practices.
 
 \subsection{Data Retention}
+
 Data should not be stored no longer than is necessary for the purposes for which the personal data are processed \cite{gdpr_2016} [Article 5, Sect. 1(e)]. To mitigate this risk a clear data retention policy will be enforced, ensuring that personal data is not stored longer than necessary and data that is no longer needed will be securely deleted.
 
 \subsection{User Rights}
+
 Mechanisms will be in place to allow users to exercise their rights under GDPR which are listed here \cite{gdpr_2016} [Chapter 3], including access to their data, the right to rectification, and the right to be forgotten.
 
 \subsection{Third Parties}
-Any third-party services used, such as payment gateways, authentication providers and more will be GDPR compliant. To ensure this I will look into documentation and check their policies.
 
-All of these GDPR policies affect the web application I will be building and the mitigation to them is to ensure that when any user data is being used or requested to make sure that it is for a reason, and to also have a 
-plan on how to deal with data security and knowing what I might need to implement into the project as I have identified this risk. This risk has a low likelihood and a high severity as these data risks are very important and could cause lot of issues, it is easy to mitigate them by planning and preparing.
+Any third-party services used, such as payment gateways, authentication providers and more will be GDPR compliant. To ensure this I will look into documentation and check their policies. \newline
+
+All of these GDPR policies affect the web application I will be building and the mitigation to them is to ensure that when any user data is being used or requested to make sure that it is for a reason, and to also have a plan on how to deal with data security and knowing what I might need to implement into the project as I have identified this risk. This risk has a low likelihood and a high severity as these data risks are very important and could cause lot of issues, it is easy to mitigate them by planning and preparing.
 
 
 \section{Security Risks}
@@ -248,6 +253,7 @@ The pricing of the final application can also pose a risk as if the pricing is t
 
 
 \section{User Authentication and Authorization Risks}
+
 Having accounts and authorising users many risks but the most severe risk would be having other users or bad actors gaining access to others accounts. As we are storing GDPR data and payment information this risk has a high severity. To mitigate this risk I will employ best practices when it comes to authorising and authenticating users, such as using multi-factor authentication (MFA) and enforcing strong password policies. This risk has a high likelihood as authentication attacks are very common [owasp].
 
 \section{Third-Party Dependencies}
@@ -255,9 +261,11 @@ Having accounts and authorising users many risks but the most severe risk would 
 It can be challenging to thoroughly review all the code from these dependencies, making it difficult to ensure their safety. Additionally, some dependencies may be closed source, which means I would not be able to check them at all. This poses a risk to the project as I will be allowing foreign code into my application. The likelihood of this is low as most popular dependencies are regularly checked and I will make sure to keep updated on whether there have been any breaches. Although the severity of this is high as if any of these dependencies were malicious bad actors would have access to the applications data and user data.
 
 \section{Cross-Browser Compatibility}
+
 This risk is to do with the fact that the website could render differently or have different functionality based on the browser it is being used on. This risk has a low impact as it will mainly only cause visual errors and the likelihood of it is low as I will also be testing the app on multiple browsers to mitigate this. 
 
 \section{Hardware Failure}
+
 Hardware failure is a risk that affects multiple parts of the project, first of all the hardware I am writing reports and code on could fail. To mitigate this I am using Version control and making backups. This is a low likelihood, low severity risk as I have prepared for it and it is unlikely my hardware will fail. Hardware failure can also occur once deploying the application and to mitigate this I need to plan for if a machine fails and deploy it on multiple machines. This elevates the risk to medium likelihood and high severity as the service will be using different and or unknown hardware which I might not have full control over which means there could be a higher likelihood of failure, and if the deployed service was to fail it would mean that users can't access the application so it is high severity.
 
 \section{Uneven Balance Between Report/Code}
@@ -269,6 +277,7 @@ Both the code and the reports are important for this project to succeed, but the
 This risk is to do with how I have planned the timeline in this report, there is a high chance that this timeline is incorrect and either that I'll be able to more or less than what is planned. This is highly likely as things go wrong in all projects and I also don't know exactly what I will be doing months in advance. Despite that it is helpful to have a rough plan I can return to and reflect on. The severity of this risk is low as even if the timeline is wrong it can be changed and I will reflect on what changed and alter my timelines in the other reports.
 
 \section{User Experience (UX) Risks}
+
 There are risks related to have bad user experience, these risks can cause the application to lose users or to get complaints and have to make changes later on in the project. This risk has low likihood as I plan to ask potential users for opinions as I develop and the severity is medium.
 
 %%%% ADD YOUR BIBLIOGRAPHY HERE
@@ -280,42 +289,56 @@ There are risks related to have bad user experience, these risks can cause the a
 
 \bibitem{statistica_2024}
 Statistica, “Number of e-commerce users in the United Kingdom (UK) from 2017 to 2029,” Statistica, Sep. 01, 2024. \url{https://www.statista.com/forecasts/477128/e-commerce-users-in-the-united-kingdom} (accessed Oct. 03, 2024).
+\textit{I chose this source as it shows how important online shopping is in the UK.}
 
 \bibitem{zhu_2014}
 Zhu, F. \& Liu, Q. “Competing with Complementors: an Empirical Look at Amazon.com,” \emph{SSRN Electronic Journal}, 2014. \doi{https://doi.org/10.2139/ssrn.2533616}.
+\textit{This source evaluated one of the largest online shops and by using the information they gathered I could better understand how they make money.}
 
 \bibitem{panov_2022}
 Panov, A. “Subscription and payment systems for SaaS applications,” \emph{Theseus.fi}, 2022. \doi{http://www.theseus.fi/handle/10024/751313}.
+\textit{This source helped confirm common pricing models while also helping me shape what will be implemented in the application.}
 
 \bibitem{laatikainen_2014}
 Laatikainen, G. \& Ojala, A. “SaaS Architecture and Pricing Models,” \emph{IEEE Xplore}, Jun. 01, 2014. \url{https://ieeexplore.ieee.org/document/6930585?denied=}.
+\textit{This source shows some of the key values from the business side that I will need to consider when looking at pricing.}
 
 \bibitem{wang_2024}
 Wang, C., Zhang, Y., Li, R., Ye, and D.-D. Nguyen, “Wang et al.: Subscribe to Fee-Based Web Services SUBSCRIPTION TO FEE-BASED ONLINE SERVICES: WHAT MAKES CONSUMER PAY FOR ONLINE CONTENT?,” Oct. 2024. Available: \url{http://ojs.jecr.org/jecr/sites/default/files/paper4_20.pdf}.
+\textit{This showed me what users consider when looking at paying for subscription based services.}
 
 \bibitem{herzberg_2023}
 Herzberg, B. “4 Benefits of Role-Based Access Control (RBAC) and How to Implement It,” \emph{DATAVERSITY}, Oct. 16, 2023. \url{https://www.dataversity.net/4-benefits-of-role-based-access-control-rbac-and-how-to-implement-it/}.
+\textit{This source gave many reasons on why and also how RBAC should be implemented which will help me throughout development.}
 
 \bibitem{palo_alto}
 Palo Alto, “What Is the Principle of Least Privilege?,” Palo Alto Networks. \url{https://www.paloaltonetworks.co.uk/cyberpedia/what-is-the-principle-of-least-privilege}.
+\textit{This source gave a great definition of RBAC so which helped me explain why it is needed in the application.}
 
 \bibitem{whitepaper_2024}
 Whitepaper, A. “Overview of Amazon Web Services,” Aug. 2024. Available: \url{https://docs.aws.amazon.com/pdfs/whitepapers/latest/aws-overview/aws-overview.pdf#six-advantages-of-cloud-computing}.
+\textit{This whitepaper gives a great overview of AWS and Cloud Computing but also helped give some key differences between why Cloud should be chosen over On Premise.}
 
 \bibitem{europeancommission_2023}
 European Commission, “What if my company/organisation fails to comply with the data protection rules?,” commission.europa.eu, 2023. \url{https://commission.europa.eu/law/law-topic/data-protection/reform/rules-business-and-organisations/enforcement-and-sanctions/sanctions/what-if-my-companyorganisation-fails-comply-data-protection-rules_en}.
+\textit{This outlined the results of not complying with GDPR and helped me understand the risk and severity of doing so.}
+
 
 \bibitem{basin_2018}
 Basin, D., Debois, S. \& Hildebrandt, T. “On Purpose and by Necessity: Compliance Under the GDPR,” \emph{Financial Cryptography and Data Security}, pp. 20–37, 2018. \doi{https://doi.org/10.1007/978-3-662-58387-6_2}.
+\textit{This paper gave information about data collection and consent in relation to GDPR and helped me understand what I will need to do to comply with some GDPR rules.}
 
 \bibitem{gdpr_2016}
 GDPR, “General Data Protection Regulation (GDPR),” General Data Protection Regulation (GDPR), 2016. \url{https://gdpr-info.eu}.
+\textit{This source contains all of the GDPR rules which was very informative when talking about the risks of failing to comply to GDPR.}
 
 \bibitem{owasp_2021}
 OWASP, “OWASP Top Ten,” Owasp.org, 2021. \url{https://owasp.org/www-project-top-ten/}.
+\textit{This source contains all of the top ten web application security risks and will be invaluable when I am developing so that the application will be protected.}
 
 \bibitem{griffiths_2023}
 Griffiths, C. “The Latest 2022 Cyber Crime Statistics (updated December 2022) | AAG IT Support,” AAG, Jan. 06, 2023. \url{https://aag-it.com/the-latest-cyber-crime-statistics/}.
+\textit{These statistics were very informative when considering the likelihood of potential web attacks against this application.}
 
 
 \end{thebibliography}
