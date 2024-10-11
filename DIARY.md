@@ -11,3 +11,7 @@
 - Finally I have been working on my project plan and have started the abstract, created an intial timeline and started thinking about the risks my project has.
 
 ## Week 2
+
+- I continued working on my project plan, I had some areas where I was unsure so I asked my supervisor to read over one of my drafts. 
+- I continued to research web technologies and I am planning on setting up the inital application.
+- I updated my plan based on the recomendations I recieved and finished it off. 
