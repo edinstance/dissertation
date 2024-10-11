@@ -54,10 +54,11 @@ Signature:
 \chapter*{Abstract}
 \addcontentsline{toc}{chapter}{Abstract}
 
-Online shopping has become an integral part of everyday life, with over 50 million users in the UK this year alone. This number is projected to rise by more than 10 million in the next five years [1]. Most online stores charge transaction fees for sales made on their platforms. For example, Amazon profits from transactions between third-party sellers and users [2]. While these fees are lucrative for the platform, they significantly reduce profit margins for sellers, particularly small-scale vendors with already tight margins, making it potentially detrimental. In addition to transaction fees, most payment gateways charge interchange, scheme, and processing fees. Typically, companies integrate these costs into their pricing structure, passing the burden onto the end user to maintain profitability [3].
+Online shopping has become an integral part of everyday life, with over 50 million users in the UK this year alone. This number is projected to rise by more than 10 million in the next five years [1 https://www.statista.com/forecasts/477128/e-commerce-users-in-the-united-kingdom]. Most online stores charge transaction fees for sales made on their platforms. For example, Amazon profits from transactions between third-party sellers and users [2 https://www.hbs.edu/ris/Publication20Files/amazon_2018-06-05_4a83c515-af0c-4366-9fba-8fb059d0b4f6.pdf]. While these fees are lucrative for the platform, they significantly reduce profit margins for sellers, particularly small-scale vendors with already tight margins, making it potentially detrimental. In addition to transaction fees, most payment gateways charge interchange, scheme, and processing fees. Usually, companies utilizing third-party payment systems incorporate the costs of these processing fees in the amounts charged for the subscriptions, and the end user hiring the services is the part covering all the costs, so companies can provide services while still profiting [3 https://www.theseus.fi/bitstream/handle/10024/751313/Panov_Arsenii.pdf?sequence=2&isAllowed=y].
 
-Instead of using these pricing models I am planning on using a subscription-based model, this would allow users to pay a monthly fee that would give them access to the application, but there are still some downfalls to this model. One of the key conditions for commercial success of cloud services is the clearness and transparency of pricing [4] and there must be added value in subscription-based online
-services to make consumer feel that it is worth paying for [5]. based on this I need to research other applications and be able to justify my pricing so that it is fair and competitive. I am planning on adding multiple levels to the model as solo users do not need the same amount of features as enterprise level users.
+Instead of using these pricing models I am planning on using a subscription-based model, this would allow users to pay a monthly fee that would give them access to the application, but there are still some downfalls to this model. One of the key conditions for commercial success is the clearness and transparency of pricing [4 https://ieeexplore.ieee.org/document/6930585?denied=] and there must be added value in subscription-based online services to make consumer feel that it is worth paying for [5 http://ojs.jecr.org/jecr/sites/default/files/paper4_20.pdf]. based on this I need to research other applications and be able to justify my pricing so that it is fair and competitive. I am planning on adding multiple levels to the model as solo users do not need the same amount of features as enterprise level users.
+
+Some of the main functionality of the app includes, a user or group being able to sign-up to the application, then once they have paid for a subscription the user will be able to list items for sale and also post items. The user will be able to view their past payments, manage their account and more. There will also be admin pages both for managing user accounts but also for admins of the site to view data and analytics from the application. All of these features are essential to web applications, and there are more stretch goals that I am hoping to implement such as adding in a NoSQL database or a messaging system. All of these features will be considered and the ones that affect the user in the best way will be implemented.
 
 The application will need to have a Role Based Access Control (RBAC) implemented to improve data security and to help manage users https://www.dataversity.net/4-benefits-of-role-based-access-control-rbac-and-how-to-implement-it/ RBAC will be important to the project as it means that I will be able to grant users least privilege which means that a user or entity should only have access to the specific data, resources and applications needed to complete a required task . RBAC will also help me manage users as after assigning each user a role I can then easily change what they are allowed to see based on this role. 
 % https://www.paloaltonetworks.co.uk/cyberpedia/what-is-the-principle-of-least-privilege#:~:text=The%20principle%20of%20least%20privilege%20(PoLP)%20is%20an%20information%20security,to%20complete%20a%20required%20task.
@@ -74,10 +75,12 @@ I think this approach is important as it prioritises the users over making money
 \chapter{Timeline}
 
 
-I plan to spend the beginning of term one working on my project plan and deciding on the technologies and frameworks that I will be using. Then I will start building my application, I will be focusing on the Web and Application tier's as the data model will be defined based on them. I am hoping to have an Minimum viable product (MVP) by the end of week 8 so that I have time to test it and create my interim report by the end of week 10. After the report is submitted and I have completed the presentation I am planning to re-evaluate my plan for term 2, I am also planning to do a review in week 6 to ensure that I am on track and to help me prioritise work. \newline
+I plan to spend the beginning of term one working on my project plan and deciding on the technologies and frameworks that I will be using. Then I will start building my application, I will be focusing on the Web and Application tier's as the data model will be defined based on them. I am hoping to have an Minimum viable product (MVP) by the end of week 8 so that I have time to test it and create my interim report by the end of week 10. After the report is submitted and I have completed the presentation I am planning to re-evaluate my plan for term 2, I am also planning to do a review in week 6 to ensure that I am on track and to help me prioritise work.
 
 While there is an outline for a timeline for term 2 there is a high chance that this could change, and my plan to work around this is to consistently going back to the plan and timeline and reviewing where I am, what has changed and what I can approve so that even if I go off track I will be fine.
 
+
+Across the two terms the main thing I want to focus on is splitting my focus between both the reports I need to create and the code as they both play important roles in the project.
 
 \section{Term 1}
 
@@ -91,7 +94,7 @@ While there is an outline for a timeline for term 2 there is a high chance that 
         
         % Create the weeks and the dots for them
         \node[anchor=east] at (-0.5,\yshift) {Week 1:};
-        \node[anchor=west, text width=12cm] at (0.2,\yshift) {Decide on project plan and start researching technologies.};
+        \node[anchor=west, text width=12cm] at (0.2,\yshift) {Decide on project plan and start researching technologies and use this research to create the first early deliverable.};
         \draw[fill] (0,\yshift) circle (0.1);  
 
         \node[anchor=east] at (-0.5,2*\yshift) {Week 2:};
@@ -99,7 +102,7 @@ While there is an outline for a timeline for term 2 there is a high chance that 
         \draw[fill] (0,2*\yshift) circle (0.1);  
 
         \node[anchor=east] at (-0.5,3*\yshift) {Week 3:};
-        \node[anchor=west, text width=12cm] at (0.2,3*\yshift) {Develop and implement unit tests for all layers to ensure functionality and integration.};
+        \node[anchor=west, text width=12cm] at (0.2,3*\yshift) {Start working on the user stories and design pattern reports.};
         \draw[fill] (0,3*\yshift) circle (0.1);  
 
         \node[anchor=east] at (-0.5,4*\yshift) {Week 4:};
@@ -111,7 +114,7 @@ While there is an outline for a timeline for term 2 there is a high chance that 
         \draw[fill] (0,5*\yshift) circle (0.1);  
 
         \node[anchor=east] at (-0.5,6*\yshift) {Week 6:};
-        \node[anchor=west, text width=12cm] at (0.2,6*\yshift) {Review the progress so far and plan out re-prioritise work for last weeks in the term.};
+        \node[anchor=west, text width=12cm] at (0.2,6*\yshift) {Review the progress so far and plan out re-prioritise work for last weeks in the term, and finish of early deliverable reports.;};
         \draw[fill] (0,6*\yshift) circle (0.1);  
 
         \node[anchor=east] at (-0.5,7*\yshift) {Week 7:};
@@ -152,7 +155,7 @@ While there is an outline for a timeline for term 2 there is a high chance that 
         
         % Create the weeks and the dots for them
         \node[anchor=east] at (-0.5,\yshift) {Week 1:};
-        \node[anchor=west, text width=12cm] at (0.2,\yshift) {Review the work I have done in term 1 and the holiday and plan out this term.};
+        \node[anchor=west, text width=12cm] at (0.2,\yshift) {Review the work I have done in term 1 and the holiday and plan out this term as well as start creating the user manual.};
         \draw[fill] (0,\yshift) circle (0.1);  
 
         \node[anchor=east] at (-0.5,2*\yshift) {Week 2:};
@@ -204,16 +207,16 @@ While there is an outline for a timeline for term 2 there is a high chance that 
 
 \section{GDPR (General Data Protection Regulation) Concerns}
 
-The risk here is failing to meet standards set by GDPR, failing to meet these standards can occur warnings, fines up to £20 million or 4\% of the business’s total annual worldwide turnover and potential bans on processing [6]. I have researched some of the main policies that an online shop should meet and how I plan to mitigate the overall risk of not meeting standards.
+The risk here is failing to meet standards set by GDPR, failing to meet these standards can occur warnings, fines up to £20 million or 4\% of the business’s total annual worldwide turnover and potential bans on processing [6 https://commission.europa.eu/law/law-topic/data-protection/reform/rules-business-and-organisations/enforcement-and-sanctions/sanctions/what-if-my-companyorganisation-fails-comply-data-protection-rules_en]. I have researched some of the main policies that an online shop should meet and how I plan to mitigate the overall risk of not meeting standards.
 
 \subsection{Data Collection and Consent}
-GDPR requires not only that data is only collected after obtaining consent from the user, but also that data is collected and used only for specific purposes, and must be deleted when those purpose are no longer applicable [7]. To ensure compliance, I will obtain explicit user consent before collecting personal data. This will be achieved through clear consent forms and notifications that have been based on the conditions for consent [8][Article 7 ] , this will ensure users understand how their data will be used.
+GDPR requires not only that data is only collected after obtaining consent from the user, but also that data is collected and used only for specific purposes, and must be deleted when those purpose are no longer applicable [7 https://link.springer.com/chapter/10.1007/978-3-662-58387-6_2]. To ensure compliance, I will obtain explicit user consent before collecting personal data, based on the conditions for consent [8 https://gdpr-info.eu][Article 7 ].
 
 \subsection{Data Minimisation}
-“[Personal data shall be] adequate, relevant and limited to what is necessary in relation to the purposes for which they are processed [...]”[8] [Article 5, Sect. 1(c)]. Therefore only the necessary data for the service will be collected, the application will be designed to avoid unnecessary data collection in order to comply with the principle of data minimisation. I will also occasionally review what data I am collecting and if it is required.
+“[Personal data shall be] adequate, relevant and limited to what is necessary in relation to the purposes for which they are processed [...]”[8] [Article 5, Sect. 1(c)]. Therefore only the necessary data for the service will be collected, in order to comply with the principle of data minimisation. I will also occasionally review what data I am collecting and if it is required.
 
 \subsection{Data Security}
-The controller and the processor shall implement appropriate technical and organisational measures to ensure a level of security appropriate to the risk[8] [Article 32, Sect. 1]. Some of the initial measures will be Data encryption both at rest and in transit will be implemented, but to ensure a good level of data security throughout the project I will also research and implement best practices.
+The controller and the processor shall implement appropriate technical and organisational measures to ensure a level of security appropriate to the risk[8] [Article 32, Sect. 1]. To ensure a good level of data security throughout the project I will research and implement best practices.
 
 \subsection{Data Retention}
 Data should not be stored no longer than is necessary for the purposes for which the personal data are processed[8] [Article 5, Sect. 1(e)]. To mitigate this risk a clear data retention policy will be enforced, ensuring that personal data is not stored longer than necessary and data that is no longer needed will be securely deleted.
@@ -222,53 +225,58 @@ Data should not be stored no longer than is necessary for the purposes for which
 Mechanisms will be in place to allow users to exercise their rights under GDPR which are listed here [8] [Chapter 3], including access to their data, the right to rectification, and the right to be forgotten.
 
 \subsection{Third Parties}
-Any third-party services used, such as payment gateways, authentication providers and more will be GDPR compliant. To ensure this I will look into documentation and check their policies.\newline
-
-
+Any third-party services used, such as payment gateways, authentication providers and more will be GDPR compliant. To ensure this I will look into documentation and check their policies.
 
 All of these GDPR policies affect the web application I will be building and the mitigation to them is to ensure that when any user data is being used or requested to make sure that it is for a reason, and to also have a 
-plan on how to deal with data security and knowing what I might need to implement into the project as I have identified this risk.
+plan on how to deal with data security and knowing what I might need to implement into the project as I have identified this risk. This risk has a low likelihood and a high severity as these data risks are very important and could cause lot of issues, it is easy to mitigate them by planning and preparing.
 
 
 \section{Security Risks}
 
-There are many security risks when it comes to web applications and each of these require different solutions. My plan is to mitigate these vulnerabilities by focusing on the Open Worldwide Application Security Project (OWASP) Top Ten Web Application Security Risks [9]. This list highlights the most common and severe risks, which are frequently exploited by attackers, and thus have a high likelihood of being targeted. In addition to addressing these known vulnerabilities, I will continue to check for new risks as I progress.
+There are many security risks when it comes to web applications and each of these require different solutions. My plan is to mitigate these vulnerabilities by focusing on the Open Worldwide Application Security Project (OWASP) Top Ten Web Application Security Risks [9 https://owasp.org/www-project-top-ten/]. This list highlights the most common and severe risks, which are frequently exploited by attackers, and thus have a high likelihood of being targeted. In addition to addressing these known vulnerabilities, I will continue to check for new risks as I progress. This risk is both a high likelihood and severity risk as any security risks can be detrimental to the application and they are very likely as 50\% of UK businesses experienced some form of cyber attack in 2023 [https://aag-it.com/the-latest-cyber-crime-statistics/#:~:text=Nearly%201%20billion%20emails%20were,their%20accounts%20breached%20in%202021.].
 
 
 \section{Scalability Issues}
 
-As the application grows and creates a large user base there are issues related to scaling, if there are too many users for the application it could create unknown errors and potentially deny users access to the application. To mitigate this I plan to add load balancing and auto-scaling to the deployment steps, this should insure that the application will be able to handle increased and spiked traffic.
+As the application grows and creates a large user base there are issues related to scaling, if there are too many users for the application it could create unknown errors and potentially deny users access to the application. To mitigate this I plan to add load balancing and auto-scaling to the deployment steps, this should insure that the application will be able to handle increased and spiked traffic. This risk would be a high likelihood risk but as we are planning for scalability from the start it is actually medium likelihood, as for severity this is a high severity risk as it would stop users from being able to access the application.
 
 \section{Cost}
 
-I am planing to either deploy this application on a server or by using a cloud provider and both of these solutions will incur costs. The main benefit to using a cloud provider is that it will trade the Capital Expense of setting up a server to Operational expenses, this can be a benefit as it means we do not need as much money to deploy the application but cloud computing costs can rapidly increase and go out of control. To mitigate this I am planning on setting up budget alarms and consistently monitoring the costs of the deployments so that it stays within a fixed budget I will decide on. 
+I am planing to either deploy this application on a server or by using a cloud provider and both of these solutions will incur costs. The main benefit to using a cloud provider is that it will trade the Capital Expense of setting up a server to Operational expenses, this can be a benefit as it means we do not need as much money to deploy the application but cloud computing costs can rapidly increase and go out of control. To mitigate this I am planning on setting up budget alarms and consistently monitoring the costs of the deployments so that it stays within a fixed budget I will decide on. Because of the budgets and monitoring this is a low likelihood risk but it has a high severity as cloud bills can rapidly build up an burden the project.
 
 \section{Pricing}
-The pricing of the final application can also pose a risk as if the pricing is too high or too unreasonable, it will mean that I won't convert any users and wont be able to run the application long term. To mitigate this risk I plan on researching other pricing models and also asking users if they think the pricing is fair. 
+The pricing of the final application can also pose a risk as if the pricing is too high or too unreasonable, it will mean that I won't convert any users and wont be able to run the application long term. To mitigate this risk I plan on researching other pricing models and also asking users if they think the pricing is fair. This is a low likelihood  and medium severity risk as the pricing can be can be changed based on user feedback but if no users join the application might have to shut down.
 
 
 \section{User Authentication and Authorization Risks}
+Having accounts and authorising users many risks but the most severe risk would be having other users or bad actors gaining access to others accounts. As we are storing GDPR data and payment information this risk has a high severity. To mitigate this risk I will employ best practices when it comes to authorising and authenticating users, such as using multi-factor authentication (MFA) and enforcing strong password policies. This risk has a high likelihood as authentication attacks are very common [owasp].
 
 \section{Third-Party Dependencies}
 
+It can be challenging to thoroughly review all the code from these dependencies, making it difficult to ensure their safety. Additionally, some dependencies may be closed source, which means I would not be able to check them at all. This poses a risk to the project as I will be allowing foreign code into my application. The likelihood of this is low as most popular dependencies are regularly checked and I will make sure to keep updated on whether there have been any breaches. Although the severity of this is high as if any of these dependencies were malicious bad actors would have access to the applications data and user data.
+
 \section{Cross-Browser Compatibility}
+This risk is to do with the fact that the website could render differently or have different functionality based on the browser it is being used on. This risk has a low impact as it will mainly only cause visual errors and the likelihood of it is low as I will also be testing the app on multiple browsers to mitigate this. 
 
 \section{Hardware Failure}
+Hardware failure is a risk that affects multiple parts of the project, first of all the hardware I am writing reports and code on could fail. To mitigate this I am using Version control and making backups. This is a low likelihood, low severity risk as I have prepared for it and it is unlikely my hardware will fail. Hardware failure can also occur once deploying the application and to mitigate this I need to plan for if a machine fails and deploy it on multiple machines. This elevates the risk to medium likelihood and high severity as the service will be using different and or unknown hardware which I might not have full control over which means there could be a higher likelihood of failure, and if the deployed service was to fail it would mean that users can't access the application so it is high severity.
 
 \section{Uneven Balance Between Report/Code}
 
-\section{Over Optimistic Timeline}
+Both the code and the reports are important for this project to succeed, but there is a risk that I will spend too much time on either one of them, to mitigate this I have planned time in the timeline for working on both but some parts of the reports rely on the code and vice versa so I will need to carefully manage what I work on throughout the project. This is low likelihood and medium severity as it is unlikely to happen as I've planned a way to avoid it but if I do focus on one it will effect the outcome of the project. 
 
-\section{Data Backup and Recovery}
+\section{Incorrect Timeline}
+
+This risk is to do with how I have planned the timeline in this report, there is a high chance that this timeline is incorrect and either that I'll be able to more or less than what is planned. This is highly likely as things go wrong in all projects and I also don't know exactly what I will be doing months in advance. Despite that it is helpful to have a rough plan I can return to and reflect on. The severity of this risk is low as even if the timeline is wrong it can be changed and I will reflect on what changed and alter my timelines in the other reports.
 
 \section{User Experience (UX) Risks}
-
-\section{Plan and timeline changes}
+There are risks related to have bad user experience, these risks can cause the application to lose users or to get complaints and have to make changes later on in the project. This risk has low likihood as I plan to ask potential users for opinions as I develop and the severity is medium.
 
 %%%% ADD YOUR BIBLIOGRAPHY HERE
 \newpage
 \begin{thebibliography}{99}
 \addcontentsline{toc}{chapter}{Bibliography}
+
 
 \end{thebibliography}
 \label{endpage}
