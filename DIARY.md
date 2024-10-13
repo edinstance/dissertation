@@ -15,3 +15,5 @@
 - I continued working on my project plan, I had some areas where I was unsure so I asked my supervisor to read over one of my drafts. 
 - I continued to research web technologies and I am planning on setting up the inital application.
 - I updated my plan based on the recomendations I recieved and finished it off. 
+- I submitted the project plan and merged it into the main branch of this repo as well as creating a tag for it so that I can easily track when it was completed. 
+- I had planned on setting up the intial application and I will have some of it set up but it will be hard to fully understand the requirments until my project plan has been marked and I have some feedback on it.
