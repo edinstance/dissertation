@@ -5,3 +5,7 @@ This directory will contain all of the infrastrucure as code that will define th
 ## Linting 
 
 To lint the infrastructure code, intall [TFLint](https://github.com/terraform-linters/tflint) and then navigate to this directory and run this command ```tflint --recursive```. The config for TFLint is set up in the [.tflint.hcl](.tflint.hcl) file. 
+
+## Security Scaning
+
+To run a security scan on the infrastructure code you can use [Trivy](https://trivy.dev). Once Trivy is installed navigate to this directory and run this command ```trivy config .```.
