@@ -17,3 +17,10 @@
 - I updated my plan based on the recomendations I recieved and finished it off. 
 - I submitted the project plan and merged it into the main branch of this repo as well as creating a tag for it so that I can easily track when it was completed. 
 - I had planned on setting up the intial application and I will have some of it set up but it will be hard to fully understand the requirments until my project plan has been marked and I have some feedback on it.
+
+## Week 3
+
+- I spent the majority of this week planning and researching.
+- I have decided to use a Java Spring boot application with a PostgreSQL database for the backend and a Typescript Next.js Frontend.
+- I created an inital setup for both the frontend and backend and I plan to continue working on the setup over the next week.
+- I did lots of research on all of these frameworks as well as authentication providers and payment providers. 
