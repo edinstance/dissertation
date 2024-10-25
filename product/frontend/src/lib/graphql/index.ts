@@ -1,6 +1,6 @@
-import gql from "graphql-tag";
+import { graphql } from "@/gql";
 
-export const GET_SHOWS_QUERY = gql(`
+export const GET_SHOWS_QUERY = graphql(`
   query GetShows {
     shows {
         title
