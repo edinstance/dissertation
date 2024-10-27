@@ -20,11 +20,13 @@ export default function HomePage() {
         {queryLoading ? (
           <p>Loading...</p>
         ) : (
-          <ul>
-            {queryData?.shows.map((show: any) => (
-              <li key={show.title}>{show.title}</li>
-            ))}
-          </ul>
+          queryData?.shows && (
+            <ul>
+              {queryData?.shows.map((show) => (
+                <li key={show?.title}>{show?.title}</li>
+              ))}
+            </ul>
+          )
         )}
       </div>
     </main>
