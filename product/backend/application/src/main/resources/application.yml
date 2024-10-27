@@ -1,3 +1,12 @@
 spring:
   application:
     name: backend
+
+# Actuator config
+management:
+  endpoints:
+    web:
+      base-path: "/details"
+    jmx:
+      exposure:
+        include: "health"
