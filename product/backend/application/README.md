@@ -1,4 +1,4 @@
-# Application
+# Backend Application
 
 This is the backend application for this final year project. Below are the steps for running it.
 
@@ -31,11 +31,11 @@ You can run the appication by using Docker. First you have to build the image an
 Build the image using this command.
 
 ```
-docker build -t accelerator-springboot .
+docker build -t final-project-backend .
 ```
 
 Then run it.
 
 ```
-docker run accelerator-springboot
+docker run final-project-backend
 ```
