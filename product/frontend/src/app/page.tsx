@@ -2,6 +2,7 @@
 
 import { GET_SHOWS_QUERY } from "@/lib/graphql";
 import { useQuery } from "@apollo/client";
+import { signIn } from "next-auth/react";
 
 export default function HomePage() {
   const { data: queryData, loading: queryLoading } = useQuery(GET_SHOWS_QUERY, {
@@ -16,6 +17,13 @@ export default function HomePage() {
   return (
     <main className="flex min-h-screen items-center justify-center text-black">
       <div className="flex flex-col">
+        <button
+          onClick={() => {
+            signIn();
+          }}
+        >
+          Login
+        </button>
         <h1 className="text-4xl font-bold">Shows</h1>
         {queryLoading ? (
           <p>Loading...</p>
