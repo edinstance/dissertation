@@ -3,6 +3,7 @@ import {
   CognitoIdentityProviderClient,
   InitiateAuthCommand,
 } from "@aws-sdk/client-cognito-identity-provider";
+import { CognitoJwtVerifier } from "aws-jwt-verify/cognito-verifier";
 import { CredentialsSignin, type NextAuthConfig } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 
@@ -13,6 +14,12 @@ class CustomError extends CredentialsSignin {
     this.message = code;
   }
 }
+
+const verifier = CognitoJwtVerifier.create({
+  userPoolId: process.env.COGNITO_USER_POOL_ID as string,
+  tokenUse: "id",
+  clientId: process.env.COGNITO_CLIENT_ID,
+});
 
 /**
  * Options for NextAuth.js used to configure adapters, providers, callbacks, etc.
@@ -48,8 +55,10 @@ export const authConfig = {
 
         try {
           const response = await cognitoClient.send(command);
+          const userDetails = await verifier.verify(response.AuthenticationResult?.IdToken as string);
+          
           const user = {
-            id: response.AuthenticationResult?.IdToken,
+            id: userDetails.sub,
             email: credentials.email as string,
           };
 
