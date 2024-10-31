@@ -6,6 +6,7 @@ import {
 } from "@aws-sdk/client-cognito-identity-provider";
 import { CredentialsSignin, type NextAuthConfig } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
+import { z } from "zod";
 
 class CustomError extends CredentialsSignin {
   constructor(code: string) {
@@ -14,6 +15,18 @@ class CustomError extends CredentialsSignin {
     this.message = code;
   }
 }
+
+const credentialsSchema = z.object({
+  email: z.string().email({ message: "Invalid email address" }),
+  password: z
+    .string()
+    .min(8, { message: "Password must be at least 6 characters long" })
+    .refine(
+      (value) =>
+        /[A-Z]/.test(value) && /[a-z]/.test(value) && /\d/.test(value),
+      { message: "Password must include uppercase, lowercase, and number" }
+    )
+});
 
 /**
  * Options for NextAuth.js used to configure adapters, providers, callbacks, etc.
@@ -35,6 +48,11 @@ export const authConfig = {
       },
       async authorize(credentials) {
         if (!credentials) throw new CustomError("No credentials provided");
+
+        const parsedCredentials = credentialsSchema.safeParse(credentials);
+        if (!parsedCredentials.success) {
+          throw new CustomError(parsedCredentials.error.errors.map(e => e.message).join(", "));
+        }
 
         const cognitoClient = new CognitoIdentityProviderClient({});
 
