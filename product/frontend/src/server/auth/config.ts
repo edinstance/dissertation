@@ -3,8 +3,16 @@ import {
   CognitoIdentityProviderClient,
   InitiateAuthCommand,
 } from "@aws-sdk/client-cognito-identity-provider";
-import { type NextAuthConfig } from "next-auth";
+import { CredentialsSignin, type NextAuthConfig } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
+
+class CustomError extends CredentialsSignin {
+  constructor(code: string) {
+    super();
+    this.code = code;
+    this.message = code;
+  }
+}
 
 /**
  * Options for NextAuth.js used to configure adapters, providers, callbacks, etc.
@@ -25,7 +33,7 @@ export const authConfig = {
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
-        if (!credentials) return null;
+        if (!credentials) throw new CustomError("No credentials provided");
 
         const cognitoClient = new CognitoIdentityProviderClient({});
 
@@ -45,10 +53,12 @@ export const authConfig = {
             email: credentials.email as string,
           };
 
+          if (!user) throw new CustomError("Invalid credentials");
+
           return user;
         } catch (error) {
           console.error(error);
-          return null;
+          throw new CustomError("Invalid credentials");
         }
       },
     }),
