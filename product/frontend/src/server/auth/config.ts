@@ -1,9 +1,9 @@
+import { refreshAccessToken, verifyAWSToken } from "@/utils/aws-jwt";
 import {
   AuthFlowType,
   CognitoIdentityProviderClient,
   InitiateAuthCommand,
 } from "@aws-sdk/client-cognito-identity-provider";
-import { CognitoJwtVerifier } from "aws-jwt-verify/cognito-verifier";
 import { CredentialsSignin, type NextAuthConfig } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 
@@ -14,12 +14,6 @@ class CustomError extends CredentialsSignin {
     this.message = code;
   }
 }
-
-const verifier = CognitoJwtVerifier.create({
-  userPoolId: process.env.COGNITO_USER_POOL_ID as string,
-  tokenUse: "id",
-  clientId: process.env.COGNITO_CLIENT_ID,
-});
 
 /**
  * Options for NextAuth.js used to configure adapters, providers, callbacks, etc.
@@ -44,7 +38,7 @@ export const authConfig = {
 
         const cognitoClient = new CognitoIdentityProviderClient({});
 
-        const command = new InitiateAuthCommand({
+        const loginUserCommand = new InitiateAuthCommand({
           AuthFlow: AuthFlowType.USER_PASSWORD_AUTH,
           AuthParameters: {
             USERNAME: credentials.email as string,
@@ -54,12 +48,22 @@ export const authConfig = {
         });
 
         try {
-          const response = await cognitoClient.send(command);
-          const userDetails = await verifier.verify(response.AuthenticationResult?.IdToken as string);
-          
+          const response = await cognitoClient.send(loginUserCommand);
+          const userDetails = await verifyAWSToken(
+            response.AuthenticationResult?.IdToken as string,
+            "id",
+          );
+
           const user = {
             id: userDetails.sub,
             email: credentials.email as string,
+            cognitoTokens: {
+              accessToken: response.AuthenticationResult?.AccessToken,
+              refreshToken: response.AuthenticationResult?.RefreshToken,
+              idToken: response.AuthenticationResult?.IdToken,
+              accessTokenExpiresIn: response.AuthenticationResult?.ExpiresIn,
+              tokenType: response.AuthenticationResult?.TokenType,
+            },
           };
 
           if (!user) throw new CustomError("Invalid credentials");
@@ -72,6 +76,41 @@ export const authConfig = {
       },
     }),
   ],
+  callbacks: {
+    async jwt({ token, user }) {
+      if (user) {
+        token.accessToken = user.cognitoTokens?.accessToken;
+        token.refreshToken = user.cognitoTokens?.refreshToken;
+        token.idToken = user.cognitoTokens?.idToken;
+        token.accessTokenExpiresIn = user.cognitoTokens?.accessTokenExpiresIn;
+        token.tokenType = user.cognitoTokens?.tokenType;
+      }
+      const isTokenExpired =
+        Date.now() > (token.accessTokenExpiresIn as number) * 1000;
+
+      if (isTokenExpired) {
+        try {
+          const newTokens = await refreshAccessToken(
+            token.refreshToken as string,
+          );
+          token.accessToken = newTokens.accessToken;
+          token.accessTokenExpiresIn = newTokens.accessTokenExpiresIn;
+        } catch (error) {
+          console.error("Token refresh failed:", error);
+          throw new Error("Token refresh failed");
+        }
+      }
+
+      return token;
+    },
+    async session({ session, token }) {
+      // Add accessToken to the session
+      if (token) {
+        session.accessToken = token.accessToken as string;
+      }
+      return session;
+    },
+  },
   pages: {
     signIn: "/login",
   },
