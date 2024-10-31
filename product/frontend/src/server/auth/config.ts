@@ -22,10 +22,9 @@ const credentialsSchema = z.object({
     .string()
     .min(8, { message: "Password must be at least 6 characters long" })
     .refine(
-      (value) =>
-        /[A-Z]/.test(value) && /[a-z]/.test(value) && /\d/.test(value),
-      { message: "Password must include uppercase, lowercase, and number" }
-    )
+      (value) => /[A-Z]/.test(value) && /[a-z]/.test(value) && /\d/.test(value),
+      { message: "Password must include uppercase, lowercase, and number" },
+    ),
 });
 
 /**
@@ -51,7 +50,9 @@ export const authConfig = {
 
         const parsedCredentials = credentialsSchema.safeParse(credentials);
         if (!parsedCredentials.success) {
-          throw new CustomError(parsedCredentials.error.errors.map(e => e.message).join(", "));
+          throw new CustomError(
+            parsedCredentials.error.errors.map((e) => e.message).join(", "),
+          );
         }
 
         const cognitoClient = new CognitoIdentityProviderClient({});

@@ -8,7 +8,7 @@ You can either run the application locally or using Docker:
 
 ### Locally
 
-To run locally move into this directory and first build the application then run it. 
+To run locally move into this directory and first build the application then run it.
 
 ```
 npm run build
@@ -22,8 +22,7 @@ npm run start
 
 ### Docker
 
-You can run the appication by using Docker. First you have to build the image and then run it. 
-
+You can run the appication by using Docker. First you have to build the image and then run it.
 
 Build the image using this command.
 

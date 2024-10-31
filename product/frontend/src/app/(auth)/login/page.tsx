@@ -95,7 +95,7 @@ function SignInPage() {
           </div>
         </div>
 
-        <div className="min-h-6 flex justify-center pt-1">
+        <div className="flex min-h-6 justify-center pt-1">
           {errorMessage && (
             <p className="text-sm text-red-500 dark:text-red-400">
               {errorMessage}
