@@ -1,11 +1,21 @@
 "use client";
-import { ApolloClient, InMemoryCache } from "@apollo/client";
+import { ApolloClient, HttpLink, InMemoryCache } from "@apollo/client";
+import { setContext } from "@apollo/client/link/context";
 import { ReactNode } from "react";
 import ApolloProvider from "./apollo-provider";
 
-function createApolloClient(link: string) {
+function createApolloClient(link: string, accessToken: string) {
+  const httpLink = new HttpLink({ uri: link });
+
+  const authLink = setContext((_, { headers }) => ({
+    headers: {
+      ...headers,
+      authorization: accessToken ? `Bearer ${accessToken}` : "",
+    },
+  }));
+
   return new ApolloClient({
-    uri: link,
+    link: authLink.concat(httpLink),
     connectToDevTools: true,
     cache: new InMemoryCache(),
   });
@@ -14,12 +24,14 @@ function createApolloClient(link: string) {
 export function ApolloWrapper({
   children,
   link,
+  accessToken,
 }: {
   children: ReactNode;
   link: string;
+  accessToken: string;
 }) {
   return (
-    <ApolloProvider client={createApolloClient(link)}>
+    <ApolloProvider client={createApolloClient(link, accessToken)}>
       {children}
     </ApolloProvider>
   );

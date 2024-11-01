@@ -10,15 +10,17 @@ export default async function RootLayout({
   const session = await auth();
   console.log(session);
 
-
   if (!session) {
     redirect("/not-found");
   }
-  
+
   return (
     <html lang="en">
       <body>
-        <ApolloWrapper link={BACKEND_GRAPHQL_ENDPOINT}>
+        <ApolloWrapper
+          link={BACKEND_GRAPHQL_ENDPOINT}
+          accessToken={session.accessToken}
+        >
           {children}
         </ApolloWrapper>
       </body>
