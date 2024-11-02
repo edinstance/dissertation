@@ -8,7 +8,6 @@ export default async function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   const session = await auth();
-  console.log(session);
 
   if (!session) {
     redirect("/not-found");
@@ -19,7 +18,7 @@ export default async function RootLayout({
       <body>
         <ApolloWrapper
           link={BACKEND_GRAPHQL_ENDPOINT}
-          accessToken={session.accessToken}
+          accessToken={session?.accessToken}
         >
           {children}
         </ApolloWrapper>
