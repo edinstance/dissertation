@@ -1,11 +1,11 @@
 "use client";
-import { ApolloClient, HttpLink, InMemoryCache } from "@apollo/client";
+import { ApolloClient, createHttpLink, HttpLink, InMemoryCache } from "@apollo/client";
 import { setContext } from "@apollo/client/link/context";
 import { ReactNode } from "react";
 import ApolloProvider from "./apollo-provider";
 
 function createApolloClient(link: string, accessToken: string) {
-  const httpLink = new HttpLink({ uri: link });
+  const httpLink = createHttpLink({ uri: link, credentials: "include" });
 
   const authLink = setContext((_, { headers }) => ({
     headers: {
