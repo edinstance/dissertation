@@ -1,5 +1,6 @@
 "use client";
 
+import { Button } from "@/components/ui/button";
 import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/outline";
 import { signIn } from "next-auth/react";
 import Link from "next/link";
@@ -104,12 +105,7 @@ function SignInPage() {
         </div>
         <div className="md:flex-row md:space-y-0">
           <div className="flex w-full pt-2">
-            <button
-              type="submit"
-              className="flex flex-1 items-center justify-center rounded-md border border-transparent bg-blue-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
-            >
-              Login
-            </button>
+            <Button type="submit" color="blue">Login</Button>
           </div>
           <p className="flex justify-end pt-2 text-sm text-black dark:text-white">
             Don&apos;t have an account?&nbsp;
