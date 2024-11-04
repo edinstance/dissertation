@@ -14,7 +14,7 @@ export default function Shop() {
   });
 
   return (
-    <>
+    <div className="pt-16">
       <h1 className="text-4xl font-bold">Shows</h1>
       {queryLoading ? (
         <p>Loading...</p>
@@ -27,6 +27,6 @@ export default function Shop() {
           </ul>
         )
       )}
-    </>
+    </div>
   );
 }
