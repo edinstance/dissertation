@@ -14,19 +14,21 @@ export default function Shop() {
   });
 
   return (
-    <div className="pt-16">
-      <h1 className="text-4xl font-bold">Shows</h1>
-      {queryLoading ? (
-        <p>Loading...</p>
-      ) : (
-        queryData?.shows && (
-          <ul>
-            {queryData?.shows.map((show) => (
-              <li key={show?.title}>{show?.title}</li>
-            ))}
-          </ul>
-        )
-      )}
+    <div className="flex min-h-screen justify-center bg-zinc-100 pt-32 text-black dark:bg-zinc-900 dark:text-white">
+      <div>
+        <h1 className="text-4xl font-bold">Shows</h1>
+        {queryLoading ? (
+          <p>Loading...</p>
+        ) : (
+          queryData?.shows && (
+            <ul>
+              {queryData?.shows.map((show) => (
+                <li key={show?.title}>{show?.title}</li>
+              ))}
+            </ul>
+          )
+        )}
+      </div>
     </div>
   );
 }
