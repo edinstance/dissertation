@@ -19,7 +19,7 @@ function SignInPage() {
 
     signIn("credentials", {
       ...loginDetails,
-      redirectTo: `${window.location.origin}`,
+      callbackUrl: "/shop",
     });
   };
 
