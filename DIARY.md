@@ -24,3 +24,22 @@
 - I have decided to use a Java Spring boot application with a PostgreSQL database for the backend and a Typescript Next.js Frontend.
 - I created an inital setup for both the frontend and backend and I plan to continue working on the setup over the next week.
 - I did lots of research on all of these frameworks as well as authentication providers and payment providers. 
+
+## Week 4 
+
+- I setup the authentication provider that I am planning to use. To do this I used the research I did on AWS Cognito and Terraform so that I could provision it using Infrastructure as Code. 
+- I also setup apollo client on the frontend which I will use to manage the states of my data and interact with the backend of the application. 
+- Finally I setup graphql codegen which will enable me to generate type safe code from my graphql schema. 
+
+
+## Week 5 
+
+- I setup authentication on the frontend which now allows for a user to login if they have a cognito user account. 
+- I then setup the use of JWT for authorisation. This was only setup to send the JWT to the backend. 
+- I started adding JWT verification on the backend but I started getting lots of issues with CORS once I added spring security. This meant that the issue is rolling over into Week 6.
+
+## Week 6 
+
+- I met with my supervisor this week and discussed my current progress, I identified that I need to start my reports as soon as possible so I am planning on doing that. 
+- I finished off the intital backend securtity that I was working on and merged it.
+- I have been building the user interface out.
