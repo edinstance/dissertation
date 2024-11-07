@@ -256,6 +256,18 @@ function SignUpPage() {
                   )}
                 </button>
               </div>
+
+              <ul className="mt-2 list-inside list-disc text-sm">
+                <li
+                  className={
+                    signUpDetails.password === signUpDetails.confirmPassword
+                      ? "text-green-500"
+                      : "text-red-500"
+                  }
+                >
+                  Passwords must match
+                </li>
+              </ul>
             </div>
           </div>
 
