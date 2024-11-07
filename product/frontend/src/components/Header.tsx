@@ -17,10 +17,9 @@ export default function Header() {
               <Menu>
                 <MenuButton>
                   <div className="flex flex-row items-center space-x-1 px-2">
-                  <p>{session?.data?.user?.name}</p>
-                  <UserCircleIcon className="h-8 w-8 rounded-md" />
+                    <p>{session?.data?.user?.name}</p>
+                    <UserCircleIcon className="h-8 w-8 rounded-md" />
                   </div>
-                  
                 </MenuButton>
                 <MenuItems
                   anchor="bottom end"
