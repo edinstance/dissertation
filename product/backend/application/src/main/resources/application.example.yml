@@ -21,3 +21,7 @@ management:
       exposure:
         include: "health"
         # This should be the actuator endpoints that you want to expose
+
+api:
+  key:
+# This key is used to access the backend
