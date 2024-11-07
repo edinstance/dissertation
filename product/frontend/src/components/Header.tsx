@@ -13,11 +13,14 @@ export default function Header() {
         <p>Final Year Project</p>
         <div>
           {session.status == "authenticated" ? (
-            <div className="flex flex-row items-center space-x-4">
-              <p>{session?.data?.user?.name}</p>
+            <div className="flex flex-row rounded-lg text-zinc-700 hover:bg-zinc-300 dark:text-zinc-200 dark:hover:bg-zinc-600">
               <Menu>
                 <MenuButton>
-                  <UserCircleIcon className="h-8 w-8 rounded-md text-zinc-700 hover:bg-zinc-300 dark:text-zinc-200 dark:hover:bg-zinc-600" />
+                  <div className="flex flex-row items-center space-x-1 px-2">
+                  <p>{session?.data?.user?.name}</p>
+                  <UserCircleIcon className="h-8 w-8 rounded-md" />
+                  </div>
+                  
                 </MenuButton>
                 <MenuItems
                   anchor="bottom end"
@@ -26,7 +29,7 @@ export default function Header() {
                 >
                   <MenuItem>
                     <a
-                      className="block w-full rounded-md bg-white px-4 py-2 text-left text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:bg-zinc-800 dark:text-white dark:hover:bg-zinc-700 dark:focus:ring-offset-zinc-900"
+                      className="block w-full rounded-md bg-white px-4 py-2 text-left text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 dark:bg-zinc-800 dark:text-white dark:hover:bg-zinc-700 dark:focus:ring-offset-zinc-900"
                       href="/account"
                     >
                       Account
@@ -37,7 +40,7 @@ export default function Header() {
                       onClick={() => {
                         signOut({ callbackUrl: "/" });
                       }}
-                      className="block w-full rounded-md bg-white px-4 py-2 text-left text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:bg-zinc-800 dark:text-white dark:hover:bg-zinc-700 dark:focus:ring-offset-zinc-900"
+                      className="block w-full rounded-md bg-white px-4 py-2 text-left text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-100 focus:outline-none focus:ring-2 *:focus:ring-offset-2 dark:bg-zinc-800 dark:text-white dark:hover:bg-zinc-700 dark:focus:ring-offset-zinc-900"
                     >
                       Sign Out
                     </button>
