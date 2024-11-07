@@ -1,0 +1,23 @@
+spring:
+  application:
+    name: backend
+  graphql:
+    graphiql:
+      enabled: true
+      # This enables the graphiql interface
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri:
+          # This should be the cognito uri that is https://cognito-idp.<aws-region>.amazonaws.com/<cognito-pool-id>
+# Actuator config
+management:
+  endpoints:
+    web:
+      base-path: "/details"
+      # This should be the base path for the actuator endpoints
+    jmx:
+      exposure:
+        include: "health"
+        # This should be the actuator endpoints that you want to expose

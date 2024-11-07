@@ -1,8 +1,10 @@
 import "@/styles/globals.css";
 import { Inter } from "next/font/google";
 
-import { ApolloWrapper } from "@/components/apollo";
+import Header from "@/components/Header";
+import { auth } from "@/server/auth";
 import { type Metadata } from "next";
+import { SessionProvider } from "next-auth/react";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -11,17 +13,18 @@ export const metadata: Metadata = {
   description: "Final Year Project",
 };
 
-const BACKEND_GRAPHQL_ENDPOINT = process.env.BACKEND_GRAPHQL_ENDPOINT ?? "";
-
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
+  const session = await auth();
+
   return (
     <html lang="en">
       <body className={`${inter.className}`}>
-        <ApolloWrapper link={BACKEND_GRAPHQL_ENDPOINT}>
+        <SessionProvider session={session}>
+          <Header />
           {children}
-        </ApolloWrapper>
+        </SessionProvider>
       </body>
     </html>
   );

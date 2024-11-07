@@ -76,6 +76,7 @@ export const authConfig = {
           const user = {
             id: userDetails.sub,
             email: credentials.email as string,
+            name: userDetails.name as string,
             cognitoTokens: {
               accessToken: response.AuthenticationResult?.AccessToken,
               refreshToken: response.AuthenticationResult?.RefreshToken,
