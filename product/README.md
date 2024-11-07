@@ -7,7 +7,7 @@ This directory contains all of the code for the application, it is split up into
 The frontend and backend can be ran individually and the steps to do so is in the individual directories. Or they can both be ran together by using docker-compose. To do this naviagte to this directory and run 
 ```
 docker-compose -f docker/docker-compose-local.yml up
-```.
+```
 
 ## Dependencies
 
