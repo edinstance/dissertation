@@ -33,7 +33,7 @@ function SignInPage() {
   }, []);
 
   return (
-    <main className="flex min-h-screen flex-col items-center bg-zinc-100 p-36 dark:bg-zinc-900">
+    <main className="flex min-h-screen flex-col items-center bg-zinc-100 px-20 py-36 dark:bg-zinc-900">
       <h1 className="mb-6 text-2xl font-bold text-black dark:text-white">
         Login to your account
       </h1>
@@ -109,10 +109,10 @@ function SignInPage() {
               Login
             </Button>
           </div>
-          <p className="flex justify-end pt-2 text-sm text-black dark:text-white">
+          <p className="flex items-center pt-2 text-sm text-black dark:text-white">
             Don&apos;t have an account?&nbsp;
-            <Link href="/signup" className="font-semibold">
-              Sign up here
+            <Link href="/sign-up" className="font-semibold">
+              Sign up
             </Link>
           </p>
         </div>
