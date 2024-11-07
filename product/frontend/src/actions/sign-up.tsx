@@ -4,6 +4,7 @@ import {
   AdminCreateUserCommand,
   AdminSetUserPasswordCommand,
   CognitoIdentityProviderClient,
+  MessageActionType,
 } from "@aws-sdk/client-cognito-identity-provider";
 
 async function createUser({
@@ -26,6 +27,7 @@ async function createUser({
         { Name: "name", Value: name },
         { Name: "email_verified", Value: "true" },
       ],
+      MessageAction: MessageActionType.SUPPRESS,
     });
 
     await cognitoClient.send(createUserCommand);
