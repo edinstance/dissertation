@@ -37,6 +37,13 @@ resource "aws_cognito_user_pool" "user_pool" {
     require_uppercase = true
   }
 
+  schema {
+    attribute_data_type = "String"
+    name                = "name"
+    required            = true
+    mutable             = true
+  }
+  
   tags = {
     Name : "final-year-project-user-pool"
   }
