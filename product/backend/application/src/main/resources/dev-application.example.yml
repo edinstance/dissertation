@@ -1,6 +1,9 @@
 spring:
   application:
     name: backend
+  profiles:
+    active: dev
+    # This sets the active profile to dev
   graphql:
     graphiql:
       enabled: true
