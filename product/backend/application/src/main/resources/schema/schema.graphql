@@ -2,7 +2,23 @@ type Query {
     shows(titleFilter: String): [Show]
 }
 
+type Mutation {
+    createUser(userInput: UserInput): User
+}
+
 type Show {
     title: String
     releaseYear: Int
+}
+
+type User {
+    id: String!
+    email: String!
+    name: String
+}
+
+input UserInput {
+    id: String!
+    email: String!
+    name: String
 }
