@@ -3,6 +3,7 @@
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 import { UserCircleIcon } from "@heroicons/react/24/outline";
 import { signIn, signOut, useSession } from "next-auth/react";
+import Link from "next/link";
 import { Button } from "./ui/Button";
 
 export default function Header() {
@@ -17,10 +18,9 @@ export default function Header() {
               <Menu>
                 <MenuButton>
                   <div className="flex flex-row items-center space-x-1 px-2">
-                  <p>{session?.data?.user?.name}</p>
-                  <UserCircleIcon className="h-8 w-8 rounded-md" />
+                    <p>{session?.data?.user?.name}</p>
+                    <UserCircleIcon className="h-8 w-8 rounded-md" />
                   </div>
-                  
                 </MenuButton>
                 <MenuItems
                   anchor="bottom end"
@@ -49,13 +49,21 @@ export default function Header() {
               </Menu>
             </div>
           ) : (
-            <Button
-              onClick={() => {
-                signIn();
-              }}
-            >
-              Sign In
-            </Button>
+            <div className="flex flex-row items-center space-x-4">
+              <Button
+                onClick={() => {
+                  signIn();
+                }}
+              >
+                Sign In
+              </Button>
+              <Link
+                href="/sign-up"
+                className="min-w-fit rounded-md ring-blue-600 ring-2 px-4 py-2 text-sm"
+              >
+                Sign up
+              </Link>
+            </div>
           )}
         </div>
       </div>
