@@ -8,4 +8,5 @@
     <!-- Release changelogs -->
     <include file="releases/tables.xml" relativeToChangelogFile="true"></include>
     <include file="releases/functions.xml" relativeToChangelogFile="true"></include>
+    <include file="releases/triggers.xml" relativeToChangelogFile="true"></include>
 </databaseChangeLog>
