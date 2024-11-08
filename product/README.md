@@ -4,7 +4,7 @@ This directory contains all of the code for the application, it is split up into
 
 ## Running
 
-The frontend and backend can be ran individually and the steps to do so is in the individual directories. Or they can both be ran together by using docker-compose. To do this naviagte to this directory and run 
+The frontend and backend can be ran individually and the steps to do so is in the individual directories. Or they can both be ran together by using docker-compose. To do this first create a .env file in [this](./docker/) directory based on the enviroment variables in this [example file](./docker/.env.example) or pass the same variables in using the -e flag in the next command. Then naviagte to this directory and run 
 ```
 docker-compose -f docker/docker-compose-local.yml up
 ```
