@@ -4,6 +4,7 @@ import jakarta.servlet.Filter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -15,7 +16,8 @@ import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 @EnableWebSecurity
-public class SecurityConfig {
+@Profile("dev")
+public class DevSecurityConfig {
 
     // This gets the value from the application.yml file
     @Value("${spring.security.oauth2.resourceserver.jwt.issuer-uri}")
@@ -31,6 +33,7 @@ public class SecurityConfig {
                 .cors(httpSecurityCorsConfigurer -> Customizer.withDefaults())
                 .authorizeHttpRequests((authorize) -> authorize
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll() // Allow preflight requests to all endpoints
+                        .requestMatchers("*", "/graphiql").permitAll() // Allow all requests to the graphiql endpoint
                         .anyRequest().authenticated() // All other requests must be authenticated
                 )
                 .oauth2ResourceServer((oauth2) -> oauth2
