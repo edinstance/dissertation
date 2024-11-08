@@ -1,11 +1,11 @@
 package com.finalproject.backend;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 import com.netflix.graphql.dgs.DgsComponent;
 import com.netflix.graphql.dgs.DgsQuery;
 import com.netflix.graphql.dgs.InputArgument;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @DgsComponent
 public class ShowsDataFetcher {
@@ -20,7 +20,7 @@ public class ShowsDataFetcher {
 
     @DgsQuery
     public List<Show> shows(@InputArgument String titleFilter) {
-        if(titleFilter == null) {
+        if (titleFilter == null) {
             return shows;
         }
 
@@ -28,4 +28,5 @@ public class ShowsDataFetcher {
     }
 }
 
-record Show(String title, int releaseYear) {}
+record Show(String title, int releaseYear) {
+}
