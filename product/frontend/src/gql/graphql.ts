@@ -269,11 +269,26 @@ export enum ErrorType {
   Unknown = "UNKNOWN",
 }
 
+export type UserInput = {
+  email: Scalars["String"]["input"];
+  id: Scalars["String"]["input"];
+  name?: InputMaybe<Scalars["String"]["input"]>;
+};
+
 export type GetShowsQueryVariables = Exact<{ [key: string]: never }>;
 
 export type GetShowsQuery = {
   __typename?: "Query";
   shows?: Array<{ __typename?: "Show"; title?: string | null } | null> | null;
+};
+
+export type CreateUserMutationVariables = Exact<{
+  input: UserInput;
+}>;
+
+export type CreateUserMutation = {
+  __typename?: "Mutation";
+  createUser?: { __typename?: "User"; id: string } | null;
 };
 
 export const GetShowsDocument = {
@@ -301,3 +316,54 @@ export const GetShowsDocument = {
     },
   ],
 } as unknown as DocumentNode<GetShowsQuery, GetShowsQueryVariables>;
+export const CreateUserDocument = {
+  kind: "Document",
+  definitions: [
+    {
+      kind: "OperationDefinition",
+      operation: "mutation",
+      name: { kind: "Name", value: "CreateUser" },
+      variableDefinitions: [
+        {
+          kind: "VariableDefinition",
+          variable: {
+            kind: "Variable",
+            name: { kind: "Name", value: "input" },
+          },
+          type: {
+            kind: "NonNullType",
+            type: {
+              kind: "NamedType",
+              name: { kind: "Name", value: "UserInput" },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "createUser" },
+            arguments: [
+              {
+                kind: "Argument",
+                name: { kind: "Name", value: "userInput" },
+                value: {
+                  kind: "Variable",
+                  name: { kind: "Name", value: "input" },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                { kind: "Field", name: { kind: "Name", value: "id" } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<CreateUserMutation, CreateUserMutationVariables>;
