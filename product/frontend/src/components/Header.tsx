@@ -59,7 +59,7 @@ export default function Header() {
               </Button>
               <Link
                 href="/sign-up"
-                className="min-w-fit rounded-md ring-blue-600 ring-2 px-4 py-2 text-sm"
+                className="min-w-fit rounded-md px-4 py-2 text-sm ring-2 ring-blue-600"
               >
                 Sign up
               </Link>

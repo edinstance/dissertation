@@ -1,14 +1,9 @@
-type Query {
-    shows(titleFilter: String): [Show]
-}
+
+#type Query
+#}
 
 type Mutation {
     createUser(userInput: UserInput): User
-}
-
-type Show {
-    title: String
-    releaseYear: Int
 }
 
 type User {
