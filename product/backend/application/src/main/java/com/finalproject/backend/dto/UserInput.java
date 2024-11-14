@@ -2,6 +2,7 @@ package com.finalproject.backend.dto;
 
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.UUID;
@@ -16,5 +17,22 @@ public class UserInput {
     private String email;
     private String name;
 
+    /**
+     * Default constructor.
+     */
+    public UserInput() {
+    }
 
+    /**
+     * This constructor creates a new UserInput with a specified id, email and name.
+     *
+     * @param id    The user's id.
+     * @param email The user's email.
+     * @param name  The user's name.
+     */
+    public UserInput(UUID id, String email, String name) {
+        this.id = id;
+        this.email = email;
+        this.name = name;
+    }
 }
