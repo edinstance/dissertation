@@ -1,7 +1,6 @@
 package com.finalproject.backend.dtoTests;
 
 import com.finalproject.backend.dto.UserInput;
-import com.finalproject.backend.entities.UserEntity;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -22,7 +21,7 @@ public class UserInputTests {
 
     @Test
     public void testUserInputConstructor() {
-        userInput = new UserInput(UUID.randomUUID(), "test@test.com", "name" );
+        userInput = new UserInput(UUID.randomUUID(), "test@test.com", "name");
 
         assertNotNull(userInput);
         assert userInput.getEmail().equals("test@test.com");
@@ -31,7 +30,7 @@ public class UserInputTests {
 
     @BeforeEach
     public void setUp() {
-        userInput = new UserInput(UUID.randomUUID(), "test@test.com", "name" );
+        userInput = new UserInput(UUID.randomUUID(), "test@test.com", "name");
     }
 
     @Test
