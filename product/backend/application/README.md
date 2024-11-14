@@ -4,7 +4,7 @@ This is the backend application for this final year project. Below are the steps
 
 ## Running
 
-You can either run the application locally or using Docker, first make sure you set the applications properties. To do this create a new file called ```application.yml``` [here](src/main/resources/) based on the examples, use [this](src/main/resources/dev-application.example.yml) example for development and [this](src/main/resources/prod-application.example.yml) example for production.
+You can either run the application locally or using Docker, first make sure you setup the database and set the applications properties. To do this create a new file called ```application.yml``` [here](src/main/resources/) based on the examples, use [this](src/main/resources/dev-application.example.yml) example for development and [this](src/main/resources/prod-application.example.yml) example for production.
 
 ### Locally
 

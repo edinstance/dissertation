@@ -16,6 +16,8 @@ import * as types from "./graphql";
 const documents = {
   "\n  query GetShows {\n    shows {\n      title\n    }\n  }\n":
     types.GetShowsDocument,
+  "\n  mutation CreateUser($input: UserInput!) {\n    createUser(userInput: $input) {\n      id\n    }\n  }\n":
+    types.CreateUserDocument,
 };
 
 /**
@@ -38,6 +40,12 @@ export function graphql(source: string): unknown;
 export function graphql(
   source: "\n  query GetShows {\n    shows {\n      title\n    }\n  }\n",
 ): (typeof documents)["\n  query GetShows {\n    shows {\n      title\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(
+  source: "\n  mutation CreateUser($input: UserInput!) {\n    createUser(userInput: $input) {\n      id\n    }\n  }\n",
+): (typeof documents)["\n  mutation CreateUser($input: UserInput!) {\n    createUser(userInput: $input) {\n      id\n    }\n  }\n"];
 
 export function graphql(source: string) {
   return (documents as any)[source] ?? {};

@@ -3,7 +3,7 @@ services:
     build:
       context: ../frontend/
       dockerfile: Dockerfile
-    container_name: final-project-frontend
+    container_name: final-project-frontend-local
     ports:
       - 3000:3000
     healthcheck:
@@ -12,11 +12,12 @@ services:
       retries: 5
       start_period: 20s
       timeout: 10s
+
   final-project-backend:
     build:
       context: ../backend/application/
       dockerfile: Dockerfile
-    container_name: final-project-backend
+    container_name: final-project-backend-local
     ports:
       - 8080:8080
     healthcheck:
@@ -25,3 +26,23 @@ services:
       retries: 5
       start_period: 20s
       timeout: 10s
+  
+  postgres:
+    container_name: final-project-database-local
+    image: postgres
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    ports:
+      - "5432:5432"
+
+  liquibase:
+    image: liquibase/liquibase
+    container_name: final-project-liquibase-local
+    command: --url=jdbc:postgresql://${POSTGRES_URL}:5432/${POSTGRES_DB} --username=${POSTGRES_USER} --password=${POSTGRES_PASSWORD} --changelog-file=/changelogs/changelog-master.xml update
+    volumes:
+      - ../backend/database/src:/liquibase/src
+      - ../backend/database/changelogs:/liquibase/changelogs
+    depends_on:
+      - "postgres"

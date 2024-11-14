@@ -30,7 +30,12 @@ async function createUser({
       MessageAction: MessageActionType.SUPPRESS,
     });
 
-    await cognitoClient.send(createUserCommand);
+    const user = await cognitoClient.send(createUserCommand);
+    const id = user.User?.Username;
+
+    if (!id) {
+      throw new Error("User ID is undefined");
+    }
 
     const setPasswordCommand = new AdminSetUserPasswordCommand({
       UserPoolId: process.env.COGNITO_USER_POOL_ID!,
@@ -41,7 +46,7 @@ async function createUser({
 
     await cognitoClient.send(setPasswordCommand);
 
-    return { success: true };
+    return { success: true, id };
   } catch (error) {
     console.error("Error in fetch:", error);
     return {

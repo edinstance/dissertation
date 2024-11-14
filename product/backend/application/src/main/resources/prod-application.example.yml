@@ -10,6 +10,11 @@ spring:
         jwt:
           issuer-uri:
           # This should be the cognito uri that is https://cognito-idp.<aws-region>.amazonaws.com/<cognito-pool-id>
+  datasource:
+    url: jdbc:postgresql://0.0.0.0:5432/diss
+    username: postgres
+    password: password
+    # This should be the database url, username and password
 # Actuator config
 management:
   endpoints:
