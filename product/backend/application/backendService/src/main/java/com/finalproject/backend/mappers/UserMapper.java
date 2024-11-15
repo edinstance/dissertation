@@ -1,8 +1,10 @@
 package com.finalproject.backend.mappers;
 
+
 import com.finalproject.backend.dto.UserInput;
 import com.finalproject.backend.entities.UserEntity;
 import org.springframework.stereotype.Component;
+
 
 /**
  * Mapper for converting between UserInputDTO and User entity.
