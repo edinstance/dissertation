@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
+import java.util.UUID;
 
 /**
  * Service class for managing User entities.
@@ -33,9 +34,9 @@ public class UserService {
      * @throws IllegalArgumentException an error if a user with the uuid already exists.
      */
     public UserEntity createUser(final UserEntity newUser) {
-        Optional<UserEntity> existingUser = userRepository.findById(newUser.getUserId());
+        Optional<UserEntity> existingUser = userRepository.findById(newUser.getId());
         if (existingUser.isPresent()) {
-            throw new IllegalArgumentException("User with UUID " + newUser.getUserId() + " already exists.");
+            throw new IllegalArgumentException("User with UUID " + newUser.getId() + " already exists.");
         }
         return userRepository.save(newUser);
     }

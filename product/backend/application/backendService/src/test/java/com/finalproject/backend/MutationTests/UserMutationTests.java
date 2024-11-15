@@ -47,7 +47,7 @@ public class UserMutationTests {
         UserEntity result = userMutations.createUser(userInput);
 
         assertNotNull(result);
-        assert result.getUserId().equals(userId);
+        assert result.getId().equals(userId);
         assert result.getEmail().equals(email);
         assert result.getName().equals(name);
 

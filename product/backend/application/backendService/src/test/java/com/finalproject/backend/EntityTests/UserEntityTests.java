@@ -24,7 +24,7 @@ public class UserEntityTests {
         userEntity = new UserEntity(UUID.randomUUID(), "test@test.com", "name");
 
         assertNotNull(userEntity);
-        assertNotNull(userEntity.getUserId());
+        assertNotNull(userEntity.getId());
         assert userEntity.getEmail().equals("test@test.com");
         assert userEntity.getName().equals("name");
     }
@@ -37,8 +37,8 @@ public class UserEntityTests {
     @Test
     public void testIdMethods() {
         UUID userId = UUID.randomUUID();
-        userEntity.setUserId(userId);
-        assert userEntity.getUserId().equals(userId);
+        userEntity.setId(userId);
+        assert userEntity.getId().equals(userId);
     }
 
     @Test

@@ -1,5 +1,6 @@
 package com.finalproject.backend.entities;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -20,7 +21,7 @@ public class UserEntity {
 
     @Id
     @Column(unique = true, nullable = false, name = "user_id")
-    private UUID userId;
+    private UUID id;
     @Column(name = "email")
     private String email;
     @Column(name = "name")
@@ -40,7 +41,7 @@ public class UserEntity {
      * @param name  The user's name.
      */
     public UserEntity(UUID id, String email, String name) {
-        this.userId = id;
+        this.id = id;
         this.email = email;
         this.name = name;
     }

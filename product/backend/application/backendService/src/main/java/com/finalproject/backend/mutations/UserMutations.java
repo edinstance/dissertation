@@ -9,7 +9,10 @@ import com.netflix.graphql.dgs.DgsComponent;
 import com.netflix.graphql.dgs.DgsMutation;
 import com.netflix.graphql.dgs.InputArgument;
 
+import lombok.extern.log4j.Log4j2;
+
 @DgsComponent
+@Log4j2
 public class UserMutations {
 
     private final UserService userService;
@@ -22,7 +25,6 @@ public class UserMutations {
 
     @DgsMutation
     public UserEntity createUser(@InputArgument UserInput userInput) {
-
         return userService.createUser(userMapper.mapInputToUser(userInput));
     }
 }

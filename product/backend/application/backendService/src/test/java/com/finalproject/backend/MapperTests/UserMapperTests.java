@@ -22,7 +22,7 @@ public class UserMapperTests {
         UserEntity userEntity = userMapper.mapInputToUser(userInput);
 
         assertNotNull(userEntity);
-        assertEquals(userId, userEntity.getUserId());
+        assertEquals(userId, userEntity.getId());
         assertEquals("test@test.com", userEntity.getEmail());
         assertEquals("test", userEntity.getName());
 

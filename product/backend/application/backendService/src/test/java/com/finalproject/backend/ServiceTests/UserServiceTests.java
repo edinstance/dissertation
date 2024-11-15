@@ -35,7 +35,7 @@ public class UserServiceTests {
         UserEntity newUser = new UserEntity(userId, "new@test.com", "New User");
 
         assertThrows(IllegalArgumentException.class, () -> userService.createUser(newUser),
-                "User with UUID " + newUser.getUserId() + " already exists.");
+                "User with UUID " + newUser.getId() + " already exists.");
     }
 
     @Test
