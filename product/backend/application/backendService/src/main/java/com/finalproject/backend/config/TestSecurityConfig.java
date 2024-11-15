@@ -32,7 +32,7 @@ public class TestSecurityConfig {
         http
                 .cors(httpSecurityCorsConfigurer -> Customizer.withDefaults())
                 .authorizeHttpRequests((authorize) -> authorize
-                        .requestMatchers("/details/health").authenticated()
+                        .requestMatchers("/details/health").authenticated() // The healthcheck requests need to be authentication so that the authenticated routes can be tested
                         .anyRequest().permitAll() // All requests are permitted
                 )
                 .addFilterBefore(apiKeyFilter, BearerTokenAuthenticationFilter.class) // Add ApiKeyFilter before BearerTokenAuthenticationFilter
