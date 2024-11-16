@@ -10,6 +10,7 @@
 
     <properties>
         <maven-checkstyle.version>3.6.0</maven-checkstyle.version>
+        <checkstyle.version>10.20.1</checkstyle.version>
     </properties>
 
     <modules>
@@ -30,6 +31,13 @@
                     <failsOnError>true</failsOnError>
                     <linkXRef>false</linkXRef>
                 </configuration>
+                <dependencies>
+                    <dependency>
+                        <groupId>com.puppycrawl.tools</groupId>
+                        <artifactId>checkstyle</artifactId>
+                        <version>${checkstyle.version}</version>
+                    </dependency>
+                </dependencies>
                 <executions>
                     <execution>
                         <id>check-style validate</id>
