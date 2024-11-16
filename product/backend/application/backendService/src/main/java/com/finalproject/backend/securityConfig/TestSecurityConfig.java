@@ -26,7 +26,7 @@ public class TestSecurityConfig {
     @Value("${api.key}")
     private String apiKey;
 
-     /**
+    /**
      * Configures the security filter chain for the application.
      * <p>
      * This method sets up the security configuration, including CORS settings
@@ -53,7 +53,7 @@ public class TestSecurityConfig {
                 )
                 // Add ApiKeyFilter before BearerTokenAuthenticationFilter
                 .addFilterBefore(apiKeyFilter,
-                    BearerTokenAuthenticationFilter.class)
+                        BearerTokenAuthenticationFilter.class)
                 .csrf(csrf -> csrf.disable());
         return http.build();
     }

@@ -8,5 +8,5 @@
     <!-- Spring Boot Application files get detected as utility classes and checkstyle wants them to
     have a private constructor, but a constructor is required to run the application. By convention
     application classes end with *Application -->
-    <suppress checks="HideUtilityClassConstructor" files=".*Application.java" />
+    <suppress checks="HideUtilityClassConstructor" files=".*Application.java"/>
 </suppressions>

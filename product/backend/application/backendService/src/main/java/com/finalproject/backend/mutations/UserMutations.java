@@ -26,14 +26,14 @@ public class UserMutations {
      */
     private final UserMapper userMapper;
 
-     /**
+    /**
      * Constructor for initialising the UserMutations with the input services.
      *
      * @param inputUserService The user service to be used by this component.
      * @param inputUserMapper  The user mapper to be used by this component.
      */
     public UserMutations(final UserService inputUserService,
-            final UserMapper inputUserMapper) {
+                         final UserMapper inputUserMapper) {
         this.userService = inputUserService;
         this.userMapper = inputUserMapper;
     }
