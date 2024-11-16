@@ -91,3 +91,5 @@ To run CheckStyle, you can run:
 ```
 mvn  -f ./backendService checkstyle:check
 ```
+
+To configure checkstyle you can change [this file](./backendService/config/checkstyle.xml) which will change what checkstyle looks for. You can also change what checks are suppressed by editing [this file](./backendService/config/checkstyle-suppressions.xml).
