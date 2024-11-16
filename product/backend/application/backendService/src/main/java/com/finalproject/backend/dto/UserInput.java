@@ -12,8 +12,20 @@ import java.util.UUID;
 @Getter
 @Setter
 public class UserInput {
+
+    /**
+     * The Users id.
+     */
     private UUID id;
+
+    /**
+     * The Users email.
+     */
     private String email;
+
+    /**
+     * The Users name.
+     */
     private String name;
 
     /**
@@ -23,15 +35,16 @@ public class UserInput {
     }
 
     /**
-     * This constructor creates a new UserInput with a specified id, email and name.
+     * This constructor creates a UserInput with the specified details.
      *
-     * @param id    The user's id.
-     * @param email The user's email.
-     * @param name  The user's name.
+     * @param inputId    The user's id.
+     * @param inputEmail The user's email.
+     * @param inputName  The user's name.
      */
-    public UserInput(UUID id, String email, String name) {
-        this.id = id;
-        this.email = email;
-        this.name = name;
+    public UserInput(final UUID inputId, final String inputEmail,
+                     final String inputName) {
+        this.id = inputId;
+        this.email = inputEmail;
+        this.name = inputName;
     }
 }
