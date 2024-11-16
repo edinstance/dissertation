@@ -15,7 +15,7 @@ services:
 
   final-project-backend:
     build:
-      context: ../backend/application/
+      context: ../backend/application/backendService/
       dockerfile: Dockerfile
     container_name: final-project-backend-local
     ports:

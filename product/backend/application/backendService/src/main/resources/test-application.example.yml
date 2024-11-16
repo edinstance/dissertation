@@ -1,0 +1,29 @@
+spring:
+  application:
+    name: backend
+  profiles:
+    active: test
+    # This sets the active profile to test
+  graphql:
+    graphiql:
+      enabled: true
+      # This enables the graphiql interface
+  datasource:
+    url: jdbc:postgresql://0.0.0.0:5432/test
+    username: postgres
+    password: password
+    # This should be the database url, username and password
+# Actuator config
+management:
+  endpoints:
+    web:
+      base-path: "/details"
+      # This should be the base path for the actuator endpoints
+    jmx:
+      exposure:
+        include: "health"
+        # This should be the actuator endpoints that you want to expose
+
+api:
+  key: "test"
+  # This is to test the api key authentication
