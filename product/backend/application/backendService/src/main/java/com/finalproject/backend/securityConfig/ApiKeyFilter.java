@@ -1,4 +1,4 @@
-package com.finalproject.backend.config;
+package com.finalproject.backend.securityConfig;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -15,17 +15,38 @@ import org.springframework.web.filter.GenericFilterBean;
 import java.io.IOException;
 import java.util.Collections;
 
+/**
+ * Filter that checks for a valid API key in the request headers.
+ */
 public class ApiKeyFilter extends GenericFilterBean {
 
+    /**
+     * The valid API key.
+     */
     private final String validApiKey;
 
-    public ApiKeyFilter(String validApiKey) {
-        this.validApiKey = validApiKey;
+    /**
+     * Constructor that initializes the filter with the valid API key.
+     *
+     * @param apiKey The api key that should be used for authentication.
+     */
+    public ApiKeyFilter(final String apiKey) {
+        this.validApiKey = apiKey;
     }
 
+    /**
+     * Filters incoming requests and checks for a valid API key.
+     *
+     * @param request  The incoming request.
+     * @param response The outgoing response.
+     * @param chain    The filter chain.
+     * @throws IOException      If an input or output exception occurs.
+     * @throws ServletException If a servlet exception occurs.
+     */
     @Override
-    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
-            throws IOException, ServletException {
+    public void doFilter(final ServletRequest request,
+                         final ServletResponse response, final FilterChain chain
+    ) throws IOException, ServletException {
 
         HttpServletRequest httpRequest = (HttpServletRequest) request;
         HttpServletResponse httpResponse = (HttpServletResponse) response;
@@ -34,7 +55,11 @@ public class ApiKeyFilter extends GenericFilterBean {
         try {
             if (apiKey != null) {
                 if (validApiKey.equals(apiKey)) {
-                    Authentication auth = new UsernamePasswordAuthenticationToken(apiKey, null, Collections.emptyList());
+                    Authentication auth = new
+                            UsernamePasswordAuthenticationToken(
+                            apiKey, null, Collections.emptyList()
+                    );
+
                     SecurityContextHolder.getContext().setAuthentication(auth);
                 } else {
                     throw new BadCredentialsException("Invalid API Key");

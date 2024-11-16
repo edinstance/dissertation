@@ -6,7 +6,6 @@ import io.restassured.response.Response;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.UUID;
@@ -49,9 +48,9 @@ public class UserMutationTests {
     @Then("the server returns the new user")
     public void theServerReturnsTheNewUser() {
         // Checks if the response is the same as the original user
-       assert response.getStatusCode() == 200;
-       assert response.getBody().jsonPath().getString("data.createUser.id").equals(userId);
-       assert response.getBody().jsonPath().getString("data.createUser.name").equals("Test Name");
-       assert response.getBody().jsonPath().getString("data.createUser.email").equals("test@example.com");
+        assert response.getStatusCode() == 200;
+        assert response.getBody().jsonPath().getString("data.createUser.id").equals(userId);
+        assert response.getBody().jsonPath().getString("data.createUser.name").equals("Test Name");
+        assert response.getBody().jsonPath().getString("data.createUser.email").equals("test@example.com");
     }
 }

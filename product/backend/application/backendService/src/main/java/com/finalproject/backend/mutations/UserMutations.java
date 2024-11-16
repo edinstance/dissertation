@@ -9,22 +9,43 @@ import com.netflix.graphql.dgs.DgsComponent;
 import com.netflix.graphql.dgs.DgsMutation;
 import com.netflix.graphql.dgs.InputArgument;
 
-import lombok.extern.log4j.Log4j2;
 
+/**
+ * GraphQL mutations for user-related operations.
+ */
 @DgsComponent
-@Log4j2
 public class UserMutations {
 
+    /**
+     * The service the mutation will interact with.
+     */
     private final UserService userService;
+
+    /**
+     * The mapper used to map from user inputs to user entities.
+     */
     private final UserMapper userMapper;
 
-    public UserMutations(UserService userService, UserMapper userMapper) {
-        this.userService = userService;
-        this.userMapper = userMapper;
+    /**
+     * Constructor for initialising the UserMutations with the input services.
+     *
+     * @param inputUserService The user service to be used by this component.
+     * @param inputUserMapper  The user mapper to be used by this component.
+     */
+    public UserMutations(final UserService inputUserService,
+                         final UserMapper inputUserMapper) {
+        this.userService = inputUserService;
+        this.userMapper = inputUserMapper;
     }
 
+    /**
+     * GraphQL mutation to create a new user.
+     *
+     * @param userInput The input data for the new user.
+     * @return The created UserEntity.
+     */
     @DgsMutation
-    public UserEntity createUser(@InputArgument UserInput userInput) {
+    public UserEntity createUser(@InputArgument final UserInput userInput) {
         return userService.createUser(userMapper.mapInputToUser(userInput));
     }
 }

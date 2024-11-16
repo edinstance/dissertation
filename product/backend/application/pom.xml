@@ -12,4 +12,5 @@
         <module>backendService</module>
         <module>integrationTests</module>
     </modules>
+
 </project>
