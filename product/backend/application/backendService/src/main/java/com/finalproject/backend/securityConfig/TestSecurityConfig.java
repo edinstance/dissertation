@@ -12,27 +12,48 @@ import org.springframework.security.oauth2.server.resource.web.authentication.Be
 import org.springframework.security.web.SecurityFilterChain;
 
 /**
- * This is the security config for testing.
+ * This class contains the security config for the test profile.
  */
 @Configuration
 @EnableWebSecurity
 @Profile("test")
 public class TestSecurityConfig {
 
-
+    /**
+     * This is api key for the application.
+     * It is retrieved from the application.yml file using @Value.
+     */
     @Value("${api.key}")
     private String apiKey;
 
+     /**
+     * Configures the security filter chain for the application.
+     * <p>
+     * This method sets up the security configuration, including CORS settings
+     * and request authorization.
+     * </p>
+     *
+     * @param http the {@link HttpSecurity} to modify
+     * @return the configured {@link SecurityFilterChain}
+     * @throws Exception if an error occurs while configuring the filter chain
+     */
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain securityFilterChain(final HttpSecurity http)
+            throws Exception {
         Filter apiKeyFilter = new ApiKeyFilter(apiKey);
         http
                 .cors(httpSecurityCorsConfigurer -> Customizer.withDefaults())
                 .authorizeHttpRequests((authorize) -> authorize
-                        .requestMatchers("/details/health").authenticated() // The healthcheck requests need to be authentication so that the authenticated routes can be tested
-                        .anyRequest().permitAll() // All requests are permitted
+                        // The healthcheck requests need
+                        // authentication so that the authenticated
+                        // routes can be tested
+                        .requestMatchers("/details/health").authenticated()
+                        // All other requests are permitted
+                        .anyRequest().permitAll()
                 )
-                .addFilterBefore(apiKeyFilter, BearerTokenAuthenticationFilter.class) // Add ApiKeyFilter before BearerTokenAuthenticationFilter
+                // Add ApiKeyFilter before BearerTokenAuthenticationFilter
+                .addFilterBefore(apiKeyFilter,
+                    BearerTokenAuthenticationFilter.class)
                 .csrf(csrf -> csrf.disable());
         return http.build();
     }
