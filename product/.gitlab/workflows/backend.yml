@@ -1,0 +1,17 @@
+
+image: maven:3.9.9-amazoncorretto-21-alpine
+
+stages:
+  - lint
+
+before_script:
+  - cd ./product/backend/
+
+lint_backend:
+  stage: lint
+  script:
+    - echo "Running backend linting..."
+    - cd ./application/
+    - mvn clean install
+    - mvn checkstyle:check
+
