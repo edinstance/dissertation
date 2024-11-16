@@ -39,10 +39,7 @@ public class ApiKeyFilter extends GenericFilterBean {
                 } else {
                     throw new BadCredentialsException("Invalid API Key");
                 }
-            } else {
-                throw new BadCredentialsException("Missing API Key");
             }
-
             chain.doFilter(request, response);
         } catch (BadCredentialsException ex) {
             // Set 401 status and include an error message in the response
