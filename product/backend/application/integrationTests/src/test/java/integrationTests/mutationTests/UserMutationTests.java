@@ -37,7 +37,7 @@ public class UserMutationTests {
     @Then("the server creates the user in the database")
     public void theServerCreatesTheUserInTheDatabase() throws SQLException {
         // Checks the database to see if the user was created
-        try (Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/diss", "postgres", "password")) {
+        try (Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/test", "postgres", "password")) {
             String selectQuery = String.format("SELECT * FROM users WHERE user_id = '%s';", userId);
             Statement statement = connection.createStatement();
             boolean results = statement.execute(selectQuery);
@@ -50,8 +50,8 @@ public class UserMutationTests {
     public void theServerReturnsTheNewUser() {
         // Checks if the response is the same as the original user
        assert response.getStatusCode() == 200;
-       assert response.getBody().jsonPath().getString("userId").equals(userId);
-       assert response.getBody().jsonPath().getString("name").equals("Test Name");
-       assert response.getBody().jsonPath().getString("email").equals("test@example.com");
+       assert response.getBody().jsonPath().getString("data.createUser.id").equals(userId);
+       assert response.getBody().jsonPath().getString("data.createUser.name").equals("Test Name");
+       assert response.getBody().jsonPath().getString("data.createUser.email").equals("test@example.com");
     }
 }
