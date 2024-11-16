@@ -10,6 +10,8 @@ before_script:
 lint_backend:
   stage: lint
   script:
+    - echo "Copying the test-application.yml into a application.yml file..."
+    - cp ./application/backendService/src/main/resources/test-application.example.yml ./application/backendService/src/main/resources/application.yml
     - echo "Running backend linting..."
     - cd ./application/
     - mvn clean install
