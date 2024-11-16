@@ -57,7 +57,7 @@ but the integration tests must be run manually.
 The Unit tests can be run by using these commands:
 
 ```
-mvn -f ./Application clean test
+mvn -f ./backendService clean test
 ```
 
 ### Integration Tests
@@ -75,4 +75,19 @@ Then
 
 ```
 mvn test
+```
+
+## Actuator
+
+The Spring Actuator can be used to help monitor and manage the application. The config for the actuator is contained
+within the [application.yml files](./backendService/src/main/resources/prod-application.example.yml). It shows examples of how to change the endpoint the actuator is under and how to exclude features. The current enabled endpoints are the actuator and health endpoints, which are at /details and /details/health
+
+## CheckStyle 
+
+CheckStyle is used in this project so that code that is created follows a standard that other developers can understand. 
+
+To run CheckStyle, you can run:
+
+```
+mvn  -f ./backendService checkstyle:check
 ```
