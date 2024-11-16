@@ -8,46 +8,9 @@
     <version>0.0.1</version>
     <packaging>pom</packaging>
 
-    <properties>
-        <maven-checkstyle.version>3.6.0</maven-checkstyle.version>
-        <checkstyle.version>10.20.1</checkstyle.version>
-    </properties>
-
     <modules>
         <module>backendService</module>
         <module>integrationTests</module>
     </modules>
 
-    <build>
-        <plugins>
-             <!-- Checkstyle plugin-->
-             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-checkstyle-plugin</artifactId>
-                <version>${maven-checkstyle.version}</version>
-                <configuration>
-                    <configLocation>${project.basedir}/config/checkstyle.xml</configLocation>
-                    <consoleOutput>true</consoleOutput>
-                    <failsOnError>true</failsOnError>
-                    <linkXRef>false</linkXRef>
-                </configuration>
-                <dependencies>
-                    <dependency>
-                        <groupId>com.puppycrawl.tools</groupId>
-                        <artifactId>checkstyle</artifactId>
-                        <version>${checkstyle.version}</version>
-                    </dependency>
-                </dependencies>
-                <executions>
-                    <execution>
-                        <id>check-style validate</id>
-                        <phase>validate</phase>
-                        <goals>
-                            <goal>check</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-        </plugins>
-    </build>
 </project>

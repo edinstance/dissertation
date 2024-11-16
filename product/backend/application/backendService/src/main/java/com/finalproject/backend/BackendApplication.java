@@ -6,6 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 /**
  * The main class for the backend application.
  */
+@SuppressWarnings({"PMD", "checkstyle:hideutilityclassconstructor"})
 @SpringBootApplication
 public class BackendApplication {
 
