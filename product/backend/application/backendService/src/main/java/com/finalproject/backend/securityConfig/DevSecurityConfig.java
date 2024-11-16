@@ -1,4 +1,4 @@
-package com.finalproject.backend.config;
+package com.finalproject.backend.securityConfig;
 
 import jakarta.servlet.Filter;
 import org.springframework.beans.factory.annotation.Value;
@@ -16,8 +16,8 @@ import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 @EnableWebSecurity
-@Profile("prod")
-public class ProdSecurityConfig {
+@Profile("dev")
+public class DevSecurityConfig {
 
     // This gets the value from the application.yml file
     @Value("${spring.security.oauth2.resourceserver.jwt.issuer-uri}")
@@ -33,6 +33,7 @@ public class ProdSecurityConfig {
                 .cors(httpSecurityCorsConfigurer -> Customizer.withDefaults())
                 .authorizeHttpRequests((authorize) -> authorize
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll() // Allow preflight requests to all endpoints
+                        .requestMatchers("*", "/graphiql").permitAll() // Allow all requests to the graphiql endpoint
                         .anyRequest().authenticated() // All other requests must be authenticated
                 )
                 .oauth2ResourceServer((oauth2) -> oauth2
