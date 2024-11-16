@@ -1,6 +1,5 @@
 package com.finalproject.backend.entities;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -19,11 +18,22 @@ import java.util.UUID;
 @Table(name = "users")
 public class UserEntity {
 
+    /**
+     * The users id.
+     */
     @Id
     @Column(unique = true, nullable = false, name = "user_id")
     private UUID id;
+
+    /**
+     * The users name.
+     */
     @Column(name = "email")
     private String email;
+
+    /**
+     * The users email.
+     */
     @Column(name = "name")
     private String name;
 
@@ -34,16 +44,17 @@ public class UserEntity {
     }
 
     /**
-     * This constructor creates a new UserEntity with a specified id, email and name.
+     * This constructor creates a new UserEntity with specified details.
      *
-     * @param id    The user's id.
-     * @param email The user's email.
-     * @param name  The user's name.
+     * @param inputId    The user's id.
+     * @param inputEmail The user's email.
+     * @param inputName  The user's name.
      */
-    public UserEntity(UUID id, String email, String name) {
-        this.id = id;
-        this.email = email;
-        this.name = name;
+    public UserEntity(final UUID inputId,
+                      final String inputEmail, final String inputName) {
+        this.id = inputId;
+        this.email = inputEmail;
+        this.name = inputName;
     }
 
 
