@@ -18,9 +18,12 @@ set_enviroment_variables:
 
 build_backend:
   stage: build
-  image: docker:rc-dind
+  image: docker:27-dind
   services:
-    - docker:dind
+    - docker:27-dind
+  variables:
+    DOCKER_HOST: tcp://docker:2375
+    DOCKER_TLS_CERTDIR: ""
   script:
     - echo "Building the backend image..."
     - docker build -t final-project-backend ./application/backendService/
@@ -28,9 +31,12 @@ build_backend:
 
 build_and_run_database:
   stage: build
-  image: docker:rc-dind
+  image: docker:27-dind
   services:
-    - docker:dind
+    - docker:27-dind
+  variables:
+    DOCKER_HOST: tcp://docker:2375
+    DOCKER_TLS_CERTDIR: ""
   script:
     - echo "Building and running the database"
     - docker-compose -f ./database/docker-compose-backend.yml up -d
@@ -54,9 +60,12 @@ unit_test_backend:
 
 run_backend_container:
   stage: integration
-  image: docker:rc-dind
+  image: docker:27-dind
   services:
-    - docker:dind
+    - docker:27-dind
+  variables:
+    DOCKER_HOST: tcp://docker:2375
+    DOCKER_TLS_CERTDIR: ""
   script:
     - echo "Running the backend container..."
     - docker run -d final-project-backend
