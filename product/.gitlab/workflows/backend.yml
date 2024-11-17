@@ -1,4 +1,3 @@
-image: maven:3.9.9-amazoncorretto-21-alpine
 
 stages:
   - build
@@ -44,6 +43,7 @@ build_and_run_database:
 
 lint_backend:
   stage: test
+  image: maven:3.9.9-amazoncorretto-21-alpine
   script:
     - echo "Running backend linting..."
     - cd ./application/
@@ -52,6 +52,7 @@ lint_backend:
 
 unit_test_backend:
   stage: test
+  image: maven:3.9.9-amazoncorretto-21-alpine
   script:
     - echo "Running unit tests..."
     - cd ./application/
@@ -73,6 +74,7 @@ run_backend_container:
 
 integration_test_backend:
   stage: integration
+  image: maven:3.9.9-amazoncorretto-21-alpine
   script:
     - echo "Running integration tests..."
     - cd ./application/
