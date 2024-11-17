@@ -1,17 +1,60 @@
-
 image: maven:3.9.9-amazoncorretto-21-alpine
 
 stages:
-  - lint
+  - build
+  - test
+  - integration
 
 before_script:
   - cd ./product/backend/
 
-lint_backend:
-  stage: lint
+set_enviroment_variables:
+  stage: build
   script:
     - echo "Copying the test-application.yml into a application.yml file..."
     - cp ./application/backendService/src/main/resources/test-application.example.yml ./application/backendService/src/main/resources/application.yml
     - echo "Running backend linting..."
+
+build_backend:
+  stage: build
+  script:
+    - echo "Building the backend image..."
+    - docker build -t final-project-backend ./application/backendService/
+    - echo "Backend image built successfully"
+
+build_and_run_database:
+  stage: build
+  script:
+    - echo "Building and running the database"
+    - docker-compose -f ./database/docker-compose-backend.yml up -d
+    - echo "Database is up and running"
+
+lint_backend:
+  stage: test
+  script:
+    - echo "Running backend linting..."
     - cd ./application/
     - mvn clean checkstyle:check
+    - echo "Backend linting passed"
+
+unit_test_backend:
+  stage: test
+  script:
+    - echo "Running unit tests..."
+    - cd ./application/
+    - mvn clean test
+    - echo "Unit tests passed"
+
+run_backend_container:
+  stage: integration
+  script:
+    - echo "Running the backend container..."
+    - docker run -d final-project-backend
+    - echo "Backend containers are up and running"
+
+integration_test_backend:
+  stage: integration
+  script:
+    - echo "Running integration tests..."
+    - cd ./application/
+    - mvn clean verify -P integration-tests
