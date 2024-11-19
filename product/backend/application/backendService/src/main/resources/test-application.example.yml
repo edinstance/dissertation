@@ -9,10 +9,10 @@ spring:
       enabled: true
       # This enables the graphiql interface
   datasource:
-    url: jdbc:postgresql://0.0.0.0:5432/test
+    url: jdbc:postgresql://postgres:5432/test
     username: postgres
     password: password
-    # This should be the database url, username and password
+    # This should be the database url, username and password it is currently set to work with a postgres container
 # Actuator config
 management:
   endpoints:

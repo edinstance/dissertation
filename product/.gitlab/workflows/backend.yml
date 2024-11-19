@@ -4,6 +4,15 @@ stages:
   - test
   - integration
 
+services:
+  - name: postgres:latest
+    alias: postgres
+
+variables:
+  POSTGRES_DB: test
+  POSTGRES_USER: postgres
+  POSTGRES_PASSWORD: password
+  
 before_script:
   - echo "Setting up the environment..."
   - cd ./product/backend/
@@ -14,31 +23,13 @@ set_enviroment_variables:
     - echo "Copying the test-application.yml into a application.yml file..."
     - cp ./application/backendService/src/main/resources/test-application.example.yml ./application/backendService/src/main/resources/application.yml
     - echo "Running backend linting..."
-
-build_backend:
+  
+setup_database:
   stage: build
-  image: docker:27-dind
-  services:
-    - docker:27-dind
-  variables:
-    DOCKER_HOST: tcp://docker:2375
-    DOCKER_TLS_CERTDIR: ""
   script:
-    - echo "Building the backend image..."
-    - docker build -t final-project-backend ./application/backendService/
-    - echo "Backend image built successfully"
-
-build_and_run_database:
-  stage: build
-  image: docker:27-dind
-  services:
-    - docker:27-dind
-  variables:
-    DOCKER_HOST: tcp://docker:2375
-    DOCKER_TLS_CERTDIR: ""
-  script:
-    - echo "Building and running the database"
-    - docker-compose -f ./database/docker-compose.yml up -d
+    - echo "Setting up the database..."
+    - cd database/
+    - liquibase --url=jdbc:postgresql://postgres:5432/test --username=postgres --password=password --changelog-file=/changelogs/changelog-master.xml update
     - echo "Database is up and running"
 
 lint_backend:
@@ -61,12 +52,6 @@ unit_test_backend:
 
 run_backend_container:
   stage: integration
-  image: docker:27-dind
-  services:
-    - docker:27-dind
-  variables:
-    DOCKER_HOST: tcp://docker:2375
-    DOCKER_TLS_CERTDIR: ""
   script:
     - echo "Running the backend container..."
     - docker run -d final-project-backend
