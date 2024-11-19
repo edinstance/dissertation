@@ -26,7 +26,7 @@ set_enviroment_variables:
   
 setup_database:
   stage: build
-  image: liquibase/liquibase:latest
+  image: liquibase/liquibase:4.30.0
   script:
     - echo "Setting up the database..."
     - cd database/
