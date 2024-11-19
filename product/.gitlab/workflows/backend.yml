@@ -7,6 +7,8 @@ stages:
 services:
   - name: postgres:latest
     alias: postgres
+  - name: liquibase/liquibase:latest
+    alias: liquibase
 
 variables:
   POSTGRES_DB: test
@@ -26,10 +28,14 @@ set_enviroment_variables:
   
 setup_database:
   stage: build
-  image: liquibase/liquibase:4.30.0
+  image: liquibase/liquibase:latest
   script:
     - echo "Setting up the database..."
     - cd database/
+    - echo "Environment variables:"
+    - env
+    - echo "Checking Liquibase image version..."
+    - liquibase --version
     - liquibase --url=jdbc:postgresql://postgres:5432/test --username=postgres --password=password --changelog-file=/changelogs/changelog-master.xml update
     - echo "Database is up and running"
 
