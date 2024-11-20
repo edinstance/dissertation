@@ -1,15 +1,23 @@
 stages:
   - triggers
 
+workflow:
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_PIPELINE_SOURCE == "push"
+
+
 # Create a trigger for running the frontend workflow
 trigger_frontend_workflow:
   stage: triggers
-  # When the trigger fires it will run the frontend workflow
   trigger:
     include: product/.gitlab/workflows/frontend.yml
   rules:
-    - changes:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+      changes:
         - product/frontend/**
+      when: always
+    - when: manual
 
 # Create a trigger for running the backend workflow
 trigger_backend_workflow:
@@ -17,5 +25,8 @@ trigger_backend_workflow:
   trigger:
     include: product/.gitlab/workflows/backend.yml
   rules:
-    - changes:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+      changes:
         - product/backend/application/**
+      when: always
+    - when: manual
