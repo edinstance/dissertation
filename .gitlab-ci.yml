@@ -8,10 +8,8 @@ trigger_frontend_workflow:
   trigger:
     include: product/.gitlab/workflows/frontend.yml
   rules:
-    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
-      changes:
+    - changes:
         - product/frontend/**
-    - when: manual
 
 # Create a trigger for running the backend workflow
 trigger_backend_workflow:
@@ -19,7 +17,5 @@ trigger_backend_workflow:
   trigger:
     include: product/.gitlab/workflows/backend.yml
   rules:
-    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
-      changes:
+    - changes:
         - product/backend/application/**
-    - when: manual
