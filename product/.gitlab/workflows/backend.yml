@@ -40,5 +40,5 @@ unit_test_backend:
   script:
     - echo "Running unit tests..."
     - cd ./application/
-    - mvn clean test
+    - mvn -f ./backendService/pom.xml clean test
     - echo "Unit tests passed"
