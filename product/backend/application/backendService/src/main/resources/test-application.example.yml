@@ -9,10 +9,11 @@ spring:
       enabled: true
       # This enables the graphiql interface
   datasource:
-    url: jdbc:postgresql://0.0.0.0:5432/test
-    username: postgres
+    url: jdbc:h2:mem:test
+    username: user
     password: password
-    # This should be the database url, username and password
+    # This should be the database url, username and password it is
+    # currently set to work with a in memory h2 database for testing
 # Actuator config
 management:
   endpoints:

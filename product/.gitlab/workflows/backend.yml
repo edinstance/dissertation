@@ -1,0 +1,44 @@
+
+stages:
+  - build
+  - test
+
+services:
+  - name: postgres:latest
+    alias: postgres
+  - name: liquibase/liquibase:latest
+    alias: liquibase
+
+variables:
+  POSTGRES_DB: test
+  POSTGRES_USER: postgres
+  POSTGRES_PASSWORD: password
+  
+before_script:
+  - echo "Setting up the environment..."
+  - cd ./product/backend/
+
+set_enviroment_variables:
+  stage: build
+  script:
+    - echo "Copying the test-application.yml into a application.yml file..."
+    - cp ./application/backendService/src/main/resources/test-application.example.yml ./application/backendService/src/main/resources/application.yml
+    - echo "Running backend linting..."
+
+lint_backend:
+  stage: test
+  image: maven:3.9.9-amazoncorretto-21-alpine
+  script:
+    - echo "Running backend linting..."
+    - cd ./application/
+    - mvn clean checkstyle:check
+    - echo "Backend linting passed"
+
+unit_test_backend:
+  stage: test
+  image: maven:3.9.9-amazoncorretto-21-alpine
+  script:
+    - echo "Running unit tests..."
+    - cd ./application/
+    - mvn -f ./backendService/pom.xml clean test
+    - echo "Unit tests passed"

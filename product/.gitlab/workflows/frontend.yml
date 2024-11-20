@@ -1,0 +1,14 @@
+image: node:23-alpine
+
+stages:
+  - lint
+
+before_script:
+  - cd ./product/frontend/
+
+lint_frontend:
+  stage: lint
+  script:
+    - echo "Running frontend linting..."
+    - npm install --silent
+    - npm run lint

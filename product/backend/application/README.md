@@ -25,7 +25,7 @@ mvn -f ./backendService/pom.xml clean test package
 
 ### Docker
 
-You can run the appication by using Docker. First move into the correct directory:
+You can run the application by using Docker. First move into the correct directory:
 
 ```
 cd backendService
@@ -57,24 +57,16 @@ but the integration tests must be run manually.
 The Unit tests can be run by using these commands:
 
 ```
-mvn -f ./backendService clean test
+mvn clean test -pl backendService
 ```
 
 ### Integration Tests
 
 To run the Integration tests you must first be running the
-application either locally or in a container. When running the application make sure to use the [test profile](backendService/src/main/resources/test-application.example.yml) so that the tests run correctly. Also make sure to run the application with a test database so that no production or dev data is lost. Then to run the tests use these commmands:
-
-First:
+application either locally or in a container. When running the application make sure to use the [test profile](backendService/src/main/resources/test-application.example.yml) so that the tests run correctly. Also make sure to run the application with a test database so that no production or dev data is lost. Then to run the tests use this commmand:
 
 ```
-mvn -am compile
-```
-
-Then
-
-```
-mvn test
+mvn compile test -pl integrationTests
 ```
 
 ## Actuator
