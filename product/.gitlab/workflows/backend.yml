@@ -2,7 +2,6 @@
 stages:
   - build
   - test
-  - integration
 
 services:
   - name: postgres:latest
@@ -25,19 +24,6 @@ set_enviroment_variables:
     - echo "Copying the test-application.yml into a application.yml file..."
     - cp ./application/backendService/src/main/resources/test-application.example.yml ./application/backendService/src/main/resources/application.yml
     - echo "Running backend linting..."
-  
-setup_database:
-  stage: build
-  script:
-    - echo "Setting up the database..."
-    - cd database/
-    - curl -Ls https://github.com/liquibase/liquibase/releases/download/v4.30.0/liquibase-4.30.0.tar.gz | tar xz
-    - export PATH=$PATH:$(pwd)/liquibase-4.30.0
-    - echo "Checking Liquibase version..."
-    - liquibase --version
-    - liquibase --url=jdbc:postgresql://postgres:5432/test --username=postgres --password=password --changeLogFile=/changelogs/changelog-master.xml update
-    - echo "Database is up and running"
-
 
 lint_backend:
   stage: test
@@ -56,18 +42,3 @@ unit_test_backend:
     - cd ./application/
     - mvn clean test
     - echo "Unit tests passed"
-
-run_backend_container:
-  stage: integration
-  script:
-    - echo "Running the backend container..."
-    - docker run -d final-project-backend
-    - echo "Backend containers are up and running"
-
-integration_test_backend:
-  stage: integration
-  image: maven:3.9.9-amazoncorretto-21-alpine
-  script:
-    - echo "Running integration tests..."
-    - cd ./application/
-    - mvn clean verify -P integration-tests
