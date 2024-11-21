@@ -6,7 +6,7 @@ import { auth } from "@/server/auth";
 import { type Metadata } from "next";
 import { SessionProvider } from "next-auth/react";
 
-const inter = Inter({ subsets: ["latin"] });
+const inter = Inter({ subsets: ["latin"], display: "swap" });
 
 export const metadata: Metadata = {
   title: "Final Year Project",
