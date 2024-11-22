@@ -49,5 +49,6 @@ public class UserServiceTests {
         UserEntity savedUser = userService.createUser(newUser);
 
         assertEquals(newUser, savedUser);
+        assert savedUser.getStatus().equals("PENDING");
     }
 }

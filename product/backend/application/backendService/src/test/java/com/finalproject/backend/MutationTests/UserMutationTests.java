@@ -50,6 +50,7 @@ public class UserMutationTests {
         assert result.getId().equals(userId);
         assert result.getEmail().equals(email);
         assert result.getName().equals(name);
+        assert result.getStatus().equals("PENDING");
 
         verify(userService).createUser(userEntity);
 

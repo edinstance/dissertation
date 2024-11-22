@@ -21,12 +21,24 @@ public class UserEntityTests {
 
     @Test
     public void testConstructor() {
-        userEntity = new UserEntity(UUID.randomUUID(), "test@test.com", "name");
+        userEntity = new UserEntity(UUID.randomUUID(), "test@test.com", "name", "PENDING");
 
         assertNotNull(userEntity);
         assertNotNull(userEntity.getId());
         assert userEntity.getEmail().equals("test@test.com");
         assert userEntity.getName().equals("name");
+        assert userEntity.getStatus().equals("PENDING");
+    }
+
+    @Test
+    public void testConstructorWithStatus() {
+        userEntity = new UserEntity(UUID.randomUUID(), "test@test.com", "name", "APPROVED");
+
+        assertNotNull(userEntity);
+        assertNotNull(userEntity.getId());
+        assert userEntity.getEmail().equals("test@test.com");
+        assert userEntity.getName().equals("name");
+        assert userEntity.getStatus().equals("APPROVED");
     }
 
     @BeforeEach
@@ -51,5 +63,10 @@ public class UserEntityTests {
     public void testNameMethods() {
         userEntity.setName("name2");
         assert userEntity.getName().equals("name2");
+    }
+    @Test
+    public void testStatusMethods() {
+        userEntity.setStatus("APPROVED");
+        assert userEntity.getStatus().equals("APPROVED");
     }
 }
