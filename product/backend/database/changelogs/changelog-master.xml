@@ -10,4 +10,5 @@
     <include file="releases/functions.xml" relativeToChangelogFile="true"></include>
     <include file="releases/triggers.xml" relativeToChangelogFile="true"></include>
     <include file="releases/updates.xml" relativeToChangelogFile="true" />
+    <include file="releases/views.xml" relativeToChangelogFile="true"></include>
 </databaseChangeLog>
