@@ -1,3 +1,5 @@
+
+-- This table stores the details of the users.
 CREATE TABLE IF NOT EXISTS user_details (
     user_id UUID PRIMARY KEY,
     contact_number VARCHAR(20),
