@@ -269,17 +269,18 @@ export enum ErrorType {
   Unknown = "UNKNOWN",
 }
 
+export type UserDetailsInput = {
+  addressCity?: InputMaybe<Scalars["String"]["input"]>;
+  addressCounty?: InputMaybe<Scalars["String"]["input"]>;
+  addressPostcode?: InputMaybe<Scalars["String"]["input"]>;
+  addressStreet?: InputMaybe<Scalars["String"]["input"]>;
+  contactNumber?: InputMaybe<Scalars["String"]["input"]>;
+};
+
 export type UserInput = {
   email: Scalars["String"]["input"];
   id: Scalars["String"]["input"];
   name?: InputMaybe<Scalars["String"]["input"]>;
-};
-
-export type GetShowsQueryVariables = Exact<{ [key: string]: never }>;
-
-export type GetShowsQuery = {
-  __typename?: "Query";
-  shows?: Array<{ __typename?: "Show"; title?: string | null } | null> | null;
 };
 
 export type CreateUserMutationVariables = Exact<{
@@ -291,31 +292,6 @@ export type CreateUserMutation = {
   createUser?: { __typename?: "User"; id: string } | null;
 };
 
-export const GetShowsDocument = {
-  kind: "Document",
-  definitions: [
-    {
-      kind: "OperationDefinition",
-      operation: "query",
-      name: { kind: "Name", value: "GetShows" },
-      selectionSet: {
-        kind: "SelectionSet",
-        selections: [
-          {
-            kind: "Field",
-            name: { kind: "Name", value: "shows" },
-            selectionSet: {
-              kind: "SelectionSet",
-              selections: [
-                { kind: "Field", name: { kind: "Name", value: "title" } },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode<GetShowsQuery, GetShowsQueryVariables>;
 export const CreateUserDocument = {
   kind: "Document",
   definitions: [
