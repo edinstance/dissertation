@@ -3,6 +3,7 @@ package com.finalproject.backend.services;
 import com.finalproject.backend.entities.UserEntity;
 import com.finalproject.backend.repositories.UserRepository;
 import java.util.Optional;
+import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -43,5 +44,15 @@ public class UserService {
               + newUser.getId() + " already exists.");
     }
     return userRepository.save(newUser);
+  }
+
+  /**
+   * Retrieves a user entity by its ID.
+   *
+   * @param id The ID of the user.
+   * @return The user entity.
+   */
+  public UserEntity getUserById(UUID id) {
+    return userRepository.findById(id).orElse(null);
   }
 }

@@ -12,8 +12,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.Optional;
 import java.util.UUID;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -50,5 +49,23 @@ public class UserServiceTests {
 
     assertEquals(newUser, savedUser);
     assert savedUser.getStatus().equals("PENDING");
+  }
+
+  @Test
+  public void testFindUserById() {
+    UUID userId = UUID.randomUUID();
+
+    // Check null is returned when no user is found
+    assertNull(userService.getUserById(userId));
+
+    UserEntity user = new UserEntity(userId, "existing@test.com",
+            "Existing User");
+
+    // When the user is searched for return the correct user
+    when(userRepository.findById(userId)).thenReturn(Optional.of(user));
+    // Get the user and check the id's match
+    UserEntity foundUser = userService.getUserById(userId);
+    assert foundUser.getId().equals(userId);
+
   }
 }
