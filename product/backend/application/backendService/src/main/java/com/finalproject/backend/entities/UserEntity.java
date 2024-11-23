@@ -3,6 +3,8 @@ package com.finalproject.backend.entities;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import java.util.UUID;
 import lombok.Getter;
@@ -43,6 +45,13 @@ public class UserEntity {
   private String status = "PENDING";
 
   /**
+  * The users detail's.
+  */
+  @OneToOne
+  @JoinColumn(name = "user_id")
+  private UserDetailsEntity userDetailsEntity;
+
+  /**
    * Default constructor.
    */
   public UserEntity() {
@@ -79,5 +88,16 @@ public class UserEntity {
     this.status = inputStatus;
   }
 
+  @Override
+  public String toString() {
+    return "UserEntity{"
+            + "id=" + id
+            + ", email='" + email
+            + '\'' + ", name='" + name
+            + '\'' + ", status='" + status
+            + '\'' + ", userDetailsEntity=" + (userDetailsEntity != null
+            ? userDetailsEntity.toString() : "null")
+            + '}';
+  }
 
 }

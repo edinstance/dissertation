@@ -13,4 +13,14 @@ type User {
     email: String!
     name: String
     status: String
+    details: UserDetails
+}
+
+type UserDetails {
+    id: String!
+    contactNumber: String
+    addressStreet: String
+    addressCity: String
+    addressCounty: String
+    addressPostcode: String
 }
