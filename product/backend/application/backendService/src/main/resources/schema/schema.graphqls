@@ -8,6 +8,14 @@ input UserInput {
     name: String
 }
 
+input UserDetailsInput {
+    contactNumber: String
+    addressStreet: String
+    addressCity: String
+    addressCounty: String
+    addressPostcode: String
+}
+
 type User {
     id: String!
     email: String!
