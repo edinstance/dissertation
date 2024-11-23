@@ -23,7 +23,7 @@ public class UserMutationTests {
         userId = UUID.randomUUID().toString();
 
         // Construct the GraphQL mutation query
-        String mutation = String.format("{ \"query\": \"mutation { createUser(userInput: { id: \\\"%s\\\", name: \\\"Test Name\\\", email: \\\"test@example.com\\\" }) { id name email } }\" }", userId);
+        String mutation = String.format("{ \"query\": \"mutation { createUser(userInput: { id: \\\"%s\\\", name: \\\"Test Name\\\", email: \\\"test@example.com\\\" }) { id name email status } }\" }", userId);
 
         // Send the mutation request to the /graphql endpoint
         response = given()
@@ -52,5 +52,7 @@ public class UserMutationTests {
         assert response.getBody().jsonPath().getString("data.createUser.id").equals(userId);
         assert response.getBody().jsonPath().getString("data.createUser.name").equals("Test Name");
         assert response.getBody().jsonPath().getString("data.createUser.email").equals("test@example.com");
+        assert response.getBody().jsonPath().getString("data.createUser.status").equals("PENDING");
+
     }
 }
