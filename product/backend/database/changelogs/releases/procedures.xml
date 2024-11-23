@@ -6,14 +6,8 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.2.xsd">
 
         <!-- Release changelogs -->
-        <changeSet id="user_status_update" author="zlac370" runOnChange="false">
-                <sqlFile path="../../src/sql/updates/user_status.sql"
-                        relativeToChangelogFile="true"
-                        splitStatements="false"
-                        stripComments="false" />
-        </changeSet>
-        <changeSet id="drop_user_details_function" author="zlac370" runOnChange="false">
-                <sqlFile path="../../src/sql/updates/drop_user_details_function.sql"
+        <changeSet id="insert_or_update_user_details_procedure" author="zlac370" runOnChange="false">
+                <sqlFile path="../../src/sql/procedures/insert_or_update_user_details.sql"
                         relativeToChangelogFile="true"
                         splitStatements="false"
                         stripComments="false" />
