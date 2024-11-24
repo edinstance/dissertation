@@ -1,5 +1,6 @@
 package integrationTests.mutationTests;
 
+import io.cucumber.java.en.And;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import io.restassured.response.Response;
@@ -45,7 +46,7 @@ public class UserMutationTests {
         }
     }
 
-    @Then("the server returns the new user")
+    @And("the server returns the new user")
     public void theServerReturnsTheNewUser() {
         // Checks if the response is the same as the original user
         assert response.getStatusCode() == 200;
