@@ -23,13 +23,6 @@ import org.springframework.security.web.SecurityFilterChain;
 public class DevSecurityConfig {
 
   /**
-   * This is the issuer uri for the jwt tokens.
-   * It is retrieved from the application.yml file using @Value.
-   */
-  @Value("${spring.security.oauth2.resourceserver.jwt.issuer-uri}")
-  private String jwtIssuerUri;
-
-  /**
    * This is api key for the application.
    * It is retrieved from the application.yml file using @Value.
    */
@@ -70,16 +63,5 @@ public class DevSecurityConfig {
                     BearerTokenAuthenticationFilter.class)
             .csrf(csrf -> csrf.disable());
     return http.build();
-  }
-
-  /**
-   * Creates a {@link JwtDecoder} bean to validate JWT tokens.
-   *
-   * @return the configured {@link JwtDecoder}
-   */
-  @Bean
-  public JwtDecoder jwtDecoder() {
-    // Use the issuer-uri from cognito
-    return JwtDecoders.fromIssuerLocation(jwtIssuerUri);
   }
 }

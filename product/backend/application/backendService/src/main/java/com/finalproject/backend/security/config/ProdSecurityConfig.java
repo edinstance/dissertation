@@ -68,15 +68,4 @@ public class ProdSecurityConfig {
             .csrf(csrf -> csrf.disable());
     return http.build();
   }
-
-  /**
-   * Creates a {@link JwtDecoder} bean to validate JWT tokens.
-   *
-   * @return the configured {@link JwtDecoder}
-   */
-  @Bean
-  public JwtDecoder jwtDecoder() {
-    // Use the issuer-uri from cognito
-    return JwtDecoders.fromIssuerLocation(jwtIssuerUri);
-  }
 }
