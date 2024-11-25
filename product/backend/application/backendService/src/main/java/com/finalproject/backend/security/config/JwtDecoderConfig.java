@@ -3,13 +3,14 @@ package com.finalproject.backend.security.config;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.jwt.JwtDecoders;
 
 /**
  * This class sets up a jwt decoder.
  */
 @Configuration
-public class JwtDecoder {
+public class JwtDecoderConfig {
 
   /**
    * This is the issuer uri for the jwt tokens.
@@ -19,9 +20,9 @@ public class JwtDecoder {
   private String jwtIssuerUri;
 
   /**
-   * Creates a {@link JwtDecoder} bean to validate JWT tokens.
+   * Creates a {@link JwtDecoderConfig} bean to validate JWT tokens.
    *
-   * @return the configured {@link JwtDecoder}
+   * @return the configured {@link JwtDecoderConfig}
    */
   @Bean
   public JwtDecoder jwtDecoder() {
