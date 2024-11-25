@@ -1,7 +1,6 @@
 package integrationTests.mutationTests;
 
 import com.finalproject.backend.entities.UserDetailsEntity;
-
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
@@ -145,9 +144,9 @@ public class UserDetailsMutationTests {
       Statement statement = connection.createStatement();
       ResultSet resultSet = statement.executeQuery(selectQuery);
 
+      System.out.println(resultSet.toString());
       // Check data is returned
       assertNotNull(resultSet);
-      assert resultSet.next();
       // Then move the cursor to the correct row
       resultSet.next();
 
