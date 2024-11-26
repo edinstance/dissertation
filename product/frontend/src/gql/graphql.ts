@@ -292,6 +292,48 @@ export type CreateUserMutation = {
   createUser?: { __typename?: "User"; id: string } | null;
 };
 
+export type SaveUserDetailsMutationVariables = Exact<{
+  id: Scalars["String"]["input"];
+  detailsInput: UserDetailsInput;
+}>;
+
+export type SaveUserDetailsMutation = {
+  __typename?: "Mutation";
+  saveUserDetails?: {
+    __typename?: "User";
+    id: string;
+    details?: {
+      __typename?: "UserDetails";
+      contactNumber?: string | null;
+      addressStreet?: string | null;
+      addressCity?: string | null;
+      addressCounty?: string | null;
+      addressPostcode?: string | null;
+    } | null;
+  } | null;
+};
+
+export type GetUserQueryVariables = Exact<{ [key: string]: never }>;
+
+export type GetUserQuery = {
+  __typename?: "Query";
+  getUser?: {
+    __typename?: "User";
+    id: string;
+    email: string;
+    name?: string | null;
+    details?: {
+      __typename?: "UserDetails";
+      id: string;
+      contactNumber?: string | null;
+      addressStreet?: string | null;
+      addressCity?: string | null;
+      addressCounty?: string | null;
+      addressPostcode?: string | null;
+    } | null;
+  } | null;
+};
+
 export const CreateUserDocument = {
   kind: "Document",
   definitions: [
@@ -343,3 +385,162 @@ export const CreateUserDocument = {
     },
   ],
 } as unknown as DocumentNode<CreateUserMutation, CreateUserMutationVariables>;
+export const SaveUserDetailsDocument = {
+  kind: "Document",
+  definitions: [
+    {
+      kind: "OperationDefinition",
+      operation: "mutation",
+      name: { kind: "Name", value: "SaveUserDetails" },
+      variableDefinitions: [
+        {
+          kind: "VariableDefinition",
+          variable: { kind: "Variable", name: { kind: "Name", value: "id" } },
+          type: {
+            kind: "NonNullType",
+            type: {
+              kind: "NamedType",
+              name: { kind: "Name", value: "String" },
+            },
+          },
+        },
+        {
+          kind: "VariableDefinition",
+          variable: {
+            kind: "Variable",
+            name: { kind: "Name", value: "detailsInput" },
+          },
+          type: {
+            kind: "NonNullType",
+            type: {
+              kind: "NamedType",
+              name: { kind: "Name", value: "UserDetailsInput" },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "saveUserDetails" },
+            arguments: [
+              {
+                kind: "Argument",
+                name: { kind: "Name", value: "id" },
+                value: {
+                  kind: "Variable",
+                  name: { kind: "Name", value: "id" },
+                },
+              },
+              {
+                kind: "Argument",
+                name: { kind: "Name", value: "detailsInput" },
+                value: {
+                  kind: "Variable",
+                  name: { kind: "Name", value: "detailsInput" },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                { kind: "Field", name: { kind: "Name", value: "id" } },
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "details" },
+                  selectionSet: {
+                    kind: "SelectionSet",
+                    selections: [
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "contactNumber" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "addressStreet" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "addressCity" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "addressCounty" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "addressPostcode" },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  SaveUserDetailsMutation,
+  SaveUserDetailsMutationVariables
+>;
+export const GetUserDocument = {
+  kind: "Document",
+  definitions: [
+    {
+      kind: "OperationDefinition",
+      operation: "query",
+      name: { kind: "Name", value: "getUser" },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "getUser" },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                { kind: "Field", name: { kind: "Name", value: "id" } },
+                { kind: "Field", name: { kind: "Name", value: "email" } },
+                { kind: "Field", name: { kind: "Name", value: "name" } },
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "details" },
+                  selectionSet: {
+                    kind: "SelectionSet",
+                    selections: [
+                      { kind: "Field", name: { kind: "Name", value: "id" } },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "contactNumber" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "addressStreet" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "addressCity" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "addressCounty" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "addressPostcode" },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<GetUserQuery, GetUserQueryVariables>;
