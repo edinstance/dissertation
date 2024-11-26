@@ -50,6 +50,10 @@ public class TestSecurityConfig {
                     // All other requests are permitted
                     .anyRequest().permitAll()
             )
+            .oauth2ResourceServer((oauth2) -> oauth2
+                    // Validate JWT tokens by default
+                    .jwt(Customizer.withDefaults())
+            )
             // Add ApiKeyFilter before BearerTokenAuthenticationFilter
             .addFilterBefore(apiKeyFilter,
                     BearerTokenAuthenticationFilter.class)

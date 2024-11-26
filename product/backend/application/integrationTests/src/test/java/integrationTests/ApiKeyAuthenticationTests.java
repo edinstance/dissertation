@@ -21,11 +21,6 @@ public class ApiKeyAuthenticationTests {
         response = RestAssured.given().header("x-api-key", "invalid-key").get("/details/health");
     }
 
-    @Then("the server forbids the request")
-    public void theServerForbidsTheRequest() {
-        response.then().assertThat().statusCode(403);
-    }
-
     @Then("the server does not allow the request")
     public void theServerDoesNotAllowTheRequest() {
         response.then().statusCode(401);
