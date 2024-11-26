@@ -11,11 +11,21 @@ function createApolloClient(
 ) {
   const httpLink = createHttpLink({ uri: link, credentials: "include" });
 
+  // Conditionally add the headers to avoid empty values
+  const authHeaders: { [key: string]: string } = {};
+
+  if (accessToken) {
+    authHeaders["Authorization"] = `Bearer ${accessToken}`;
+  }
+
+  if (apiKey) {
+    authHeaders["x-api-key"] = apiKey;
+  }
+
   const authLink = setContext((_, { headers }) => ({
     headers: {
       ...headers,
-      authorization: accessToken ? `Bearer ${accessToken}` : "",
-      "x-api-key": apiKey ?? "",
+      ...authHeaders,
     },
   }));
 
