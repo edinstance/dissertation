@@ -3,6 +3,10 @@ type Mutation {
     saveUserDetails(id: String!, detailsInput: UserDetailsInput): User
 }
 
+type Query {
+    getUser: User
+}
+
 input UserInput {
     id: String!
     email: String!
