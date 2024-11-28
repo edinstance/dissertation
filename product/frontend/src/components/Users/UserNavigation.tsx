@@ -9,6 +9,7 @@ export default function UserNavigation() {
 
   const links = [
     { label: "Account", link: "/account" },
+    { label: "Details", link: "/account/details" },
     { label: "Billing", link: "/account/billing" },
   ];
 

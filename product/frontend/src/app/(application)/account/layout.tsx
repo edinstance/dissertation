@@ -1,4 +1,4 @@
-import UserNavigation from "@/components/UserNavigation";
+import UserNavigation from "@/components/Users/UserNavigation";
 
 export default function Layout({
   children,
