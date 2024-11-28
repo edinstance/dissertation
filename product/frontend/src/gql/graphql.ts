@@ -304,6 +304,7 @@ export type SaveUserDetailsMutation = {
     id: string;
     details?: {
       __typename?: "UserDetails";
+      id: string;
       contactNumber?: string | null;
       addressStreet?: string | null;
       addressCity?: string | null;
@@ -453,6 +454,7 @@ export const SaveUserDetailsDocument = {
                   selectionSet: {
                     kind: "SelectionSet",
                     selections: [
+                      { kind: "Field", name: { kind: "Name", value: "id" } },
                       {
                         kind: "Field",
                         name: { kind: "Name", value: "contactNumber" },

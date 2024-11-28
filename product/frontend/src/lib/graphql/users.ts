@@ -13,6 +13,7 @@ export const SAVE_USER_DETAILS_MUTATION = graphql(`
     saveUserDetails(id: $id, detailsInput: $detailsInput) {
       id
       details {
+        id
         contactNumber
         addressStreet
         addressCity
