@@ -2,10 +2,10 @@
 
 import { GET_USER, SAVE_USER_DETAILS_MUTATION } from "@/lib/graphql/users";
 import { useMutation, useQuery } from "@apollo/client";
-import { Input } from "@headlessui/react";
 import { useForm } from "react-hook-form";
 import { Button } from "../ui/Button";
 import Divider from "../ui/Divider";
+import { Input } from "../ui/Input";
 
 type FormData = {
   contactNumber: string;
@@ -40,8 +40,7 @@ export default function UserDetailsForm() {
     },
   });
 
-  console.log(errors);
-  console.log(loading);
+  console.log(userDetails);
 
   function onSubmit(data: FormData) {
     if (user) {
@@ -73,7 +72,6 @@ export default function UserDetailsForm() {
         <div className="space-y-4">
           <Input
             type="text"
-            className="block max-h-8 w-full rounded-lg border p-1 shadow-lg data-[invalid]:border-red-500 data-[invalid]:data-[hover]:border-red-500 data-[invalid]:data-[focus]:ring-red-500 data-[invalid]:data-[focus]:ring-offset-red-500 dark:bg-slate-800"
             placeholder="07911 123456"
             {...register("contactNumber", {
               required: "Please enter your contact number",
@@ -98,28 +96,24 @@ export default function UserDetailsForm() {
         <div className="space-y-4">
           <Input
             type="text"
-            className="block max-h-8 w-full rounded-lg border p-1 shadow-lg data-[invalid]:border-red-500 data-[invalid]:data-[hover]:border-red-500 data-[invalid]:data-[focus]:ring-red-500 data-[invalid]:data-[focus]:ring-offset-red-500 dark:bg-slate-800"
             placeholder="123 Main St"
             {...register("addressStreet", { required: true })}
             invalid={errors?.addressStreet ? true : false}
           />
           <Input
             type="text"
-            className="block max-h-8 w-full rounded-lg border p-1 shadow-lg data-[invalid]:border-red-500 data-[invalid]:data-[hover]:border-red-500 data-[invalid]:data-[focus]:ring-red-500 data-[invalid]:data-[focus]:ring-offset-red-500 dark:bg-slate-800"
             placeholder="City"
             {...register("addressCity", { required: true })}
             invalid={errors?.addressCity ? true : false}
           />
           <Input
             type="text"
-            className="block max-h-8 w-full rounded-lg border p-1 shadow-lg data-[invalid]:border-red-500 data-[invalid]:data-[hover]:border-red-500 data-[invalid]:data-[focus]:ring-red-500 data-[invalid]:data-[focus]:ring-offset-red-500 dark:bg-slate-800"
             placeholder="County"
             {...register("addressCounty", { required: true })}
             invalid={errors?.addressCounty ? true : false}
           />
           <Input
             type="text"
-            className="block max-h-8 w-full rounded-lg border p-1 shadow-lg data-[invalid]:border-red-500 data-[invalid]:data-[hover]:border-red-500 data-[invalid]:data-[focus]:ring-red-500 data-[invalid]:data-[focus]:ring-offset-red-500 dark:bg-slate-800"
             placeholder="Postcode"
             {...register("addressPostcode", { required: true })}
             invalid={errors?.addressPostcode ? true : false}
