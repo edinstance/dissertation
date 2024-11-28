@@ -72,6 +72,7 @@ export const authConfig = {
             response.AuthenticationResult?.IdToken as string,
             "id",
           );
+          console.log(response);
 
           const user = {
             id: userDetails.sub,

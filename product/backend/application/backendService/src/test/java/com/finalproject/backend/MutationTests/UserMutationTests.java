@@ -20,40 +20,41 @@ import static org.mockito.Mockito.when;
 @SpringBootTest
 public class UserMutationTests {
 
-    @Mock
-    private UserService userService;
+  @Mock
+  private UserService userService;
 
-    @Mock
-    private UserMapper userMapper;
+  @Mock
+  private UserMapper userMapper;
 
-    @InjectMocks
-    private UserMutations userMutations;
-
-
-    @Test
-    public void testUserMutation() {
-        UUID userId = UUID.randomUUID();
-        String email = "test@test.com";
-        String name = "Test User";
-
-        UserInput userInput = new UserInput(userId, email, name);
-
-        UserEntity userEntity = new UserEntity(userId, email, name);
-
-        when(userMapper.mapInputToUser(any(UserInput.class))).thenReturn(userEntity);
-        when(userService.createUser(any(UserEntity.class))).thenReturn(userEntity);
+  @InjectMocks
+  private UserMutations userMutations;
 
 
-        UserEntity result = userMutations.createUser(userInput);
+  @Test
+  public void testUserMutation() {
+    UUID userId = UUID.randomUUID();
+    String email = "test@test.com";
+    String name = "Test User";
 
-        assertNotNull(result);
-        assert result.getId().equals(userId);
-        assert result.getEmail().equals(email);
-        assert result.getName().equals(name);
+    UserInput userInput = new UserInput(userId, email, name);
 
-        verify(userService).createUser(userEntity);
+    UserEntity userEntity = new UserEntity(userId, email, name);
 
-    }
+    when(userMapper.mapInputToUser(any(UserInput.class))).thenReturn(userEntity);
+    when(userService.createUser(any(UserEntity.class))).thenReturn(userEntity);
+
+
+    UserEntity result = userMutations.createUser(userInput);
+
+    assertNotNull(result);
+    assert result.getId().equals(userId);
+    assert result.getEmail().equals(email);
+    assert result.getName().equals(name);
+    assert result.getStatus().equals("PENDING");
+
+    verify(userService).createUser(userEntity);
+
+  }
 
 
 }

@@ -1,5 +1,10 @@
 type Mutation {
     createUser(userInput: UserInput): User
+    saveUserDetails(id: String!, detailsInput: UserDetailsInput): User
+}
+
+type Query {
+    getUser: User
 }
 
 input UserInput {
@@ -8,8 +13,27 @@ input UserInput {
     name: String
 }
 
+input UserDetailsInput {
+    contactNumber: String
+    addressStreet: String
+    addressCity: String
+    addressCounty: String
+    addressPostcode: String
+}
+
 type User {
     id: String!
     email: String!
     name: String
+    status: String
+    details: UserDetails
+}
+
+type UserDetails {
+    id: String!
+    contactNumber: String
+    addressStreet: String
+    addressCity: String
+    addressCounty: String
+    addressPostcode: String
 }

@@ -2,10 +2,10 @@ package com.finalproject.backend.services;
 
 import com.finalproject.backend.entities.UserEntity;
 import com.finalproject.backend.repositories.UserRepository;
+import java.util.Optional;
+import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
 
 /**
  * Service class for managing User entities.
@@ -13,36 +13,46 @@ import java.util.Optional;
 @Service
 public class UserService {
 
-    /**
-     * Repository for accessing user data.
-     */
-    private final UserRepository userRepository;
+  /**
+   * Repository for accessing user data.
+   */
+  private final UserRepository userRepository;
 
-    /**
-     * Constructs a UserService with the specified UserRepository.
-     *
-     * @param inputUserRepository The repository for accessing User entities.
-     */
-    @Autowired
-    public UserService(final UserRepository inputUserRepository) {
-        this.userRepository = inputUserRepository;
+  /**
+   * Constructs a UserService with the specified UserRepository.
+   *
+   * @param inputUserRepository The repository for accessing User entities.
+   */
+  @Autowired
+  public UserService(final UserRepository inputUserRepository) {
+    this.userRepository = inputUserRepository;
+  }
+
+  /**
+   * Creates a new user.
+   *
+   * @param newUser the user to be created.
+   * @return the created user.
+   * @throws IllegalArgumentException error if duplicated UUId.
+   */
+  public UserEntity createUser(final UserEntity newUser) {
+    Optional<UserEntity> existingUser =
+            userRepository.findById(newUser.getId());
+
+    if (existingUser.isPresent()) {
+      throw new IllegalArgumentException("User with UUID "
+              + newUser.getId() + " already exists.");
     }
+    return userRepository.save(newUser);
+  }
 
-    /**
-     * Creates a new user.
-     *
-     * @param newUser the user to be created.
-     * @return the created user.
-     * @throws IllegalArgumentException error if duplicated UUId.
-     */
-    public UserEntity createUser(final UserEntity newUser) {
-        Optional<UserEntity> existingUser =
-                userRepository.findById(newUser.getId());
-
-        if (existingUser.isPresent()) {
-            throw new IllegalArgumentException("User with UUID "
-                    + newUser.getId() + " already exists.");
-        }
-        return userRepository.save(newUser);
-    }
+  /**
+   * Retrieves a user entity by its ID.
+   *
+   * @param id The ID of the user.
+   * @return The user entity.
+   */
+  public UserEntity getUserById(UUID id) {
+    return userRepository.findById(id).orElse(null);
+  }
 }

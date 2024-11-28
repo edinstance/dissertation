@@ -12,42 +12,60 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.Optional;
 import java.util.UUID;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 public class UserServiceTests {
 
-    @Mock
-    private UserRepository userRepository;
+  @Mock
+  private UserRepository userRepository;
 
-    @InjectMocks
-    private UserService userService;
+  @InjectMocks
+  private UserService userService;
 
-    @Test
-    public void testCreateExistingUser() {
-        UUID userId = UUID.randomUUID();
-        UserEntity existingUser = new UserEntity(userId, "existing@test.com", "Existing User");
+  @Test
+  public void testCreateExistingUser() {
+    UUID userId = UUID.randomUUID();
+    UserEntity existingUser = new UserEntity(userId, "existing@test.com", "Existing User");
 
-        when(userRepository.findById(userId)).thenReturn(Optional.of(existingUser));
+    when(userRepository.findById(userId)).thenReturn(Optional.of(existingUser));
 
-        UserEntity newUser = new UserEntity(userId, "new@test.com", "New User");
+    UserEntity newUser = new UserEntity(userId, "new@test.com", "New User");
 
-        assertThrows(IllegalArgumentException.class, () -> userService.createUser(newUser),
-                "User with UUID " + newUser.getId() + " already exists.");
-    }
+    assertThrows(IllegalArgumentException.class, () -> userService.createUser(newUser),
+            "User with UUID " + newUser.getId() + " already exists.");
+  }
 
-    @Test
-    public void testCreateNewUser() {
-        UUID userId = UUID.randomUUID();
-        UserEntity newUser = new UserEntity(userId, "new@test.com", "New User");
+  @Test
+  public void testCreateNewUser() {
+    UUID userId = UUID.randomUUID();
+    UserEntity newUser = new UserEntity(userId, "new@test.com", "New User");
 
-        when(userRepository.findById(userId)).thenReturn(Optional.empty());
-        when(userRepository.save(newUser)).thenReturn(newUser);
+    when(userRepository.findById(userId)).thenReturn(Optional.empty());
+    when(userRepository.save(newUser)).thenReturn(newUser);
 
-        UserEntity savedUser = userService.createUser(newUser);
+    UserEntity savedUser = userService.createUser(newUser);
 
-        assertEquals(newUser, savedUser);
-    }
+    assertEquals(newUser, savedUser);
+    assert savedUser.getStatus().equals("PENDING");
+  }
+
+  @Test
+  public void testFindUserById() {
+    UUID userId = UUID.randomUUID();
+
+    // Check null is returned when no user is found
+    assertNull(userService.getUserById(userId));
+
+    UserEntity user = new UserEntity(userId, "existing@test.com",
+            "Existing User");
+
+    // When the user is searched for return the correct user
+    when(userRepository.findById(userId)).thenReturn(Optional.of(user));
+    // Get the user and check the id's match
+    UserEntity foundUser = userService.getUserById(userId);
+    assert foundUser.getId().equals(userId);
+
+  }
 }
