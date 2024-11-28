@@ -12,7 +12,7 @@ set_enviroment_variables:
   script:
     - echo "Copying the test-application.yml into a application.yml file..."
     - cp ./application/backendService/src/main/resources/test-application.example.yml ./application/backendService/src/main/resources/application.yml
-    - echo "Running backend linting..."
+    - echo "Copying completed"
 
 lint_backend:
   stage: test
@@ -26,8 +26,10 @@ lint_backend:
 unit_test_backend:
   stage: test
   image: maven:3.9.9-amazoncorretto-21-alpine
+  variables:
+    TEST_COGNITO_URI: $TEST_COGNITO_URI
   script:
     - echo "Running unit tests..."
     - cd ./application/
-    - mvn -f ./backendService/pom.xml clean test
+    - mvn -f ./backendService/pom.xml clean test -Dtest-cognito-uri=$TEST_COGNITO_URI
     - echo "Unit tests passed"
