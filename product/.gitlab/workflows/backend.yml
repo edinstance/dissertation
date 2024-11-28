@@ -30,7 +30,7 @@ unit_test_backend:
     TEST_COGNITO_URI: $TEST_COGNITO_URI
   script:
     - echo "Running unit tests..."
-    - echo "Variable is '$TEST_COGNITO_URI'"
+    - cat ./application/backendService/src/main/resources/application.yml
     - cd ./application/
     - mvn -f ./backendService/pom.xml clean test -Dtest-cognito-uri=$TEST_COGNITO_URI
     - echo "Unit tests passed"
