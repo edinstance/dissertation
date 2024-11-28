@@ -5,14 +5,7 @@ stages:
   
 before_script:
   - echo "Setting up the environment..."
-  - cd ./product/backend/
-
-set_enviroment_variables:
-  stage: build
-  script:
-    - echo "Copying the test-application.yml into a application.yml file..."
-    - cp ./application/backendService/src/main/resources/test-application.example.yml ./application/backendService/src/main/resources/application.yml
-    - echo "Copying completed"
+  - cd ./product/backend/    
 
 lint_backend:
   stage: test
@@ -29,6 +22,9 @@ unit_test_backend:
   variables:
     TEST_COGNITO_URI: $TEST_COGNITO_URI
   script:
+    - echo "Copying the test-application.yml into a application.yml file..."
+    - cp ./application/backendService/src/main/resources/test-application.example.yml ./application/backendService/src/main/resources/application.yml
+    - echo "Copying completed"
     - echo "Running unit tests..."
     - cat ./application/backendService/src/main/resources/application.yml
     - cd ./application/
