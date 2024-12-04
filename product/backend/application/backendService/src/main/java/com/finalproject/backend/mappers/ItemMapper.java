@@ -36,8 +36,7 @@ public class ItemMapper {
     return new ItemEntity(itemInput.getId(), itemInput.getName(),
             itemInput.getDescription(), itemInput.getEndingTime(),  itemInput.getPrice(),
             itemInput.getStock(), itemInput.getCategory(),
-            itemInput.getImages(), userHelpers.getUserById(UUID.fromString(
-                    "123e4567-e89b-12d3-a456-426614174000")));
+            itemInput.getImages(), userHelpers.getUserById(userHelpers.getCurrentUserId()));
   }
 
 }
