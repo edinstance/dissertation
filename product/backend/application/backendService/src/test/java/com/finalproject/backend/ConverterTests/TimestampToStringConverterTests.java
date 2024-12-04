@@ -2,10 +2,8 @@ package com.finalproject.backend.ConverterTests;
 
 import com.finalproject.backend.converters.TimestampToStringConverter;
 import org.junit.jupiter.api.Test;
-
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;

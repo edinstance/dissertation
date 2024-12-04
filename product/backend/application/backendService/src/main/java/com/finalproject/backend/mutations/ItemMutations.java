@@ -2,22 +2,13 @@ package com.finalproject.backend.mutations;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.finalproject.backend.dto.ItemInput;
-import com.finalproject.backend.dto.UserDetailsInput;
 import com.finalproject.backend.entities.ItemEntity;
-import com.finalproject.backend.entities.UserDetailsEntity;
-import com.finalproject.backend.entities.UserEntity;
 import com.finalproject.backend.mappers.ItemMapper;
-import com.finalproject.backend.mappers.UserMapper;
-import com.finalproject.backend.repositories.ItemRepository;
 import com.finalproject.backend.services.ItemService;
-import com.finalproject.backend.services.UserService;
 import com.netflix.graphql.dgs.DgsComponent;
 import com.netflix.graphql.dgs.DgsMutation;
 import com.netflix.graphql.dgs.InputArgument;
-import org.springframework.beans.factory.annotation.Autowired;
-
 import java.text.ParseException;
-import java.util.UUID;
 
 /**
  * GraphQL mutations for item-related operations.
@@ -31,9 +22,10 @@ public class ItemMutations {
   private final ItemService itemService;
 
   /**
-   * The mapper the mutation will use
+   * The mapper the mutation will use.
    */
   private final ItemMapper itemMapper;
+
   /**
    * Constructor for initialising the UserMutations with the input services.
    *

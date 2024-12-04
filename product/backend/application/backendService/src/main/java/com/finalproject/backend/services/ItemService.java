@@ -4,7 +4,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.finalproject.backend.entities.ItemEntity;
 import com.finalproject.backend.repositories.ItemRepository;
-
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -68,14 +67,16 @@ public class ItemService {
    * @param itemEntity is the item to create or update.
    * @return the item is returned.
    */
-  public ItemEntity saveOrUpdateItem(final ItemEntity itemEntity) throws JsonProcessingException,
-          ParseException {
+  public ItemEntity saveOrUpdateItem(
+          final ItemEntity itemEntity)
+          throws JsonProcessingException, ParseException {
     final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     return itemRepository.saveOrUpdateItem(itemEntity.getId(), itemEntity.getName(),
             itemEntity.getDescription(), itemEntity.getIsActive(),
             new Timestamp(dateFormat.parse(itemEntity.getEndingTime()).getTime()),
             itemEntity.getPrice(), itemEntity.getStock(), itemEntity.getCategory(),
-            objectMapper.writeValueAsString(itemEntity.getImages()), itemEntity.getSeller().getId());
+            objectMapper.writeValueAsString(itemEntity.getImages()),
+            itemEntity.getSeller().getId());
   }
 
 }

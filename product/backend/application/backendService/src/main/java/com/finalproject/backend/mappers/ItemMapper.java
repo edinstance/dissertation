@@ -3,9 +3,8 @@ package com.finalproject.backend.mappers;
 import com.finalproject.backend.dto.ItemInput;
 import com.finalproject.backend.entities.ItemEntity;
 import com.finalproject.backend.helpers.UserHelpers;
-import org.springframework.stereotype.Component;
-
 import java.util.UUID;
+import org.springframework.stereotype.Component;
 
 /**
  * Mapper for converting between ItemDTO and Item entity.
@@ -37,7 +36,8 @@ public class ItemMapper {
     return new ItemEntity(itemInput.getId(), itemInput.getName(),
             itemInput.getDescription(), itemInput.getEndingTime(),  itemInput.getPrice(),
             itemInput.getStock(), itemInput.getCategory(),
-            itemInput.getImages(),userHelpers.getUserById(UUID.fromString("123e4567-e89b-12d3-a456-426614174000")));
+            itemInput.getImages(), userHelpers.getUserById(UUID.fromString(
+                    "123e4567-e89b-12d3-a456-426614174000")));
   }
 
 }
