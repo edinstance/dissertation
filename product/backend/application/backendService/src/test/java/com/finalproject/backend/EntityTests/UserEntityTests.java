@@ -1,10 +1,12 @@
 package com.finalproject.backend.EntityTests;
 
+import com.finalproject.backend.entities.ItemEntity;
 import com.finalproject.backend.entities.UserDetailsEntity;
 import com.finalproject.backend.entities.UserEntity;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -110,5 +112,12 @@ public class UserEntityTests {
             '}';
 
     assertEquals(expected, user.toString());
+  }
+
+  @Test
+  public void testUserItems(){
+    ItemEntity items = new ItemEntity();
+    userEntity.setItems(List.of(items));
+    assert userEntity.getItems().contains(items);
   }
 }
