@@ -3,7 +3,6 @@ package com.finalproject.backend.mappers;
 import com.finalproject.backend.dto.ItemInput;
 import com.finalproject.backend.entities.ItemEntity;
 import com.finalproject.backend.helpers.UserHelpers;
-import java.util.UUID;
 import org.springframework.stereotype.Component;
 
 /**
