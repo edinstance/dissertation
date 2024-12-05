@@ -115,7 +115,7 @@ public class UserEntityTests {
   }
 
   @Test
-  public void testUserItems(){
+  public void testUserItems() {
     ItemEntity items = new ItemEntity();
     userEntity.setItems(List.of(items));
     assert userEntity.getItems().contains(items);

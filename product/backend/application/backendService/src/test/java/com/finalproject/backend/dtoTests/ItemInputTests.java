@@ -18,7 +18,7 @@ public class ItemInputTests {
   private String endingTime;
 
   @Test
-  public void testDefaultConstructor(){
+  public void testDefaultConstructor() {
     itemInput = new ItemInput();
     assertNotNull(itemInput);
   }
@@ -42,7 +42,7 @@ public class ItemInputTests {
   }
 
   @BeforeEach
-  public void setUp(){
+  public void setUp() {
     id = UUID.randomUUID();
     endingTime = new Date().toString();
     itemInput = new ItemInput(id, "name", "description", true,
@@ -51,49 +51,49 @@ public class ItemInputTests {
   }
 
   @Test
-  public void testNameMethods(){
+  public void testNameMethods() {
     itemInput.setName("newName");
     assert itemInput.getName().equals("newName");
   }
 
   @Test
-  public void testDescriptionMethods(){
+  public void testDescriptionMethods() {
     itemInput.setDescription("newDescription");
     assert itemInput.getDescription().equals("newDescription");
   }
 
   @Test
-  public void testIsActiveMethods(){
+  public void testIsActiveMethods() {
     itemInput.setIsActive(false);
     assert !itemInput.getIsActive();
   }
 
   @Test
-  public void testEndingTimeMethods(){
+  public void testEndingTimeMethods() {
     itemInput.setEndingTime(endingTime);
     assert itemInput.getEndingTime().equals(endingTime);
   }
 
   @Test
-  public void testPriceMethods(){
+  public void testPriceMethods() {
     itemInput.setPrice(new BigDecimal("2"));
     assert itemInput.getPrice().equals(new BigDecimal("2"));
   }
 
   @Test
-  public void testStockMethods(){
+  public void testStockMethods() {
     itemInput.setStock(2);
     assert itemInput.getStock().equals(2);
   }
 
   @Test
-  public void testCategoryMethods(){
+  public void testCategoryMethods() {
     itemInput.setCategory("newCategory");
     assert itemInput.getCategory().equals("newCategory");
   }
 
   @Test
-  public void testImagesMethods(){
+  public void testImagesMethods() {
     itemInput.setImages(List.of("image2"));
     assert itemInput.getImages().contains("image2");
   }

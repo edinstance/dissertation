@@ -130,7 +130,7 @@ public class ItemEntityTests {
             ", stock=100" +
             ", category='Category'" +
             ", images=[image1]" +
-            ", seller=" + seller.toString() +
+            ", seller=" + seller +
             '}';
 
     assertEquals(expected, item.toString());
