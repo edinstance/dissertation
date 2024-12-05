@@ -5,7 +5,6 @@ import com.finalproject.backend.services.ItemService;
 import com.netflix.graphql.dgs.DgsComponent;
 import com.netflix.graphql.dgs.DgsQuery;
 import com.netflix.graphql.dgs.InputArgument;
-
 import java.util.List;
 
 /**
@@ -36,7 +35,7 @@ public class ItemQueries {
    */
   @DgsQuery
   public List<ItemEntity> searchForItems(
-          @InputArgument String searchText){
+          @InputArgument String searchText) {
 
     return itemService.searchForItemsByName(searchText);
 
