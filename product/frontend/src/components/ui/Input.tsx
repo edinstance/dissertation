@@ -1,4 +1,4 @@
-import * as Headless from "@headlessui/react";
+import {Input as HeadlessInput, InputProps} from "@headlessui/react";
 import clsx from "clsx";
 import { forwardRef } from "react";
 
@@ -9,11 +9,11 @@ export const Input = forwardRef(function Input(
   }: {
     className?: string;
     type?: "email" | "password" | "tel" | "text";
-  } & Omit<Headless.InputProps, "className">,
+  } & Omit<InputProps, "className">,
   ref: React.ForwardedRef<HTMLInputElement>,
 ) {
   return (
-    <Headless.Input
+    <HeadlessInput
       ref={ref}
       className={clsx(
         className,
