@@ -105,7 +105,7 @@ function SignInPage() {
         </div>
         <div className="md:flex-row md:space-y-0">
           <div className="flex w-full pt-2">
-            <Button type="submit" color="blue">
+            <Button type="submit" className="w-full" color="blue">
               Login
             </Button>
           </div>
