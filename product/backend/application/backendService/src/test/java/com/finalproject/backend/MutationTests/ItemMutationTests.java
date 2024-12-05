@@ -45,7 +45,7 @@ public class ItemMutationTests {
     ItemInput input = new ItemInput(id, "name", "description", true,
             endingTime, new BigDecimal("2.2"), 1,
             "category", List.of("image"));
-    ItemEntity item = new ItemEntity(UUID.randomUUID(), "name",
+    ItemEntity item = new ItemEntity(id, "name",
             "description", endingTime, new BigDecimal("2.2"),
             1, "category", List.of("image"), userEntity);
 
