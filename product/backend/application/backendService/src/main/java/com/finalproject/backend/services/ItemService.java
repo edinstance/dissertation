@@ -54,11 +54,11 @@ public class ItemService {
   /**
    * Searches for items based on an input name.
    *
-   * @param inputName The name to search against.
+   * @param searchText The name to search against.
    * @return The items found.
    */
-  public List<ItemEntity> searchForItemsByName(final String inputName) {
-    return itemRepository.searchForItems(inputName);
+  public List<ItemEntity> searchForItemsByName(final String searchText) {
+    return itemRepository.searchForItems(searchText);
   }
 
   /**

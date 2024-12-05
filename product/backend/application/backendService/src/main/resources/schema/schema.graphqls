@@ -6,6 +6,7 @@ type Mutation {
 
 type Query {
     getUser: User
+    searchForItems(searchText: String): [Item]
 }
 
 input UserInput {
