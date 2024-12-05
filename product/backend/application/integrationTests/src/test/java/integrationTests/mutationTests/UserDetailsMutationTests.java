@@ -1,30 +1,20 @@
 package integrationTests.mutationTests;
 
 import com.finalproject.backend.entities.UserDetailsEntity;
-import groovy.util.logging.Slf4j;
-import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import io.restassured.response.Response;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.UUID;
-
 import static io.restassured.RestAssured.given;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-@Slf4j
 public class UserDetailsMutationTests {
 
-  private static final Logger log = LoggerFactory.getLogger(UserDetailsMutationTests.class);
   private Response response;
 
   private String userId;
