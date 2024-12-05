@@ -5,6 +5,8 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
+
+import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -30,6 +32,7 @@ public interface ItemRepository  extends JpaRepository<ItemEntity, UUID> {
   @Query(value = "SELECT * FROM insert_or_update_item(:itemId, :name, :description,"
           + ":isActive, :endingDate, :price, :stock, :category, CAST(:images AS jsonb), :sellerId)",
           nativeQuery = true)
+  @Transactional
   ItemEntity saveOrUpdateItem(
           @Param("itemId") UUID itemId,
           @Param("name") String name,
