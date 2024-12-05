@@ -43,6 +43,7 @@ public class ItemMapperTests {
     when(userHelpers.getUserById(userEntity.getId())).thenReturn(userEntity);
     ItemEntity item = itemMapper.mapInputToItem(input);
 
+    assertEquals(id, item.getId());
     assertEquals("name", item.getName());
     assertEquals("description", item.getDescription());
     assertEquals(endingTime, item.getEndingTime());
