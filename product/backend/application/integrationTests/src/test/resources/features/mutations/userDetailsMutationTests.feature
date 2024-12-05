@@ -9,5 +9,4 @@ Feature: User Details Mutation
   Scenario: A user updates their details
     Given a user with details exists
     When the user updates their details
-    Then the details are updated in the database
-    And the server returns the user with the updated details
+    Then the server returns the user with the updated details

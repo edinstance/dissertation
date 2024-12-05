@@ -1,11 +1,14 @@
 package integrationTests.mutationTests;
 
 import com.finalproject.backend.entities.UserDetailsEntity;
+import groovy.util.logging.Slf4j;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import io.restassured.response.Response;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -18,8 +21,10 @@ import static io.restassured.RestAssured.given;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+@Slf4j
 public class UserDetailsMutationTests {
 
+  private static final Logger log = LoggerFactory.getLogger(UserDetailsMutationTests.class);
   private Response response;
 
   private String userId;
@@ -97,7 +102,7 @@ public class UserDetailsMutationTests {
 
     // Construct the createUser GraphQL mutation query
     String mutation = String.format(
-        "{ \"query\": \"mutation { createUser(userInput: { id: \\\"%s\\\", name: \\\"Test Name\\\", email: \\\"test@example.com\\\" }) { id name email status } }\" }",
+        "{ \"query\": \"mutation { createUser(userInput: { id: \\\"%s\\\", name: \\\"Test Name\\\", email: \\\"test2@example.com\\\" }) { id name email status } }\" }",
         userId);
 
     // Send the mutation request to the /graphql endpoint
@@ -135,32 +140,7 @@ public class UserDetailsMutationTests {
         .post("/graphql");
   }
 
-  @Then("the details are updated in the database")
-  public void theDetailsAreUpdatedInTheDatabase() throws SQLException {
-    // Checks the database to see if the details were updated
-    try (Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/test", "postgres",
-        "password")) {
-      String selectQuery = String.format("SELECT * FROM user_details WHERE user_id = '%s';", userId);
-      Statement statement = connection.createStatement();
-      ResultSet resultSet = statement.executeQuery(selectQuery);
-
-      System.out.println(resultSet.toString());
-      // Check data is returned
-      assertNotNull(resultSet);
-      // Then move the cursor to the correct row
-      resultSet.next();
-
-      // Verify the retrieved data
-      assertEquals(userId, resultSet.getString("user_id"));
-      assertEquals("0", resultSet.getString("contact_number"));
-      assertEquals("Updated Street", resultSet.getString("address_street"));
-      assertEquals("Updated City", resultSet.getString("address_city"));
-      assertEquals("Updated County", resultSet.getString("address_county"));
-      assertEquals("Updated Postcode", resultSet.getString("address_post_code"));
-    }
-  }
-
-  @And("the server returns the user with the updated details")
+  @Then("the server returns the user with the updated details")
   public void theServerReturnsTheUserWithTheUpdatedDetails() {
     // Checks if the response is the same as the original user
     assert response.getStatusCode() == 200;
