@@ -20,8 +20,12 @@ public class TestRunner {
     public void tearDown() throws SQLException {
         try (Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/test", "postgres", "password")) {
 
-            String query = "DELETE FROM user_details CASCADE";
+            String query = "DELETE FROM items CASCADE";
             Statement statement = connection.createStatement();
+            statement.execute(query);
+
+            query = "DELETE FROM user_details CASCADE";
+            statement = connection.createStatement();
             statement.execute(query);
 
             query = "DELETE FROM users CASCADE";
