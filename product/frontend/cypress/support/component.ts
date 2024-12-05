@@ -17,7 +17,7 @@
 import './commands'
 
 // Import css
-import "@/src/styles/globals.css";
+import '@/styles/globals.css'
 
 // Alternatively you can use CommonJS syntax:
 // require('./commands')
