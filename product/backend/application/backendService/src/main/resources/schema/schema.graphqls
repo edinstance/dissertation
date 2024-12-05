@@ -1,10 +1,12 @@
 type Mutation {
     createUser(userInput: UserInput): User
     saveUserDetails(id: String!, detailsInput: UserDetailsInput): User
+    saveItem(itemInput: ItemInput): Item
 }
 
 type Query {
     getUser: User
+    searchForItems(searchText: String): [Item]
 }
 
 input UserInput {
@@ -21,12 +23,25 @@ input UserDetailsInput {
     addressPostcode: String
 }
 
+input ItemInput {
+    id: String
+    name: String
+    description: String
+    isActive: Boolean
+    endingTime: String
+    price: Float
+    stock: Int
+    category: String
+    images: [String]
+}
+
 type User {
     id: String!
     email: String!
     name: String
     status: String
     details: UserDetails
+    items: [Item]
 }
 
 type UserDetails {
@@ -36,4 +51,17 @@ type UserDetails {
     addressCity: String
     addressCounty: String
     addressPostcode: String
+}
+
+type Item {
+    id: String
+    name: String
+    description: String
+    isActive: Boolean
+    endingTime: String
+    price: Float
+    stock: Int
+    category: String
+    images: [String]
+    seller: User
 }

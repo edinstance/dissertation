@@ -20,4 +20,11 @@
                         stripComments="false" />
         </changeSet>
 
+        <changeSet id="items_table" author="zlac370" runOnChange="false">
+                <sqlFile path="../../src/sql/tables/items.sql"
+                        relativeToChangelogFile="true"
+                        splitStatements="false"
+                        stripComments="false" />
+        </changeSet>
+
 </databaseChangeLog>

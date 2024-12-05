@@ -20,4 +20,11 @@
                         stripComments="false" />
         </changeSet>
 
+        <changeSet id="items_update_date_trigger" author="zlac370" runOnChange="false">
+                <sqlFile path="../../src/sql/triggers/items_triggers.sql"
+                        relativeToChangelogFile="true"
+                        splitStatements="false"
+                        stripComments="false" />
+        </changeSet>
+
 </databaseChangeLog>

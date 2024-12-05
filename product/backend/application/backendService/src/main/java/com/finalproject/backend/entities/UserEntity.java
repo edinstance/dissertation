@@ -1,11 +1,14 @@
 package com.finalproject.backend.entities;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import java.util.List;
 import java.util.UUID;
 import lombok.Getter;
 import lombok.Setter;
@@ -43,6 +46,12 @@ public class UserEntity {
    */
   @Column(name = "status")
   private String status = "PENDING";
+
+  /**
+   * The user's items.
+   */
+  @OneToMany(mappedBy = "seller", cascade = CascadeType.ALL, orphanRemoval = true)
+  private List<ItemEntity> items;
 
   /**
   * The users detail's.

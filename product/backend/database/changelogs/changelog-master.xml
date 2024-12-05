@@ -12,4 +12,5 @@
     <include file="releases/updates.xml" relativeToChangelogFile="true" />
     <include file="releases/views.xml" relativeToChangelogFile="true" />
     <include file="releases/procedures.xml" relativeToChangelogFile="true" />
+    <include file="releases/extensions.xml" relativeToChangelogFile="true" />
 </databaseChangeLog>
