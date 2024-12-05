@@ -9,7 +9,10 @@
     "lint": "next lint && prettier --check .",
     "prettier": "prettier --write .",
     "start": "next start",
-    "codegen": "graphql-codegen --config codegen.ts"
+    "codegen": "graphql-codegen --config codegen.ts",
+    "cy:open": "cypress open",
+    "cy:run:ct": "cypress run --component",
+    "cy:run:e2e": "cypress run --e2e"
   },
   "dependencies": {
     "@apollo/client": "^3.11.8",
@@ -35,6 +38,7 @@
     "@types/react-dom": "^18.3.0",
     "@typescript-eslint/eslint-plugin": "^8.1.0",
     "@typescript-eslint/parser": "^8.1.0",
+    "cypress": "^13.16.1",
     "eslint": "^8.57.1",
     "eslint-config-next": "^14.2.4",
     "eslint-config-prettier": "^9.1.0",
