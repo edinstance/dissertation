@@ -38,7 +38,7 @@ export default function Header() {
                   <MenuItem>
                     <button
                       onClick={() => {
-                        signOut({ callbackUrl: "/" });
+                        signOut({ redirect: true, redirectTo: "/" });
                       }}
                       className="block w-full rounded-md bg-white px-4 py-2 text-left text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-100 focus:outline-none focus:ring-2 *:focus:ring-offset-2 dark:bg-zinc-800 dark:text-white dark:hover:bg-zinc-700 dark:focus:ring-offset-zinc-900"
                     >
