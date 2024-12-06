@@ -1,4 +1,4 @@
-import {Input as HeadlessInput, InputProps} from "@headlessui/react";
+import { Input as HeadlessInput, InputProps } from "@headlessui/react";
 import clsx from "clsx";
 import { forwardRef } from "react";
 

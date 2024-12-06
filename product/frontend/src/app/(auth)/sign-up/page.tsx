@@ -296,7 +296,7 @@ function SignUpPage() {
                 </p>
               )}
             </div>
-            <div className="md:flex-row md:space-y-0 w-full">
+            <div className="w-full md:flex-row md:space-y-0">
               <div className="flex w-full pt-2">
                 <Button type="submit" color="blue" className="w-full">
                   Sign Up
