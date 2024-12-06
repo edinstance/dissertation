@@ -269,6 +269,83 @@ export enum ErrorType {
   Unknown = "UNKNOWN",
 }
 
+export type Item = {
+  __typename?: "Item";
+  category?: Maybe<Scalars["String"]["output"]>;
+  description?: Maybe<Scalars["String"]["output"]>;
+  endingTime?: Maybe<Scalars["String"]["output"]>;
+  id?: Maybe<Scalars["String"]["output"]>;
+  images?: Maybe<Array<Maybe<Scalars["String"]["output"]>>>;
+  isActive?: Maybe<Scalars["Boolean"]["output"]>;
+  name?: Maybe<Scalars["String"]["output"]>;
+  price?: Maybe<Scalars["Float"]["output"]>;
+  seller?: Maybe<User>;
+  stock?: Maybe<Scalars["Int"]["output"]>;
+};
+
+export type ItemInput = {
+  category?: InputMaybe<Scalars["String"]["input"]>;
+  description?: InputMaybe<Scalars["String"]["input"]>;
+  endingTime?: InputMaybe<Scalars["String"]["input"]>;
+  id?: InputMaybe<Scalars["String"]["input"]>;
+  images?: InputMaybe<Array<InputMaybe<Scalars["String"]["input"]>>>;
+  isActive?: InputMaybe<Scalars["Boolean"]["input"]>;
+  name?: InputMaybe<Scalars["String"]["input"]>;
+  price?: InputMaybe<Scalars["Float"]["input"]>;
+  stock?: InputMaybe<Scalars["Int"]["input"]>;
+};
+
+export type Mutation = {
+  __typename?: "Mutation";
+  createUser?: Maybe<User>;
+  saveItem?: Maybe<Item>;
+  saveUserDetails?: Maybe<User>;
+};
+
+export type MutationCreateUserArgs = {
+  userInput?: InputMaybe<UserInput>;
+};
+
+export type MutationSaveItemArgs = {
+  itemInput?: InputMaybe<ItemInput>;
+};
+
+export type MutationSaveUserDetailsArgs = {
+  detailsInput?: InputMaybe<UserDetailsInput>;
+  id: Scalars["String"]["input"];
+};
+
+export type Query = {
+  __typename?: "Query";
+  _service: _Service;
+  getUser?: Maybe<User>;
+  searchForItems?: Maybe<Array<Maybe<Item>>>;
+};
+
+export type QuerySearchForItemsArgs = {
+  searchText?: InputMaybe<Scalars["String"]["input"]>;
+};
+
+export type User = {
+  __typename?: "User";
+  details?: Maybe<UserDetails>;
+  email: Scalars["String"]["output"];
+  id: Scalars["String"]["output"];
+  items?: Maybe<Array<Maybe<Item>>>;
+  name?: Maybe<Scalars["String"]["output"]>;
+  status?: Maybe<Scalars["String"]["output"]>;
+};
+
+export type UserDetails = {
+  __typename?: "UserDetails";
+  addressCity?: Maybe<Scalars["String"]["output"]>;
+  addressCounty?: Maybe<Scalars["String"]["output"]>;
+  addressPostcode?: Maybe<Scalars["String"]["output"]>;
+  addressStreet?: Maybe<Scalars["String"]["output"]>;
+  contactNumber?: Maybe<Scalars["String"]["output"]>;
+  id: Scalars["String"]["output"];
+};
+
 export type UserDetailsInput = {
   addressCity?: InputMaybe<Scalars["String"]["input"]>;
   addressCounty?: InputMaybe<Scalars["String"]["input"]>;
@@ -281,6 +358,11 @@ export type UserInput = {
   email: Scalars["String"]["input"];
   id: Scalars["String"]["input"];
   name?: InputMaybe<Scalars["String"]["input"]>;
+};
+
+export type _Service = {
+  __typename?: "_Service";
+  sdl: Scalars["String"]["output"];
 };
 
 export type CreateUserMutationVariables = Exact<{
