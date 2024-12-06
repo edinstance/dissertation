@@ -23,4 +23,5 @@ knip_frontend:
   stage: lint
   script:
     - echo "Running frontend knip..."
+    - export API_KEY="Test" # Added mock api key for knip
     - npm run knip
