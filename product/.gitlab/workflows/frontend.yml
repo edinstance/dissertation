@@ -1,5 +1,9 @@
 image: node:23-alpine
 
+stages:
+  - lint
+  - test
+
 default:
   cache:
     key: $CI_COMMIT_REF_SLUG
@@ -9,9 +13,6 @@ default:
     - cd ./product/frontend/
     - echo "Installing dependencies..."
     - npm ci --cache .npm --prefer-offline
-
-stages:
-  - lint
 
 lint_frontend:
   stage: lint
@@ -25,3 +26,9 @@ knip_frontend:
     - echo "Running frontend knip..."
     - export API_KEY="Test" # Added mock api key for knip
     - npm run knip
+
+component_test_frontend:
+  stage: test
+  script:
+    - echo "Running frontend component tests..."
+    - npm run cy:run:ct
