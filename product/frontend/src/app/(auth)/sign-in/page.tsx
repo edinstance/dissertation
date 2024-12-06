@@ -19,7 +19,7 @@ function SignInPage() {
 
     signIn("credentials", {
       ...loginDetails,
-      callbackUrl: "/shop",
+      callbackUrl: "/account",
     });
   };
 
