@@ -1,4 +1,4 @@
-import * as Headless from "@headlessui/react";
+import { Button as HeadlessButton } from "@headlessui/react";
 import clsx from "clsx";
 import Link from "next/link";
 
@@ -26,7 +26,7 @@ export function Button({ className, color, ...props }: ButtonProps) {
   const classes = clsx(className, styles.base, styles.colors[color ?? "blue"]);
 
   return typeof props.href === "undefined" ? (
-    <Headless.Button className={classes} {...props} />
+    <HeadlessButton className={classes} {...props} />
   ) : (
     <Link className={classes} {...props} />
   );
