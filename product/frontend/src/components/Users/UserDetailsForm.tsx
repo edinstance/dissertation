@@ -9,6 +9,7 @@ import { Input } from "../ui/Input";
 
 type FormData = {
   contactNumber: string;
+  houseName
   addressStreet: string;
   addressCity: string;
   addressCounty: string;
@@ -33,6 +34,7 @@ export default function UserDetailsForm() {
   } = useForm<FormData>({
     values: {
       contactNumber: userDetails?.contactNumber || "",
+      houseName: userDetails?.houseName || "",
       addressStreet: userDetails?.addressStreet || "",
       addressCity: userDetails?.addressCity || "",
       addressCounty: userDetails?.addressCounty || "",
@@ -48,6 +50,7 @@ export default function UserDetailsForm() {
         variables: {
           id: user.id,
           detailsInput: {
+            houseName: data.houseName,
             addressCity: data.addressCity,
             addressCounty: data.addressCounty,
             addressPostcode: data.addressPostcode,
@@ -94,6 +97,12 @@ export default function UserDetailsForm() {
           </p>
         </div>
         <div className="space-y-4">
+        <Input
+            type="text"
+            placeholder="House Name"
+            {...register("houseName", { required: true })}
+            invalid={errors?.addressStreet ? true : false}
+          />
           <Input
             type="text"
             placeholder="123 Main St"
