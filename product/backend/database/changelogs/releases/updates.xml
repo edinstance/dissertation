@@ -18,5 +18,11 @@
                         splitStatements="false"
                         stripComments="false" />
         </changeSet>
+        <changeSet id="add_house_name_to_user" author="zlac370" runOnChange="false">
+                <sqlFile path="../../src/sql/updates/add_house_name_to_user.sql"
+                        relativeToChangelogFile="true"
+                        splitStatements="false"
+                        stripComments="false" />
+        </changeSet>
 
 </databaseChangeLog>
