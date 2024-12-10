@@ -25,8 +25,8 @@ public interface UserDetailsRepository extends JpaRepository<UserDetailsEntity, 
    */
   @Modifying
   @Query(value = "CALL insert_or_update_user_details(:userId, :contactNumber,"
-          + " :houseName, :addressStreet, :addressCity, :addressCounty," +
-          " :addressPostCode)",
+          + " :houseName, :addressStreet, :addressCity, :addressCounty,"
+          + " :addressPostCode)",
           nativeQuery = true)
   void saveUserDetails(
           @Param("userId") UUID userId,
