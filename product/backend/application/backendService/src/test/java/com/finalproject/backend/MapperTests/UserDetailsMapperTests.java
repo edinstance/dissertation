@@ -18,7 +18,7 @@ public class UserDetailsMapperTests {
   public void testToEntity() {
     UUID userId = UUID.randomUUID();
 
-    UserDetailsInput userDetailsInput = new UserDetailsInput("contact", "street",
+    UserDetailsInput userDetailsInput = new UserDetailsInput("contact", "name", "street",
             "city", "county", "postcode");
 
     UserDetailsEntity userDetails = userDetailsMapper.mapInputToDetails(userId, userDetailsInput);
@@ -26,6 +26,7 @@ public class UserDetailsMapperTests {
     assertNotNull(userDetails);
     assertEquals(userId, userDetails.getId());
     assertEquals(userDetailsInput.getContactNumber(), userDetails.getContactNumber());
+    assertEquals(userDetailsInput.getHouseName(), userDetails.getHouseName());
     assertEquals(userDetailsInput.getAddressStreet(), userDetails.getAddressStreet());
     assertEquals(userDetailsInput.getAddressCity(), userDetails.getAddressCity());
     assertEquals(userDetailsInput.getAddressCounty(), userDetails.getAddressCounty());

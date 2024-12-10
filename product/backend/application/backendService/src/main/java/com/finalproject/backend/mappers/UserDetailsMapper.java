@@ -23,6 +23,7 @@ public class UserDetailsMapper {
     return new UserDetailsEntity(
             id,
             input.getContactNumber(),
+            input.getHouseName(),
             input.getAddressStreet(),
             input.getAddressCity(),
             input.getAddressCounty(),

@@ -11,12 +11,17 @@ import lombok.Setter;
 public class UserDetailsInput {
 
   /**
-   * The Users contact Number.
+   * The users contact Number.
    */
   private String contactNumber;
 
   /**
-   * The Users street.
+   * The users house name.
+   */
+  private String houseName;
+
+  /**
+   * The users street.
    */
   private String addressStreet;
 
@@ -45,15 +50,18 @@ public class UserDetailsInput {
    * This constructor creates a UserDetailsInput with the specified details.
    *
    * @param contactNumber   The user's contact number.
+   * @param houseName       The user's house name.
    * @param addressStreet   The user's street address.
    * @param addressCity     The user's city.
    * @param addressCounty   The user's county.
    * @param addressPostcode The user's postal code.
    */
-  public UserDetailsInput(final String contactNumber, final String addressStreet,
+  public UserDetailsInput(final String contactNumber,
+                          final String houseName, final String addressStreet,
                         final String addressCity, final String addressCounty,
                         final String addressPostcode) {
     this.contactNumber = contactNumber;
+    this.houseName = houseName;
     this.addressStreet = addressStreet;
     this.addressCity = addressCity;
     this.addressCounty = addressCounty;
