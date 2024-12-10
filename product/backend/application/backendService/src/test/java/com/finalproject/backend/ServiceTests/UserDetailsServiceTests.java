@@ -37,7 +37,7 @@ public class UserDetailsServiceTests {
   @BeforeEach
   public void setUp() {
     userId = UUID.randomUUID();
-    userDetails = new UserDetailsEntity(userId, "1234567890", "Street", "City", "County", "AB12C34");
+    userDetails = new UserDetailsEntity(userId, "1234567890", "name", "Street", "City", "County", "AB12C34");
     userEntity = new UserEntity(userId, "email", "name");
     userEntity.setUserDetailsEntity(userDetails);
   }
@@ -54,6 +54,7 @@ public class UserDetailsServiceTests {
     verify(userDetailsRepository, times(1)).saveUserDetails(
             userDetails.getId(),
             userDetails.getContactNumber(),
+            userDetails.getHouseName(),
             userDetails.getAddressStreet(),
             userDetails.getAddressCity(),
             userDetails.getAddressCounty(),
@@ -70,6 +71,7 @@ public class UserDetailsServiceTests {
     assertNotNull(returnedDetails);
     assertEquals(userId, returnedDetails.getId());
     assertEquals("1234567890", returnedDetails.getContactNumber());
+    assertEquals("name", returnedDetails.getHouseName());
     assertEquals("Street", returnedDetails.getAddressStreet());
     assertEquals("City", returnedDetails.getAddressCity());
     assertEquals("County", returnedDetails.getAddressCounty());

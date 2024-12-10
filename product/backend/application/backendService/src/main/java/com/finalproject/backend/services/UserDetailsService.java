@@ -47,7 +47,8 @@ public class UserDetailsService {
   @Transactional
   public UserEntity saveUserDetails(final UserDetailsEntity newDetails) {
     userDetailsRepository.saveUserDetails(newDetails.getId(),
-            newDetails.getContactNumber(), newDetails.getAddressStreet(),
+            newDetails.getContactNumber(), newDetails.getHouseName(),
+            newDetails.getAddressStreet(),
             newDetails.getAddressCity(), newDetails.getAddressCounty(),
             newDetails.getAddressPostcode()
     );
