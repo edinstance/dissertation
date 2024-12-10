@@ -39,7 +39,8 @@ public class UserDetailsMutationTests {
 
 
     UserDetailsEntity userDetailsEntity = new UserDetailsEntity(userId, "contact",
-            "street", "city", "county", "postcode");
+            "name", "street", "city",
+            "county", "postcode");
     UserEntity userEntity = new UserEntity(userId, email, name);
     userEntity.setUserDetailsEntity(userDetailsEntity);
 
@@ -50,7 +51,7 @@ public class UserDetailsMutationTests {
 
 
     UserEntity result = userDetailsMutations.saveUserDetails(userId.toString(), new UserDetailsInput("contact",
-            "street", "city", "county", "postcode"));
+            "name", "street", "city", "county", "postcode"));
 
     assertNotNull(result);
     assert result.getId().equals(userId);
@@ -63,6 +64,7 @@ public class UserDetailsMutationTests {
     assertNotNull(detailsResult);
     assert detailsResult.getId().equals(userId);
     assert detailsResult.getContactNumber().equals(userDetailsEntity.getContactNumber());
+    assert detailsResult.getHouseName().equals(userDetailsEntity.getHouseName());
     assert detailsResult.getAddressStreet().equals(userDetailsEntity.getAddressStreet());
     assert detailsResult.getAddressCity().equals(userDetailsEntity.getAddressCity());
     assert detailsResult.getAddressCounty().equals(userDetailsEntity.getAddressCounty());
