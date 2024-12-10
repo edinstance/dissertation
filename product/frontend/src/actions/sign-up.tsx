@@ -1,5 +1,6 @@
 "use server";
 
+import stripe from "@/lib/stripe";
 import {
   AdminCreateUserCommand,
   AdminSetUserPasswordCommand,
@@ -45,6 +46,15 @@ async function createUser({
     });
 
     await cognitoClient.send(setPasswordCommand);
+
+
+    await stripe.customers.create({
+      email,
+      name,
+      metadata: {
+        userId: id,
+      },
+    });
 
     return { success: true, id };
   } catch (error) {
