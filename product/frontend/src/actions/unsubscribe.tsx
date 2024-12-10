@@ -12,7 +12,9 @@ export async function unsubscribe({ id }: { id: string }) {
     }
 
     // Cancel the subscription
-    const canceledSubscription = await stripe.subscriptions.cancel(subscription.id);
+    const canceledSubscription = await stripe.subscriptions.cancel(
+      subscription.id,
+    );
 
     // Return confirmation of cancellation
     return {
@@ -22,7 +24,8 @@ export async function unsubscribe({ id }: { id: string }) {
     };
   } catch (error) {
     return {
-      error: error instanceof Error ? error.message : "Error canceling subscription",
+      error:
+        error instanceof Error ? error.message : "Error canceling subscription",
     };
   }
 }

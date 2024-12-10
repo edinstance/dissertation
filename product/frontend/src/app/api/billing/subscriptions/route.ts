@@ -1,5 +1,8 @@
 import stripe from "@/lib/stripe";
-import { findCustomerByUserId, findExistingSubscriptionByUserId } from "@/utils/stripe";
+import {
+  findCustomerByUserId,
+  findExistingSubscriptionByUserId,
+} from "@/utils/stripe";
 import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
 
@@ -16,13 +19,18 @@ export async function POST(request: NextRequest) {
 
     if (existingSubscription) {
       // Handle specific statuses of the existing subscription
-      const latestInvoice = existingSubscription.latest_invoice as Stripe.Invoice;
-      const paymentIntent = latestInvoice?.payment_intent as Stripe.PaymentIntent;
+      const latestInvoice =
+        existingSubscription.latest_invoice as Stripe.Invoice;
+      const paymentIntent =
+        latestInvoice?.payment_intent as Stripe.PaymentIntent;
 
       const customer = await findCustomerByUserId(userId);
 
       if (!customer) {
-        return NextResponse.json({ error: "Customer not found" }, { status: 404 });
+        return NextResponse.json(
+          { error: "Customer not found" },
+          { status: 404 },
+        );
       }
 
       if (existingSubscription.status === "canceled") {
@@ -36,7 +44,8 @@ export async function POST(request: NextRequest) {
         });
 
         const updatedInvoice = newSubscription.latest_invoice as Stripe.Invoice;
-        const updatedPaymentIntent = updatedInvoice.payment_intent as Stripe.PaymentIntent;
+        const updatedPaymentIntent =
+          updatedInvoice.payment_intent as Stripe.PaymentIntent;
 
         return NextResponse.json({
           client_secret: updatedPaymentIntent?.client_secret,
@@ -57,9 +66,12 @@ export async function POST(request: NextRequest) {
     // No existing subscription, create a new one
     const customer = await findCustomerByUserId(userId);
     if (!customer) {
-      return NextResponse.json({ error: "Customer not found" }, { status: 404 });
+      return NextResponse.json(
+        { error: "Customer not found" },
+        { status: 404 },
+      );
     }
- 
+
     const newSubscription = await stripe.subscriptions.create({
       customer: customer.id,
       items: [{ price: "price_1QU8pCGlnq0aqIkWouea1rQk" }],
@@ -74,11 +86,11 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({
       client_secret: paymentIntent?.client_secret,
     });
-  } catch (error: any) {
+  } catch (error) {
     console.error("Error in subscription handler:", error);
     return NextResponse.json(
       { error: error.message || "Unexpected error occurred" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

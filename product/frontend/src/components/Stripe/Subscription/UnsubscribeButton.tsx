@@ -1,21 +1,27 @@
 "use client";
 
 import { unsubscribe } from "@/actions/unsubscribe";
-import { useState } from "react";
 import { Button } from "@/components/ui/Button";
+import { useState } from "react";
 
-export function UnsubscribeButton({ userId, className }: { userId: string, className?: string }) {
+export function UnsubscribeButton({
+  userId,
+  className,
+}: {
+  userId: string;
+  className?: string;
+}) {
   const [isLoading, setIsLoading] = useState(false);
 
   async function handleCancel() {
     setIsLoading(true);
     try {
       const result = await unsubscribe({ id: userId });
-      if (result.success ){
+      if (result.success) {
         window.location.reload();
       }
     } catch (error) {
-      alert("An error occurred while canceling the subscription.");
+      console.error("Error canceling subscription:", error);
     } finally {
       setIsLoading(false);
     }

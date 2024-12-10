@@ -47,7 +47,6 @@ async function createUser({
 
     await cognitoClient.send(setPasswordCommand);
 
-
     await stripe.customers.create({
       email,
       name,

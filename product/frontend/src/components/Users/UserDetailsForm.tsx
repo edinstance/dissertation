@@ -9,7 +9,7 @@ import { Input } from "../ui/Input";
 
 type FormData = {
   contactNumber: string;
-  houseName
+  houseName;
   addressStreet: string;
   addressCity: string;
   addressCounty: string;
@@ -97,7 +97,7 @@ export default function UserDetailsForm() {
           </p>
         </div>
         <div className="space-y-4">
-        <Input
+          <Input
             type="text"
             placeholder="House Name"
             {...register("houseName", { required: true })}

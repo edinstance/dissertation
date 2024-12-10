@@ -36,7 +36,7 @@ export default function SubscriptionForm({ stripeKey }: { stripeKey: string }) {
     };
 
     fetchClientSecret();
-  }, []);
+  }, [session.data?.user?.id]);
 
   const options = {
     clientSecret: clientSecret,
