@@ -17,6 +17,7 @@ public interface UserDetailsRepository extends JpaRepository<UserDetailsEntity, 
    *
    * @param userId The id of the user to update.
    * @param contactNumber The value of their contact number.
+   * @param houseName The value of their house name.
    * @param addressStreet The value of their street.
    * @param addressCity The value of their city.
    * @param addressCounty The value of their county.
@@ -24,11 +25,13 @@ public interface UserDetailsRepository extends JpaRepository<UserDetailsEntity, 
    */
   @Modifying
   @Query(value = "CALL insert_or_update_user_details(:userId, :contactNumber,"
-          + " :addressStreet, :addressCity, :addressCounty, :addressPostCode)",
+          + " :houseName, :addressStreet, :addressCity, :addressCounty," +
+          " :addressPostCode)",
           nativeQuery = true)
   void saveUserDetails(
           @Param("userId") UUID userId,
           @Param("contactNumber") String contactNumber,
+          @Param("houseName") String houseName,
           @Param("addressStreet") String addressStreet,
           @Param("addressCity") String addressCity,
           @Param("addressCounty") String addressCounty,
