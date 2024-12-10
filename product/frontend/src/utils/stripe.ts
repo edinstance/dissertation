@@ -15,7 +15,7 @@ export async function findCustomerByUserId(
 }
 
 // Get all subscriptions for a customer and return the most recent one
-export async function getCustomerSubscriptions(
+async function getCustomerSubscriptions(
   customerId: string,
 ): Promise<Stripe.Subscription[]> {
   const subscriptions = await stripe.subscriptions.list({
@@ -31,7 +31,7 @@ export async function getCustomerSubscriptions(
 }
 
 // Find the most recent valid subscription (with a valid payment intent)
-export function findExistingSubscription(
+function findExistingSubscription(
   subscriptions: Stripe.Subscription[],
 ): Stripe.Subscription | null {
   return (
