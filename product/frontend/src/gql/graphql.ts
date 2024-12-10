@@ -343,6 +343,7 @@ export type UserDetails = {
   addressPostcode?: Maybe<Scalars["String"]["output"]>;
   addressStreet?: Maybe<Scalars["String"]["output"]>;
   contactNumber?: Maybe<Scalars["String"]["output"]>;
+  houseName?: Maybe<Scalars["String"]["output"]>;
   id: Scalars["String"]["output"];
 };
 
@@ -352,6 +353,7 @@ export type UserDetailsInput = {
   addressPostcode?: InputMaybe<Scalars["String"]["input"]>;
   addressStreet?: InputMaybe<Scalars["String"]["input"]>;
   contactNumber?: InputMaybe<Scalars["String"]["input"]>;
+  houseName?: InputMaybe<Scalars["String"]["input"]>;
 };
 
 export type UserInput = {
@@ -388,6 +390,7 @@ export type SaveUserDetailsMutation = {
       __typename?: "UserDetails";
       id: string;
       contactNumber?: string | null;
+      houseName?: string | null;
       addressStreet?: string | null;
       addressCity?: string | null;
       addressCounty?: string | null;
@@ -409,6 +412,7 @@ export type GetUserQuery = {
       __typename?: "UserDetails";
       id: string;
       contactNumber?: string | null;
+      houseName?: string | null;
       addressStreet?: string | null;
       addressCity?: string | null;
       addressCounty?: string | null;
@@ -543,6 +547,10 @@ export const SaveUserDetailsDocument = {
                       },
                       {
                         kind: "Field",
+                        name: { kind: "Name", value: "houseName" },
+                      },
+                      {
+                        kind: "Field",
                         name: { kind: "Name", value: "addressStreet" },
                       },
                       {
@@ -600,6 +608,10 @@ export const GetUserDocument = {
                       {
                         kind: "Field",
                         name: { kind: "Name", value: "contactNumber" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "houseName" },
                       },
                       {
                         kind: "Field",

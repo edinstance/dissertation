@@ -20,10 +20,11 @@ public class UserDetailsInputTests {
 
   @Test
   public void testUserDetailsInputConstructor() {
-    userDetailsInput = new UserDetailsInput("1234567890", "123 Test St", "Test City", "Test County", "12345");
+    userDetailsInput = new UserDetailsInput("1234567890", "house name", "123 Test St", "Test City", "Test County", "12345");
 
     assertNotNull(userDetailsInput);
     assertEquals("1234567890", userDetailsInput.getContactNumber());
+    assertEquals("house name", userDetailsInput.getHouseName());
     assertEquals("123 Test St", userDetailsInput.getAddressStreet());
     assertEquals("Test City", userDetailsInput.getAddressCity());
     assertEquals("Test County", userDetailsInput.getAddressCounty());
@@ -32,13 +33,19 @@ public class UserDetailsInputTests {
 
   @BeforeEach
   public void setUp() {
-    userDetailsInput = new UserDetailsInput("1234567890", "123 Test St", "Test City", "Test County", "12345");
+    userDetailsInput = new UserDetailsInput("1234567890", "house name", "123 Test St", "Test City", "Test County", "12345");
   }
 
   @Test
   public void testContactNumberMethods() {
     userDetailsInput.setContactNumber("0987654321");
     assertEquals("0987654321", userDetailsInput.getContactNumber());
+  }
+
+  @Test
+  public void testHouseNameMethods() {
+    userDetailsInput.setHouseName("house name 2");
+    assertEquals("house name 2", userDetailsInput.getHouseName());
   }
 
   @Test

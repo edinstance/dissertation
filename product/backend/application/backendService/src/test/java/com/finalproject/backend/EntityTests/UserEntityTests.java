@@ -79,7 +79,7 @@ public class UserEntityTests {
   public void testToString() {
     UUID userId = UUID.randomUUID();
     UserDetailsEntity userDetails = new UserDetailsEntity(
-            userId, "1234567890", "123 Test St",
+            userId, "1234567890", "name", "123 Test St",
             "Test City", "Test County", "12345"
     );
     UserEntity user = new UserEntity(userId, "test@example.com",

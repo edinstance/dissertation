@@ -17,6 +17,7 @@ input UserInput {
 
 input UserDetailsInput {
     contactNumber: String
+    houseName: String
     addressStreet: String
     addressCity: String
     addressCounty: String
@@ -47,6 +48,7 @@ type User {
 type UserDetails {
     id: String!
     contactNumber: String
+    houseName: String
     addressStreet: String
     addressCity: String
     addressCounty: String

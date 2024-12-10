@@ -36,7 +36,7 @@ public class UserDetailsDataFetcherTests {
   @BeforeEach
   public void setUp() {
     UUID userId = UUID.randomUUID();
-    userDetailsEntity = new UserDetailsEntity(userId, "1234567890", "123 Test St", "Test City", "Test County", "12345");
+    userDetailsEntity = new UserDetailsEntity(userId, "1234567890", "name", "123 Test St", "Test City", "Test County", "12345");
     userEntity = new UserEntity(userId, "test@example.com", "Test User", "ACTIVE");
     userEntity.setUserDetailsEntity(userDetailsEntity);
   }

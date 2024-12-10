@@ -100,6 +100,7 @@ export const authConfig = {
   callbacks: {
     async jwt({ token, user }) {
       if (user) {
+        token.id = user.id;
         token.accessToken = user.cognitoTokens?.accessToken;
         token.refreshToken = user.cognitoTokens?.refreshToken;
         token.idToken = user.cognitoTokens?.idToken;
@@ -127,6 +128,7 @@ export const authConfig = {
     async session({ session, token }) {
       // Add accessToken to the session
       if (token) {
+        session.user.id = token.id as string;
         session.accessToken = token.accessToken as string;
       }
       return session;

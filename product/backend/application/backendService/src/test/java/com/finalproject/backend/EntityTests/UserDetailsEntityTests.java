@@ -25,6 +25,7 @@ public class UserDetailsEntityTests {
     userDetailsEntity = new UserDetailsEntity(
             UUID.randomUUID(),
             "11111111111",
+            "Name",
             "Street",
             "City",
             "County",
@@ -34,6 +35,7 @@ public class UserDetailsEntityTests {
     assertNotNull(userDetailsEntity);
     assertNotNull(userDetailsEntity.getId());
     assert userDetailsEntity.getContactNumber().equals("11111111111");
+    assert userDetailsEntity.getHouseName().equals("Name");
     assert userDetailsEntity.getAddressStreet().equals("Street");
     assert userDetailsEntity.getAddressCity().equals("City");
     assert userDetailsEntity.getAddressCounty().equals("County");
@@ -45,6 +47,7 @@ public class UserDetailsEntityTests {
     userDetailsEntity = new UserDetailsEntity(
             UUID.randomUUID(),
             "1234567890",
+            "Name",
             "Street",
             "City",
             "County",
@@ -63,6 +66,12 @@ public class UserDetailsEntityTests {
   public void testContactNumberMethods() {
     userDetailsEntity.setContactNumber("0987654321");
     assert userDetailsEntity.getContactNumber().equals("0987654321");
+  }
+
+  @Test
+  public void testHouseNameMethods() {
+    userDetailsEntity.setHouseName("Test");
+    assert userDetailsEntity.getHouseName().equals("Test");
   }
 
   @Test
@@ -93,12 +102,13 @@ public class UserDetailsEntityTests {
   public void testToString() {
     UUID userId = UUID.randomUUID();
     UserDetailsEntity userDetails = new UserDetailsEntity(
-            userId, "1234567890", "123 Test St", "Test City", "Test County", "12345"
+            userId, "1234567890", "Name", "123 Test St", "Test City", "Test County", "12345"
     );
 
     String expected = "UserDetailsEntity{" +
             "id=" + userId +
             ", contactNumber='1234567890'" +
+            ", houseName='Name'" +
             ", addressStreet='123 Test St'" +
             ", addressCity='Test City'" +
             ", addressCounty='Test County'" +

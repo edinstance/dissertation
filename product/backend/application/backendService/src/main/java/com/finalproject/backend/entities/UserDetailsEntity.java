@@ -31,6 +31,12 @@ public class UserDetailsEntity {
   private String contactNumber;
 
   /**
+   * The user's house name or number.
+   */
+  @Column(name = "house_name")
+  private String houseName;
+
+  /**
    * The user's street address.
    */
   @Column(name = "address_street")
@@ -65,6 +71,7 @@ public class UserDetailsEntity {
    *
    * @param id              The user's id.
    * @param contactNumber   The user's contact number.
+   * @param houseName       The user's house name.
    * @param addressStreet   The user's street address.
    * @param addressCity     The user's city.
    * @param addressCounty   The user's county.
@@ -72,12 +79,14 @@ public class UserDetailsEntity {
    */
   public UserDetailsEntity(final UUID id,
                            final String contactNumber,
+                           final String houseName,
                            final String addressStreet,
                            final String addressCity,
                            final String addressCounty,
                            final String addressPostcode) {
     this.id = id;
     this.contactNumber = contactNumber;
+    this.houseName = houseName;
     this.addressStreet = addressStreet;
     this.addressCity = addressCity;
     this.addressCounty = addressCounty;
@@ -87,12 +96,13 @@ public class UserDetailsEntity {
   @Override
   public String toString() {
     return "UserDetailsEntity{"
-          + "id=" + id
-          + ", contactNumber='" + contactNumber
-          + '\'' + ", addressStreet='" + addressStreet
-          + '\'' + ", addressCity='" + addressCity
-          + '\'' + ", addressCounty='" + addressCounty
-          + '\'' + ", addressPostcode='" + addressPostcode
-          + '\'' + '}';
+            + "id=" + id
+            + ", contactNumber='" + contactNumber
+            + '\'' + ", houseName='" + houseName
+            + '\'' + ", addressStreet='" + addressStreet
+            + '\'' + ", addressCity='" + addressCity
+            + '\'' + ", addressCounty='" + addressCounty
+            + '\'' + ", addressPostcode='" + addressPostcode
+            + '\'' + '}';
   }
 }

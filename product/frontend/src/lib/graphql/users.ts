@@ -15,6 +15,7 @@ export const SAVE_USER_DETAILS_MUTATION = graphql(`
       details {
         id
         contactNumber
+        houseName
         addressStreet
         addressCity
         addressCounty
@@ -33,6 +34,7 @@ export const GET_USER = graphql(`
       details {
         id
         contactNumber
+        houseName
         addressStreet
         addressCity
         addressCounty
