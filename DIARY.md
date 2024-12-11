@@ -43,3 +43,40 @@
 - I met with my supervisor this week and discussed my current progress, I identified that I need to start my reports as soon as possible so I am planning on doing that. 
 - I finished off the intital backend securtity that I was working on and merged it.
 - I have been building the user interface out.
+- Created different security profiles for the backend.
+_ I created a database and an inital users table in it.
+
+## Week 7
+
+- Created unit and integration tests for the backend.
+- Added checkstyle to the backend and fixed existing issues.
+- Started to create gitlab ci pipelines for the project.
+- Started my interim report.
+
+## Week 8
+
+- Continued to work on the pipelines but had lots of issues with the images they would run on.
+- Added a userDetails table which contained basic information about a user.
+- Created the ui for the user details.
+- Researched Netflix dgs to fix errors and created custom datafetchers for the user details.
+
+
+## Week 9
+
+- Finalised the user details ui, backend and the database schema and functions.
+- I updated the security config, specifically the jwt decoder.
+- Fixed the backend pipeline as the new changes were causing errors.
+- Continued to work on my interim report.
+
+## Week 10
+
+- I added items to the database and backend.
+- I setup intial searching of the items.
+- Created and completed the presentation slides for week 11.
+- I added end to end and component testing to the frontend.
+- Added and configured knip for the frontend.
+
+## Week 11
+
+- Updated the frontend security info.
+- Setup inital stripe subscriptions.
