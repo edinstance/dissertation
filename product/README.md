@@ -11,4 +11,12 @@ docker-compose -f docker/docker-compose-local.yml up
 
 ## Dependencies
 
+### Stripe
+
+The project uses [Stripe](https://stripe.com/gb) for payements and subsriptions, before running the application you need to set it up. 
+
+Then create a product that is recurring for the subscription, then use the price_id of the product and use it in the frontend enviroment variables [here](./frontend/.env.example)
+
+### AWS
+
 This product is dependent on [AWS Cognito](https://docs.aws.amazon.com/cognito/latest/developerguide/what-is-amazon-cognito.html), to set it up you can follow this [README.md](./infrastructure/README.md) and there will be steps to set it up in the guide in my project.
