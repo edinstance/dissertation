@@ -72,9 +72,17 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    const priceId = process.env.STRIPE_PRICE_ID;
+    if (!priceId) {
+      return NextResponse.json(
+        { error: "Missing STRIPE_PRICE_ID" },
+        { status: 500 },
+      );
+    }
+
     const newSubscription = await stripe.subscriptions.create({
       customer: customer.id,
-      items: [{ price: process?.env?.STRIPE_PRICE_ID! }],
+      items: [{ price: priceId }],
       payment_behavior: "default_incomplete",
       payment_settings: { save_default_payment_method: "on_subscription" },
       expand: ["latest_invoice.payment_intent"],
