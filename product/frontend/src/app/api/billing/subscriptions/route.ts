@@ -74,7 +74,7 @@ export async function POST(request: NextRequest) {
 
     const newSubscription = await stripe.subscriptions.create({
       customer: customer.id,
-      items: [{ price: "price_1QU8pCGlnq0aqIkWouea1rQk" }],
+      items: [{ price: process?.env?.STRIPE_PRICE_ID! }],
       payment_behavior: "default_incomplete",
       payment_settings: { save_default_payment_method: "on_subscription" },
       expand: ["latest_invoice.payment_intent"],
