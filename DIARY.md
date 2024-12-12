@@ -44,7 +44,7 @@
 - I finished off the intital backend securtity that I was working on and merged it.
 - I have been building the user interface out.
 - Created different security profiles for the backend.
-_ I created a database and an inital users table in it.
+- I created a database and an inital users table in it.
 
 ## Week 7
 
@@ -80,3 +80,6 @@ _ I created a database and an inital users table in it.
 
 - Updated the frontend security info.
 - Setup inital stripe subscriptions.
+- Added steps to setup the stripe subscriptions.
+- Presented my presentation and watched peer presentations.
+- Finished the interim report.
