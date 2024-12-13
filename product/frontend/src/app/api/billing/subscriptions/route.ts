@@ -14,6 +14,14 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "Missing userId" }, { status: 400 });
     }
 
+    const priceId = process.env.STRIPE_PRICE_ID;
+    if (!priceId) {
+      return NextResponse.json(
+        { error: "Missing STRIPE_PRICE_ID" },
+        { status: 500 },
+      );
+    }
+
     // Check for existing subscription
     const existingSubscription = await findExistingSubscriptionByUserId(userId);
 
@@ -37,7 +45,7 @@ export async function POST(request: NextRequest) {
         // Reactivate the subscription and return client_secret
         const newSubscription = await stripe.subscriptions.create({
           customer: customer.id,
-          items: [{ price: "price_1QU8pCGlnq0aqIkWouea1rQk" }],
+          items: [{ price: priceId }],
           payment_behavior: "default_incomplete",
           payment_settings: { save_default_payment_method: "on_subscription" },
           expand: ["latest_invoice.payment_intent"],
@@ -69,14 +77,6 @@ export async function POST(request: NextRequest) {
       return NextResponse.json(
         { error: "Customer not found" },
         { status: 404 },
-      );
-    }
-
-    const priceId = process.env.STRIPE_PRICE_ID;
-    if (!priceId) {
-      return NextResponse.json(
-        { error: "Missing STRIPE_PRICE_ID" },
-        { status: 500 },
       );
     }
 
