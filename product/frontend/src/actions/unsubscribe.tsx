@@ -1,12 +1,12 @@
 "use server";
 
 import stripe from "@/lib/stripe";
-import { findExistingSubscriptionById } from "@/utils/stripe";
+import { findExistingSubscriptionByUserId } from "@/utils/stripe";
 
 export async function unsubscribe({ id }: { id: string }) {
   try {
     // Fetch the existing subscription
-    const subscription = await findExistingSubscriptionById(id);
+    const subscription = await findExistingSubscriptionByUserId(id);
     if (!subscription) {
       return { error: "Subscription not found" };
     }

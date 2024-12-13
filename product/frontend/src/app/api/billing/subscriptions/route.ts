@@ -22,6 +22,14 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    const customer = await findCustomerByUserId(userId);
+    if (!customer) {
+      return NextResponse.json(
+        { error: "Customer not found" },
+        { status: 404 },
+      );
+    }
+
     // Check for existing subscription
     const existingSubscription = await findExistingSubscriptionByUserId(userId);
 
@@ -31,15 +39,6 @@ export async function POST(request: NextRequest) {
         existingSubscription.latest_invoice as Stripe.Invoice;
       const paymentIntent =
         latestInvoice?.payment_intent as Stripe.PaymentIntent;
-
-      const customer = await findCustomerByUserId(userId);
-
-      if (!customer) {
-        return NextResponse.json(
-          { error: "Customer not found" },
-          { status: 404 },
-        );
-      }
 
       if (existingSubscription.status === "canceled") {
         // Reactivate the subscription and return client_secret
@@ -72,13 +71,6 @@ export async function POST(request: NextRequest) {
     }
 
     // No existing subscription, create a new one
-    const customer = await findCustomerByUserId(userId);
-    if (!customer) {
-      return NextResponse.json(
-        { error: "Customer not found" },
-        { status: 404 },
-      );
-    }
 
     const newSubscription = await stripe.subscriptions.create({
       customer: customer.id,
