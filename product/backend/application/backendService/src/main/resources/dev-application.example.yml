@@ -19,6 +19,11 @@ spring:
     username: postgres
     password: password
     # This should be the database url, username and password
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        # This sets the Hibernate dialect to PostgreSQL
 # Actuator config
 management:
   endpoints:

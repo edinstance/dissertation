@@ -1,18 +1,4 @@
 services:
-  final-project-frontend:
-    build:
-      context: ../frontend/
-      dockerfile: Dockerfile
-    container_name: final-project-frontend-local
-    ports:
-      - 3000:3000
-    healthcheck:
-      test: curl --fail http://localhost:3000/api/health || exit 1
-      interval: 60s
-      retries: 5
-      start_period: 20s
-      timeout: 10s
-
   final-project-backend:
     build:
       context: ../backend/application/backendService/
@@ -26,6 +12,13 @@ services:
       retries: 5
       start_period: 20s
       timeout: 10s
+    environment:
+      - SPRING_DATASOURCE_URL=${SPRING_DATASOURCE_URL}
+      - SPRING_DATASOURCE_USERNAME=${SPRING_DATASOURCE_USERNAME}
+      - SPRING_DATASOURCE_PASSWORD=${SPRING_DATASOURCE_PASSWORD}
+      - SPRING_PROFILES_ACTIVE=${SPRING_PROFILES_ACTIVE}
+      - SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER_URI=${SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER_URI}
+      - API_KEY=${API_KEY}
   
   postgres:
     container_name: final-project-database-local

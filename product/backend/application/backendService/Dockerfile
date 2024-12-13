@@ -9,6 +9,7 @@ WORKDIR /app
 # Copy the project files
 COPY pom.xml .
 COPY src ./src
+COPY config ./config
 
 # Run the maven lifecycles to build the application
 RUN mvn clean package
