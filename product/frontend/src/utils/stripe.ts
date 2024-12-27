@@ -35,7 +35,11 @@ function findExistingSubscription(
   subscriptions: Stripe.Subscription[],
 ): Stripe.Subscription | null {
   return (
-    subscriptions.find((sub) => sub.latest_invoice?.payment_intent) || null
+    subscriptions.find(
+      (sub) =>
+        typeof sub.latest_invoice === "object" &&
+        sub.latest_invoice?.payment_intent,
+    ) || null
   );
 }
 

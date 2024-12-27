@@ -4,7 +4,14 @@ This is the backend application for this final year project. It is split into th
 
 ## Running the service
 
-You can either run the application locally or using Docker, first make sure you setup the database and set the applications properties. To do this create a new file called `application.yml` [here](backendService/src/main/resources/) based on the examples, use [this](src/main/resources/dev-application.example.yml) example for development and [this](backendService/src/main/resources/prod-application.example.yml) example for production. Finally there is also a [test](backendService/src/main/resources/test-application.example.yml) properties which should only be ran for the integration tests.
+You can either run the application locally or using Docker, first make sure you setup the database and set the applications properties. To do this create a new file called `application.yml` [here](backendService/src/main/resources/) based on the examples, use [this](backendService/src/main/resources/dev-application.example.yml) example for development and [this](backendService/src/main/resources/prod-application.example.yml) example for production. 
+
+There is also a [test](backendService/src/main/resources/test-application.example.yml) properties which should only be ran for the integration tests. 
+
+Finally there is a [dynamic version](backendService/src/main/resources/dynamic-application.example.yml) which uses variables for setting the properties, so you need to pass in the values using -D when running using maven or as enviroment variables.
+
+
+There is also a [test profile](backendService/src/test/resources/application.example.yml) that must be copied and for the unit tests the TEST_COGNITO_JWT_URL variable must be set.
 
 ### Locally
 
@@ -54,10 +61,10 @@ but the integration tests must be run manually.
 
 ### Unit Tests
 
-The Unit tests can be run by using these commands:
+First you must set up the test properties for the unit tests and then they can be ran by using these commands with the enviroment variable:
 
 ```
-mvn clean test -pl backendService
+mvn clean test -pl backendService -DTEST_COGNITO_JWT_URL=
 ```
 
 ### Integration Tests

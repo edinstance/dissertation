@@ -86,11 +86,10 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({
       client_secret: paymentIntent?.client_secret,
     });
-  } catch (error) {
+  } catch (error: unknown) {
     console.error("Error in subscription handler:", error);
-    return NextResponse.json(
-      { error: error.message || "Unexpected error occurred" },
-      { status: 500 },
-    );
+    const errorMessage =
+      error instanceof Error ? error.message : "Unexpected error occurred";
+    return NextResponse.json({ error: errorMessage }, { status: 500 });
   }
 }

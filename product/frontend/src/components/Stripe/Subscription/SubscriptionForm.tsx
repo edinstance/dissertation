@@ -21,7 +21,7 @@ export default function SubscriptionForm({ stripeKey }: { stripeKey: string }) {
           },
           body: JSON.stringify({ userId: session.data?.user?.id }),
         });
-
+        console.log("Response:", response);
         if (!response.ok) {
           throw new Error("Network response was not ok");
         }

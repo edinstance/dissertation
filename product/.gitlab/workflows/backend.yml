@@ -19,12 +19,13 @@ unit_test_backend:
   stage: test
   image: maven:3.9.9-amazoncorretto-21-alpine
   variables:
-    TEST_COGNITO_URI: $TEST_COGNITO_URI
+    TEST_COGNITO_JWT_URL: $TEST_COGNITO_JWT_URL
   script:
     - echo "Copying the test-application.yml into a application.yml file..."
     - cp ./application/backendService/src/main/resources/test-application.example.yml ./application/backendService/src/main/resources/application.yml
+    - cp ./application/backendService/src/test/resources/application.example.yml ./application/backendService/src/test/resources/application.yml
     - echo "Copying completed"
     - echo "Running unit tests..."
     - cd ./application/
-    - mvn -f ./backendService/pom.xml clean test -Dtest-cognito-uri=$TEST_COGNITO_URI
+    - mvn -f ./backendService/pom.xml clean test -DTEST_COGNITO_JWT_URL=$TEST_COGNITO_JWT_URL
     - echo "Unit tests passed"

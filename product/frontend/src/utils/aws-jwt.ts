@@ -24,7 +24,9 @@ export async function verifyAWSToken(token: string, tokenUse: TokenUse) {
 }
 
 export async function refreshAccessToken(refreshToken: string) {
-  const cognitoClient = new CognitoIdentityProviderClient({});
+  const cognitoClient = new CognitoIdentityProviderClient({
+    region: "eu-west-2",
+  });
 
   const command = new InitiateAuthCommand({
     AuthFlow: AuthFlowType.REFRESH_TOKEN_AUTH,

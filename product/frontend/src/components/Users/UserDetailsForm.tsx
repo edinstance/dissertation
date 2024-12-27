@@ -9,7 +9,7 @@ import { Input } from "../ui/Input";
 
 type FormData = {
   contactNumber: string;
-  houseName;
+  houseName: string;
   addressStreet: string;
   addressCity: string;
   addressCounty: string;

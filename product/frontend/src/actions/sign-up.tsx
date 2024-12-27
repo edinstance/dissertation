@@ -1,10 +1,10 @@
 "use server";
 
+import cognitoClient from "@/lib/cognito";
 import stripe from "@/lib/stripe";
 import {
   AdminCreateUserCommand,
   AdminSetUserPasswordCommand,
-  CognitoIdentityProviderClient,
   MessageActionType,
 } from "@aws-sdk/client-cognito-identity-provider";
 
@@ -18,8 +18,6 @@ async function createUser({
   password: string;
 }) {
   try {
-    const cognitoClient = new CognitoIdentityProviderClient({});
-
     const createUserCommand = new AdminCreateUserCommand({
       UserPoolId: process.env.COGNITO_USER_POOL_ID!,
       Username: email,

@@ -2,8 +2,8 @@ spring:
   application:
     name: backend
   profiles:
-    active: test
-    # This sets the active profile to test
+    active: ${SPRING_ACTIVE_PROFILE}
+    # This sets the active profile to dev
   graphql:
     graphiql:
       enabled: true
@@ -12,14 +12,19 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          issuer-uri:
+          issuer-uri: ${COGNITO_JWT_URL}
           # This should be the cognito uri that is https://cognito-idp.<aws-region>.amazonaws.com/<cognito-pool-id>
   datasource:
-    url: jdbc:h2:mem:test
-    username: user
-    password: password
-    # This should be the database url, username and password it is
-    # currently set to work with a in memory h2 database for testing
+    url: ${DATABASE_URL}
+    username: ${POSTGRES_USER}
+    password: ${POSTGRES_PASSWORD}
+    # This should be the database url, username and password
+  jpa:
+    properties:
+      hibernate:
+        ddl-auto: none
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        # This sets the Hibernate dialect to PostgreSQL
 # Actuator config
 management:
   endpoints:
@@ -32,5 +37,5 @@ management:
         # This should be the actuator endpoints that you want to expose
 
 api:
-  key: "test"
-  # This is to test the api key authentication
+  key: ${API_KEY}
+# This key is used to access the backend

@@ -1,16 +1,19 @@
+import cognitoClient from "@/lib/cognito";
 import { refreshAccessToken, verifyAWSToken } from "@/utils/aws-jwt";
 import {
   AuthFlowType,
-  CognitoIdentityProviderClient,
   InitiateAuthCommand,
 } from "@aws-sdk/client-cognito-identity-provider";
-import { CredentialsSignin, type NextAuthConfig } from "next-auth";
+import { Session, User } from "next-auth";
+import { JWT } from "next-auth/jwt";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { z } from "zod";
 
-class CustomError extends CredentialsSignin {
+class CustomError {
+  code: string;
+  message: string;
+
   constructor(code: string) {
-    super();
     this.code = code;
     this.message = code;
   }
@@ -55,8 +58,6 @@ export const authConfig = {
           );
         }
 
-        const cognitoClient = new CognitoIdentityProviderClient({});
-
         const loginUserCommand = new InitiateAuthCommand({
           AuthFlow: AuthFlowType.USER_PASSWORD_AUTH,
           AuthParameters: {
@@ -98,7 +99,7 @@ export const authConfig = {
     }),
   ],
   callbacks: {
-    async jwt({ token, user }) {
+    async jwt({ token, user }: { token: JWT; user?: User }) {
       if (user) {
         token.id = user.id;
         token.accessToken = user.cognitoTokens?.accessToken;
@@ -125,7 +126,7 @@ export const authConfig = {
 
       return token;
     },
-    async session({ session, token }) {
+    async session({ session, token }: { session: Session; token: JWT }) {
       // Add accessToken to the session
       if (token) {
         session.user.id = token.id as string;
@@ -137,5 +138,5 @@ export const authConfig = {
   pages: {
     signIn: "/sign-in",
   },
-  secret: process.env.NEXTAUTH_SECRET,
-} satisfies NextAuthConfig;
+  secret: process.env.AUTH_SECRET,
+};

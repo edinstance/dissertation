@@ -12,14 +12,20 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          issuer-uri:
+          issuer-uri: ${TEST_COGNITO_JWT_URL}
           # This should be the cognito uri that is https://cognito-idp.<aws-region>.amazonaws.com/<cognito-pool-id>
   datasource:
     url: jdbc:h2:mem:test
     username: user
     password: password
     # This should be the database url, username and password it is
-    # currently set to work with a in memory h2 database for testing
+    # currently set to work with an in memory h2 database for testing
+  jpa:
+    properties:
+      hibernate:
+        ddl-auto: none
+        dialect: org.hibernate.dialect.H2Dialect
+        # This sets the Hibernate dialect to PostgreSQL
 # Actuator config
 management:
   endpoints:
@@ -34,3 +40,4 @@ management:
 api:
   key: "test"
   # This is to test the api key authentication
+

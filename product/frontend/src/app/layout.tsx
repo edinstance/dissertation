@@ -3,7 +3,6 @@ import { Inter } from "next/font/google";
 
 import Header from "@/components/Header";
 import SessionProvider from "@/components/Providers/Auth";
-import { auth } from "@/server/auth";
 import { type Metadata } from "next";
 
 const inter = Inter({ subsets: ["latin"], display: "swap" });
@@ -16,12 +15,10 @@ export const metadata: Metadata = {
 export default async function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
-  const session = await auth();
-
   return (
     <html lang="en">
       <body className={`${inter.className} bg-zinc-100 dark:bg-zinc-900`}>
-        <SessionProvider session={session}>
+        <SessionProvider>
           <Header />
           {children}
         </SessionProvider>

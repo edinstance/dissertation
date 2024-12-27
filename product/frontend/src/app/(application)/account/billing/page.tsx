@@ -33,7 +33,7 @@ export default async function CheckoutPage() {
             ).toLocaleDateString()}
           </p>
           <div className="pt-4">
-            <UnsubscribeButton userId={userId} />
+            {userId && <UnsubscribeButton userId={userId} />}
           </div>
         </div>
       ) : (
