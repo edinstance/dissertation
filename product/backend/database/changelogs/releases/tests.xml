@@ -20,4 +20,11 @@
             stripComments="false" />
     </changeSet>
 
+    <changeSet id="test_user_with_details_view" author="zlac370" runOnChange="false">
+        <sqlFile path="../../src/sql/tests/user_with_details.sql"
+            relativeToChangelogFile="true"
+            splitStatements="false"
+            stripComments="false" />
+    </changeSet>
+    
 </databaseChangeLog>
