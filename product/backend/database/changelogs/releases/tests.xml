@@ -34,4 +34,11 @@
             stripComments="false" />
     </changeSet>
 
+    <changeSet id="test_pg_trgm" author="zlac370" runOnChange="false">
+        <sqlFile path="../../src/sql/tests/pg_trgm.sql"
+            relativeToChangelogFile="true"
+            splitStatements="false"
+            stripComments="false" />
+    </changeSet>
+
 </databaseChangeLog>
