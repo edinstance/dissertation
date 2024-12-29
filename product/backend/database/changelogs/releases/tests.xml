@@ -41,4 +41,11 @@
             stripComments="false" />
     </changeSet>
 
+    <changeSet id="test_search_for_items" author="zlac370" runOnChange="false">
+        <sqlFile path="../../src/sql/tests/search_for_items.sql"
+            relativeToChangelogFile="true"
+            splitStatements="false"
+            stripComments="false" />
+    </changeSet>
+
 </databaseChangeLog>
