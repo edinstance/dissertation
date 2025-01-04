@@ -1,4 +1,4 @@
-package com.finalproject.backend.security.config;
+package com.finalproject.backend.config.security;
 
 import jakarta.servlet.Filter;
 import org.springframework.beans.factory.annotation.Value;
@@ -9,8 +9,6 @@ import org.springframework.http.HttpMethod;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.oauth2.jwt.JwtDecoder;
-import org.springframework.security.oauth2.jwt.JwtDecoders;
 import org.springframework.security.oauth2.server.resource.web.authentication.BearerTokenAuthenticationFilter;
 import org.springframework.security.web.SecurityFilterChain;
 

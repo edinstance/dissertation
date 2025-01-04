@@ -1,4 +1,4 @@
-package com.finalproject.backend.security.config;
+package com.finalproject.backend.config.security;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
