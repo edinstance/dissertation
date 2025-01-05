@@ -6,6 +6,7 @@ import com.finalproject.backend.entities.UserEntity;
 import com.finalproject.backend.repositories.UserRepository;
 import java.util.Optional;
 import java.util.UUID;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import redis.clients.jedis.Jedis;
@@ -16,6 +17,7 @@ import redis.clients.jedis.params.SetParams;
  * Service class for managing User entities.
  */
 @Service
+@Slf4j
 public class UserService {
 
   /**
@@ -54,8 +56,7 @@ public class UserService {
    * @throws RuntimeException         if json processing fails.
    */
   public UserEntity createUser(final UserEntity newUser) {
-    Optional<UserEntity> existingUser =
-            userRepository.findById(newUser.getId());
+    Optional<UserEntity> existingUser = userRepository.findById(newUser.getId());
 
     if (existingUser.isPresent()) {
       throw new IllegalArgumentException("User with UUID "
@@ -63,8 +64,10 @@ public class UserService {
     }
 
     try (Jedis jedis = jedisPool.getResource()) {
-      jedis.set("user:" + newUser.getId().toString(), objectMapper.writeValueAsString(newUser),
+      jedis.set("user:" + newUser.getId().toString(),
+              objectMapper.writeValueAsString(newUser),
               SetParams.setParams().ex(300));
+
     } catch (JsonProcessingException e) {
       throw new RuntimeException("Error processing JSON", e);
     }
@@ -79,6 +82,18 @@ public class UserService {
    * @return The user entity.
    */
   public UserEntity getUserById(UUID id) {
+    try (Jedis jedis = jedisPool.getResource()) {
+
+      String cachedString = jedis.get("user:" + id.toString());
+
+      if (cachedString != null) {
+        try {
+          return objectMapper.readValue(cachedString, UserEntity.class);
+        } catch (JsonProcessingException e) {
+          throw new RuntimeException(e);
+        }
+      }
+    }
     return userRepository.findById(id).orElse(null);
   }
 }

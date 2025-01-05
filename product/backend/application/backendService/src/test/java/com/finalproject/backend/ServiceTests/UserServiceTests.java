@@ -1,6 +1,5 @@
 package com.finalproject.backend.ServiceTests;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.finalproject.backend.entities.UserEntity;
 import com.finalproject.backend.repositories.UserRepository;
@@ -13,10 +12,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.params.SetParams;
-
 import java.util.Optional;
 import java.util.UUID;
-
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
@@ -32,8 +29,7 @@ public class UserServiceTests {
   @Mock
   private Jedis jedis;
 
-  @Mock
-  private ObjectMapper objectMapper;
+  private final ObjectMapper objectMapper = new ObjectMapper();
 
   @InjectMocks
   private UserService userService;
@@ -47,8 +43,7 @@ public class UserServiceTests {
 
     UserEntity newUser = new UserEntity(userId, "new@test.com", "New User");
 
-    assertThrows(IllegalArgumentException.class, () -> userService.createUser(newUser),
-            "User with UUID " + newUser.getId() + " already exists.");
+    assertThrows(IllegalArgumentException.class, () -> userService.createUser(newUser), "User with UUID " + newUser.getId() + " already exists.");
   }
 
   @Test
@@ -70,11 +65,12 @@ public class UserServiceTests {
   public void testFindUserById() {
     UUID userId = UUID.randomUUID();
 
+    when(jedisPool.getResource()).thenReturn(mock(Jedis.class));
+
     // Check null is returned when no user is found
     assertNull(userService.getUserById(userId));
 
-    UserEntity user = new UserEntity(userId, "existing@test.com",
-            "Existing User");
+    UserEntity user = new UserEntity(userId, "existing@test.com", "Existing User");
 
     // When the user is searched for return the correct user
     when(userRepository.findById(userId)).thenReturn(Optional.of(user));
@@ -97,7 +93,29 @@ public class UserServiceTests {
 
     userService.createUser(newUser);
 
-    verify(mockJedis, times(1)).set(eq("user:" + userId), anyString(), any(SetParams.class) );
+    verify(mockJedis, times(1))
+            .set(eq("user:" + userId), anyString(), any(SetParams.class));
+  }
+
+  @Test
+  public void testGetUserByIdFromCache() throws Exception {
+    UUID userId = UUID.randomUUID();
+    UserEntity newUser = new UserEntity(userId, "new@test.com", "New User");
+
+    when(jedisPool.getResource()).thenReturn(jedis);
+
+    String userString = objectMapper.writeValueAsString(newUser);
+    when(jedis.get("user:" + userId)).thenReturn(userString);
+
+    UserEntity result = userService.getUserById(userId);
+
+    assertNotNull(result);
+    assertEquals(userId, result.getId());
+    assertEquals("new@test.com", result.getEmail());
+    assertEquals("New User", result.getName());
+
+    verify(jedis).get("user:" + userId);
+    verify(userRepository, never()).findById(userId);
   }
 
 }
