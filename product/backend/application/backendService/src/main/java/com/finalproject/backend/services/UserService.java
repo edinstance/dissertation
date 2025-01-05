@@ -84,16 +84,25 @@ public class UserService {
   public UserEntity getUserById(UUID id) {
     try (Jedis jedis = jedisPool.getResource()) {
 
-      String cachedString = jedis.get("user:" + id.toString());
+      String key = "user:" + id.toString();
+      String cachedString = jedis.get(key);
 
       if (cachedString != null) {
-        try {
-          return objectMapper.readValue(cachedString, UserEntity.class);
-        } catch (JsonProcessingException e) {
-          throw new RuntimeException(e);
-        }
+        jedis.expire(key, 300);
+        return objectMapper.readValue(cachedString, UserEntity.class);
       }
+
+      UserEntity user = userRepository.findById(id).orElse(null);
+
+      if ( user != null ) {
+        jedis.set(key, objectMapper.writeValueAsString(user),
+                SetParams.setParams().ex(300));
+      }
+
+      return user;
+
+    } catch (JsonProcessingException e) {
+      throw new RuntimeException(e);
     }
-    return userRepository.findById(id).orElse(null);
   }
 }

@@ -115,7 +115,27 @@ public class UserServiceTests {
     assertEquals("New User", result.getName());
 
     verify(jedis).get("user:" + userId);
+    verify(jedis, times(1))
+            .expire("user:" + userId, 300);
     verify(userRepository, never()).findById(userId);
   }
+
+  @Test
+  public void testCacheRefresh() throws Exception {
+    UUID userId = UUID.randomUUID();
+    UserEntity newUser = new UserEntity(userId, "new@test.com", "New User");
+
+    when(jedisPool.getResource()).thenReturn(jedis);
+    when(jedis.get("user:" + userId)).thenReturn(null);
+    when(userRepository.findById(userId)).thenReturn(Optional.of(newUser));
+
+    UserEntity foundUser = userService.getUserById(userId);
+
+    assertNotNull(foundUser);
+    assertEquals(userId, foundUser.getId());
+
+    verify(jedis, times(1)).set(eq("user:" + userId), anyString(), eq(SetParams.setParams().ex(300)));
+  }
+
 
 }
