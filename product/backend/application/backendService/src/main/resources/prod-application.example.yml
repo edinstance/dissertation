@@ -15,6 +15,10 @@ spring:
     username: postgres
     password: password
     # This should be the database url, username and password
+# Redis and Jedis config
+redis:
+  host: 0.0.0.0
+  port: 6379
 # Actuator config
 management:
   endpoints:
