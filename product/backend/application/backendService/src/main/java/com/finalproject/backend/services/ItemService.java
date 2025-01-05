@@ -12,7 +12,6 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-
 /**
  * Service class for managing User entities.
  */
@@ -20,7 +19,7 @@ import org.springframework.stereotype.Service;
 public class ItemService {
 
   /**
-   * Object mapper for mapping to to json.
+   * Object mapper for mapping to json.
    */
   private final ObjectMapper objectMapper = new ObjectMapper();
 
