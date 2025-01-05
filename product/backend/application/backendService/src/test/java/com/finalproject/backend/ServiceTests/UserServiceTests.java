@@ -1,5 +1,7 @@
 package com.finalproject.backend.ServiceTests;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.finalproject.backend.entities.UserEntity;
 import com.finalproject.backend.repositories.UserRepository;
 import com.finalproject.backend.services.UserService;
@@ -8,18 +10,30 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import redis.clients.jedis.Jedis;
+import redis.clients.jedis.JedisPool;
+import redis.clients.jedis.params.SetParams;
 
 import java.util.Optional;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class UserServiceTests {
 
   @Mock
   private UserRepository userRepository;
+
+  @Mock
+  private JedisPool jedisPool;
+
+  @Mock
+  private Jedis jedis;
+
+  @Mock
+  private ObjectMapper objectMapper;
 
   @InjectMocks
   private UserService userService;
@@ -44,6 +58,7 @@ public class UserServiceTests {
 
     when(userRepository.findById(userId)).thenReturn(Optional.empty());
     when(userRepository.save(newUser)).thenReturn(newUser);
+    when(jedisPool.getResource()).thenReturn(mock(Jedis.class));
 
     UserEntity savedUser = userService.createUser(newUser);
 
@@ -68,4 +83,21 @@ public class UserServiceTests {
     assert foundUser.getId().equals(userId);
 
   }
+
+  @Test
+  public void testSetCache() {
+    UUID userId = UUID.randomUUID();
+    UserEntity newUser = new UserEntity(userId, "new@test.com", "New User");
+
+    Jedis mockJedis = mock(Jedis.class);
+
+    when(userRepository.findById(userId)).thenReturn(Optional.empty());
+    when(userRepository.save(newUser)).thenReturn(newUser);
+    when(jedisPool.getResource()).thenReturn(mockJedis);
+
+    userService.createUser(newUser);
+
+    verify(mockJedis, times(1)).set(eq("user:" + userId), anyString(), any(SetParams.class) );
+  }
+
 }
