@@ -85,15 +85,13 @@ public class UserServiceTests {
     UUID userId = UUID.randomUUID();
     UserEntity newUser = new UserEntity(userId, "new@test.com", "New User");
 
-    Jedis mockJedis = jedis;
-
     when(userRepository.findById(userId)).thenReturn(Optional.empty());
     when(userRepository.save(newUser)).thenReturn(newUser);
-    when(jedisPool.getResource()).thenReturn(mockJedis);
+    when(jedisPool.getResource()).thenReturn(jedis);
 
     userService.createUser(newUser);
 
-    verify(mockJedis, times(1))
+    verify(jedis, times(1))
             .set(eq("user:" + userId), anyString(), any(SetParams.class));
   }
 
