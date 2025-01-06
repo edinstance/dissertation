@@ -1,5 +1,7 @@
 package com.finalproject.backend.ServiceTests;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.finalproject.backend.entities.UserDetailsEntity;
 import com.finalproject.backend.entities.UserEntity;
 import com.finalproject.backend.helpers.UserHelpers;
@@ -11,6 +13,9 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import redis.clients.jedis.Jedis;
+import redis.clients.jedis.JedisPool;
+import redis.clients.jedis.params.SetParams;
 
 import java.util.UUID;
 
@@ -26,6 +31,14 @@ public class UserDetailsServiceTests {
 
   @Mock
   private UserHelpers userHelpers;
+
+  @Mock
+  private JedisPool jedisPool;
+
+  @Mock
+  private Jedis jedis;
+
+  private final ObjectMapper objectMapper = new ObjectMapper();
 
   @InjectMocks
   private UserDetailsService userDetailsService;
@@ -46,6 +59,7 @@ public class UserDetailsServiceTests {
   public void testCreateOrUpdateDetails() {
     // Mock the helper method to return the user entity
     when(userHelpers.getUserById(userId)).thenReturn(userEntity);
+    when(jedisPool.getResource()).thenReturn(jedis);
 
     // Call the method to test
     UserEntity returnedUser = userDetailsService.saveUserDetails(userDetails);
@@ -77,5 +91,27 @@ public class UserDetailsServiceTests {
     assertEquals("County", returnedDetails.getAddressCounty());
     assertEquals("AB12C34", returnedDetails.getAddressPostcode());
 
+  }
+
+  @Test
+  public void testSaveUserCaching() {
+    when(userHelpers.getUserById(userId)).thenReturn(userEntity);
+    when(jedisPool.getResource()).thenReturn(jedis);
+    userDetailsService.saveUserDetails(userDetails);
+
+
+    verify(userDetailsRepository, times(1)).saveUserDetails(
+            userDetails.getId(),
+            userDetails.getContactNumber(),
+            userDetails.getHouseName(),
+            userDetails.getAddressStreet(),
+            userDetails.getAddressCity(),
+            userDetails.getAddressCounty(),
+            userDetails.getAddressPostcode()
+    );
+
+    verify(jedisPool, times(1)).getResource();
+    verify(jedis, times(1))
+            .set(eq("user:" + userId), anyString(), any(SetParams.class));
   }
 }
