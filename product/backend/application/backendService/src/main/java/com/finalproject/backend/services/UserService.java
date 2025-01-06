@@ -39,7 +39,7 @@ public class UserService {
    * Constructs a UserService with the specified UserRepository.
    *
    * @param inputUserRepository The repository for accessing User entities.
-   * @param inputJedisPool The jedis pool to interact with.
+   * @param inputJedisPool      The jedis pool to interact with.
    */
   @Autowired
   public UserService(final UserRepository inputUserRepository,
@@ -95,7 +95,7 @@ public class UserService {
 
       UserEntity user = userRepository.findById(id).orElse(null);
 
-      if ( user != null ) {
+      if (user != null) {
         jedis.set(key, objectMapper.writeValueAsString(user),
                 SetParams.setParams().ex(300));
       }
