@@ -39,6 +39,7 @@ public class UserService {
    * Constructs a UserService with the specified UserRepository.
    *
    * @param inputUserRepository The repository for accessing User entities.
+   * @param inputJedisPool The jedis pool to interact with.
    */
   @Autowired
   public UserService(final UserRepository inputUserRepository,

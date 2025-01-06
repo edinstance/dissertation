@@ -53,7 +53,7 @@ public class UserServiceTests {
 
     when(userRepository.findById(userId)).thenReturn(Optional.empty());
     when(userRepository.save(newUser)).thenReturn(newUser);
-    when(jedisPool.getResource()).thenReturn(mock(Jedis.class));
+    when(jedisPool.getResource()).thenReturn(jedis);
 
     UserEntity savedUser = userService.createUser(newUser);
 
@@ -65,7 +65,7 @@ public class UserServiceTests {
   public void testFindUserById() {
     UUID userId = UUID.randomUUID();
 
-    when(jedisPool.getResource()).thenReturn(mock(Jedis.class));
+    when(jedisPool.getResource()).thenReturn(jedis);
 
     // Check null is returned when no user is found
     assertNull(userService.getUserById(userId));
@@ -85,7 +85,7 @@ public class UserServiceTests {
     UUID userId = UUID.randomUUID();
     UserEntity newUser = new UserEntity(userId, "new@test.com", "New User");
 
-    Jedis mockJedis = mock(Jedis.class);
+    Jedis mockJedis = jedis;
 
     when(userRepository.findById(userId)).thenReturn(Optional.empty());
     when(userRepository.save(newUser)).thenReturn(newUser);
