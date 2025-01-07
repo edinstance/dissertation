@@ -12,6 +12,9 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import redis.clients.jedis.Jedis;
+import redis.clients.jedis.JedisPool;
+import redis.clients.jedis.params.SetParams;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
@@ -30,11 +33,21 @@ import static org.mockito.Mockito.*;
 public class ItemServiceTests {
 
   private final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
   @Mock
   private ItemRepository itemRepository;
+
+  @Mock
+  private JedisPool jedisPool;
+
+  @Mock
+  private Jedis jedis;
+
   @InjectMocks
   private ItemService itemService;
+
   private UUID itemId;
+
   private ItemEntity item;
 
   @BeforeEach
@@ -82,6 +95,8 @@ public class ItemServiceTests {
             objectMapper.writeValueAsString(item.getImages()),
             item.getSeller().getId())).thenReturn(item);
 
+    when(jedisPool.getResource()).thenReturn(jedis);
+
     ItemEntity returnedItem = itemService.saveOrUpdateItem(item);
     verify(itemRepository).saveOrUpdateItem(item.getId(),
             item.getName(),
@@ -104,6 +119,29 @@ public class ItemServiceTests {
     assertEquals(returnedItem.getImages(), item.getImages());
     assertEquals(returnedItem.getSeller().getId(), item.getSeller().getId());
 
+  }
 
+  @Test
+  public void testSaveOrUpdateItemCaching() throws ParseException, JsonProcessingException {
+
+    final ObjectMapper objectMapper = new ObjectMapper();
+
+    when(itemRepository.saveOrUpdateItem(item.getId(),
+            item.getName(),
+            item.getDescription(),
+            item.getIsActive(),
+            new Timestamp(dateFormat.parse(item.getEndingTime()).getTime()),
+            item.getPrice(),
+            item.getStock(),
+            item.getCategory(),
+            objectMapper.writeValueAsString(item.getImages()),
+            item.getSeller().getId())).thenReturn(item);
+
+    when(jedisPool.getResource()).thenReturn(jedis);
+
+    itemService.saveOrUpdateItem(item);
+
+    verify(jedis, times(1))
+            .set(eq("item:" + item.getId()), anyString(), any(SetParams.class));
   }
 }

@@ -11,6 +11,9 @@ import java.util.List;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import redis.clients.jedis.Jedis;
+import redis.clients.jedis.JedisPool;
+import redis.clients.jedis.params.SetParams;
 
 /**
  * Service class for managing User entities.
@@ -29,13 +32,21 @@ public class ItemService {
   private final ItemRepository itemRepository;
 
   /**
+   * Pool for accessing redis.
+   */
+  private final JedisPool jedisPool;
+
+  /**
    * Constructs a ItemService with the specified ItemRepository.
    *
    * @param inputItemRepository The repository for accessing Item entities.
+   *
    */
   @Autowired
-  public ItemService(final ItemRepository inputItemRepository) {
+  public ItemService(final ItemRepository inputItemRepository,
+                     final JedisPool inputJedisPool) {
     this.itemRepository = inputItemRepository;
+    this.jedisPool = inputJedisPool;
   }
 
 
@@ -70,6 +81,13 @@ public class ItemService {
           final ItemEntity itemEntity)
           throws JsonProcessingException, ParseException {
     final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+    try (Jedis jedis = jedisPool.getResource()) {
+      jedis.set("item:" + itemEntity.getId(),
+              objectMapper.writeValueAsString(itemEntity),
+              SetParams.setParams().ex(300));
+    }
+
     return itemRepository.saveOrUpdateItem(itemEntity.getId(), itemEntity.getName(),
             itemEntity.getDescription(), itemEntity.getIsActive(),
             new Timestamp(dateFormat.parse(itemEntity.getEndingTime()).getTime()),
