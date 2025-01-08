@@ -21,6 +21,9 @@ services:
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
       - COGNITO_JWT_URL=${COGNITO_JWT_URL}
       - API_KEY=${API_KEY}
+      - REDIS_HOST=${REDIS_HOST}
+      - REDIS_PORT=${REDIS_PORT}
+
   postgres:
     container_name: final-project-database
     image: postgres
@@ -40,3 +43,9 @@ services:
       - ./changelogs:/liquibase/changelogs
     depends_on:
       - "postgres"
+
+  redis:
+    container_name: final-project-redis
+    image: redis
+    ports:
+      - "6379:6379"
