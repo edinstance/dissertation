@@ -86,11 +86,11 @@ public class UserService {
     try (Jedis jedis = jedisPool.getResource()) {
 
       String key = "user:" + id.toString();
-      String cachedString = jedis.get(key);
+      String cachedValueString = jedis.get(key);
 
-      if (cachedString != null) {
+      if (cachedValueString != null) {
         jedis.expire(key, 300);
-        return objectMapper.readValue(cachedString, UserEntity.class);
+        return objectMapper.readValue(cachedValueString, UserEntity.class);
       }
 
       UserEntity user = userRepository.findById(id).orElse(null);

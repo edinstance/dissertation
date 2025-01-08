@@ -1,13 +1,16 @@
 package com.finalproject.backend.services;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.finalproject.backend.entities.ItemEntity;
+import com.finalproject.backend.entities.UserEntity;
 import com.finalproject.backend.repositories.ItemRepository;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -49,8 +52,6 @@ public class ItemService {
     this.jedisPool = inputJedisPool;
   }
 
-
-
   /**
    * Retrieves an item entity by its ID.
    *
@@ -58,7 +59,29 @@ public class ItemService {
    * @return The item entity.
    */
   public ItemEntity getItemById(UUID id) {
-    return itemRepository.findById(id).orElse(null);
+
+    try (Jedis jedis = jedisPool.getResource()) {
+
+      String key = "item:" + id.toString();
+      String cachedValueString = jedis.get(key);
+
+      if (cachedValueString != null) {
+        jedis.expire(key, 300);
+        return objectMapper.readValue(cachedValueString, ItemEntity.class);
+      }
+
+      ItemEntity item =  itemRepository.findById(id).orElse(null);
+
+      if (item != null) {
+        jedis.set("item:" + item.getId(), objectMapper.writeValueAsString(item),
+                SetParams.setParams().ex(300));
+      }
+
+      return item;
+
+    } catch (JsonProcessingException e) {
+      throw new RuntimeException(e);
+    }
   }
 
   /**
