@@ -26,6 +26,9 @@ spring:
         ddl-auto: none
         dialect: org.hibernate.dialect.H2Dialect
         # This sets the Hibernate dialect to PostgreSQL
+redis:
+  host: 0.0.0.0
+  port: 6379
         # Actuator config
 management:
   endpoints:
