@@ -20,6 +20,9 @@ spring:
     password: password
     # This should be the database url, username and password it is
     # currently set to work with a in memory h2 database for testing
+redis:
+  host: 0.0.0.0
+  port: 6379
 # Actuator config
 management:
   endpoints:

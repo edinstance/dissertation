@@ -1,5 +1,6 @@
 package com.finalproject.backend.ServiceTests;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.finalproject.backend.entities.UserEntity;
 import com.finalproject.backend.repositories.UserRepository;
 import com.finalproject.backend.services.UserService;
@@ -8,19 +9,30 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import redis.clients.jedis.Jedis;
+import redis.clients.jedis.JedisPool;
+import redis.clients.jedis.params.SetParams;
 
 import java.util.Optional;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class UserServiceTests {
 
+  private final ObjectMapper objectMapper = new ObjectMapper();
+
   @Mock
   private UserRepository userRepository;
 
+  @Mock
+  private JedisPool jedisPool;
+
+  @Mock
+  private Jedis jedis;
+  
   @InjectMocks
   private UserService userService;
 
@@ -33,8 +45,7 @@ public class UserServiceTests {
 
     UserEntity newUser = new UserEntity(userId, "new@test.com", "New User");
 
-    assertThrows(IllegalArgumentException.class, () -> userService.createUser(newUser),
-            "User with UUID " + newUser.getId() + " already exists.");
+    assertThrows(IllegalArgumentException.class, () -> userService.createUser(newUser), "User with UUID " + newUser.getId() + " already exists.");
   }
 
   @Test
@@ -44,6 +55,7 @@ public class UserServiceTests {
 
     when(userRepository.findById(userId)).thenReturn(Optional.empty());
     when(userRepository.save(newUser)).thenReturn(newUser);
+    when(jedisPool.getResource()).thenReturn(jedis);
 
     UserEntity savedUser = userService.createUser(newUser);
 
@@ -55,11 +67,12 @@ public class UserServiceTests {
   public void testFindUserById() {
     UUID userId = UUID.randomUUID();
 
+    when(jedisPool.getResource()).thenReturn(jedis);
+
     // Check null is returned when no user is found
     assertNull(userService.getUserById(userId));
 
-    UserEntity user = new UserEntity(userId, "existing@test.com",
-            "Existing User");
+    UserEntity user = new UserEntity(userId, "existing@test.com", "Existing User");
 
     // When the user is searched for return the correct user
     when(userRepository.findById(userId)).thenReturn(Optional.of(user));
@@ -68,4 +81,61 @@ public class UserServiceTests {
     assert foundUser.getId().equals(userId);
 
   }
+
+  @Test
+  public void testSetCache() {
+    UUID userId = UUID.randomUUID();
+    UserEntity newUser = new UserEntity(userId, "new@test.com", "New User");
+
+    when(userRepository.findById(userId)).thenReturn(Optional.empty());
+    when(userRepository.save(newUser)).thenReturn(newUser);
+    when(jedisPool.getResource()).thenReturn(jedis);
+
+    userService.createUser(newUser);
+
+    verify(jedis, times(1))
+            .set(eq("user:" + userId), anyString(), any(SetParams.class));
+  }
+
+  @Test
+  public void testGetUserByIdFromCache() throws Exception {
+    UUID userId = UUID.randomUUID();
+    UserEntity newUser = new UserEntity(userId, "new@test.com", "New User");
+
+    when(jedisPool.getResource()).thenReturn(jedis);
+
+    String userString = objectMapper.writeValueAsString(newUser);
+    when(jedis.get("user:" + userId)).thenReturn(userString);
+
+    UserEntity result = userService.getUserById(userId);
+
+    assertNotNull(result);
+    assertEquals(userId, result.getId());
+    assertEquals("new@test.com", result.getEmail());
+    assertEquals("New User", result.getName());
+
+    verify(jedis).get("user:" + userId);
+    verify(jedis, times(1))
+            .expire("user:" + userId, 300);
+    verify(userRepository, never()).findById(userId);
+  }
+
+  @Test
+  public void testCacheRefresh() throws Exception {
+    UUID userId = UUID.randomUUID();
+    UserEntity newUser = new UserEntity(userId, "new@test.com", "New User");
+
+    when(jedisPool.getResource()).thenReturn(jedis);
+    when(jedis.get("user:" + userId)).thenReturn(null);
+    when(userRepository.findById(userId)).thenReturn(Optional.of(newUser));
+
+    UserEntity foundUser = userService.getUserById(userId);
+
+    assertNotNull(foundUser);
+    assertEquals(userId, foundUser.getId());
+
+    verify(jedis, times(1)).set(eq("user:" + userId), anyString(), eq(SetParams.setParams().ex(300)));
+  }
+
+
 }

@@ -1,26 +1,23 @@
-package com.finalproject.backend.security.config;
+package com.finalproject.backend.config.security;
 
 import jakarta.servlet.Filter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.oauth2.jwt.JwtDecoder;
-import org.springframework.security.oauth2.jwt.JwtDecoders;
 import org.springframework.security.oauth2.server.resource.web.authentication.BearerTokenAuthenticationFilter;
 import org.springframework.security.web.SecurityFilterChain;
 
 /**
- * This class contains the security config for the dev profile.
+ * This class contains the security config for the test profile.
  */
 @Configuration
 @EnableWebSecurity
-@Profile("dev")
-public class DevSecurityConfig {
+@Profile("test")
+public class TestSecurityConfig {
 
   /**
    * This is api key for the application.
@@ -32,9 +29,8 @@ public class DevSecurityConfig {
   /**
    * Configures the security filter chain for the application.
    *
-   * <p>This method sets up the security configuration, including CORS settings,
-   * request authorization, and JWT token validation. It also allows
-   * access to the graphiql sandbox.</p>
+   * <p>This method sets up the security configuration, including CORS settings
+   * and request authorization.</p>
    *
    * @param http the {@link HttpSecurity} to modify
    * @return the configured {@link SecurityFilterChain}
@@ -47,12 +43,12 @@ public class DevSecurityConfig {
     http
             .cors(httpSecurityCorsConfigurer -> Customizer.withDefaults())
             .authorizeHttpRequests((authorize) -> authorize
-                    // Allow preflight requests to all endpoints
-                    .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                    // Allow all requests to the graphiql endpoint
-                    .requestMatchers("*", "/graphiql").permitAll()
-                    // All other requests must be authenticated
-                    .anyRequest().authenticated()
+                    // The healthcheck requests need
+                    // authentication so that the authenticated
+                    // routes can be tested
+                    .requestMatchers("/details/health").authenticated()
+                    // All other requests are permitted
+                    .anyRequest().permitAll()
             )
             .oauth2ResourceServer((oauth2) -> oauth2
                     // Validate JWT tokens by default

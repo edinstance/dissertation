@@ -25,6 +25,10 @@ spring:
         ddl-auto: none
         dialect: org.hibernate.dialect.PostgreSQLDialect
         # This sets the Hibernate dialect to PostgreSQL
+# Redis and Jedis config
+redis:
+  host: ${REDIS_HOST}
+  port: ${REDIS_PORT}
 # Actuator config
 management:
   endpoints:

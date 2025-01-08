@@ -26,18 +26,20 @@ spring:
         ddl-auto: none
         dialect: org.hibernate.dialect.H2Dialect
         # This sets the Hibernate dialect to PostgreSQL
-# Actuator config
+redis:
+  host: 0.0.0.0
+  port: 6379
+        # Actuator config
 management:
   endpoints:
     web:
-      base-path: "/details"
+      base-path: /details
       # This should be the base path for the actuator endpoints
     jmx:
       exposure:
-        include: "health"
+        include: health
         # This should be the actuator endpoints that you want to expose
 
 api:
-  key: "test"
+  key: test
   # This is to test the api key authentication
-
