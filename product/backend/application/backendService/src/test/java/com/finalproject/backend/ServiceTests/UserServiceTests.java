@@ -12,13 +12,17 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.params.SetParams;
+
 import java.util.Optional;
 import java.util.UUID;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class UserServiceTests {
+
+  private final ObjectMapper objectMapper = new ObjectMapper();
 
   @Mock
   private UserRepository userRepository;
@@ -28,9 +32,7 @@ public class UserServiceTests {
 
   @Mock
   private Jedis jedis;
-
-  private final ObjectMapper objectMapper = new ObjectMapper();
-
+  
   @InjectMocks
   private UserService userService;
 

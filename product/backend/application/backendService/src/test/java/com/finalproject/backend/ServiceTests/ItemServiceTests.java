@@ -34,6 +34,8 @@ public class ItemServiceTests {
 
   private final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
+  public ObjectMapper objectMapper = new ObjectMapper();
+
   @Mock
   private ItemRepository itemRepository;
 
@@ -47,10 +49,7 @@ public class ItemServiceTests {
   private ItemService itemService;
 
   private UUID itemId;
-
   private ItemEntity item;
-
-  public ObjectMapper objectMapper = new ObjectMapper();
 
   @BeforeEach
   public void setUp() throws ParseException {

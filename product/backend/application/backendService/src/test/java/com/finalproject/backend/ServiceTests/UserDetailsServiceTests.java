@@ -1,7 +1,5 @@
 package com.finalproject.backend.ServiceTests;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.finalproject.backend.entities.UserDetailsEntity;
 import com.finalproject.backend.entities.UserEntity;
 import com.finalproject.backend.helpers.UserHelpers;
@@ -37,8 +35,6 @@ public class UserDetailsServiceTests {
 
   @Mock
   private Jedis jedis;
-
-  private final ObjectMapper objectMapper = new ObjectMapper();
 
   @InjectMocks
   private UserDetailsService userDetailsService;

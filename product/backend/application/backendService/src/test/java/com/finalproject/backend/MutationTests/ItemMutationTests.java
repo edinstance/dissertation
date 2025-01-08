@@ -67,7 +67,7 @@ public class ItemMutationTests {
     assertEquals("category", item.getCategory());
     assertEquals(List.of("image"), item.getImages());
     assertEquals(userEntity, item.getSeller());
-    
+
     verify(itemService).saveOrUpdateItem(any(ItemEntity.class));
   }
 }

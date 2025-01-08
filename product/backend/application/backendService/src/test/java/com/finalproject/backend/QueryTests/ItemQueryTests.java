@@ -27,7 +27,7 @@ public class ItemQueryTests {
   ItemQueries itemQueries;
 
   @Test
-  public void testSearchForItem(){
+  public void testSearchForItem() {
     UserEntity userEntity = new UserEntity(UUID.randomUUID(), "seller@test.com",
             "Seller Name");
 

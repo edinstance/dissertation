@@ -60,7 +60,9 @@ public class RedisConfigTest {
     // Assert that the JedisPool is not null
     assertNotNull(mockJedisPool);
     // Use the JedisPool to get a Jedis instance
-    assertThrows(JedisConnectionException.class, ()-> {mockJedisPool.getResource();});
+    assertThrows(JedisConnectionException.class, () -> {
+      mockJedisPool.getResource();
+    });
 
     // Verify the interactions with the JedisPool and Jedis instances
     verify(mockJedisPool, times(1)).getResource();
