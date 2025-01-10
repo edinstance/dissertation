@@ -32,7 +32,7 @@ public class UserServiceTests {
 
   @Mock
   private Jedis jedis;
-  
+
   @InjectMocks
   private UserService userService;
 
@@ -135,6 +135,22 @@ public class UserServiceTests {
     assertEquals(userId, foundUser.getId());
 
     verify(jedis, times(1)).set(eq("user:" + userId), anyString(), eq(SetParams.setParams().ex(300)));
+  }
+
+  @Test
+  public void testDeletedUserIsNotReturned() throws Exception {
+    UUID userId = UUID.randomUUID();
+    UserEntity newUser = new UserEntity(userId, "new@test.com", "New User");
+    newUser.setIsDeleted(true);
+
+    when(jedisPool.getResource()).thenReturn(jedis);
+    when(jedis.get("user:" + userId)).thenReturn(null);
+    when(userRepository.findById(userId)).thenReturn(Optional.of(newUser));
+
+    UserEntity foundUser = userService.getUserById(userId);
+
+    assertNull(foundUser);
+
   }
 
 

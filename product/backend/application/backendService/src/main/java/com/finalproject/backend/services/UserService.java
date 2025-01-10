@@ -6,7 +6,6 @@ import com.finalproject.backend.entities.UserEntity;
 import com.finalproject.backend.repositories.UserRepository;
 import java.util.Optional;
 import java.util.UUID;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import redis.clients.jedis.Jedis;
@@ -17,7 +16,6 @@ import redis.clients.jedis.params.SetParams;
  * Service class for managing User entities.
  */
 @Service
-@Slf4j
 public class UserService {
 
   /**
@@ -95,10 +93,12 @@ public class UserService {
 
       UserEntity user = userRepository.findById(id).orElse(null);
 
-      if (user != null) {
-        jedis.set(key, objectMapper.writeValueAsString(user),
-                SetParams.setParams().ex(300));
+      if (user == null || user.getIsDeleted()) {
+        return null;
       }
+
+      jedis.set(key, objectMapper.writeValueAsString(user),
+              SetParams.setParams().ex(300));
 
       return user;
 
