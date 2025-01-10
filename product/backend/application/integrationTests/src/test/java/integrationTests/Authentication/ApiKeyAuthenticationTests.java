@@ -1,4 +1,4 @@
-package integrationTests;
+package integrationTests.Authentication;
 
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
