@@ -9,12 +9,18 @@ import java.util.Map;
 @Component
 public class CognitoUtilities {
 
-  private final String userPoolId = System.getProperty("TEST_AWS_USER_POOL_ID");
-
-  private final CognitoIdentityProviderClient cognitoClient = CognitoClient.getInstance();
-
   private static String accessToken;
   private static String userId;
+  private final String userPoolId = System.getProperty("TEST_AWS_USER_POOL_ID");
+  private final CognitoIdentityProviderClient cognitoClient = CognitoClient.getInstance();
+
+  public static String getAccessToken() {
+    return accessToken;
+  }
+
+  public static String getUserId() {
+    return userId;
+  }
 
   public void createUser(String username, String password) {
 
@@ -44,7 +50,7 @@ public class CognitoUtilities {
     AdminGetUserResponse response = cognitoClient.adminGetUser(getUserRequest);
 
     userId = response.userAttributes().stream()
-            .filter(attr -> "sub".equals(attr.name()))
+            .filter(attr -> "sub" .equals(attr.name()))
             .findFirst()
             .map(AttributeType::value)
             .orElseThrow(() -> new RuntimeException("User ID not found"));
@@ -74,13 +80,5 @@ public class CognitoUtilities {
 
     InitiateAuthResponse response = cognitoClient.initiateAuth(loginRequest);
     accessToken = response.authenticationResult().accessToken();
-  }
-
-  public static String getAccessToken() {
-    return accessToken;
-  }
-
-  public static String getUserId(){
-    return userId;
   }
 }

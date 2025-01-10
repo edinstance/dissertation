@@ -14,11 +14,10 @@ import static io.restassured.RestAssured.given;
 
 public class ItemMutationTests {
 
-  private Response response;
   private final SimpleDateFormat dateFormat =
           new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
   private final String formattedDate = dateFormat.format(new Date());
-
+  private Response response;
   private String mutation;
 
   private String itemId;

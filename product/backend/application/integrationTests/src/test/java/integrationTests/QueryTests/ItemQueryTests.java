@@ -14,11 +14,11 @@ import static io.restassured.RestAssured.given;
 
 public class ItemQueryTests {
 
-  private Response initalItemResponse;
-  private Response result;
   private final SimpleDateFormat dateFormat =
           new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
   private final String formattedDate = dateFormat.format(new Date());
+  private Response initalItemResponse;
+  private Response result;
 
   @And("an item the user wants exists")
   public void anItemTheUserWantsExists() {

@@ -26,6 +26,12 @@ public class TestRunner {
     cognitoUtilities.loginUser("test1@test.com", "TestPassword1!");
   }
 
+  @AfterAll
+  public static void tearDownCognito() {
+    CognitoUtilities cognitoUtilities = new CognitoUtilities();
+    cognitoUtilities.deleteUser("test1@test.com");
+  }
+
   @After
   public void tearDown() throws SQLException {
 
@@ -42,12 +48,6 @@ public class TestRunner {
       query = "DELETE FROM users CASCADE";
       statement.execute(query);
     }
-  }
-
-  @AfterAll
-  public static void tearDownCognito() {
-    CognitoUtilities cognitoUtilities = new CognitoUtilities();
-    cognitoUtilities.deleteUser("test1@test.com");
   }
 
 }
