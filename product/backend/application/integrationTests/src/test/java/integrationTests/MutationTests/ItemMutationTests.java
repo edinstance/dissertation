@@ -9,7 +9,6 @@ import io.restassured.response.Response;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Objects;
 
 import static io.restassured.RestAssured.given;
 
@@ -111,16 +110,16 @@ public class ItemMutationTests {
   @When("the user updates the item")
   public void theUserUpdatesTheItem() {
     mutation = String.format("{ \"query\": \"mutation { saveItem(itemInput: { " +
-            "id: \\\"%s\\\", " +
-            "name: \\\"%s\\\", " +
-            "description: \\\"%s\\\", " +
-            "isActive: %b, " +
-            "endingTime: \\\"%s\\\", " +
-            "price: %f, " +
-            "stock: %d, " +
-            "category: \\\"%s\\\", " +
-            "images: [%s] " +
-            "}) { id name description isActive endingTime price stock category images } }\" }",
+                    "id: \\\"%s\\\", " +
+                    "name: \\\"%s\\\", " +
+                    "description: \\\"%s\\\", " +
+                    "isActive: %b, " +
+                    "endingTime: \\\"%s\\\", " +
+                    "price: %f, " +
+                    "stock: %d, " +
+                    "category: \\\"%s\\\", " +
+                    "images: [%s] " +
+                    "}) { id name description isActive endingTime price stock category images } }\" }",
             itemId,
             "Updated Item",
             "This is an updated item",
