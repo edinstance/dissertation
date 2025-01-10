@@ -14,6 +14,7 @@ public class CognitoUtilities {
   private final CognitoIdentityProviderClient cognitoClient = CognitoClient.getInstance();
 
   private static String accessToken;
+  private static String userId;
 
   public void createUser(String username, String password) {
 
@@ -34,6 +35,19 @@ public class CognitoUtilities {
             .build();
 
     cognitoClient.adminSetUserPassword(passwordRequest);
+
+    AdminGetUserRequest getUserRequest = AdminGetUserRequest.builder()
+            .userPoolId(userPoolId)
+            .username(username)
+            .build();
+
+    AdminGetUserResponse response = cognitoClient.adminGetUser(getUserRequest);
+
+    userId = response.userAttributes().stream()
+            .filter(attr -> "sub".equals(attr.name()))
+            .findFirst()
+            .map(AttributeType::value)
+            .orElseThrow(() -> new RuntimeException("User ID not found"));
 
   }
 
@@ -64,5 +78,9 @@ public class CognitoUtilities {
 
   public static String getAccessToken() {
     return accessToken;
+  }
+
+  public static String getUserId(){
+    return userId;
   }
 }
