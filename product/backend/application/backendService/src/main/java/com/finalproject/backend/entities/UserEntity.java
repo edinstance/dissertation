@@ -48,6 +48,12 @@ public class UserEntity {
   private String status = "PENDING";
 
   /**
+   * If the user is deleted or not.
+   */
+  @Column(name = "is_deleted")
+  private Boolean isDeleted = false;
+
+  /**
    * The user's items.
    */
   @OneToMany(mappedBy = "seller", cascade = CascadeType.ALL, orphanRemoval = true)
