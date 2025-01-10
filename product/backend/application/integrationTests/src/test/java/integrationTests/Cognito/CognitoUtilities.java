@@ -13,7 +13,7 @@ public class CognitoUtilities {
 
   private final CognitoIdentityProviderClient cognitoClient = CognitoClient.getInstance();
 
-  private String accessToken;
+  private static String accessToken;
 
   public void createUser(String username, String password) {
 
@@ -62,4 +62,7 @@ public class CognitoUtilities {
     accessToken = response.authenticationResult().accessToken();
   }
 
+  public static String getAccessToken() {
+    return accessToken;
+  }
 }

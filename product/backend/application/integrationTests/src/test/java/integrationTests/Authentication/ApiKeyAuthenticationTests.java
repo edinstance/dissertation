@@ -35,6 +35,5 @@ public class ApiKeyAuthenticationTests {
     @Then("the server allows the request and returns the health")
     public void theServerAllowsTheRequestAndReturnsTheHealth() {
         response.then().statusCode(200).body("status", equalTo("UP"));
-        ;
     }
 }
