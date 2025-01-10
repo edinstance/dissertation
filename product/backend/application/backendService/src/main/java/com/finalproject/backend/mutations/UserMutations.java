@@ -48,4 +48,5 @@ public class UserMutations {
   public UserEntity createUser(@InputArgument final UserInput userInput) {
     return userService.createUser(userMapper.mapInputToUser(userInput));
   }
+
 }

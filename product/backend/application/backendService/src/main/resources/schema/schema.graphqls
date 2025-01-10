@@ -36,6 +36,11 @@ input ItemInput {
     images: [String]
 }
 
+type DeleteResponse {
+    success: Boolean
+    message: String
+}
+
 type User {
     id: String!
     email: String!
