@@ -1,4 +1,4 @@
-package integrationTests.mutationTests;
+package integrationTests.MutationTests;
 
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Then;

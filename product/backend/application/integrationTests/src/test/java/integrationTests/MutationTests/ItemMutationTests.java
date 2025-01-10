@@ -1,4 +1,4 @@
-package integrationTests.mutationTests;
+package integrationTests.MutationTests;
 
 public class ItemMutationTests {
 

@@ -1,4 +1,4 @@
-package integrationTests.mutationTests;
+package integrationTests.MutationTests;
 
 import com.finalproject.backend.entities.UserDetailsEntity;
 import io.cucumber.java.en.Given;
