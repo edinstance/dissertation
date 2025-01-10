@@ -72,8 +72,9 @@ mvn clean test -pl backendService -DTEST_COGNITO_JWT_URL=
 To run the Integration tests you must first be running the
 application either locally or in a container. When running the application make sure to use the [test profile](backendService/src/main/resources/test-application.example.yml) so that the tests run correctly. Also make sure to run the application with a test database so that no production or dev data is lost. Then to run the tests use this commmand:
 
+Make sure the variables needed are set with the values from the test cognito user pool.
 ```
-mvn compile test -pl integrationTests
+mvn compile test -pl integrationTests -DTEST_AWS_REGION= -DTEST_AWS_USER_POOL_ID= -DTEST_AWS_CLIENT_ID=
 ```
 
 ## Actuator

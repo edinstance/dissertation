@@ -24,6 +24,20 @@
         <rest-assured.version>5.4.0</rest-assured.version>
     </properties>
 
+    <dependencyManagement>
+        <dependencies>
+
+            <!-- AWS SDK -->
+            <dependency>
+                <groupId>software.amazon.awssdk</groupId>
+                <artifactId>bom</artifactId>
+                <version>2.29.48</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
     <dependencies>
         <!-- JUnit for integration testing -->
         <dependency>
@@ -59,6 +73,12 @@
             <artifactId>rest-assured</artifactId>
             <version>${rest-assured.version}</version>
             <scope>test</scope>
+        </dependency>
+
+        <!-- AWS cognito identity provider-->
+        <dependency>
+            <groupId>software.amazon.awssdk</groupId>
+            <artifactId>cognitoidentityprovider</artifactId>
         </dependency>
 
         <!-- Dependency on backend service -->
