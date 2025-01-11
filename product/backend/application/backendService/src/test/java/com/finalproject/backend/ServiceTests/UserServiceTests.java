@@ -3,7 +3,6 @@ package com.finalproject.backend.ServiceTests;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.finalproject.backend.entities.UserEntity;
 import com.finalproject.backend.helpers.AuthHelpers;
-import com.finalproject.backend.helpers.UserHelpers;
 import com.finalproject.backend.repositories.UserRepository;
 import com.finalproject.backend.services.UserService;
 import org.junit.jupiter.api.BeforeEach;
@@ -158,7 +157,7 @@ public class UserServiceTests {
     when(jedisPool.getResource()).thenReturn(jedis);
     when(authHelpers.getCurrentUserId()).thenReturn(userId);
 
-    assert(userService.deleteUser());
+    assert (userService.deleteUser());
 
     verify(jedis).del(eq("user:" + userId));
     verify(userRepository).deleteById(userId);
