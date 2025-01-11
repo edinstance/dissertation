@@ -1,16 +1,13 @@
 package com.finalproject.backend.services;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.finalproject.backend.entities.ItemEntity;
-import com.finalproject.backend.entities.UserEntity;
 import com.finalproject.backend.repositories.ItemRepository;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.List;
-import java.util.Set;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

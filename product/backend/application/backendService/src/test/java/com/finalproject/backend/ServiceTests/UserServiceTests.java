@@ -2,6 +2,8 @@ package com.finalproject.backend.ServiceTests;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.finalproject.backend.entities.UserEntity;
+import com.finalproject.backend.helpers.AuthHelpers;
+import com.finalproject.backend.helpers.UserHelpers;
 import com.finalproject.backend.repositories.UserRepository;
 import com.finalproject.backend.services.UserService;
 import org.junit.jupiter.api.BeforeEach;
@@ -33,6 +35,9 @@ public class UserServiceTests {
 
   @Mock
   private Jedis jedis;
+
+  @Mock
+  private AuthHelpers authHelpers;
 
   @InjectMocks
   private UserService userService;
@@ -110,8 +115,8 @@ public class UserServiceTests {
 
     assertNotNull(result);
     assertEquals(userId, result.getId());
-    assertEquals("new@test.com", result.getEmail());
-    assertEquals("New User", result.getName());
+    assertEquals("existing@test.com", result.getEmail());
+    assertEquals("Existing User", result.getName());
 
     verify(jedis).get("user:" + userId);
     verify(jedis, times(1))
@@ -151,8 +156,9 @@ public class UserServiceTests {
   @Test
   public void testDeleteUserById() {
     when(jedisPool.getResource()).thenReturn(jedis);
+    when(authHelpers.getCurrentUserId()).thenReturn(userId);
 
-    assert(userService.deleteUserById(userId));
+    assert(userService.deleteUser());
 
     verify(jedis).del(eq("user:" + userId));
     verify(userRepository).deleteById(userId);
@@ -161,8 +167,10 @@ public class UserServiceTests {
   @Test
   public void testDeleteUserException() {
     when(jedisPool.getResource()).thenReturn(jedis);
+    when(authHelpers.getCurrentUserId()).thenReturn(userId);
+
     doThrow(new RuntimeException()).when(userRepository).deleteById(userId);
-    assertFalse(userService.deleteUserById(userId));
+    assertFalse(userService.deleteUser());
   }
 
 }

@@ -3,6 +3,7 @@ package com.finalproject.backend.services;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.finalproject.backend.entities.UserEntity;
+import com.finalproject.backend.helpers.AuthHelpers;
 import com.finalproject.backend.repositories.UserRepository;
 import java.util.Optional;
 import java.util.UUID;
@@ -34,6 +35,11 @@ public class UserService {
   private final ObjectMapper objectMapper = new ObjectMapper();
 
   /**
+   * The auth helpers to use.
+   */
+  private final AuthHelpers authHelpers;
+
+  /**
    * Constructs a UserService with the specified UserRepository.
    *
    * @param inputUserRepository The repository for accessing User entities.
@@ -41,9 +47,10 @@ public class UserService {
    */
   @Autowired
   public UserService(final UserRepository inputUserRepository,
-                     final JedisPool inputJedisPool) {
+                     final JedisPool inputJedisPool, final AuthHelpers inputAuthHelpers) {
     this.userRepository = inputUserRepository;
     this.jedisPool = inputJedisPool;
+    this.authHelpers = inputAuthHelpers;
   }
 
   /**
@@ -110,14 +117,14 @@ public class UserService {
   /**
    * This deletes a user by their id.
    *
-   * @param id the id of the user to delete.
    */
-  public Boolean deleteUserById(UUID id) {
+  public Boolean deleteUser() {
     try (Jedis jedis = jedisPool.getResource()) {
-      String key = "user:" + id.toString();
+      UUID userId = authHelpers.getCurrentUserId();
+      String key = "user:" + userId.toString();
       jedis.del(key);
 
-      userRepository.deleteById(id);
+      userRepository.deleteById(userId);
       return true;
     } catch (Exception e) {
       return false;

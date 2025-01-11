@@ -23,15 +23,6 @@ import static org.mockito.Mockito.when;
 public class UserHelpersTests {
 
   @Mock
-  private SecurityContext securityContext;
-
-  @Mock
-  private Authentication authentication;
-
-  @Mock
-  private Jwt jwt;
-
-  @Mock
   private UserService userService;
 
   @InjectMocks
@@ -52,33 +43,5 @@ public class UserHelpersTests {
     assert foundUser.getName().equals(userEntity.getName());
     assert foundUser.getStatus().equals(userEntity.getStatus());
 
-  }
-
-  @BeforeEach
-  void setUp() {
-    SecurityContextHolder.setContext(securityContext);
-    when(securityContext.getAuthentication()).thenReturn(authentication);
-    when(authentication.getPrincipal()).thenReturn(jwt);
-  }
-
-  @Test
-  public void testGetUserId() {
-    String expectedUserId = "123e4567-e89b-12d3-a456-426614174000";
-    when(jwt.getClaimAsString("sub")).thenReturn(expectedUserId);
-
-    UUID result = userHelpers.getCurrentUserId();
-
-    assertEquals(UUID.fromString(expectedUserId), result);
-  }
-
-  @Test
-  void testGetUserWithNoJwt() {
-    when(authentication.getPrincipal()).thenReturn("");
-
-    IllegalStateException exception = assertThrows(IllegalStateException.class, () -> {
-      userHelpers.getCurrentUserId();
-    });
-
-    assertEquals("Unable to extract user ID from token", exception.getMessage());
   }
 }

@@ -40,18 +40,4 @@ public class UserHelpers {
     return userService.getUserById(id);
   }
 
-  /**
-   * Extracts the user ID (sub) from the JWT token.
-   *
-   * @return The user ID as a String.
-   * @throws IllegalStateException if the token is missing or invalid.
-   */
-  public UUID getCurrentUserId() {
-    Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-    if (principal instanceof Jwt jwt) {
-      return UUID.fromString(jwt.getClaimAsString("sub"));
-    }
-    throw new IllegalStateException("Unable to extract user ID from token");
-  }
-
 }
