@@ -1,10 +1,9 @@
 package com.finalproject.backend.helpers;
 
+import java.util.UUID;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Component;
-
-import java.util.UUID;
 
 /**
  * A set of helpers for authentication.
@@ -12,6 +11,9 @@ import java.util.UUID;
 @Component
 public class AuthHelpers {
 
+  /**
+   * Default constructor for the helpers.
+   */
   public AuthHelpers() {
   }
 
