@@ -1,13 +1,16 @@
 package com.finalproject.backend.MutationTests;
 
+import com.finalproject.backend.dto.DeleteResponse;
 import com.finalproject.backend.dto.UserInput;
 import com.finalproject.backend.entities.UserEntity;
 import com.finalproject.backend.mappers.UserMapper;
 import com.finalproject.backend.mutations.UserMutations;
 import com.finalproject.backend.services.UserService;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.UUID;
@@ -31,7 +34,7 @@ public class UserMutationTests {
 
 
   @Test
-  public void testUserMutation() {
+  public void testCreateUserMutation() {
     UUID userId = UUID.randomUUID();
     String email = "test@test.com";
     String name = "Test User";
@@ -56,5 +59,27 @@ public class UserMutationTests {
 
   }
 
+  @Test
+  public void testDeleteUserSuccess() {
+    when(userService.deleteUser()).thenReturn(true);
 
+    DeleteResponse response = userMutations.deleteUser();
+
+    assertNotNull(response);
+    assert response.isSuccess();
+    assert response.getMessage().equals("User deleted successfully");
+    verify(userService).deleteUser();
+  }
+
+  @Test
+  public void testDeleteUserFailure() {
+    when(userService.deleteUser()).thenReturn(false);
+
+    DeleteResponse response = userMutations.deleteUser();
+
+    assertNotNull(response);
+    assert !response.isSuccess();
+    assert response.getMessage().equals("User deletion failed");
+    verify(userService).deleteUser();
+  }
 }
