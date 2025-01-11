@@ -106,4 +106,22 @@ public class UserService {
       throw new RuntimeException(e);
     }
   }
+
+  /**
+   * This deletes a user by their id.
+   *
+   * @param id the id of the user to delete.
+   */
+  public Boolean deleteUserById(UUID id) {
+    try (Jedis jedis = jedisPool.getResource()) {
+      String key = "user:" + id.toString();
+      jedis.del(key);
+
+      userRepository.deleteById(id);
+      return true;
+    } catch (Exception e) {
+      return false;
+    }
+  }
 }
+

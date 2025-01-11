@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.finalproject.backend.entities.UserEntity;
 import com.finalproject.backend.repositories.UserRepository;
 import com.finalproject.backend.services.UserService;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -36,12 +37,19 @@ public class UserServiceTests {
   @InjectMocks
   private UserService userService;
 
+  private UserEntity user;
+  private UUID userId;
+
+  @BeforeEach
+  public void setup() {
+    userId = UUID.randomUUID();
+    user = new UserEntity(userId, "existing@test.com", "Existing User");
+
+  }
+
   @Test
   public void testCreateExistingUser() {
-    UUID userId = UUID.randomUUID();
-    UserEntity existingUser = new UserEntity(userId, "existing@test.com", "Existing User");
-
-    when(userRepository.findById(userId)).thenReturn(Optional.of(existingUser));
+    when(userRepository.findById(userId)).thenReturn(Optional.of(user));
 
     UserEntity newUser = new UserEntity(userId, "new@test.com", "New User");
 
@@ -50,29 +58,24 @@ public class UserServiceTests {
 
   @Test
   public void testCreateNewUser() {
-    UUID userId = UUID.randomUUID();
-    UserEntity newUser = new UserEntity(userId, "new@test.com", "New User");
 
     when(userRepository.findById(userId)).thenReturn(Optional.empty());
-    when(userRepository.save(newUser)).thenReturn(newUser);
+    when(userRepository.save(user)).thenReturn(user);
     when(jedisPool.getResource()).thenReturn(jedis);
 
-    UserEntity savedUser = userService.createUser(newUser);
+    UserEntity savedUser = userService.createUser(user);
 
-    assertEquals(newUser, savedUser);
+    assertEquals(user, savedUser);
     assert savedUser.getStatus().equals("PENDING");
   }
 
   @Test
   public void testFindUserById() {
-    UUID userId = UUID.randomUUID();
 
     when(jedisPool.getResource()).thenReturn(jedis);
 
     // Check null is returned when no user is found
     assertNull(userService.getUserById(userId));
-
-    UserEntity user = new UserEntity(userId, "existing@test.com", "Existing User");
 
     // When the user is searched for return the correct user
     when(userRepository.findById(userId)).thenReturn(Optional.of(user));
@@ -84,14 +87,12 @@ public class UserServiceTests {
 
   @Test
   public void testSetCache() {
-    UUID userId = UUID.randomUUID();
-    UserEntity newUser = new UserEntity(userId, "new@test.com", "New User");
 
     when(userRepository.findById(userId)).thenReturn(Optional.empty());
-    when(userRepository.save(newUser)).thenReturn(newUser);
+    when(userRepository.save(user)).thenReturn(user);
     when(jedisPool.getResource()).thenReturn(jedis);
 
-    userService.createUser(newUser);
+    userService.createUser(user);
 
     verify(jedis, times(1))
             .set(eq("user:" + userId), anyString(), any(SetParams.class));
@@ -99,12 +100,10 @@ public class UserServiceTests {
 
   @Test
   public void testGetUserByIdFromCache() throws Exception {
-    UUID userId = UUID.randomUUID();
-    UserEntity newUser = new UserEntity(userId, "new@test.com", "New User");
 
     when(jedisPool.getResource()).thenReturn(jedis);
 
-    String userString = objectMapper.writeValueAsString(newUser);
+    String userString = objectMapper.writeValueAsString(user);
     when(jedis.get("user:" + userId)).thenReturn(userString);
 
     UserEntity result = userService.getUserById(userId);
@@ -121,13 +120,11 @@ public class UserServiceTests {
   }
 
   @Test
-  public void testCacheRefresh() throws Exception {
-    UUID userId = UUID.randomUUID();
-    UserEntity newUser = new UserEntity(userId, "new@test.com", "New User");
+  public void testCacheRefresh() {
 
     when(jedisPool.getResource()).thenReturn(jedis);
     when(jedis.get("user:" + userId)).thenReturn(null);
-    when(userRepository.findById(userId)).thenReturn(Optional.of(newUser));
+    when(userRepository.findById(userId)).thenReturn(Optional.of(user));
 
     UserEntity foundUser = userService.getUserById(userId);
 
@@ -138,14 +135,12 @@ public class UserServiceTests {
   }
 
   @Test
-  public void testDeletedUserIsNotReturned() throws Exception {
-    UUID userId = UUID.randomUUID();
-    UserEntity newUser = new UserEntity(userId, "new@test.com", "New User");
-    newUser.setIsDeleted(true);
+  public void testDeletedUserIsNotReturned() {
+    user.setIsDeleted(true);
 
     when(jedisPool.getResource()).thenReturn(jedis);
     when(jedis.get("user:" + userId)).thenReturn(null);
-    when(userRepository.findById(userId)).thenReturn(Optional.of(newUser));
+    when(userRepository.findById(userId)).thenReturn(Optional.of(user));
 
     UserEntity foundUser = userService.getUserById(userId);
 
@@ -153,5 +148,21 @@ public class UserServiceTests {
 
   }
 
+  @Test
+  public void testDeleteUserById() {
+    when(jedisPool.getResource()).thenReturn(jedis);
+
+    assert(userService.deleteUserById(userId));
+
+    verify(jedis).del(eq("user:" + userId));
+    verify(userRepository).deleteById(userId);
+  }
+
+  @Test
+  public void testDeleteUserException() {
+    when(jedisPool.getResource()).thenReturn(jedis);
+    doThrow(new RuntimeException()).when(userRepository).deleteById(userId);
+    assertFalse(userService.deleteUserById(userId));
+  }
 
 }
