@@ -160,7 +160,7 @@ public class UserServiceTests {
     assert (userService.deleteUser());
 
     verify(jedis).del(eq("user:" + userId));
-    verify(userRepository).deleteById(userId);
+    verify(userRepository).deleteUser(userId);
   }
 
   @Test
@@ -168,7 +168,7 @@ public class UserServiceTests {
     when(jedisPool.getResource()).thenReturn(jedis);
     when(authHelpers.getCurrentUserId()).thenReturn(userId);
 
-    doThrow(new RuntimeException()).when(userRepository).deleteById(userId);
+    doThrow(new RuntimeException()).when(userRepository).deleteUser(userId);
     assertFalse(userService.deleteUser());
   }
 

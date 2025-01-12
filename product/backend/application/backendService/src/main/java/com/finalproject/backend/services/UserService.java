@@ -124,7 +124,7 @@ public class UserService {
       String key = "user:" + userId.toString();
       jedis.del(key);
 
-      userRepository.deleteById(userId);
+      userRepository.deleteUser(userId);
       return true;
     } catch (Exception e) {
       return false;
