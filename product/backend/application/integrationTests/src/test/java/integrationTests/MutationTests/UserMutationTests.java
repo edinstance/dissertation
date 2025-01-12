@@ -2,6 +2,7 @@ package integrationTests.MutationTests;
 
 import integrationTests.Cognito.CognitoUtilities;
 import io.cucumber.java.en.And;
+import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import io.restassured.response.Response;
@@ -21,12 +22,14 @@ public class UserMutationTests {
 
   private String userId;
 
+  private String mutation;
+
   @When("the client sends a request to create a new user")
   public void theClientSendsARequestToCreateANewUser() {
     userId = UUID.randomUUID().toString();
 
     // Construct the GraphQL mutation query
-    String mutation = String.format("{ \"query\": \"mutation { createUser(userInput: { id: \\\"%s\\\", name: \\\"Test Name\\\", email: \\\"test@example.com\\\" }) { id name email status } }\" }", userId);
+    mutation = String.format("{ \"query\": \"mutation { createUser(userInput: { id: \\\"%s\\\", name: \\\"Test Name\\\", email: \\\"test@example.com\\\" }) { id name email status } }\" }", userId);
 
     // Send the mutation request to the /graphql endpoint
     response = given()
@@ -60,12 +63,12 @@ public class UserMutationTests {
   }
 
 
-  @When("there is a user with details who wants to delete their account")
+  @Given("there is a user with details who wants to delete their account")
   public void thereIsAUserWhoWantsToDeleteTheirAccount() {
     userId = CognitoUtilities.getUserId();
     assertNotNull(userId);
 
-    String mutation = String.format("{ \"query\": \"mutation { createUser(userInput: " +
+    mutation = String.format("{ \"query\": \"mutation { createUser(userInput: " +
             "{ id: \\\"%s\\\", name: \\\"Test Name\\\", email: \\\"test@example.com\\\" })" +
             " { id name email status } }\" }", userId);
 
@@ -97,7 +100,7 @@ public class UserMutationTests {
   @Then("the user sends a request to delete their account")
   public void theUserSendsARequestToDeleteTheirAccount() {
 
-    String mutation = "{ \"query\": \"mutation { deleteUser { success message } }\" }";
+    mutation = "{ \"query\": \"mutation { deleteUser { success message } }\" }";
 
     // Send the mutation request to the /graphql endpoint
     response = given()
@@ -116,5 +119,27 @@ public class UserMutationTests {
     assert response.getStatusCode() == 200;
     assert response.getBody().jsonPath().getBoolean("data.deleteUser.success");
     assert response.getBody().jsonPath().getString("data.deleteUser.message").equals("User deleted successfully");
+  }
+
+
+  @When("a user is deleted but they do not exist")
+  public void aUserIsDeletedButTheyDoNotExist() {
+    mutation = "{ \"query\": \"mutation { deleteUser { success message } }\" }";
+
+    // Send the mutation request to the /graphql endpoint
+    response = given()
+            .header("Authorization", "Bearer "
+                    + CognitoUtilities.getAccessToken())
+            .contentType("application/json")
+            .body(mutation)
+            .post("/graphql");
+  }
+
+  @Then("the server returns an unsuccessful delete response")
+  public void theServerReturnsAnUnsuccessfulDeleteResponse() {
+
+    assert response.getStatusCode() == 200;
+    assert !response.getBody().jsonPath().getBoolean("data.deleteUser.success");
+    assert response.getBody().jsonPath().getString("data.deleteUser.message").equals("User deletion failed");
   }
 }
