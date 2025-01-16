@@ -14,13 +14,13 @@ trigger_backend_workflow:
     include: product/.gitlab/workflows/backend.yml
 
 # Run Terraform workflow if there are changes in the terraform directory
-trigger_terraform_workflow:
-  stage: triggers
-  rules:
-    - if: '$CI_COMMIT_REF_NAME == "main" || $CI_COMMIT_REF_NAME == "development" || $CI_COMMIT_REF_NAME == "terraform-updates"'
-      changes:
-        - product/infrastructure/*
-      when: on_success
-    - when: manual
-  trigger:
-    include: product/.gitlab/workflows/terraform.yml
+# trigger_terraform_workflow:
+#   stage: triggers
+#   rules:
+#     - if: '$CI_COMMIT_REF_NAME == "main" || $CI_COMMIT_REF_NAME == "development" || $CI_COMMIT_REF_NAME == "terraform-updates"'
+#       changes:
+#         - product/infrastructure/*
+#       when: on_success
+#     - when: manual
+#   trigger:
+#     include: product/.gitlab/workflows/terraform.yml
