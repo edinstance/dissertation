@@ -7,8 +7,8 @@ before_script:
 
 test:
   stage: lint
+  image: ghcr.io/terraform-linters/tflint:latest
   script:
     - echo "linting terraform..."
-    - curl -s https://raw.githubusercontent.com/terraform-linters/tflint/master/install_linux.sh | bash -s -- --no-sudo
     - tflint
     - echo "terraform linting passed"
