@@ -19,6 +19,6 @@ trigger_terraform_workflow:
   rules:
     - if: '$CI_COMMIT_REF_NAME == "main" || $CI_COMMIT_REF_NAME == "development" || $CI_COMMIT_REF_NAME == "terraform-updates"'
       changes:
-        - product/infrastructure
+        - product/infrastructure/*
   trigger:
     include: product/.gitlab/workflows/terraform.yml
