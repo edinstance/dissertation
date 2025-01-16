@@ -7,8 +7,6 @@ terraform {
       version = ">= 5.60.0"
     }
   }
-  backend "http" {
-  }
 }
 
 provider "aws" {
