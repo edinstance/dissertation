@@ -68,8 +68,8 @@ Cypress.Commands.add("signIn", (email: string, password: string) => {
 });
 
 Cypress.Commands.add("deleteUser", (email: string, password: string) => {
-    cy.signIn(email, password);
-    cy.wait(2000);
-    cy.contains("Delete User").click();
-    cy.contains("Confirm").click();
-  });
+  cy.signIn(email, password);
+  cy.wait(2000);
+  cy.contains("Delete User").click();
+  cy.contains("Confirm").click();
+});
