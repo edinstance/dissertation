@@ -2,7 +2,7 @@
 
 This directory will contain all of the infrastrucure as code that will define the architecture and some of the services this project will use. 
 
-### Create and destroy infrastructure
+### Create and destroy infrastructure manually
 
 To deploy this infrastructure you can use the following [terraform](https://www.terraform.io) commands:
 
