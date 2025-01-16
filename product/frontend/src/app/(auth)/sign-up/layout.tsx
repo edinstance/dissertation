@@ -9,10 +9,8 @@ export default async function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-  
-        <ApolloWrapper link={BACKEND_GRAPHQL_ENDPOINT} apiKey={BACKEND_API_KEY}>
-          {children}
-        </ApolloWrapper>
-
+    <ApolloWrapper link={BACKEND_GRAPHQL_ENDPOINT} apiKey={BACKEND_API_KEY}>
+      {children}
+    </ApolloWrapper>
   );
 }
