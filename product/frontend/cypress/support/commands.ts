@@ -35,3 +35,12 @@
 //     }
 //   }
 // }
+
+declare global {
+  namespace Cypress {
+    interface Chainable {
+      signIn(email: string, password: string): Chainable<void>;
+      signUp(email: string, name: string, password: string): Chainable<void>;
+    }
+  }
+}
