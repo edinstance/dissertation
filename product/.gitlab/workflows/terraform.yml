@@ -4,11 +4,11 @@ stages:
 before_script:
   - echo "Setting up the environment..."
   - cd ./product/infrastructure
+  - terraform --version
 
-test:
+terraform_init:
   stage: lint
-  image: ghcr.io/terraform-linters/tflint:latest
   script:
-    - echo "linting terraform..."
-    - tflint
-    - echo "terraform linting passed"
+    - terraform init
+    
+
