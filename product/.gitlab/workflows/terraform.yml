@@ -1,7 +1,14 @@
 stages:
-  - test
+  - lint
+
+before_script:
+  - echo "Setting up the environment..."
+  - cd ./product/infrastructure
 
 test:
-  stage: test
+  stage: lint
   script:
-    - echo "test"
+    - echo "linting terraform..."
+    - curl -s https://raw.githubusercontent.com/terraform-linters/tflint/master/install_linux.sh | bash
+    - tflint
+    - echo "terraform linting passed"
