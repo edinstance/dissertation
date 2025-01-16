@@ -1,7 +1,7 @@
 // The svg comes from https://www.material-tailwind.com/docs/html/spinner
 export default function LoadingSpinner() {
   return (
-    <div className="space-x-8 flex justify-center items-center">
+    <div className="flex items-center justify-center space-x-8">
       <svg
         className="h-8 w-8 animate-spin text-gray-300"
         viewBox="0 0 64 64"

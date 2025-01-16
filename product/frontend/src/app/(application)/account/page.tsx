@@ -37,7 +37,7 @@ export default function Account() {
             Cancel
           </Button>
           <Button onClick={handleDeleteUser} color="destructive">
-            Delete
+            Confirm
           </Button>
         </div>
       </Modal>
