@@ -110,8 +110,7 @@ function SignUpPage() {
   const passwordValidation = validatePassword(signUpDetails.password);
 
   return (
-    <div className="flex min-h-screen flex-col items-center bg-zinc-100 px-10 pt-20 dark:bg-zinc-900">
-      <ApolloWrapper link={process.env.NEXT_PUBLIC_GRAPHQL_API!}>
+    <div className="flex min-h-screen flex-col items-center px-10 pt-20">
         <div>
           <h1 className="mb-6 items-start justify-start text-2xl font-bold text-black dark:text-white">
             Create a new account
@@ -311,7 +310,6 @@ function SignUpPage() {
             </div>
           </form>
         </div>
-      </ApolloWrapper>
     </div>
   );
 }
