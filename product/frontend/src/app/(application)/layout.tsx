@@ -14,15 +14,11 @@ export default async function RootLayout({
   }
 
   return (
-    <html lang="en">
-      <body>
-        <ApolloWrapper
-          link={BACKEND_GRAPHQL_ENDPOINT}
-          accessToken={session?.accessToken}
-        >
-          {children}
-        </ApolloWrapper>
-      </body>
-    </html>
+    <ApolloWrapper
+      link={BACKEND_GRAPHQL_ENDPOINT}
+      accessToken={session?.accessToken}
+    >
+      {children}
+    </ApolloWrapper>
   );
 }

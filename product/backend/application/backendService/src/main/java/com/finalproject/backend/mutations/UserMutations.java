@@ -1,6 +1,7 @@
 package com.finalproject.backend.mutations;
 
 
+import com.finalproject.backend.dto.DeleteResponse;
 import com.finalproject.backend.dto.UserInput;
 import com.finalproject.backend.entities.UserEntity;
 import com.finalproject.backend.mappers.UserMapper;
@@ -27,7 +28,7 @@ public class UserMutations {
   private final UserMapper userMapper;
 
   /**
-   * Constructor for initialising the UserMutations with the input services.
+   * Constructor for initializing the UserMutations with the input services.
    *
    * @param inputUserService The user service to be used by this component.
    * @param inputUserMapper  The user mapper to be used by this component.
@@ -47,5 +48,21 @@ public class UserMutations {
   @DgsMutation
   public UserEntity createUser(@InputArgument final UserInput userInput) {
     return userService.createUser(userMapper.mapInputToUser(userInput));
+  }
+
+  /**
+   * GraphQL mutation to delete a user.
+   *
+   * @return a delete response about the success of the mutation.
+   */
+  @DgsMutation
+  public DeleteResponse deleteUser() {
+    Boolean result =  userService.deleteUser();
+
+    if (result) {
+      return new DeleteResponse(true, "User deleted successfully");
+    } else {
+      return new DeleteResponse(false, "User deletion failed");
+    }
   }
 }

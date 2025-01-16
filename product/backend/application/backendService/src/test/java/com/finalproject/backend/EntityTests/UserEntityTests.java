@@ -120,4 +120,10 @@ public class UserEntityTests {
     userEntity.setItems(List.of(items));
     assert userEntity.getItems().contains(items);
   }
+
+  @Test
+  public void testDeletedUserMethods() {
+    userEntity.setIsDeleted(true);
+    assert userEntity.getIsDeleted();
+  }
 }

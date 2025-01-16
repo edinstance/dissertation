@@ -9,12 +9,8 @@ export default async function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en">
-      <body className={`bg-zinc-100 dark:bg-zinc-900`}>
-        <ApolloWrapper link={BACKEND_GRAPHQL_ENDPOINT} apiKey={BACKEND_API_KEY}>
-          {children}
-        </ApolloWrapper>
-      </body>
-    </html>
+    <ApolloWrapper link={BACKEND_GRAPHQL_ENDPOINT} apiKey={BACKEND_API_KEY}>
+      {children}
+    </ApolloWrapper>
   );
 }

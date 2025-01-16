@@ -1,7 +1,7 @@
 package com.finalproject.backend.QueryTests;
 
 import com.finalproject.backend.entities.UserEntity;
-import com.finalproject.backend.helpers.UserHelpers;
+import com.finalproject.backend.helpers.AuthHelpers;
 import com.finalproject.backend.queries.UserQueries;
 import com.finalproject.backend.services.UserService;
 import org.junit.jupiter.api.BeforeEach;
@@ -26,7 +26,7 @@ class UserQueryTests {
   private UserService userService;
 
   @Mock
-  private UserHelpers userHelpers;
+  private AuthHelpers authHelpers;
 
   @InjectMocks
   private UserQueries userQueries;
@@ -45,7 +45,7 @@ class UserQueryTests {
   @Test
   void testGetUser() {
     UUID expectedUserId = (userEntity.getId());
-    when(userHelpers.getCurrentUserId()).thenReturn(expectedUserId);
+    when(authHelpers.getCurrentUserId()).thenReturn(expectedUserId);
     when(userService.getUserById(expectedUserId)).thenReturn(userEntity);
 
     UserEntity result = userQueries.getUser();

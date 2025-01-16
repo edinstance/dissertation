@@ -35,3 +35,41 @@
 //     }
 //   }
 // }
+
+declare global {
+  namespace Cypress {
+    interface Chainable {
+      signIn(email: string, password: string): Chainable<void>;
+      signUp(email: string, name: string, password: string): Chainable<void>;
+      deleteUser(email: string, password: string): Chainable<void>;
+    }
+  }
+}
+
+Cypress.Commands.add(
+  "signUp",
+  (email: string, name: string, password: string) => {
+    cy.visit("http://localhost:3000/");
+    cy.contains("Sign up").click();
+    cy.get('input[name="email"]').type(email);
+    cy.get('input[name="name"]').type(name);
+    cy.get('input[name="password"]').type(password);
+    cy.get('input[name="confirmPassword"]').type(password);
+    cy.get('button[type="submit"]').click();
+  },
+);
+
+Cypress.Commands.add("signIn", (email: string, password: string) => {
+  cy.visit("http://localhost:3000/");
+  cy.contains("Sign In").click();
+  cy.get('input[name="email"]').type(email);
+  cy.get('input[name="password"]').type(password);
+  cy.get('button[type="submit"]').click();
+});
+
+Cypress.Commands.add("deleteUser", (email: string, password: string) => {
+  cy.signIn(email, password);
+  cy.wait(2000);
+  cy.contains("Delete User").click();
+  cy.contains("Confirm").click();
+});

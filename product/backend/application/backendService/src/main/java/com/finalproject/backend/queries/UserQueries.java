@@ -1,6 +1,7 @@
 package com.finalproject.backend.queries;
 
 import com.finalproject.backend.entities.UserEntity;
+import com.finalproject.backend.helpers.AuthHelpers;
 import com.finalproject.backend.helpers.UserHelpers;
 import com.finalproject.backend.services.UserService;
 import com.netflix.graphql.dgs.DgsComponent;
@@ -20,17 +21,17 @@ public class UserQueries {
   /**
    * The helper the query will use.
    */
-  private final UserHelpers userHelpers;
+  private final AuthHelpers authHelpers;
 
   /**
    * Constructs a UserQueries instance with the specified UserService.
    *
    * @param userService The service to interact with.
-   * @param userHelpers the helper to interact with.
+   * @param authHelpers the helper to interact with.
    */
-  public UserQueries(UserService userService, UserHelpers userHelpers) {
+  public UserQueries(UserService userService, AuthHelpers authHelpers) {
     this.userService = userService;
-    this.userHelpers = userHelpers;
+    this.authHelpers = authHelpers;
   }
 
   /**
@@ -40,6 +41,6 @@ public class UserQueries {
    */
   @DgsQuery
   public UserEntity getUser() {
-    return userService.getUserById(userHelpers.getCurrentUserId());
+    return userService.getUserById(authHelpers.getCurrentUserId());
   }
 }

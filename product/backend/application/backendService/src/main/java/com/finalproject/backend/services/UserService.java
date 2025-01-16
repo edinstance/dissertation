@@ -3,10 +3,10 @@ package com.finalproject.backend.services;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.finalproject.backend.entities.UserEntity;
+import com.finalproject.backend.helpers.AuthHelpers;
 import com.finalproject.backend.repositories.UserRepository;
 import java.util.Optional;
 import java.util.UUID;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import redis.clients.jedis.Jedis;
@@ -17,7 +17,6 @@ import redis.clients.jedis.params.SetParams;
  * Service class for managing User entities.
  */
 @Service
-@Slf4j
 public class UserService {
 
   /**
@@ -36,6 +35,11 @@ public class UserService {
   private final ObjectMapper objectMapper = new ObjectMapper();
 
   /**
+   * The auth helpers to use.
+   */
+  private final AuthHelpers authHelpers;
+
+  /**
    * Constructs a UserService with the specified UserRepository.
    *
    * @param inputUserRepository The repository for accessing User entities.
@@ -43,9 +47,10 @@ public class UserService {
    */
   @Autowired
   public UserService(final UserRepository inputUserRepository,
-                     final JedisPool inputJedisPool) {
+                     final JedisPool inputJedisPool, final AuthHelpers inputAuthHelpers) {
     this.userRepository = inputUserRepository;
     this.jedisPool = inputJedisPool;
+    this.authHelpers = inputAuthHelpers;
   }
 
   /**
@@ -95,10 +100,12 @@ public class UserService {
 
       UserEntity user = userRepository.findById(id).orElse(null);
 
-      if (user != null) {
-        jedis.set(key, objectMapper.writeValueAsString(user),
-                SetParams.setParams().ex(300));
+      if (user == null || user.getIsDeleted()) {
+        return null;
       }
+
+      jedis.set(key, objectMapper.writeValueAsString(user),
+              SetParams.setParams().ex(300));
 
       return user;
 
@@ -106,4 +113,22 @@ public class UserService {
       throw new RuntimeException(e);
     }
   }
+
+  /**
+   * This deletes a user by their id.
+   *
+   */
+  public Boolean deleteUser() {
+    try (Jedis jedis = jedisPool.getResource()) {
+      UUID userId = authHelpers.getCurrentUserId();
+      String key = "user:" + userId.toString();
+      jedis.del(key);
+
+      userRepository.deleteUser(userId);
+      return true;
+    } catch (Exception e) {
+      return false;
+    }
+  }
 }
+

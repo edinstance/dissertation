@@ -3,6 +3,7 @@ package com.finalproject.backend.MapperTests;
 import com.finalproject.backend.dto.ItemInput;
 import com.finalproject.backend.entities.ItemEntity;
 import com.finalproject.backend.entities.UserEntity;
+import com.finalproject.backend.helpers.AuthHelpers;
 import com.finalproject.backend.helpers.UserHelpers;
 import com.finalproject.backend.mappers.ItemMapper;
 import org.junit.jupiter.api.Test;
@@ -25,6 +26,9 @@ public class ItemMapperTests {
   @Mock
   private UserHelpers userHelpers;
 
+  @Mock
+  private AuthHelpers authHelpers;
+
   @InjectMocks
   private ItemMapper itemMapper;
 
@@ -39,7 +43,7 @@ public class ItemMapperTests {
             endingTime, new BigDecimal("2.2"), 1,
             "category", List.of("image"));
 
-    when(userHelpers.getCurrentUserId()).thenReturn(userEntity.getId());
+    when(authHelpers.getCurrentUserId()).thenReturn(userEntity.getId());
     when(userHelpers.getUserById(userEntity.getId())).thenReturn(userEntity);
     ItemEntity item = itemMapper.mapInputToItem(input);
 

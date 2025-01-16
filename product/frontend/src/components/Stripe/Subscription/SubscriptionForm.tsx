@@ -1,5 +1,6 @@
 "use client";
 
+import LoadingSpinner from "@/components/ui/LoadingSpinner";
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import { useSession } from "next-auth/react";
@@ -49,7 +50,7 @@ export default function SubscriptionForm({ stripeKey }: { stripeKey: string }) {
           <SubscriptionElements />
         </Elements>
       ) : (
-        <p>Loading...</p>
+        <LoadingSpinner />
       )}
     </div>
   );
