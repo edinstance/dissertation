@@ -1,0 +1,13 @@
+stages:
+  - lint
+
+before_script:
+  - echo "Setting up the environment..."
+  - cd ./product/infrastructure
+
+terraform_init:
+  stage: lint
+  image: hashicorp/terraform:latest
+  script:
+    - terraform init
+

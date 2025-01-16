@@ -1,16 +1,6 @@
-terraform {
-  required_version = ">= 1.9"
-
-  required_providers {
-    aws = {
-      source  = "hashicorp/aws"
-      version = ">= 5.60.0"
-    }
-  }
-}
 
 resource "aws_cognito_user_pool" "user_pool" {
-  name = "final-year-project-user-pool"
+  name = "${var.environment}-final-year-project-user-pool"
 
   # Allow users to sign in with their email address
   username_attributes = ["email"]
@@ -45,14 +35,15 @@ resource "aws_cognito_user_pool" "user_pool" {
   }
   
   tags = {
-    Name : "final-year-project-user-pool"
+    Name = "${var.environment}-final-year-project-user-pool"
+    Environment = var.environment
   }
 }
 
 
 resource "aws_cognito_user_pool_client" "cognito_client" {
 
-  name = "final-year-project-client"
+  name = "${var.environment}-final-year-project-client"
 
   # Set the client's user pool to be the one created above
   user_pool_id = aws_cognito_user_pool.user_pool.id
