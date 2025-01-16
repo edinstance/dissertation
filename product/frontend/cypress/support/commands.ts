@@ -41,6 +41,7 @@ declare global {
     interface Chainable {
       signIn(email: string, password: string): Chainable<void>;
       signUp(email: string, name: string, password: string): Chainable<void>;
+      deleteUser(email: string, password: string): Chainable<void>;
     }
   }
 }
@@ -65,3 +66,10 @@ Cypress.Commands.add("signIn", (email: string, password: string) => {
   cy.get('input[name="password"]').type(password);
   cy.get('button[type="submit"]').click();
 });
+
+Cypress.Commands.add("deleteUser", (email: string, password: string) => {
+    cy.signIn(email, password);
+    cy.wait(2000);
+    cy.contains("Delete User").click();
+    cy.contains("Confirm").click();
+  });
