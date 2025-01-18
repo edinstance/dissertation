@@ -1,7 +1,7 @@
 "use server";
 
-import stripe from "@/lib/stripe";
 import { findExistingSubscriptionByUserId } from "@/utils/stripe";
+import Stripe from "stripe";
 
 export async function unsubscribe({ id }: { id: string }) {
   try {
@@ -10,6 +10,8 @@ export async function unsubscribe({ id }: { id: string }) {
     if (!subscription) {
       return { error: "Subscription not found" };
     }
+
+    const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string);
 
     // Cancel the subscription
     const canceledSubscription = await stripe.subscriptions.cancel(

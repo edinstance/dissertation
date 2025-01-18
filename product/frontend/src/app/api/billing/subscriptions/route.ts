@@ -1,4 +1,3 @@
-import stripe from "@/lib/stripe";
 import {
   findCustomerByUserId,
   findExistingSubscriptionByUserId,
@@ -29,6 +28,8 @@ export async function POST(request: NextRequest) {
         { status: 404 },
       );
     }
+
+    const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string);
 
     // Check for existing subscription
     const existingSubscription = await findExistingSubscriptionByUserId(userId);

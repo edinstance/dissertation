@@ -1,12 +1,12 @@
 "use server";
 
 import cognitoClient from "@/lib/cognito";
-import stripe from "@/lib/stripe";
 import {
   AdminCreateUserCommand,
   AdminSetUserPasswordCommand,
   MessageActionType,
 } from "@aws-sdk/client-cognito-identity-provider";
+import Stripe from "stripe";
 
 async function createUser({
   name,
@@ -44,6 +44,8 @@ async function createUser({
     });
 
     await cognitoClient.send(setPasswordCommand);
+
+    const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string);
 
     await stripe.customers.create({
       email,

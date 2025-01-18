@@ -1,10 +1,11 @@
-import stripe from "@/lib/stripe";
 import Stripe from "stripe";
 
 // Find customer by userId
 export async function findCustomerByUserId(
   userId: string,
 ): Promise<Stripe.Customer | null> {
+  const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string);
+
   const customers = await stripe.customers.search({
     query: `metadata['userId']: '${userId}'`,
   });
@@ -18,6 +19,7 @@ export async function findCustomerByUserId(
 async function getCustomerSubscriptions(
   customerId: string,
 ): Promise<Stripe.Subscription[]> {
+  const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string);
   const subscriptions = await stripe.subscriptions.list({
     customer: customerId,
     status: "all", // To get all subscription statuses

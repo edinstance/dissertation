@@ -1,12 +1,14 @@
 "use server";
 
 import cognitoClient from "@/lib/cognito";
-import stripe from "@/lib/stripe";
 import { auth } from "@/server/auth";
 import { findCustomerByUserId } from "@/utils/stripe";
 import { AdminDeleteUserCommand } from "@aws-sdk/client-cognito-identity-provider";
+import Stripe from "stripe";
 
 async function deleteUser() {
+  const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string);
+
   try {
     const session = await auth();
 
