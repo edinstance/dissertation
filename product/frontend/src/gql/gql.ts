@@ -20,6 +20,8 @@ const documents = {
     types.SaveUserDetailsDocument,
   "\n  query getUser {\n    getUser {\n      id\n      email\n      name\n      details {\n        id\n        contactNumber\n        houseName\n        addressStreet\n        addressCity\n        addressCounty\n        addressPostcode\n      }\n    }\n  }\n":
     types.GetUserDocument,
+  "\n  mutation DeleteUser {\n    deleteUser {\n      success\n      message\n    }\n  }\n":
+    types.DeleteUserDocument,
 };
 
 /**
@@ -54,6 +56,12 @@ export function graphql(
 export function graphql(
   source: "\n  query getUser {\n    getUser {\n      id\n      email\n      name\n      details {\n        id\n        contactNumber\n        houseName\n        addressStreet\n        addressCity\n        addressCounty\n        addressPostcode\n      }\n    }\n  }\n",
 ): (typeof documents)["\n  query getUser {\n    getUser {\n      id\n      email\n      name\n      details {\n        id\n        contactNumber\n        houseName\n        addressStreet\n        addressCity\n        addressCounty\n        addressPostcode\n      }\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(
+  source: "\n  mutation DeleteUser {\n    deleteUser {\n      success\n      message\n    }\n  }\n",
+): (typeof documents)["\n  mutation DeleteUser {\n    deleteUser {\n      success\n      message\n    }\n  }\n"];
 
 export function graphql(source: string) {
   return (documents as any)[source] ?? {};
