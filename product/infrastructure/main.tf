@@ -13,3 +13,16 @@ provider "aws" {
   region  = "eu-west-2"
   profile = "default"
 }
+
+
+module "frontend_ecr" {
+  source = "./modules/ecr"
+
+  name   = "${var.environment}-frontend-ecr"
+}
+
+module "backend_ecr" {
+  source = "./modules/ecr"
+
+  name   = "${var.environment}-frontend-ecr"
+}
