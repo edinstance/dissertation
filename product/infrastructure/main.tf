@@ -24,5 +24,5 @@ module "frontend_ecr" {
 module "backend_ecr" {
   source = "./modules/ecr"
 
-  name   = "${var.environment}-frontend-ecr"
+  name   = "${var.environment}-backend-ecr"
 }
