@@ -34,6 +34,13 @@ module "backend_ecr" {
   name   = "${var.environment}-backend-ecr"
 }
 
+# ECS
+module "ecs" {
+  source = "./modules/ecs"
+
+  environment = var.environment
+}
+
 # Networking
 module "networking" {
   source = "./modules/networking"
