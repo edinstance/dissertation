@@ -14,6 +14,12 @@ provider "aws" {
   profile = "default"
 }
 
+module "cognito" {
+  source = "./modules/cognito"
+
+  environment = var.environment
+}
+
 
 module "frontend_ecr" {
   source = "./modules/ecr"
