@@ -14,13 +14,14 @@ provider "aws" {
   profile = "default"
 }
 
+# Cognito
 module "cognito" {
   source = "./modules/cognito"
 
   environment = var.environment
 }
 
-
+# ECR
 module "frontend_ecr" {
   source = "./modules/ecr"
 
@@ -31,4 +32,11 @@ module "backend_ecr" {
   source = "./modules/ecr"
 
   name   = "${var.environment}-backend-ecr"
+}
+
+# Networking
+module "networking" {
+  source = "./modules/networking"
+
+  environment         = var.environment
 }
