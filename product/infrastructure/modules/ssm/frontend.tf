@@ -15,7 +15,7 @@ resource "aws_ssm_parameter" "backend_graphql_endpoint" {
     value = var.backend_graphql_endpoint
 }
 
-resource "aws_ssm_parameter" "cognito_client_id" {
+resource "aws_ssm_parameter" "frontend_cognito_client_id" {
     name  = "/${var.environment}/frontend/COGNITO_CLIENT_ID"
     type  = "String"
     value = var.frontend_cognito_client_id

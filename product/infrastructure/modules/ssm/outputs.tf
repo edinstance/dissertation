@@ -10,8 +10,8 @@ output "backend_graphql_endpoint_arn" {
     value = aws_ssm_parameter.backend_graphql_endpoint.arn
 }
 
-output "cognito_client_id_arn" {
-    value = aws_ssm_parameter.cognito_client_id.arn
+output "frontend_cognito_client_id_arn" {
+    value = aws_ssm_parameter.frontend_cognito_client_id.arn
 }
 
 output "cognito_user_pool_id_arn" {
