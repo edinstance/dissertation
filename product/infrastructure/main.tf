@@ -48,6 +48,11 @@ module "networking" {
   environment         = var.environment
 }
 
+# IAM
+module "iam" {
+  source = "./modules/iam" 
+}
+
 # SSM
 module "ssm" {
   source = "./modules/ssm"
