@@ -10,6 +10,12 @@ variable "environment" {
   }
 }
 
+# ECS
+variable "frontend_image_tag" {
+  description = "The tag of the frontend Docker image to deploy"
+  type        = string
+}
+
 # SSM
 variable "nextauth_secret" {
     description = "The secret for NextAuth"

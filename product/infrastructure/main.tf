@@ -39,6 +39,24 @@ module "ecs" {
   source = "./modules/ecs"
 
   environment = var.environment
+
+  frontend_image_tag = var.frontend_image_tag
+  frontend_ecr_repo = module.frontend_ecr.repository_url
+
+  ecs_task_execution_role_arn = module.iam.ecs_task_execution_role_arn
+
+
+  # Enviroment variables
+  nextauth_url_arn = module.ssm.nextauth_url_arn
+  nextauth_secret_arn = module.ssm.nextauth_secret_arn
+  backend_graphql_endpoint_arn = module.ssm.backend_graphql_endpoint_arn
+  frontend_cognito_client_id_arn = module.ssm.frontend_cognito_client_id_arn
+  cognito_user_pool_id_arn = module.ssm.cognito_user_pool_id_arn
+  api_key_arn = module.ssm.api_key_arn
+  stripe_publishable_key_arn = module.ssm.stripe_publishable_key_arn
+  stripe_secret_key_arn = module.ssm.stripe_secret_key_arn
+  stripe_price_id_arn = module.ssm.stripe_price_id_arn
+
 }
 
 # Networking
