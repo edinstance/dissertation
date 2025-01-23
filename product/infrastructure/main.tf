@@ -47,3 +47,20 @@ module "networking" {
 
   environment         = var.environment
 }
+
+# SSM
+module "ssm" {
+  source = "./modules/ssm"
+
+  environment = var.environment
+
+  nextauth_url = var.nextauth_url
+  nextauth_secret = var.nextauth_secret
+  backend_graphql_endpoint = var.backend_graphql_endpoint
+  frontend_cognito_client_id = module.cognito.frontend_client_id
+  cognito_user_pool_id = module.cognito.cognito_user_pool_id
+  api_key = var.api_key
+  stripe_publishable_key = var.stripe_publishable_key
+  stripe_secret_key = var.stripe_secret_key
+  stripe_price_id = var.stripe_price_id
+}

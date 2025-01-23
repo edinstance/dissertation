@@ -1,5 +1,3 @@
-
-# Global variables
 variable "environment" {
   description = "The environment to deploy (dev, test, prod)"
   type        = string
@@ -10,7 +8,6 @@ variable "environment" {
   }
 }
 
-# SSM
 variable "nextauth_secret" {
     description = "The secret for NextAuth"
     type        = string
@@ -23,6 +20,16 @@ variable "nextauth_url" {
 
 variable "backend_graphql_endpoint" {
     description = "The endpoint for the backend GraphQL"
+    type        = string
+}
+
+variable "frontend_cognito_client_id" {
+    description = "The Cognito client ID"
+    type        = string
+}
+
+variable "cognito_user_pool_id" {
+    description = "The Cognito user pool ID"
     type        = string
 }
 
