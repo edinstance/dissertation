@@ -1,4 +1,9 @@
 
+# Output VPC ID
+output "vpc_id" {
+  value = aws_vpc.vpc.id
+}
+
 # Output all public subnet IDs
 output "public_subnet_ids" {
   value = aws_subnet.public_subnet[*].id

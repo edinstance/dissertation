@@ -51,6 +51,7 @@ module "ecs" {
   # Networking
   public_subnet_ids = module.networking.public_subnet_ids
   private_subnet_ids = module.networking.private_subnet_ids
+  vpc_id = module.networking.vpc_id
   alb_sg_id = module.networking.alb_sg_id
 
   # Enviroment variables

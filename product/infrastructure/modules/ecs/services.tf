@@ -11,6 +11,8 @@ resource "aws_ecs_service" "frontend_service" {
     subnets = var.public_subnet_ids
   }
 
+  depends_on = [ aws_lb.frontend_alb, aws_lb_target_group.alb_frontend_tg ]
+
  lifecycle {
     # Allow external changes without Terraform plan difference such as autoscaling
     ignore_changes = [desired_count]
