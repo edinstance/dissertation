@@ -8,6 +8,17 @@ variable "environment" {
   }
 }
 
+# Networking
+variable "public_subnet_ids" {
+  description = "The IDs of the public subnets"
+  type        = list(string)
+}
+
+variable "private_subnet_ids" {
+  description = "The IDs of the private subnets"
+  type        = list(string)
+}
+
 # Frontend
 variable "frontend_image_tag" {
   description = "The tag of the frontend Docker image to deploy"

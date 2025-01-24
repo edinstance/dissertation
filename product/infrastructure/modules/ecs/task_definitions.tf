@@ -3,6 +3,10 @@ resource "aws_ecs_task_definition" "frontend_task" {
     family                   = "frontend"
     network_mode             = "awsvpc"
     requires_compatibilities = ["FARGATE"]
+    runtime_platform {
+        operating_system_family = "LINUX"
+        cpu_architecture = "ARM64"
+    }
     cpu                      = "512"   # 0.5 vCPU
     memory                   = "1024"  # 1 GB
     execution_role_arn       = var.ecs_task_execution_role_arn

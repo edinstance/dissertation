@@ -38,13 +38,19 @@ module "backend_ecr" {
 module "ecs" {
   source = "./modules/ecs"
 
+  # Environment
   environment = var.environment
 
+  # ECR
   frontend_image_tag = var.frontend_image_tag
   frontend_ecr_repo = module.frontend_ecr.repository_url
 
+  # IAM
   ecs_task_execution_role_arn = module.iam.ecs_task_execution_role_arn
 
+  # Networking
+  public_subnet_ids = module.networking.public_subnet_ids
+  private_subnet_ids = module.networking.private_subnet_ids
 
   # Enviroment variables
   nextauth_url_arn = module.ssm.nextauth_url_arn
