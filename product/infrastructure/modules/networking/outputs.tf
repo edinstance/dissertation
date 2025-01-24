@@ -8,3 +8,7 @@ output "public_subnet_ids" {
 output "private_subnet_ids" {
   value = aws_subnet.private_subnet[*].id
 }
+
+output "alb_sg_id" {
+  value = aws_security_group.alb_ecs_sg.id
+}

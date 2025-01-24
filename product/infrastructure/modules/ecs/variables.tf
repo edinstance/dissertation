@@ -19,6 +19,11 @@ variable "private_subnet_ids" {
   type        = list(string)
 }
 
+variable "alb_sg_id" {
+  description = "The ID of the security group for the ALB"
+  type        = string
+}
+
 # Frontend
 variable "frontend_image_tag" {
   description = "The tag of the frontend Docker image to deploy"
