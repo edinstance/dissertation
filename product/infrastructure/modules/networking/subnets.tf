@@ -9,7 +9,7 @@ resource "aws_subnet" "public_subnet" {
   map_public_ip_on_launch = false
 
   tags = {
-    Name = "${var.environment}-${var.availability_zones[count.index]}-public-subnet"
+    Name = "${var.environment}-${element(var.availability_zones, count.index)}-public-subnet"
   }
 }
 
@@ -23,6 +23,6 @@ resource "aws_subnet" "private_subnet" {
   map_public_ip_on_launch = false
 
   tags = {
-    Name = "${var.environment}-${var.availability_zones[count.index]}-private-subnet"
+    Name = "${var.environment}-${element(var.availability_zones, count.index)}-private-subnet"
   }
 }
