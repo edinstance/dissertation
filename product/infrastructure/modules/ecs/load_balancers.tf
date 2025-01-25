@@ -24,4 +24,12 @@ resource "aws_lb_target_group" "alb_frontend_tg" {
     protocol    = "HTTP"
     target_type = "ip"
     vpc_id      = var.vpc_id
+
+    health_check {
+        path                = "/api/health"
+        interval            = 30
+        timeout             = 5
+        healthy_threshold   = 2
+        unhealthy_threshold = 2
+    }
 }
