@@ -30,6 +30,11 @@ variable "alb_sg_id" {
   type        = string
 }
 
+variable "ecs_frontend_sg_id" {
+  description = "The ID of the security group for the ECS frontend"
+  type        = string
+}
+
 
 # Frontend
 variable "frontend_image_tag" {
