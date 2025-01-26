@@ -85,7 +85,26 @@ resource "aws_security_group" "backend_sg" {
     }
     
     egress {
-        protocol     = "-1" # Allow all protocols
+        protocol     = "-1"
+        from_port    = 0
+        to_port      = 0
+        cidr_blocks  = ["0.0.0.0/0"]
+    }
+}
+
+resource "aws_security_group" "database_sg" {
+    name = "${var.environment}-database-sg"
+    vpc_id = aws_vpc.vpc.id
+  
+    ingress {
+        protocol         = "tcp"
+        from_port        = 5432
+        to_port          = 5432
+        security_groups = [aws_security_group.backend_sg.id]
+    }
+    
+    egress {
+        protocol     = "-1"
         from_port    = 0
         to_port      = 0
         cidr_blocks  = ["0.0.0.0/0"]

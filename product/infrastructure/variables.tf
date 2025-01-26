@@ -10,6 +10,13 @@ variable "environment" {
   }
 }
 
+variable "availability_zones" {
+  description = "The availability zones to deploy the application to"
+  type        = list(string)
+
+  default = ["eu-west-2a", "eu-west-2b", "eu-west-2c"]
+}
+
 # ECS
 variable "frontend_image_tag" {
   description = "The tag of the frontend Docker image to deploy"

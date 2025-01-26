@@ -86,7 +86,18 @@ module "ecs" {
 module "networking" {
   source = "./modules/networking"
 
-  environment = var.environment
+  environment        = var.environment
+  availability_zones = var.availability_zones
+}
+
+module "database" {
+  source = "./modules/database"
+
+  environment          = var.environment
+  availability_zones   = var.availability_zones
+  db_subnet_group_name = module.networking.db_subnet_group_name
+  db_sg_id             = module.networking.db_sg_id
+
 }
 
 # IAM
