@@ -30,7 +30,7 @@ resource "aws_ecs_service" "frontend_service" {
 resource "aws_ecs_service" "backend_service" {
   name            = "${var.environment}-frontend"
   cluster         = aws_ecs_cluster.cluster.arn
-  task_definition = aws_ecs_task_definition.frontend_task.arn
+  task_definition = aws_ecs_task_definition.backend_task.arn
   desired_count   = 3
 
   launch_type = "FARGATE"
@@ -41,12 +41,12 @@ resource "aws_ecs_service" "backend_service" {
   }
 
   load_balancer {
-    target_group_arn = aws_lb_target_group.alb_frontend_tg.arn
-    container_name   = "frontend"
-    container_port   = 3000
+    target_group_arn = aws_lb_target_group.alb_backend_tg.arn
+    container_name   = "backend"
+    container_port   = 8080
   }
 
-  depends_on = [ aws_lb.frontend_alb, aws_lb_target_group.alb_frontend_tg ]
+  depends_on = [ aws_lb.backend_alb, aws_lb_target_group.alb_backend_tg ]
 
  lifecycle {
     # Allow external changes without Terraform plan difference such as autoscaling
