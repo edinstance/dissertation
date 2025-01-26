@@ -33,3 +33,7 @@ output "backend_sg_id" {
 output "db_sg_id" {
   value = aws_security_group.database_sg.id
 }
+
+output "redis_sg_id" {
+  value = aws_security_group.redis_sg.id
+}

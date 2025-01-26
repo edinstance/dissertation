@@ -1,4 +1,5 @@
 
+# PostgreSQL Database Cluster
 resource "aws_rds_cluster" "database" {
   cluster_identifier = "${var.environment}-database"
   engine             = "aurora-postgresql"
@@ -22,4 +23,14 @@ resource "aws_rds_cluster" "database" {
   network_type = "IPV4"
   
   enabled_cloudwatch_logs_exports = [ "audit", "error", "general", "postgresql" ]
+}
+
+# Redis Serverless Cache
+resource "aws_elasticache_serverless_cache" "redis-cache" {
+  engine = "redis"
+  name   = "${var.environment}-redis"
+
+  major_engine_version     = "7"
+  security_group_ids       = [var.redis_sg_id]
+  subnet_ids = var.private_subnet_ids
 }

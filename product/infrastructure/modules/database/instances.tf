@@ -1,4 +1,4 @@
-
+# Postgres RDS instance
 resource "aws_rds_cluster_instance" "cluster_instances" {
   count              = 2
   identifier         = "${var.environment}-aurora-instance-${count.index}"

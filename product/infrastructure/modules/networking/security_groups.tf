@@ -110,3 +110,22 @@ resource "aws_security_group" "database_sg" {
         cidr_blocks  = ["0.0.0.0/0"]
     }
 }
+
+resource "aws_security_group" "redis_sg" {
+    name = "${var.environment}-redis-sg"
+    vpc_id = aws_vpc.vpc.id
+  
+    ingress {
+        protocol         = "tcp"
+        from_port        = 6379
+        to_port          = 6379
+        security_groups = [aws_security_group.backend_sg.id]
+    }
+    
+    egress {
+        protocol     = "-1"
+        from_port    = 0
+        to_port      = 0
+        cidr_blocks  = ["0.0.0.0/0"]
+    }
+}

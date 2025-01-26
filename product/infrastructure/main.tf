@@ -97,6 +97,7 @@ module "database" {
   availability_zones   = var.availability_zones
   private_subnet_ids   = module.networking.private_subnet_ids
   db_sg_id             = module.networking.db_sg_id
+  redis_sg_id = module.networking.redis_sg_id
 
 }
 
