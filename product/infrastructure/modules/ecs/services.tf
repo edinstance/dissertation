@@ -1,4 +1,4 @@
-
+# Frontend Service
 resource "aws_ecs_service" "frontend_service" {
   name            = "${var.environment}-frontend"
   cluster         = aws_ecs_cluster.cluster.arn
@@ -9,7 +9,7 @@ resource "aws_ecs_service" "frontend_service" {
 
   network_configuration {
     subnets = var.private_subnet_ids
-    security_groups = [var.ecs_frontend_sg_id]
+    security_groups = [var.frontend_sg_id]
   }
 
   load_balancer {

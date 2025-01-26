@@ -1,6 +1,6 @@
 
 # Security group for the alb to the ecs service
-resource "aws_security_group" "alb_ecs_sg" {
+resource "aws_security_group" "frontend_alb_sg" {
     name = "${var.environment}-alb-ecs-sg"
     
     vpc_id = aws_vpc.vpc.id
@@ -22,7 +22,7 @@ resource "aws_security_group" "alb_ecs_sg" {
 }
 
 # Security group for the ecs service from the alb
-resource "aws_security_group" "ecs_frontend_sg" {
+resource "aws_security_group" "frontend_sg" {
     name = "${var.environment}-ecs-frontend-sg"
 
     vpc_id = aws_vpc.vpc.id
@@ -31,7 +31,7 @@ resource "aws_security_group" "ecs_frontend_sg" {
         protocol         = "tcp"
         from_port        = 3000
         to_port          = 3000
-        security_groups  = [aws_security_group.alb_ecs_sg.id] # Allow traffic from ALB
+        security_groups  = [aws_security_group.frontend_alb_sg.id] # Allow traffic from ALB
     }
 
     egress {

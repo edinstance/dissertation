@@ -25,12 +25,12 @@ variable "vpc_id" {
   type        = string
 }
 
-variable "alb_sg_id" {
-  description = "The ID of the security group for the ALB"
+variable "frontend_alb_sg_id" {
+  description = "The ID of the security group for the frontend ALB"
   type        = string
 }
 
-variable "ecs_frontend_sg_id" {
+variable "frontend_sg_id" {
   description = "The ID of the security group for the ECS frontend"
   type        = string
 }

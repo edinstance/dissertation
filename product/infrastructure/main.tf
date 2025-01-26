@@ -56,8 +56,8 @@ module "ecs" {
   public_subnet_ids  = module.networking.public_subnet_ids
   private_subnet_ids = module.networking.private_subnet_ids
   vpc_id             = module.networking.vpc_id
-  alb_sg_id          = module.networking.alb_sg_id
-  ecs_frontend_sg_id = module.networking.ecs_frontend_sg_id
+  frontend_alb_sg_id = module.networking.frontend_alb_sg_id
+  frontend_sg_id = module.networking.frontend_sg_id
 
   # Frontend enviroment variables
   nextauth_url_arn               = module.ssm.nextauth_url_arn
