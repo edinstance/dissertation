@@ -28,7 +28,7 @@ resource "aws_ecs_service" "frontend_service" {
 
 # Backend Service
 resource "aws_ecs_service" "backend_service" {
-  name            = "${var.environment}-frontend"
+  name            = "${var.environment}-backend"
   cluster         = aws_ecs_cluster.cluster.arn
   task_definition = aws_ecs_task_definition.backend_task.arn
   desired_count   = 3
