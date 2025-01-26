@@ -14,6 +14,8 @@ provider "aws" {
   profile = "default"
 }
 
+data "aws_region" "current" {}
+
 # Cognito
 module "cognito" {
   source = "./modules/cognito"
@@ -42,8 +44,10 @@ module "ecs" {
   environment = var.environment
 
   # ECR
-  frontend_image_tag = var.frontend_image_tag
   frontend_ecr_repo  = module.frontend_ecr.repository_url
+  backend_ecr_repo   = module.backend_ecr.repository_url
+  frontend_image_tag = var.frontend_image_tag
+  backend_image_tag  = var.backend_image_tag
 
   # IAM
   ecs_task_execution_role_arn = module.iam.ecs_task_execution_role_arn
@@ -55,7 +59,7 @@ module "ecs" {
   alb_sg_id          = module.networking.alb_sg_id
   ecs_frontend_sg_id = module.networking.ecs_frontend_sg_id
 
-  # Enviroment variables
+  # Frontend enviroment variables
   nextauth_url_arn               = module.ssm.nextauth_url_arn
   nextauth_secret_arn            = module.ssm.nextauth_secret_arn
   backend_graphql_endpoint_arn   = module.ssm.backend_graphql_endpoint_arn
@@ -84,15 +88,26 @@ module "iam" {
 module "ssm" {
   source = "./modules/ssm"
 
+  # Shared
   environment = var.environment
+  api_key     = var.api_key
 
+  # Frontend
   nextauth_url               = var.nextauth_url
   nextauth_secret            = var.nextauth_secret
   backend_graphql_endpoint   = var.backend_graphql_endpoint
   frontend_cognito_client_id = module.cognito.frontend_client_id
   cognito_user_pool_id       = module.cognito.cognito_user_pool_id
-  api_key                    = var.api_key
   stripe_publishable_key     = var.stripe_publishable_key
   stripe_secret_key          = var.stripe_secret_key
   stripe_price_id            = var.stripe_price_id
+
+  # Backend
+  spring_active_profile = var.spring_active_profile
+  cognito_jwt_url       = "https://cognito-idp.${data.aws_region.current.name}.amazonaws.com/${module.cognito.cognito_user_pool_id}"
+  database_url          = var.database_url
+  postgres_user         = var.postgres_user
+  postgres_password     = var.postgres_password
+  redis_host            = var.redis_host
+  redis_port            = var.redis_port
 }

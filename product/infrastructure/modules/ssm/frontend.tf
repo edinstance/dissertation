@@ -27,12 +27,6 @@ resource "aws_ssm_parameter" "cognito_user_pool_id" {
     value = var.cognito_user_pool_id
 }
 
-resource "aws_ssm_parameter" "api_key" {
-    name  = "/${var.environment}/frontend/API_KEY"
-    type  = "String"
-    value = var.api_key
-}
-
 resource "aws_ssm_parameter" "stripe_publishable_key" {
     name  = "/${var.environment}/frontend/STRIPE_PUBLISHABLE_KEY"
     type  = "String"
