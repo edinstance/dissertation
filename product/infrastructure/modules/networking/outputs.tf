@@ -18,6 +18,14 @@ output "frontend_alb_sg_id" {
   value = aws_security_group.frontend_alb_sg.id
 }
 
+output "backend_alb_sg_id" {
+  value = aws_security_group.backend_alb_sg.id
+}
+
 output "frontend_sg_id" {
   value = aws_security_group.frontend_sg.id
+}
+
+output "ecs_backend_sg_id" {
+  value = aws_security_group.backend_sg.id
 }
