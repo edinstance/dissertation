@@ -74,11 +74,6 @@ variable "spring_active_profile" {
   }
 }
 
-variable "database_url" {
-  description = "The URL for the database"
-  type        = string
-}
-
 variable "postgres_user" {
   description = "The username for the PostgreSQL database"
   type        = string
@@ -86,15 +81,5 @@ variable "postgres_user" {
 
 variable "postgres_password" {
   description = "The password for the PostgreSQL database"
-  type        = string
-}
-
-variable "redis_host" {
-  description = "The host for Redis"
-  type        = string
-}
-
-variable "redis_port" {
-  description = "The port for Redis"
   type        = string
 }

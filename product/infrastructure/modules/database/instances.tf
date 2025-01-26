@@ -6,4 +6,5 @@ resource "aws_rds_cluster_instance" "cluster_instances" {
   instance_class     = "db.serverless"
   engine             = aws_rds_cluster.database.engine
   engine_version     = aws_rds_cluster.database.engine_version
+  performance_insights_enabled = true
 }

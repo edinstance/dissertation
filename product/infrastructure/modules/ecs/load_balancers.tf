@@ -3,6 +3,7 @@ resource "aws_lb" "frontend_alb" {
   name               = "${var.environment}-frontend-alb"
   internal           = false
   load_balancer_type = "application"
+  drop_invalid_header_fields = true
   security_groups    = [var.frontend_alb_sg_id]
   subnets            = [for subnet_id in var.public_subnet_ids : subnet_id]
 
@@ -39,6 +40,7 @@ resource "aws_lb" "backend_alb" {
   name               = "${var.environment}-backend-alb"
   internal           = true
   load_balancer_type = "application"
+  drop_invalid_header_fields = true
   security_groups    = [var.backend_alb_sg_id]
   subnets            = [for subnet_id in var.private_subnet_ids : subnet_id]
 
