@@ -14,10 +14,10 @@ variable "availability_zones" {
   type = list(string)
 }
 
-variable "db_subnet_group_name" {
-  description = "The name of the database subnet group"
-  type = string
-} 
+variable "private_subnet_ids" {
+  description = "The IDs of the private subnets"
+  type        = list(string)
+}
 
 variable "db_sg_id" {
   description = "The ID of the database security group"

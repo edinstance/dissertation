@@ -95,7 +95,7 @@ module "database" {
 
   environment          = var.environment
   availability_zones   = var.availability_zones
-  db_subnet_group_name = module.networking.db_subnet_group_name
+  private_subnet_ids   = module.networking.private_subnet_ids
   db_sg_id             = module.networking.db_sg_id
 
 }

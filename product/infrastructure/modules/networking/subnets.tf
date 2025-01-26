@@ -26,12 +26,3 @@ resource "aws_subnet" "private_subnet" {
     Name = "${var.environment}-${element(var.availability_zones, count.index)}-private-subnet"
   }
 }
-
-resource "aws_db_subnet_group" "db_subnet_group" {
-  name       = "${var.environment}-db-subnet-group"
-  subnet_ids = aws_subnet.private_subnet[*].id
-
-  tags = {
-    Name = "${var.environment}-db-subnet-group"
-  }
-}

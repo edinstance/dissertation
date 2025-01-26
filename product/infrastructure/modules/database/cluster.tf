@@ -17,7 +17,7 @@ resource "aws_rds_cluster" "database" {
   }
 
   availability_zones = var.availability_zones
-  db_subnet_group_name = var.db_subnet_group_name
+  db_subnet_group_name = aws_db_subnet_group.db_subnet_group.name
   vpc_security_group_ids = [ var.db_sg_id ]
   network_type = "IPV4"
   
