@@ -35,6 +35,17 @@ variable "frontend_sg_id" {
   type        = string
 }
 
+variable "backend_alb_sg_id" {
+  description = "The ID of the security group for the backend ALB"
+  type        = string
+}
+
+variable "backend_sg_id" {
+  description = "The ID of the security group for the ECS backend"
+  type        = string
+}
+
+
 # ECR
 variable "frontend_image_tag" {
   description = "The tag of the frontend Docker image to deploy"
