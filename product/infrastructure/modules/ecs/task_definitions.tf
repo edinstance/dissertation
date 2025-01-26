@@ -1,4 +1,4 @@
-# ECS Task Definition
+# ECS Frontend Task Definition
 resource "aws_ecs_task_definition" "frontend_task" {
     family                   = "frontend"
     network_mode             = "awsvpc"
@@ -59,6 +59,70 @@ resource "aws_ecs_task_definition" "frontend_task" {
                 {
                     name  = "STRIPE_PRICE_ID"
                     valueFrom = var.stripe_price_id_arn
+                }
+            ]
+        }
+    ])
+}
+
+
+# ECS Backend Task Definition
+resource "aws_ecs_task_definition" "backend_task" {
+    family                   = "backend"
+    network_mode             = "awsvpc"
+    requires_compatibilities = ["FARGATE"]
+    runtime_platform {
+        operating_system_family = "LINUX"
+        cpu_architecture = "ARM64"
+    }
+    cpu                      = "512"   # 0.5 vCPU
+    memory                   = "1024"  # 1 GB
+    execution_role_arn       = var.ecs_task_execution_role_arn
+
+    container_definitions = jsonencode([
+        {
+            name        = "backend"
+            image       = "${var.backend_ecr_repo}:${var.backend_image_tag}"
+            essential   = true
+            portMappings = [
+                {
+                    containerPort = 8080
+                    hostPort      = 8080
+                    protocol      = "tcp"
+                }
+            ]
+            secrets = [
+                {
+                    name  = "SPRING_ACTIVE_PROFILE"
+                    valueFrom = var.spring_active_profile_arn
+                },
+                {
+                    name  = "COGNITO_JWT_URL"
+                    valueFrom = var.cognito_jwt_url_arn
+                },
+                {
+                    name  = "DATABASE_URL"
+                    valueFrom = var.database_url_arn
+                },
+                {
+                    name  = "POSTGRES_USER"
+                    valueFrom = var.postgres_user_arn
+                },
+                {
+                    name  = "POSTGRES_PASSWORD"
+                    valueFrom = var.postgres_password_arn
+                },
+                {
+                    name  = "REDIS_HOST"
+                    valueFrom = var.redis_host_arn
+                },
+                {
+                    name  = "REDIS_PORT"
+                    valueFrom = var.redis_port_arn
+                },
+                {
+                    name  = "API_KEY"
+                    valueFrom = var.api_key_arn
                 }
             ]
         }

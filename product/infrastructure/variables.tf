@@ -16,6 +16,11 @@ variable "frontend_image_tag" {
   type        = string
 }
 
+variable "backend_image_tag" {
+  description = "The tag of the backend Docker image to deploy"
+  type        = string
+}
+
 # SSM
 variable "nextauth_secret" {
   description = "The secret for NextAuth"
@@ -49,5 +54,40 @@ variable "stripe_secret_key" {
 
 variable "stripe_price_id" {
   description = "The Stripe price ID"
+  type        = string
+}
+
+variable "spring_active_profile" {
+  description = "The active profile for Spring"
+  type        = string
+
+  validation {
+    condition     = contains(["dev", "test", "prod"], var.spring_active_profile)
+    error_message = "The active profile must be one of 'dev', 'test', or 'prod'."
+  }
+}
+
+variable "database_url" {
+  description = "The URL for the database"
+  type        = string
+}
+
+variable "postgres_user" {
+  description = "The username for the PostgreSQL database"
+  type        = string
+}
+
+variable "postgres_password" {
+  description = "The password for the PostgreSQL database"
+  type        = string
+}
+
+variable "redis_host" {
+  description = "The host for Redis"
+  type        = string
+}
+
+variable "redis_port" {
+  description = "The port for Redis"
   type        = string
 }

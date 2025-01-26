@@ -35,8 +35,7 @@ variable "ecs_frontend_sg_id" {
   type        = string
 }
 
-
-# Frontend
+# ECR
 variable "frontend_image_tag" {
   description = "The tag of the frontend Docker image to deploy"
   type        = string
@@ -47,6 +46,18 @@ variable "frontend_ecr_repo" {
     type        = string
 }
 
+variable "backend_image_tag" {
+  description = "The tag of the backend Docker image to deploy"
+  type        = string
+}
+
+variable "backend_ecr_repo" {
+    description = "The URL of the backend ECR repository"
+    type        = string
+}
+
+
+# Frontend environment variables
 variable "ecs_task_execution_role_arn" {
   description = "The ARN of the ECS task execution role"
   type        = string
@@ -77,11 +88,6 @@ variable "cognito_user_pool_id_arn" {
   type        = string
 }
 
-variable "api_key_arn" {
-  description = "The arn of the API key"
-  type        = string
-}
-
 variable "stripe_publishable_key_arn" {
   description = "The arn of the Stripe publishable key"
   type        = string
@@ -94,5 +100,47 @@ variable "stripe_secret_key_arn" {
 
 variable "stripe_price_id_arn" {
   description = "The arn of the Stripe price id"
+  type        = string
+}
+
+# Backend environment variables
+variable "spring_active_profile_arn" {
+  description = "The active profile for Spring"
+  type        = string
+}
+
+variable "cognito_jwt_url_arn" {
+  description = "The URL for Cognito JWT"
+  type        = string
+}
+
+variable "database_url_arn" {
+  description = "The URL for the database"
+  type        = string
+}
+
+variable "postgres_user_arn" {
+  description = "The username for the PostgreSQL database"
+  type        = string
+}
+
+variable "postgres_password_arn" {
+  description = "The password for the PostgreSQL database"
+  type        = string
+}
+
+variable "redis_host_arn" {
+  description = "The host for the Redis database"
+  type        = string
+}
+
+variable "redis_port_arn" {
+  description = "The port for the Redis database"
+  type        = number
+}
+
+# Shared
+variable "api_key_arn" {
+  description = "The arn of the API key"
   type        = string
 }

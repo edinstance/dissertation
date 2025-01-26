@@ -70,6 +70,14 @@ module "ecs" {
   stripe_secret_key_arn          = module.ssm.stripe_secret_key_arn
   stripe_price_id_arn            = module.ssm.stripe_price_id_arn
 
+  # Backend enviroment variables
+  spring_active_profile_arn = module.ssm.spring_active_profile_arn
+  cognito_jwt_url_arn       = module.ssm.cognito_jwt_url_arn
+  database_url_arn          = module.ssm.database_url_arn
+  postgres_user_arn         = module.ssm.postgres_user_arn
+  postgres_password_arn     = module.ssm.postgres_password_arn
+  redis_host_arn            = module.ssm.redis_host_arn
+  redis_port_arn            = module.ssm.redis_port_arn
 }
 
 # Networking
