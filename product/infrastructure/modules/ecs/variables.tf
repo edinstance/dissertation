@@ -136,7 +136,7 @@ variable "redis_host_arn" {
 
 variable "redis_port_arn" {
   description = "The port for the Redis database"
-  type        = number
+  type        = string
 }
 
 # Shared
