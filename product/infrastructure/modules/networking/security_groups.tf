@@ -25,7 +25,7 @@ resource "aws_security_group" "frontend_alb_sg" {
 
     egress {
         description = "Allow all traffic out"
-        protocol     = "tcp"
+        protocol     = "-1"
         from_port    = 0
         to_port      = 0
         cidr_blocks  = ["0.0.0.0/0"]
@@ -49,7 +49,7 @@ resource "aws_security_group" "frontend_sg" {
 
     egress {
         description = "Allow all traffic out"
-        protocol         = "tcp"
+        protocol         = "-1"
         from_port        = 0
         to_port          = 0
         cidr_blocks      = ["0.0.0.0/0"]
