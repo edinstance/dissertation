@@ -35,6 +35,13 @@ resource "aws_lb_target_group" "alb_frontend_tg" {
     }
 }
 
+resource "aws_lb_cookie_stickiness_policy" "frontend_alb_cookie_stickiness" {
+  name                     = "${var.environment}-frontend-alb-cookie-stickiness"
+  load_balancer            = aws_lb.frontend_alb.id
+  lb_port                  = 3000
+  cookie_expiration_period = 600
+}
+
 
 resource "aws_lb" "backend_alb" {
   name               = "${var.environment}-backend-alb"
