@@ -22,7 +22,7 @@ resource "aws_ecs_service" "frontend_service" {
 
  lifecycle {
     # Allow external changes without Terraform plan difference such as autoscaling
-    ignore_changes = [desired_count]
+    ignore_changes = [desired_count, task_definition]
   }
 }
 
@@ -37,7 +37,7 @@ resource "aws_ecs_service" "backend_service" {
 
   network_configuration {
     subnets = var.private_subnet_ids
-    security_groups = []
+    security_groups = [var.backend_sg_id]
   }
 
   load_balancer {
@@ -50,6 +50,6 @@ resource "aws_ecs_service" "backend_service" {
 
  lifecycle {
     # Allow external changes without Terraform plan difference such as autoscaling
-    ignore_changes = [desired_count]
+    ignore_changes = [desired_count, task_definition]
   }
 }
