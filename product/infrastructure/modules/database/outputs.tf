@@ -4,9 +4,5 @@ output "database_url" {
 }
 
 output "redis_host" {
-  value = aws_elasticache_cluster.endpoint.address
-}
-
-output "redis_port" {
-  value = aws_elasticache_cluster.endpoint.port
+  value = aws_elasticache_serverless_cache.redis_cache.endpoint[0].address
 }

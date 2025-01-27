@@ -22,11 +22,11 @@ resource "aws_rds_cluster" "database" {
   vpc_security_group_ids = [ var.db_sg_id ]
   network_type = "IPV4"
   
-  enabled_cloudwatch_logs_exports = [ "audit", "error", "general", "postgresql" ]
+  enabled_cloudwatch_logs_exports = [ "postgresql" ]
 }
 
 # Redis Serverless Cache
-resource "aws_elasticache_serverless_cache" "redis-cache" {
+resource "aws_elasticache_serverless_cache" "redis_cache" {
   engine = "redis"
   name   = "${var.environment}-redis"
 

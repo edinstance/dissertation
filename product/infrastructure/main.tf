@@ -131,5 +131,5 @@ module "ssm" {
   postgres_user         = var.postgres_user
   postgres_password     = var.postgres_password
   redis_host            = module.database.redis_host
-  redis_port            = module.database.redis_port
+  redis_port            = "6789"
 }
