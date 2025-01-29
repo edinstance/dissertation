@@ -1,3 +1,6 @@
+
+data "aws_region" "current" {}
+
 # ECS Frontend Task Definition
 resource "aws_ecs_task_definition" "frontend_task" {
     family                   = "frontend"
@@ -23,6 +26,14 @@ resource "aws_ecs_task_definition" "frontend_task" {
                     protocol      = "tcp"
                 }
             ]
+            logConfiguration = {
+                logDriver = "awslogs"
+                options = {
+                    awslogs-group         = "/ecs/frontend"
+                    awslogs-region        = data.aws_region.current.name
+                    awslogs-stream-prefix = "ecs"
+                }
+            }
             secrets = [
                 {
                     name  = "NEXTAUTH_SECRET"
@@ -91,6 +102,14 @@ resource "aws_ecs_task_definition" "backend_task" {
                     protocol      = "tcp"
                 }
             ]
+             logConfiguration = {
+                logDriver = "awslogs"
+                options = {
+                    awslogs-group         = "/ecs/backend"
+                    awslogs-region        = data.aws_region.current.name
+                    awslogs-stream-prefix = "ecs"
+                }
+            }
             secrets = [
                 {
                     name  = "SPRING_ACTIVE_PROFILE"
