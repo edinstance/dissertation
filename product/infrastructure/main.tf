@@ -51,6 +51,7 @@ module "ecs" {
 
   # IAM
   ecs_task_execution_role_arn = module.iam.ecs_task_execution_role_arn
+  ecs_task_role_arn           = module.iam.ecs_task_role_arn
 
   # Networking
   public_subnet_ids  = module.networking.public_subnet_ids
@@ -114,6 +115,8 @@ module "database" {
 # IAM
 module "iam" {
   source = "./modules/iam"
+
+  cognito_user_pool_arn = module.cognito.cognito_user_pool_arn
 }
 
 # SSM
@@ -137,9 +140,9 @@ module "ssm" {
   # Backend
   spring_active_profile = var.spring_active_profile
   cognito_jwt_url       = "https://cognito-idp.${data.aws_region.current.name}.amazonaws.com/${module.cognito.cognito_user_pool_id}"
-  database_url          = "jdbc:postgresql://${module.database.database_url}/"
+  database_url          = "jdbc:postgresql://127.0.0.1/"
   postgres_user         = var.postgres_user
   postgres_password     = var.postgres_password
-  redis_host            = module.database.redis_host
+  redis_host            = "127.0.0.1"
   redis_port            = "6789"
 }

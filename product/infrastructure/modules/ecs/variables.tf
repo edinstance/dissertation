@@ -67,13 +67,19 @@ variable "backend_ecr_repo" {
     type        = string
 }
 
-
-# Frontend environment variables
+# IAM
 variable "ecs_task_execution_role_arn" {
   description = "The ARN of the ECS task execution role"
   type        = string
 }
 
+variable "ecs_task_role_arn" {
+  description = "The ARN of the ECS task role"
+  type        = string
+}
+
+
+# Frontend environment variables
 variable "nextauth_url_arn" {
   description = "The arn of the URL for NextAuth"
   type        = string

@@ -13,6 +13,7 @@ resource "aws_ecs_task_definition" "frontend_task" {
     cpu                      = "512"   # 0.5 vCPU
     memory                   = "1024"  # 1 GB
     execution_role_arn       = var.ecs_task_execution_role_arn
+    task_role_arn            = var.ecs_task_role_arn
 
     container_definitions = jsonencode([
         {
