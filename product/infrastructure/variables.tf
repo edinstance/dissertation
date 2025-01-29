@@ -17,6 +17,11 @@ variable "availability_zones" {
   default = ["eu-west-2a", "eu-west-2b", "eu-west-2c"]
 }
 
+variable "domain" {
+  description = "The domain name (e.g. example.com)"
+  type        = string
+}
+
 # ECS
 variable "frontend_image_tag" {
   description = "The tag of the frontend Docker image to deploy"

@@ -90,6 +90,16 @@ module "networking" {
   availability_zones = var.availability_zones
 }
 
+module "route53" {
+  source = "./modules/route53"
+
+  environment           = var.environment
+  domain                = var.domain
+  frontend_alb_zone_id  = module.ecs.alb_zone_id
+  frontend_alb_dns_name = module.ecs.alb_dns_name
+
+}
+
 module "database" {
   source = "./modules/database"
 
@@ -127,7 +137,7 @@ module "ssm" {
   # Backend
   spring_active_profile = var.spring_active_profile
   cognito_jwt_url       = "https://cognito-idp.${data.aws_region.current.name}.amazonaws.com/${module.cognito.cognito_user_pool_id}"
-  database_url          = module.database.database_url
+  database_url          = "jdbc:postgresql://${module.database.database_url}/"
   postgres_user         = var.postgres_user
   postgres_password     = var.postgres_password
   redis_host            = module.database.redis_host
