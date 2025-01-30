@@ -9,6 +9,7 @@ resource "aws_rds_cluster" "database" {
   master_username    = "${var.environment}Master"
   manage_master_user_password = true
   storage_encrypted  = true
+  enable_http_endpoint = true
 
   skip_final_snapshot = true
 
