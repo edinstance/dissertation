@@ -140,9 +140,9 @@ module "ssm" {
   # Backend
   spring_active_profile = var.spring_active_profile
   cognito_jwt_url       = "https://cognito-idp.${data.aws_region.current.name}.amazonaws.com/${module.cognito.cognito_user_pool_id}"
-  database_url          = "jdbc:postgresql://127.0.0.1/"
+  database_url          = "jdbc:postgresql://${module.database.database_url}/"
   postgres_user         = var.postgres_user
   postgres_password     = var.postgres_password
-  redis_host            = "127.0.0.1"
+  redis_host            = module.database.redis_host
   redis_port            = "6789"
 }
