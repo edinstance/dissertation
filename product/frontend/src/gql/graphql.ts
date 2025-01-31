@@ -30,6 +30,12 @@ export type Scalars = {
   _FieldSet: { input: any; output: any };
 };
 
+export type DeleteResponse = {
+  __typename?: "DeleteResponse";
+  message?: Maybe<Scalars["String"]["output"]>;
+  success?: Maybe<Scalars["Boolean"]["output"]>;
+};
+
 export enum ErrorDetail {
   /**
    * The deadline expired before the operation could complete.
@@ -298,6 +304,7 @@ export type ItemInput = {
 export type Mutation = {
   __typename?: "Mutation";
   createUser?: Maybe<User>;
+  deleteUser?: Maybe<DeleteResponse>;
   saveItem?: Maybe<Item>;
   saveUserDetails?: Maybe<User>;
 };
@@ -418,6 +425,17 @@ export type GetUserQuery = {
       addressCounty?: string | null;
       addressPostcode?: string | null;
     } | null;
+  } | null;
+};
+
+export type DeleteUserMutationVariables = Exact<{ [key: string]: never }>;
+
+export type DeleteUserMutation = {
+  __typename?: "Mutation";
+  deleteUser?: {
+    __typename?: "DeleteResponse";
+    success?: boolean | null;
+    message?: string | null;
   } | null;
 };
 
@@ -640,3 +658,29 @@ export const GetUserDocument = {
     },
   ],
 } as unknown as DocumentNode<GetUserQuery, GetUserQueryVariables>;
+export const DeleteUserDocument = {
+  kind: "Document",
+  definitions: [
+    {
+      kind: "OperationDefinition",
+      operation: "mutation",
+      name: { kind: "Name", value: "DeleteUser" },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "deleteUser" },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                { kind: "Field", name: { kind: "Name", value: "success" } },
+                { kind: "Field", name: { kind: "Name", value: "message" } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<DeleteUserMutation, DeleteUserMutationVariables>;

@@ -138,5 +138,6 @@ export const authConfig = {
   pages: {
     signIn: "/sign-in",
   },
+  trustHost: true,
   secret: process.env.AUTH_SECRET,
 };
