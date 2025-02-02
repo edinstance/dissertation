@@ -4,6 +4,7 @@ import { Inter } from "next/font/google";
 import Header from "@/components/Header";
 import SessionProvider from "@/components/Providers/Auth";
 import { type Metadata } from "next";
+import { ThemeProvider } from "next-themes";
 
 const inter = Inter({ subsets: ["latin"], display: "swap" });
 
@@ -20,10 +21,12 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body className={`${inter.className} bg-zinc-100 dark:bg-zinc-900`}>
-        <SessionProvider>
-          <Header launched={LAUNCHED} />
-          {children}
-        </SessionProvider>
+        <ThemeProvider>
+          <SessionProvider>
+            <Header launched={LAUNCHED} />
+            {children}
+          </SessionProvider>
+        </ThemeProvider>
       </body>
     </html>
   );
