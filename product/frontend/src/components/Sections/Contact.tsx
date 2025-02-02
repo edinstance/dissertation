@@ -2,7 +2,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
-import { set, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Button } from "../ui/Button";
 import { Input } from "../ui/Input";
@@ -48,13 +48,13 @@ export function Contact() {
   const [isLoading, setIsLoading] = useState(false);
 
   const onSubmit = async (data: FormData) => {
-      setIsLoading(true);
-      await new Promise((resolve) => setTimeout(resolve, 2000));
-	  setIsLoading(false);
-      
-      setTimeout(() => {
-        reset();
-      }, 3000);
+    setIsLoading(true);
+    await new Promise((resolve) => setTimeout(resolve, 2000));
+    setIsLoading(false);
+
+    setTimeout(() => {
+      reset();
+    }, 3000);
   };
   return (
     <Section className="flex min-h-screen flex-col items-center py-16">
