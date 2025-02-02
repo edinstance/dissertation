@@ -5,7 +5,7 @@ describe("<Header />", () => {
   it("renders", () => {
     cy.mount(
       <SessionProvider session={null}>
-        <Header />
+        <Header launched={true} />
       </SessionProvider>,
     );
   });
