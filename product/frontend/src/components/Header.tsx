@@ -4,6 +4,7 @@ import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 import { UserCircleIcon } from "@heroicons/react/24/outline";
 import { signIn, signOut, useSession } from "next-auth/react";
 import Link from "next/link";
+import { ThemeToggle } from "./ThemeToggle";
 import { Button } from "./ui/Button";
 
 export default function Header({ launched }: { launched: boolean }) {
@@ -14,8 +15,10 @@ export default function Header({ launched }: { launched: boolean }) {
         <Link href="/" className="text-3xl font-bold">
           SubShop
         </Link>
-        <div>
-          {session.status == "authenticated" ? (
+        <div className="flex items-center gap-4">
+          <ThemeToggle />
+
+          {session.status === "authenticated" ? (
             <div className="flex flex-row rounded-lg text-zinc-700 hover:bg-zinc-300 dark:text-zinc-200 dark:hover:bg-zinc-600">
               <Menu>
                 <MenuButton>
