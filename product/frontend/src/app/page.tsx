@@ -1,5 +1,5 @@
-import { Section } from "@/components/ui/Section";
 import { Button } from "@/components/ui/Button";
+import { Section } from "@/components/ui/Section";
 
 export default function HomePage() {
   const launched = process.env.LAUNCHED === "true";
@@ -8,10 +8,10 @@ export default function HomePage() {
       <Section className="flex min-h-screen items-center justify-center">
         <div className="mx-auto max-w-2xl py-32 sm:py-48 lg:py-56">
           <div className="text-center">
-            <h1 className="text-balance text-5xl font-semibold tracking-tight text-black sm:text-7xl dark:text-white">
+            <h1 className="text-balance text-5xl font-semibold tracking-tight text-black dark:text-white sm:text-7xl">
               A new shopping experience!
             </h1>
-            <p className="mt-8 text-pretty text-lg font-medium text-gray-600 sm:text-xl/8 dark:text-gray-400">
+            <p className="mt-8 text-pretty text-lg font-medium text-gray-600 dark:text-gray-400 sm:text-xl/8">
               Why pay fees when shopping online? SubShop is a new way to shop
               online without the fees. Instead a monthly subscription catered to
               your needs.
