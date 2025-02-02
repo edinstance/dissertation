@@ -1,3 +1,4 @@
+"use client";
 import { Button } from "../ui/Button";
 import { Section } from "../ui/Section";
 
