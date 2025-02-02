@@ -49,6 +49,7 @@ export function Contact() {
 
   const onSubmit = async (data: FormData) => {
     setIsLoading(true);
+	console.log(data);
     await new Promise((resolve) => setTimeout(resolve, 2000));
     setIsLoading(false);
 
@@ -161,7 +162,7 @@ export function Contact() {
             {isSubmitted && (
               <div className="mb-6 mt-4 w-full max-w-2xl rounded-lg bg-green-100 p-4 text-center text-green-800 dark:bg-green-800/30 dark:text-green-400">
                 <p className="text-sm font-medium">
-                  Thank you for your message! We'll get back to you soon.
+                  Thank you for your message! We&apos;ll get back to you soon.
                 </p>
               </div>
             )}
