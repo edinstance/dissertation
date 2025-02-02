@@ -31,6 +31,10 @@ output "stripe_price_id_arn" {
     value = aws_ssm_parameter.stripe_price_id.arn
 }
 
+output "launched_arn" {
+    value = aws_ssm_parameter.launched.arn
+}
+
 # Backend
 output "spring_active_profile_arn" {
     value = aws_ssm_parameter.spring_active_profile.arn

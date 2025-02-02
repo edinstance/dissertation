@@ -71,6 +71,10 @@ resource "aws_ecs_task_definition" "frontend_task" {
                 {
                     name  = "STRIPE_PRICE_ID"
                     valueFrom = var.stripe_price_id_arn
+                },
+                {
+                    name  = "LAUNCHED"
+                    valueFrom = var.launched_arn
                 }
             ]
         }

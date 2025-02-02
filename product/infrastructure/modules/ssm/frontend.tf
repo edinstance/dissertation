@@ -44,3 +44,9 @@ resource "aws_ssm_parameter" "stripe_price_id" {
     type  = "String"
     value = var.stripe_price_id
 }
+
+resource "aws_ssm_parameter" "launched" {
+    name  = "/${var.environment}/frontend/LAUNCHED"
+    type  = "String"
+    value = var.launched
+}

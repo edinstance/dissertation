@@ -49,6 +49,11 @@ variable "stripe_price_id" {
     type        = string
 }
 
+variable "launched" {
+    description = "Whether the product has been launched"
+    type        = string
+}
+
 # Backend
 variable "spring_active_profile" {
     description = "The active profile for Spring"
