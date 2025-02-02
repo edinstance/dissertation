@@ -15,11 +15,13 @@ export const metadata: Metadata = {
 export default async function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
+  const LAUNCHED = process.env.LAUNCHED === "true";
+
   return (
     <html lang="en">
       <body className={`${inter.className} bg-zinc-100 dark:bg-zinc-900`}>
         <SessionProvider>
-          <Header />
+          <Header launched={LAUNCHED} />
           {children}
         </SessionProvider>
       </body>

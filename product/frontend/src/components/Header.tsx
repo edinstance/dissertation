@@ -6,7 +6,7 @@ import { signIn, signOut, useSession } from "next-auth/react";
 import Link from "next/link";
 import { Button } from "./ui/Button";
 
-export default function Header() {
+export default function Header({ launched }: { launched: boolean }) {
   const session = useSession();
   return (
     <header className="fixed left-0 right-0 top-0 z-40 flex h-16">
@@ -49,21 +49,23 @@ export default function Header() {
               </Menu>
             </div>
           ) : (
-            <div className="flex flex-row items-center space-x-4">
-              <Button
-                onClick={() => {
-                  signIn();
-                }}
-              >
-                Sign In
-              </Button>
-              <Link
-                href="/sign-up"
-                className="min-w-fit rounded-md px-4 py-2 text-sm ring-2 ring-blue-600"
-              >
-                Sign up
-              </Link>
-            </div>
+            launched && (
+              <div className="flex flex-row items-center space-x-4">
+                <Button
+                  onClick={() => {
+                    signIn();
+                  }}
+                >
+                  Sign In
+                </Button>
+                <Link
+                  href="/sign-up"
+                  className="min-w-fit rounded-md px-4 py-2 text-sm ring-2 ring-blue-600"
+                >
+                  Sign up
+                </Link>
+              </div>
+            )
           )}
         </div>
       </div>
