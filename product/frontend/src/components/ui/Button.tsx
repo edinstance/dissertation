@@ -23,7 +23,7 @@ const styles = {
   ],
   variants: {
     solid: "border border-transparent outline-none focus:outline-none",
-    outline: "border outline",
+    outline: "border outline outline-2",
   },
   colors: {
     blue: {
