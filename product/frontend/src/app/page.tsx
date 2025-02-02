@@ -1,4 +1,4 @@
-import { Section } from "@/components/Section";
+import { Section } from "@/components/ui/Section";
 import { Button } from "@/components/ui/Button";
 
 export default function HomePage() {
