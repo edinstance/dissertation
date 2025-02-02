@@ -42,8 +42,6 @@ export default function UserDetailsForm() {
     },
   });
 
-  console.log(userDetails);
-
   function onSubmit(data: FormData) {
     if (user) {
       saveUserDetailsMutation({
