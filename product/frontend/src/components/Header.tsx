@@ -11,7 +11,9 @@ export default function Header({ launched }: { launched: boolean }) {
   return (
     <header className="fixed left-0 right-0 top-0 z-40 flex h-16">
       <div className="flex w-full flex-row items-center justify-between bg-zinc-200 px-16 text-black dark:bg-zinc-950 dark:text-white">
-        <p>Final Year Project</p>
+        <Link href="/" className="text-3xl font-bold">
+          SubShop
+        </Link>
         <div>
           {session.status == "authenticated" ? (
             <div className="flex flex-row rounded-lg text-zinc-700 hover:bg-zinc-300 dark:text-zinc-200 dark:hover:bg-zinc-600">
@@ -58,12 +60,9 @@ export default function Header({ launched }: { launched: boolean }) {
                 >
                   Sign In
                 </Button>
-                <Link
-                  href="/sign-up"
-                  className="min-w-fit rounded-md px-4 py-2 text-sm ring-2 ring-blue-600"
-                >
+                <Button href="/sign-up" variant="outline">
                   Sign up
-                </Link>
+                </Button>
               </div>
             )
           )}
