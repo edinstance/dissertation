@@ -374,6 +374,32 @@ export type _Service = {
   sdl: Scalars["String"]["output"];
 };
 
+export type SearchItemsQueryVariables = Exact<{
+  searchText?: InputMaybe<Scalars["String"]["input"]>;
+}>;
+
+export type SearchItemsQuery = {
+  __typename?: "Query";
+  searchForItems?: Array<{
+    __typename?: "Item";
+    id?: string | null;
+    name?: string | null;
+    description?: string | null;
+    isActive?: boolean | null;
+    endingTime?: string | null;
+    price?: number | null;
+    stock?: number | null;
+    category?: string | null;
+    images?: Array<string | null> | null;
+    seller?: {
+      __typename?: "User";
+      id: string;
+      name?: string | null;
+      email: string;
+    } | null;
+  } | null> | null;
+};
+
 export type CreateUserMutationVariables = Exact<{
   input: UserInput;
 }>;
@@ -439,6 +465,71 @@ export type DeleteUserMutation = {
   } | null;
 };
 
+export const SearchItemsDocument = {
+  kind: "Document",
+  definitions: [
+    {
+      kind: "OperationDefinition",
+      operation: "query",
+      name: { kind: "Name", value: "SearchItems" },
+      variableDefinitions: [
+        {
+          kind: "VariableDefinition",
+          variable: {
+            kind: "Variable",
+            name: { kind: "Name", value: "searchText" },
+          },
+          type: { kind: "NamedType", name: { kind: "Name", value: "String" } },
+        },
+      ],
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "searchForItems" },
+            arguments: [
+              {
+                kind: "Argument",
+                name: { kind: "Name", value: "searchText" },
+                value: {
+                  kind: "Variable",
+                  name: { kind: "Name", value: "searchText" },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                { kind: "Field", name: { kind: "Name", value: "id" } },
+                { kind: "Field", name: { kind: "Name", value: "name" } },
+                { kind: "Field", name: { kind: "Name", value: "description" } },
+                { kind: "Field", name: { kind: "Name", value: "isActive" } },
+                { kind: "Field", name: { kind: "Name", value: "endingTime" } },
+                { kind: "Field", name: { kind: "Name", value: "price" } },
+                { kind: "Field", name: { kind: "Name", value: "stock" } },
+                { kind: "Field", name: { kind: "Name", value: "category" } },
+                { kind: "Field", name: { kind: "Name", value: "images" } },
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "seller" },
+                  selectionSet: {
+                    kind: "SelectionSet",
+                    selections: [
+                      { kind: "Field", name: { kind: "Name", value: "id" } },
+                      { kind: "Field", name: { kind: "Name", value: "name" } },
+                      { kind: "Field", name: { kind: "Name", value: "email" } },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<SearchItemsQuery, SearchItemsQueryVariables>;
 export const CreateUserDocument = {
   kind: "Document",
   definitions: [

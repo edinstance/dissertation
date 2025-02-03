@@ -1,4 +1,5 @@
 import { ApolloWrapper } from "@/components/apollo";
+import { Sidebar } from "@/components/ui/Sidebar";
 import { auth } from "@/server/auth";
 import { redirect } from "next/navigation";
 
@@ -18,7 +19,8 @@ export default async function RootLayout({
       link={BACKEND_GRAPHQL_ENDPOINT}
       accessToken={session?.accessToken}
     >
-      {children}
+      <Sidebar />
+      <div className="pl-16">{children}</div>
     </ApolloWrapper>
   );
 }
