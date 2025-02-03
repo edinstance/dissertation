@@ -39,6 +39,11 @@ output "recaptcha_site_key_arn" {
     value = aws_ssm_parameter.recaptcha_site_key.arn
 }
 
+output "recaptcha_secret_key_arn" {
+    value = aws_ssm_parameter.recaptcha_secret_key.arn
+  
+}
+
 # Backend
 output "spring_active_profile_arn" {
     value = aws_ssm_parameter.spring_active_profile.arn

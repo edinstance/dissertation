@@ -130,6 +130,12 @@ variable "recaptcha_site_key_arn" {
   type        = string
 }
 
+variable "recaptcha_secret_key_arn" {
+  description = "The arn of the Recaptcha secret key"
+  type = string
+  
+}
+
 # Backend environment variables
 variable "spring_active_profile_arn" {
   description = "The active profile for Spring"

@@ -59,6 +59,12 @@ variable "recaptcha_site_key" {
     type        = string
 }
 
+variable "recaptcha_secret_key" {
+    description = "The Recaptcha secret key"
+    type = string
+  
+}
+
 # Backend
 variable "spring_active_profile" {
     description = "The active profile for Spring"

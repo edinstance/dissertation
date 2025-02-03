@@ -56,3 +56,9 @@ resource "aws_ssm_parameter" "recaptcha_site_key" {
     type  = "String"
     value = var.recaptcha_site_key
 }
+
+resource "aws_ssm_parameter" "recaptcha_secret_key" {
+    name = "/${var.environment}/frontend/RECAPTCHA_SECRET_KEY"
+    type = "String"
+    value = var.recaptcha_secret_key
+}

@@ -74,6 +74,7 @@ module "ecs" {
   stripe_price_id_arn            = module.ssm.stripe_price_id_arn
   launched_arn                   = module.ssm.launched_arn
   recaptcha_site_key_arn         = module.ssm.recaptcha_site_key_arn
+  recaptcha_secret_key_arn       = module.ssm.recaptcha_secret_key_arn
 
   # Backend enviroment variables
   spring_active_profile_arn = module.ssm.spring_active_profile_arn
@@ -140,6 +141,7 @@ module "ssm" {
   stripe_price_id            = var.stripe_price_id
   launched                   = var.launched
   recaptcha_site_key         = var.recaptcha_site_key
+  recaptcha_secret_key       = var.recaptcha_secret_key
 
   # Backend
   spring_active_profile = var.spring_active_profile
