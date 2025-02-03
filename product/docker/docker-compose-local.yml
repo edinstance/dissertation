@@ -1,0 +1,77 @@
+services:
+  final-project-backend:
+    build:
+      context: ../backend/application/backendService/
+      dockerfile: Dockerfile
+      args:
+        - TEST_COGNITO_JWT_URL=${TEST_COGNITO_JWT_URL}
+    container_name: final-project-backend-local
+    ports:
+      - 8080:8080
+    healthcheck:
+      test: curl --fail http://localhost:8080/details/health || exit 1
+      interval: 60s
+      retries: 5
+      start_period: 20s
+      timeout: 10s
+    environment:
+      - SPRING_ACTIVE_PROFILE=${SPRING_ACTIVE_PROFILE}
+      - DATABASE_URL=${DATABASE_URL}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - COGNITO_JWT_URL=${COGNITO_JWT_URL}
+      - API_KEY=${API_KEY}
+      - REDIS_HOST=${REDIS_HOST}
+      - REDIS_PORT=${REDIS_PORT}
+
+  final-project-frontend:
+    build:
+      context: ../frontend/
+      dockerfile: Dockerfile
+    container_name: final-project-frontend-local
+    ports:
+      - 3000:3000
+    healthcheck:
+      test: curl --fail http://localhost:3000/api/health || exit 1
+      interval: 60s
+      retries: 5
+      start_period: 20s
+      timeout: 10s
+    environment:
+      - AUTH_SECRET=${AUTH_SECRET}
+      - AUTH_URL=${AUTH_URL}
+      - BACKEND_GRAPHQL_ENDPOINT=${BACKEND_GRAPHQL_ENDPOINT}
+      - COGNITO_CLIENT_ID=${COGNITO_CLIENT_ID}
+      - COGNITO_USER_POOL_ID=${COGNITO_USER_POOL_ID}
+      - API_KEY=${API_KEY}
+      - STRIPE_PUBLISHABLE_KEY=${STRIPE_PUBLISHABLE_KEY}
+      - STRIPE_SECRET_KEY=${STRIPE_SECRET_KEY}
+      - STRIPE_PRICE_ID=${STRIPE_PRICE_ID}
+      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+    
+  postgres:
+    container_name: final-project-database-local
+    image: postgres
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB_NAME}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    ports:
+      - "5432:5432"
+
+  liquibase:
+    image: liquibase/liquibase
+    container_name: final-project-liquibase-local
+    command: --url=${DATABASE_URL} --username=${POSTGRES_USER} --password=${POSTGRES_PASSWORD} --changelog-file=/changelogs/changelog-master.xml update
+    volumes:
+      - ../backend/database/src:/liquibase/src
+      - ../backend/database/changelogs:/liquibase/changelogs
+    depends_on:
+      - "postgres"
+
+  redis:
+    container_name: final-project-redis-local
+    image: redis
+    ports:
+      - "6379:6379"

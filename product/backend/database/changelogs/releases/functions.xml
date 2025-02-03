@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.2.xsd">
+
+        <!-- Release changelogs -->
+        <changeSet id="update_last_updated_date" author="zlac370" runOnChange="false">
+                <sqlFile path="../../src/sql/functions/update_last_updated_date.sql"
+                        relativeToChangelogFile="true"
+                        splitStatements="false"
+                        stripComments="false" />
+        </changeSet>
+        <changeSet id="insert_or_update_user_details" author="zlac370" runOnChange="false">
+                <sqlFile path="../../src/sql/functions/insert_or_update_user_details.sql"
+                        relativeToChangelogFile="true"
+                        splitStatements="false"
+                        stripComments="false" />
+        </changeSet>
+
+        <changeSet id="insert_or_update_item_function" author="zlac370" runOnChange="false">
+                <sqlFile path="../../src/sql/functions/insert_or_update_item.sql"
+                        relativeToChangelogFile="true"
+                        splitStatements="false"
+                        stripComments="false" />
+        </changeSet>
+
+        <changeSet id="search_for_items" author="zlac370" runOnChange="false">
+                <sqlFile path="../../src/sql/functions/search_for_items.sql"
+                        relativeToChangelogFile="true"
+                        splitStatements="false"
+                        stripComments="false" />
+        </changeSet>
+
+</databaseChangeLog>

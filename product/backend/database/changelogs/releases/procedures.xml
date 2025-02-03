@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.2.xsd">
+
+        <!-- Release changelogs -->
+        <changeSet id="insert_or_update_user_details_procedure" author="zlac370" runOnChange="false">
+                <sqlFile path="../../src/sql/procedures/insert_or_update_user_details.sql"
+                        relativeToChangelogFile="true"
+                        splitStatements="false"
+                        stripComments="false" />
+        </changeSet>
+
+        <changeSet id="delete_user_procedure" author="zlac370" runOnChange="false">
+                <sqlFile path="../../src/sql/procedures/delete_user.sql"
+                        relativeToChangelogFile="true"
+                        splitStatements="false"
+                        stripComments="false" />
+        </changeSet>
+
+</databaseChangeLog>

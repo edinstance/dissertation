@@ -1,0 +1,75 @@
+type Mutation {
+    createUser(userInput: UserInput): User
+    saveUserDetails(id: String!, detailsInput: UserDetailsInput): User
+    saveItem(itemInput: ItemInput): Item
+    deleteUser: DeleteResponse
+}
+
+type Query {
+    getUser: User
+    searchForItems(searchText: String): [Item]
+}
+
+input UserInput {
+    id: String!
+    email: String!
+    name: String
+}
+
+input UserDetailsInput {
+    contactNumber: String
+    houseName: String
+    addressStreet: String
+    addressCity: String
+    addressCounty: String
+    addressPostcode: String
+}
+
+input ItemInput {
+    id: String
+    name: String
+    description: String
+    isActive: Boolean
+    endingTime: String
+    price: Float
+    stock: Int
+    category: String
+    images: [String]
+}
+
+type DeleteResponse {
+    success: Boolean
+    message: String
+}
+
+type User {
+    id: String!
+    email: String!
+    name: String
+    status: String
+    details: UserDetails
+    items: [Item]
+}
+
+type UserDetails {
+    id: String!
+    contactNumber: String
+    houseName: String
+    addressStreet: String
+    addressCity: String
+    addressCounty: String
+    addressPostcode: String
+}
+
+type Item {
+    id: String
+    name: String
+    description: String
+    isActive: Boolean
+    endingTime: String
+    price: Float
+    stock: Int
+    category: String
+    images: [String]
+    seller: User
+}

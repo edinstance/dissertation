@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.2.xsd">
+
+    <!-- Release changelogs -->
+    <changeSet id="test_all" author="zlac370" runOnChange="false">
+        <sqlFile path="../../src/sql/tests/test_all.sql"
+            relativeToChangelogFile="true"
+            splitStatements="false"
+            stripComments="false" />
+    </changeSet>
+
+    <changeSet id="test_insert_or_update_user_details" author="zlac370" runOnChange="false">
+        <sqlFile path="../../src/sql/tests/insert_or_update_user_details.sql"
+            relativeToChangelogFile="true"
+            splitStatements="false"
+            stripComments="false" />
+    </changeSet>
+
+    <changeSet id="test_user_with_details_view" author="zlac370" runOnChange="false">
+        <sqlFile path="../../src/sql/tests/user_with_details.sql"
+            relativeToChangelogFile="true"
+            splitStatements="false"
+            stripComments="false" />
+    </changeSet>
+
+    <changeSet id="test_insert_or_update_item" author="zlac370" runOnChange="false">
+        <sqlFile path="../../src/sql/tests/insert_or_update_item.sql"
+            relativeToChangelogFile="true"
+            splitStatements="false"
+            stripComments="false" />
+    </changeSet>
+
+    <changeSet id="test_pg_trgm" author="zlac370" runOnChange="false">
+        <sqlFile path="../../src/sql/tests/pg_trgm.sql"
+            relativeToChangelogFile="true"
+            splitStatements="false"
+            stripComments="false" />
+    </changeSet>
+
+    <changeSet id="test_search_for_items" author="zlac370" runOnChange="false">
+        <sqlFile path="../../src/sql/tests/search_for_items.sql"
+            relativeToChangelogFile="true"
+            splitStatements="false"
+            stripComments="false" />
+    </changeSet>
+
+    <changeSet id="test_delete_user" author="zlac370" runOnChange="false">
+        <sqlFile path="../../src/sql/tests/delete_user.sql"
+            relativeToChangelogFile="true"
+            splitStatements="false"
+            stripComments="false" />
+    </changeSet>
+
+     <changeSet id="user_email_constraints" author="zlac370" runOnChange="false">
+        <sqlFile path="../../src/sql/tests/email_constraint.sql"
+            relativeToChangelogFile="true"
+            splitStatements="false"
+            stripComments="false" />
+    </changeSet>
+
+</databaseChangeLog>

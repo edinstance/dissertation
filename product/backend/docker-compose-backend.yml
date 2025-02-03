@@ -1,0 +1,51 @@
+services:
+  final-project-backend:
+    build:
+      context: ./application/backendService/
+      dockerfile: Dockerfile
+      args:
+        - TEST_COGNITO_JWT_URL=${TEST_COGNITO_JWT_URL}
+    container_name: final-project-backend
+    ports:
+      - 8080:8080
+    healthcheck:
+      test: curl --fail http://localhost:8080/details/health || exit 1
+      interval: 60s
+      retries: 5
+      start_period: 20s
+      timeout: 10s
+    environment:
+      - SPRING_ACTIVE_PROFILE=${SPRING_ACTIVE_PROFILE}
+      - DATABASE_URL=${DATABASE_URL}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - COGNITO_JWT_URL=${COGNITO_JWT_URL}
+      - API_KEY=${API_KEY}
+      - REDIS_HOST=${REDIS_HOST}
+      - REDIS_PORT=${REDIS_PORT}
+
+  postgres:
+    container_name: final-project-database
+    image: postgres
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB_NAME}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    ports:
+      - "5432:5432"
+
+  liquibase:
+    image: liquibase/liquibase
+    container_name: final-project-liquibase
+    command: --url=${DATABASE_URL} --username=${POSTGRES_USER} --password=${POSTGRES_PASSWORD} --changelog-file=/changelogs/changelog-master.xml update
+    volumes:
+      - ./src:/liquibase/src
+      - ./changelogs:/liquibase/changelogs
+    depends_on:
+      - "postgres"
+
+  redis:
+    container_name: final-project-redis
+    image: redis
+    ports:
+      - "6379:6379"

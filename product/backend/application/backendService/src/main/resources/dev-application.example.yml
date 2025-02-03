@@ -1,0 +1,44 @@
+spring:
+  application:
+    name: backend
+  profiles:
+    active: dev
+    # This sets the active profile to dev
+  graphql:
+    graphiql:
+      enabled: true
+      # This enables the graphiql interface
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri:
+          # This should be the cognito uri that is https://cognito-idp.<aws-region>.amazonaws.com/<cognito-pool-id>
+  datasource:
+    url: jdbc:postgresql://0.0.0.0:5432/diss
+    username: postgres
+    password: password
+    # This should be the database url, username and password
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        # This sets the Hibernate dialect to PostgreSQL
+# Redis and Jedis config
+redis:
+  host: 0.0.0.0
+  port: 6379
+# Actuator config
+management:
+  endpoints:
+    web:
+      base-path: "/details"
+      # This should be the base path for the actuator endpoints
+    jmx:
+      exposure:
+        include: "health"
+        # This should be the actuator endpoints that you want to expose
+
+api:
+  key:
+# This key is used to access the backend

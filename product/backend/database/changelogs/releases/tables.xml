@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.2.xsd">
+
+        <!-- Release changelogs -->
+        <changeSet id="users_table" author="zlac370" runOnChange="false">
+                <sqlFile path="../../src/sql/tables/users.sql"
+                        relativeToChangelogFile="true"
+                        splitStatements="false"
+                        stripComments="false" />
+        </changeSet>
+
+        <changeSet id="user_details_table" author="zlac370" runOnChange="false">
+                <sqlFile path="../../src/sql/tables/user_details.sql"
+                        relativeToChangelogFile="true"
+                        splitStatements="false"
+                        stripComments="false" />
+        </changeSet>
+
+        <changeSet id="items_table" author="zlac370" runOnChange="false">
+                <sqlFile path="../../src/sql/tables/items.sql"
+                        relativeToChangelogFile="true"
+                        splitStatements="false"
+                        stripComments="false" />
+        </changeSet>
+
+</databaseChangeLog>
