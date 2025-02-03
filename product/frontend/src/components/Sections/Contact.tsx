@@ -1,7 +1,9 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useTheme } from "next-themes";
 import { useState } from "react";
+import ReCAPTCHA from "react-google-recaptcha";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Button } from "../ui/Button";
@@ -29,11 +31,15 @@ const contactSchema = z.object({
 // Infer the type from the schema
 type FormData = z.infer<typeof contactSchema>;
 
-export function Contact() {
+export function Contact({
+  RECAPTCHA_SITE_KEY,
+}: {
+  RECAPTCHA_SITE_KEY?: string;
+}) {
   const {
     handleSubmit,
     register,
-    formState: { errors, isSubmitted },
+    formState: { errors },
     reset,
   } = useForm<FormData>({
     resolver: zodResolver(contactSchema),
@@ -46,17 +52,34 @@ export function Contact() {
   });
 
   const [isLoading, setIsLoading] = useState(false);
+  const [captcha, setCaptcha] = useState<string | null>(null);
+  const [isSubmitted, setIsSubmitted] = useState(false);
 
-  const onSubmit = async (data: FormData) => {
+  const onSubmit = async (data: FormData, e: React.FormEvent) => {
+    e.preventDefault();
     setIsLoading(true);
-	console.log(data);
-    await new Promise((resolve) => setTimeout(resolve, 2000));
-    setIsLoading(false);
-
+    console.log(data);
+    const response = await fetch(`api/google/captcha/verify`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ captcha: captcha }),
+    });
+    const result = await response.json();
+    if (result.success) {
+      setIsLoading(false);
+      setIsSubmitted(true);
+    } else {
+      console.error(result.message);
+    }
     setTimeout(() => {
       reset();
+      setIsSubmitted(false);
     }, 3000);
   };
+
+  const { theme } = useTheme();
   return (
     <Section className="flex min-h-screen flex-col items-center py-16">
       <div className="mb-12 text-center">
@@ -69,7 +92,10 @@ export function Contact() {
       </div>
 
       <form
-        onSubmit={handleSubmit(onSubmit)}
+        onSubmit={(e) => {
+          e.preventDefault();
+          handleSubmit((data) => onSubmit(data, e))(e);
+        }}
         className="w-full max-w-2xl rounded-lg border border-gray-200 bg-white p-8 shadow-lg dark:border-zinc-800 dark:bg-zinc-800"
       >
         {isLoading ? (
@@ -167,16 +193,22 @@ export function Contact() {
               </div>
             )}
 
-            <div className="mt-8 flex justify-end space-x-4">
-              <Button variant="outline" onClick={() => reset()}>
-                Clear
-              </Button>
-              <Button
-                type="submit"
-                className="rounded-md bg-blue-600 px-6 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
-              >
-                Send Message
-              </Button>
+            <div className="mt-8 flex flex-col justify-between gap-4 md:flex-row">
+              {RECAPTCHA_SITE_KEY && (
+                <ReCAPTCHA
+                  sitekey={RECAPTCHA_SITE_KEY}
+                  theme="light"
+                  onChange={setCaptcha}
+                />
+              )}
+              <div className="flex justify-end self-end">
+                <div className="flex gap-4">
+                  <Button variant="outline" onClick={() => reset()}>
+                    Clear
+                  </Button>
+                  <Button type="submit">Send Message</Button>
+                </div>
+              </div>
             </div>
           </>
         )}

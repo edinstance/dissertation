@@ -48,6 +48,7 @@
     "@types/node": "^20.17.9",
     "@types/react": "19.0.2",
     "@types/react-dom": "19.0.2",
+    "@types/react-google-recaptcha": "^2.1.9",
     "cypress": "^13.16.1",
     "eslint": "^8.57.1",
     "eslint-config-next": "15.1.3",
