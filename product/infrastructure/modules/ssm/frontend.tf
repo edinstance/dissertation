@@ -50,3 +50,9 @@ resource "aws_ssm_parameter" "launched" {
     type  = "String"
     value = var.launched
 }
+
+resource "aws_ssm_parameter" "recaptcha_site_key" {
+    name  = "/${var.environment}/frontend/RECAPTCHA_SITE_KEY"
+    type  = "String"
+    value = var.recaptcha_site_key
+}

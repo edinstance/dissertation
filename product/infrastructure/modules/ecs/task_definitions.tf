@@ -75,6 +75,10 @@ resource "aws_ecs_task_definition" "frontend_task" {
                 {
                     name  = "LAUNCHED"
                     valueFrom = var.launched_arn
+                },
+                {
+                    name  = "RECAPTCHA_SITE_KEY"
+                    valueFrom = var.recaptcha_site_key_arn
                 }
             ]
         }

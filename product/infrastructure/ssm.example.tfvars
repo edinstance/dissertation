@@ -6,6 +6,7 @@ stripe_publishable_key   =
 stripe_secret_key        = 
 stripe_price_id          = 
 launched                 =
+recaptcha_site_key       =
 
 # Backend
 spring_active_profile = 

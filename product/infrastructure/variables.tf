@@ -74,6 +74,11 @@ variable "launched" {
   type        = string
 }
 
+variable "recaptcha_site_key" {
+  description = "The Recaptcha site key"
+  type        = string
+}
+
 variable "spring_active_profile" {
   description = "The active profile for Spring"
   type        = string
