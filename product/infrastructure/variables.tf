@@ -69,6 +69,21 @@ variable "stripe_price_id" {
   type        = string
 }
 
+variable "launched" {
+  description = "Whether the product has been launched"
+  type        = string
+}
+
+variable "recaptcha_site_key" {
+  description = "The Recaptcha site key"
+  type        = string
+}
+
+variable "recaptcha_secret_key" {
+  description = "The Recaptcha secret key"
+  type        = string
+}
+
 variable "spring_active_profile" {
   description = "The active profile for Spring"
   type        = string

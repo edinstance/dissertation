@@ -1,72 +1,129 @@
 "use client";
 
-import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
-import { UserCircleIcon } from "@heroicons/react/24/outline";
-import { signIn, signOut, useSession } from "next-auth/react";
+import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
+import { AnimatePresence, motion } from "framer-motion";
+import { signIn, useSession } from "next-auth/react";
 import Link from "next/link";
+import { useState } from "react";
+import { ThemeToggle } from "./ThemeToggle";
 import { Button } from "./ui/Button";
+import { UserMenu } from "./Users/UserMenu";
 
-export default function Header() {
+export default function Header({ launched }: { launched: boolean }) {
   const session = useSession();
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
   return (
-    <header className="fixed left-0 right-0 top-0 z-40 flex h-16">
-      <div className="flex w-full flex-row items-center justify-between bg-zinc-200 px-16 text-black dark:bg-zinc-950 dark:text-white">
-        <p>Final Year Project</p>
-        <div>
-          {session.status == "authenticated" ? (
-            <div className="flex flex-row rounded-lg text-zinc-700 hover:bg-zinc-300 dark:text-zinc-200 dark:hover:bg-zinc-600">
-              <Menu>
-                <MenuButton>
-                  <div className="flex flex-row items-center space-x-1 px-2">
-                    <p>{session?.data?.user?.name}</p>
-                    <UserCircleIcon className="h-8 w-8 rounded-md" />
+    <>
+      <header className="fixed left-0 right-0 top-0 z-50 flex h-16">
+        <div className="flex w-full flex-row items-center justify-between bg-zinc-200 px-4 text-black dark:bg-zinc-950 dark:text-white md:px-16">
+          <Link href="/" className="text-3xl font-bold">
+            SubShop
+          </Link>
+          <div className="flex items-center gap-4">
+            <ThemeToggle />
+
+            {session.status === "authenticated" ? (
+              <div className="flex flex-row rounded-lg text-zinc-700 hover:bg-zinc-300 dark:text-zinc-200 dark:hover:bg-zinc-600">
+                <UserMenu />
+              </div>
+            ) : (
+              launched && (
+                <>
+                  <div className="hidden flex-row items-center space-x-4 md:flex">
+                    <Button onClick={() => signIn()}>Sign In</Button>
+                    <Button href="/sign-up" variant="outline">
+                      Sign up
+                    </Button>
                   </div>
-                </MenuButton>
-                <MenuItems
-                  anchor="bottom end"
-                  transition
-                  className="absolute right-0 z-50 mt-2 w-48 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none dark:bg-zinc-800"
-                >
-                  <MenuItem>
-                    <a
-                      className="block w-full rounded-md bg-white px-4 py-2 text-left text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 dark:bg-zinc-800 dark:text-white dark:hover:bg-zinc-700 dark:focus:ring-offset-zinc-900"
-                      href="/account"
-                    >
-                      Account
-                    </a>
-                  </MenuItem>
-                  <MenuItem>
-                    <button
-                      onClick={() => {
-                        signOut({ redirect: true, redirectTo: "/" });
-                      }}
-                      className="block w-full rounded-md bg-white px-4 py-2 text-left text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-100 focus:outline-none focus:ring-2 *:focus:ring-offset-2 dark:bg-zinc-800 dark:text-white dark:hover:bg-zinc-700 dark:focus:ring-offset-zinc-900"
-                    >
-                      Sign Out
-                    </button>
-                  </MenuItem>
-                </MenuItems>
-              </Menu>
-            </div>
-          ) : (
-            <div className="flex flex-row items-center space-x-4">
-              <Button
-                onClick={() => {
-                  signIn();
-                }}
-              >
-                Sign In
-              </Button>
-              <Link
-                href="/sign-up"
-                className="min-w-fit rounded-md px-4 py-2 text-sm ring-2 ring-blue-600"
-              >
+                  <button
+                    className="rounded-lg p-2 hover:bg-zinc-300 dark:hover:bg-zinc-800 md:hidden"
+                    onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                  >
+                    <MenuIcon isOpen={isMobileMenuOpen} />
+                  </button>
+                </>
+              )
+            )}
+          </div>
+        </div>
+      </header>
+      <MobileMenu
+        isOpen={isMobileMenuOpen}
+        onClose={() => setIsMobileMenuOpen(false)}
+        launched={launched}
+      />
+    </>
+  );
+}
+
+const MenuIcon = ({ isOpen }: { isOpen: boolean }) => (
+  <AnimatePresence mode="wait" initial={false}>
+    {isOpen ? (
+      <motion.div
+        key="close"
+        initial={{ opacity: 0, rotate: -45 }}
+        animate={{ opacity: 1, rotate: 0 }}
+        exit={{ opacity: 0, rotate: 45 }}
+        transition={{
+          type: "spring",
+          stiffness: 300,
+          damping: 30,
+        }}
+      >
+        <XMarkIcon className="h-6 w-6" />
+      </motion.div>
+    ) : (
+      <motion.div
+        key="open"
+        initial={{ opacity: 0, rotate: 45 }}
+        animate={{ opacity: 1, rotate: 0 }}
+        exit={{ opacity: 0, rotate: -45 }}
+        transition={{
+          type: "spring",
+          stiffness: 300,
+          damping: 30,
+        }}
+      >
+        <Bars3Icon className="h-6 w-6" />
+      </motion.div>
+    )}
+  </AnimatePresence>
+);
+
+function MobileMenu({
+  isOpen,
+  onClose,
+  launched,
+}: {
+  isOpen: boolean;
+  onClose: () => void;
+  launched: boolean;
+}) {
+  const { status } = useSession();
+  if (status !== "unauthenticated") return null;
+  return (
+    <>
+      {isOpen && (
+        <div
+          className="fixed inset-0 z-30 bg-black/50 md:hidden"
+          onClick={onClose}
+        />
+      )}
+      <div
+        className={`fixed right-0 top-16 z-40 w-full transform bg-zinc-200 transition-transform duration-300 ease-in-out dark:bg-zinc-950 md:hidden ${isOpen ? "translate-x-0" : "translate-x-full"}`}
+      >
+        <div className="flex flex-col space-y-4 p-4">
+          {launched && (
+            <>
+              <Button onClick={() => signIn()}>Sign In</Button>
+              <Button href="/sign-up" variant="outline">
                 Sign up
-              </Link>
-            </div>
+              </Button>
+            </>
           )}
         </div>
       </div>
-    </header>
+    </>
   );
 }

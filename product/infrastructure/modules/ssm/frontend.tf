@@ -44,3 +44,21 @@ resource "aws_ssm_parameter" "stripe_price_id" {
     type  = "String"
     value = var.stripe_price_id
 }
+
+resource "aws_ssm_parameter" "launched" {
+    name  = "/${var.environment}/frontend/LAUNCHED"
+    type  = "String"
+    value = var.launched
+}
+
+resource "aws_ssm_parameter" "recaptcha_site_key" {
+    name  = "/${var.environment}/frontend/RECAPTCHA_SITE_KEY"
+    type  = "String"
+    value = var.recaptcha_site_key
+}
+
+resource "aws_ssm_parameter" "recaptcha_secret_key" {
+    name = "/${var.environment}/frontend/RECAPTCHA_SECRET_KEY"
+    type = "String"
+    value = var.recaptcha_secret_key
+}

@@ -120,6 +120,22 @@ variable "stripe_price_id_arn" {
   type        = string
 }
 
+variable "launched_arn" {
+  description = "The arn of whether the product has been launched"
+  type        = string
+}
+
+variable "recaptcha_site_key_arn" {
+  description = "The arn of the Recaptcha site key"
+  type        = string
+}
+
+variable "recaptcha_secret_key_arn" {
+  description = "The arn of the Recaptcha secret key"
+  type = string
+  
+}
+
 # Backend environment variables
 variable "spring_active_profile_arn" {
   description = "The active profile for Spring"
