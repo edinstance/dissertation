@@ -79,7 +79,7 @@ export function Contact({
     }, 3000);
   };
 
-  const { theme } = useTheme();
+  const { resolvedTheme } = useTheme();
   return (
     <Section className="flex min-h-screen flex-col items-center py-16">
       <div className="mb-12 text-center">
@@ -196,8 +196,9 @@ export function Contact({
             <div className="mt-8 flex flex-col justify-between gap-4 md:flex-row">
               {RECAPTCHA_SITE_KEY && (
                 <ReCAPTCHA
+                  key={resolvedTheme}
                   sitekey={RECAPTCHA_SITE_KEY}
-                  theme="light"
+                  theme={resolvedTheme === "dark" ? "dark" : "light"}
                   onChange={setCaptcha}
                 />
               )}
