@@ -1,0 +1,39 @@
+"use client";
+
+import { cn } from "@/lib/utils";
+import { ShoppingBagIcon } from "@heroicons/react/24/outline";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+
+const sidebarLinks = [
+  {
+    name: "Shop",
+    href: "/shop",
+    icon: ShoppingBagIcon,
+  },
+];
+
+export function Sidebar() {
+  const pathname = usePathname();
+
+  return (
+    <div className="fixed left-0 top-16 z-40 h-full w-16 border-r border-gray-200 bg-white dark:border-gray-800 dark:bg-zinc-900">
+      <div className="flex h-full flex-col items-center py-4">
+        {sidebarLinks.map((link) => (
+          <Link
+            key={link.name}
+            href={link.href}
+            className={cn(
+              "flex h-12 w-12 items-center justify-center rounded-lg text-gray-500 transition-colors hover:bg-gray-100 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-gray-100",
+              pathname === link.href &&
+                "bg-gray-100 text-gray-900 dark:bg-gray-800 dark:text-gray-100",
+            )}
+            title={link.name}
+          >
+            <link.icon className="h-6 w-6" />
+          </Link>
+        ))}
+      </div>
+    </div>
+  );
+}
