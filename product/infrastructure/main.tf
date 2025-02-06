@@ -122,6 +122,7 @@ module "database" {
 module "iam" {
   source = "./modules/iam"
 
+  environment = var.environment
   cognito_user_pool_arn = module.cognito.cognito_user_pool_arn
 }
 
