@@ -33,9 +33,9 @@ resource "aws_cognito_user_pool" "user_pool" {
     required            = true
     mutable             = true
   }
-  
+
   tags = {
-    Name = "${var.environment}-final-year-project-user-pool"
+    Name        = "${var.environment}-final-year-project-user-pool"
     Environment = var.environment
   }
 }

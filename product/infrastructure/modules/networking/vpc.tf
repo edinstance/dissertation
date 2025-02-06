@@ -5,12 +5,12 @@
 
 # This creates a VPC with CIDR block
 resource "aws_vpc" "vpc" {
-    cidr_block = var.vpc_cidr
-    tags = {
-        Name = "${var.environment}-vpc"
-    }
+  cidr_block = var.vpc_cidr
+  tags = {
+    Name = "${var.environment}-vpc"
+  }
 
-    enable_dns_hostnames = true
+  enable_dns_hostnames = true
 }
 
 

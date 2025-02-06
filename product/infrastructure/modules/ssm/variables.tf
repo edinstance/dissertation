@@ -10,104 +10,104 @@ variable "environment" {
 
 # Frontend
 variable "nextauth_secret" {
-    description = "The secret for NextAuth"
-    type        = string
+  description = "The secret for NextAuth"
+  type        = string
 }
 
 variable "nextauth_url" {
-    description = "The URL for NextAuth"
-    type        = string
+  description = "The URL for NextAuth"
+  type        = string
 }
 
 variable "backend_graphql_endpoint" {
-    description = "The endpoint for the backend GraphQL"
-    type        = string
+  description = "The endpoint for the backend GraphQL"
+  type        = string
 }
 
 variable "frontend_cognito_client_id" {
-    description = "The Cognito client ID"
-    type        = string
+  description = "The Cognito client ID"
+  type        = string
 }
 
 variable "cognito_user_pool_id" {
-    description = "The Cognito user pool ID"
-    type        = string
+  description = "The Cognito user pool ID"
+  type        = string
 }
 
 variable "stripe_publishable_key" {
-    description = "The Stripe publishable key"
-    type        = string
+  description = "The Stripe publishable key"
+  type        = string
 }
 
 variable "stripe_secret_key" {
-    description = "The Stripe secret key"
-    type        = string
+  description = "The Stripe secret key"
+  type        = string
 }
 
 variable "stripe_price_id" {
-    description = "The Stripe price ID"
-    type        = string
+  description = "The Stripe price ID"
+  type        = string
 }
 
 variable "launched" {
-    description = "Whether the product has been launched"
-    type        = string
+  description = "Whether the product has been launched"
+  type        = string
 }
 
 variable "recaptcha_site_key" {
-    description = "The Recaptcha site key"
-    type        = string
+  description = "The Recaptcha site key"
+  type        = string
 }
 
 variable "recaptcha_secret_key" {
-    description = "The Recaptcha secret key"
-    type = string
-  
+  description = "The Recaptcha secret key"
+  type        = string
+
 }
 
 # Backend
 variable "spring_active_profile" {
-    description = "The active profile for Spring"
-    type        = string
-    
-    validation {
+  description = "The active profile for Spring"
+  type        = string
+
+  validation {
     condition     = contains(["dev", "test", "prod"], var.spring_active_profile)
     error_message = "The active profile must be one of 'dev', 'test', or 'prod'."
   }
 }
 
 variable "cognito_jwt_url" {
-    description = "The URL for Cognito JWT"
-    type        = string
+  description = "The URL for Cognito JWT"
+  type        = string
 }
 
 variable "database_url" {
-    description = "The URL for the database"
-    type        = string
+  description = "The URL for the database"
+  type        = string
 }
 
 variable "postgres_user" {
-    description = "The user for the Postgres database"
-    type        = string
+  description = "The user for the Postgres database"
+  type        = string
 }
 
 variable "postgres_password" {
-    description = "The password for the Postgres database"
-    type        = string
+  description = "The password for the Postgres database"
+  type        = string
 }
 
 variable "redis_host" {
-    description = "The host for Redis"
-    type        = string
+  description = "The host for Redis"
+  type        = string
 }
 
 variable "redis_port" {
-    description = "The port for Redis"
-    type        = string
+  description = "The port for Redis"
+  type        = string
 }
 
 # Shared
 variable "api_key" {
-    description = "The API key"
-    type        = string
+  description = "The API key"
+  type        = string
 }
