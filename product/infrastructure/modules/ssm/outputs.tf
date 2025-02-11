@@ -41,7 +41,18 @@ output "recaptcha_site_key_arn" {
 
 output "recaptcha_secret_key_arn" {
   value = aws_ssm_parameter.recaptcha_secret_key.arn
+}
 
+output "ses_sender_email_arn" {
+  value = aws_ssm_parameter.ses_sender_email.arn
+}
+
+output "ses_recipient_email_arn" {
+  value = aws_ssm_parameter.ses_recipient_email.arn
+}
+
+output "ses_production_arn" {
+  value = aws_ssm_parameter.ses_production.arn
 }
 
 # Backend

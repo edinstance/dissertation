@@ -78,6 +78,9 @@ module "ecs" {
   launched_arn                   = module.ssm.launched_arn
   recaptcha_site_key_arn         = module.ssm.recaptcha_site_key_arn
   recaptcha_secret_key_arn       = module.ssm.recaptcha_secret_key_arn
+  ses_sender_email_arn           = module.ssm.ses_sender_email_arn
+  ses_recipient_email_arn        = module.ssm.ses_recipient_email_arn
+  ses_production_arn             = module.ssm.ses_production_arn
 
   # Backend enviroment variables
   spring_active_profile_arn = module.ssm.spring_active_profile_arn
@@ -122,7 +125,7 @@ module "database" {
 module "iam" {
   source = "./modules/iam"
 
-  environment = var.environment
+  environment           = var.environment
   cognito_user_pool_arn = module.cognito.cognito_user_pool_arn
 }
 
@@ -146,6 +149,9 @@ module "ssm" {
   launched                   = var.launched
   recaptcha_site_key         = var.recaptcha_site_key
   recaptcha_secret_key       = var.recaptcha_secret_key
+  ses_sender_email           = var.ses_sender_email
+  ses_recipient_email        = var.ses_recipient_email
+  ses_production             = var.ses_production
 
   # Backend
   spring_active_profile = var.spring_active_profile
@@ -155,4 +161,12 @@ module "ssm" {
   postgres_password     = var.postgres_password
   redis_host            = module.database.redis_host
   redis_port            = "6789"
+}
+
+module "ses" {
+  source = "./modules/ses"
+
+  environment         = var.environment
+  domain              = var.domain
+  aws_route53_zone_id = module.route53.zone_id
 }

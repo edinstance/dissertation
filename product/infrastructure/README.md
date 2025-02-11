@@ -6,6 +6,10 @@ This directory will contain all of the infrastrucure as code that will define th
 
 Once the Route53 hosted zone is setup, get the nameservers for the domain and then set your custom domain to use them.
 
+## SES
+
+You need to enable production mode for SES, for more information look [here](./modules/ses/README.md).
+
 ### Enviroment variables
 
 You can either set the enviroment variables throught the command line or you can use the ```example.tfvars``` files to create variable files without the example in them and terraform will use the values from them instead.

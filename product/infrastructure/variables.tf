@@ -84,6 +84,21 @@ variable "recaptcha_secret_key" {
   type        = string
 }
 
+variable "ses_sender_email" {
+  description = "The sender email for SES"
+  type        = string
+}
+
+variable "ses_recipient_email" {
+  description = "The recipient email for SES"
+  type        = string
+}
+
+variable "ses_production" {
+  description = "Whether SES is in production"
+  type        = bool
+}
+
 variable "spring_active_profile" {
   description = "The active profile for Spring"
   type        = string

@@ -139,7 +139,21 @@ variable "recaptcha_site_key_arn" {
 variable "recaptcha_secret_key_arn" {
   description = "The arn of the Recaptcha secret key"
   type        = string
+}
 
+variable "ses_sender_email_arn" {
+  description = "The arn of the SES sender email"
+  type        = string
+}
+
+variable "ses_recipient_email_arn" {
+  description = "The arn of the SES recipient email"
+  type        = string
+}
+
+variable "ses_production_arn" {
+  description = "The arn of whether SES is in production"
+  type        = string
 }
 
 # Backend environment variables
