@@ -83,6 +83,18 @@ resource "aws_ecs_task_definition" "frontend_task" {
         {
           name      = "RECAPTCHA_SECRET_KEY"
           valueFrom = var.recaptcha_secret_key_arn
+        },
+        {
+          name      = "SES_SENDER_EMAIL"
+          valueFrom = var.ses_sender_email_arn
+        },
+        {
+          name      = "SES_RECIPIENT_EMAIL"
+          valueFrom = var.ses_recipient_email_arn
+        },
+        {
+          name      = "SES_PRODUCTION"
+          valueFrom = var.ses_production_arn
         }
       ]
     }

@@ -7,7 +7,10 @@ stripe_secret_key        =
 stripe_price_id          = 
 launched                 =
 recaptcha_site_key       =
-recaptcha_secret_key = 
+recaptcha_secret_key     = 
+ses_sender_email         = 
+ses_recipient_email      = 
+ses_production           = 
 
 # Backend
 spring_active_profile = 

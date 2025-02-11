@@ -78,6 +78,9 @@ module "ecs" {
   launched_arn                   = module.ssm.launched_arn
   recaptcha_site_key_arn         = module.ssm.recaptcha_site_key_arn
   recaptcha_secret_key_arn       = module.ssm.recaptcha_secret_key_arn
+  ses_sender_email_arn           = module.ssm.ses_sender_email_arn
+  ses_recipient_email_arn        = module.ssm.ses_recipient_email_arn
+  ses_production_arn             = module.ssm.ses_production_arn
 
   # Backend enviroment variables
   spring_active_profile_arn = module.ssm.spring_active_profile_arn
@@ -146,6 +149,9 @@ module "ssm" {
   launched                   = var.launched
   recaptcha_site_key         = var.recaptcha_site_key
   recaptcha_secret_key       = var.recaptcha_secret_key
+  ses_sender_email           = var.ses_sender_email
+  ses_recipient_email        = var.ses_recipient_email
+  ses_production             = var.ses_production
 
   # Backend
   spring_active_profile = var.spring_active_profile

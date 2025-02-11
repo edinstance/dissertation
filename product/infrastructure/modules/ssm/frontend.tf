@@ -62,3 +62,21 @@ resource "aws_ssm_parameter" "recaptcha_secret_key" {
   type  = "String"
   value = var.recaptcha_secret_key
 }
+
+resource "aws_ssm_parameter" "ses_sender_email" {
+  name  = "/${var.environment}/frontend/SES_SENDER_EMAIL"
+  type  = "String"
+  value = var.ses_sender_email
+}
+
+resource "aws_ssm_parameter" "ses_recipient_email" {
+  name  = "/${var.environment}/frontend/SES_RECIPIENT_EMAIL"
+  type  = "String"
+  value = var.ses_recipient_email
+}
+
+resource "aws_ssm_parameter" "ses_production" {
+  name  = "/${var.environment}/frontend/SES_PRODUCTION"
+  type  = "String"
+  value = var.ses_production
+}
