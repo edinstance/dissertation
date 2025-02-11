@@ -6,6 +6,14 @@ import { signIn } from "next-auth/react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
+/**
+ * SignInPage component for user authentication.
+ *
+ * This component renders a login form that allows users to sign in to their account.
+ * It includes fields for email and password, and displays error messages if authentication fails.
+ *
+ * @returns The rendered SignInPage component.
+ */
 function SignInPage() {
   const [errorMessage, setErrorMessage] = useState("");
   const [showPassword, setShowPassword] = useState(false);

@@ -13,6 +13,14 @@ const sidebarLinks = [
   },
 ];
 
+/**
+ * Sidebar component for navigation.
+ *
+ * This component renders a vertical sidebar with navigation links.
+ * Each link is represented by an icon and highlights when active.
+ *
+ * @returns The rendered sidebar component.
+ */
 export function Sidebar() {
   const pathname = usePathname();
 

@@ -9,21 +9,29 @@ import { JWT } from "next-auth/jwt";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { z } from "zod";
 
+/**
+ * Custom error class for handling authentication errors.
+ */
 class CustomError {
   code: string;
   message: string;
 
+  /**
+   * Creates an instance of CustomError.
+   * @param code - The error code.
+   */
   constructor(code: string) {
     this.code = code;
     this.message = code;
   }
 }
 
+// Schema for validating user credentials
 const credentialsSchema = z.object({
   email: z.string().email({ message: "Invalid email address" }),
   password: z
     .string()
-    .min(8, { message: "Password must be at least 6 characters long" })
+    .min(8, { message: "Password must be at least 8 characters long" })
     .refine(
       (value) => /[A-Z]/.test(value) && /[a-z]/.test(value) && /\d/.test(value),
       { message: "Password must include uppercase, lowercase, and number" },
@@ -38,7 +46,7 @@ const credentialsSchema = z.object({
 export const authConfig = {
   providers: [
     CredentialsProvider({
-      // The name to display on the sign in form (e.g. 'Sign in with...')
+      // The name to display on the sign-in form (e.g. 'Sign in with...')
       name: "Credentials",
       credentials: {
         email: {
@@ -48,6 +56,13 @@ export const authConfig = {
         },
         password: { label: "Password", type: "password" },
       },
+      /**
+       * Authorizes a user with the provided credentials.
+       *
+       * @param credentials - The credentials provided by the user.
+       * @returns A promise that resolves to the user object if authorization is successful.
+       * @throws Throws a CustomError if authorization fails.
+       */
       async authorize(credentials) {
         if (!credentials) throw new CustomError("No credentials provided");
 
@@ -99,6 +114,14 @@ export const authConfig = {
     }),
   ],
   callbacks: {
+    /**
+     * JWT callback to manage token creation and refresh.
+     *
+     * @param param - The parameters for the callback.
+     * @param token - The current JWT token.
+     * @param user - The user object if available.
+     * @returns A promise that resolves to the updated JWT token.
+     */
     async jwt({ token, user }: { token: JWT; user?: User }) {
       if (user) {
         token.id = user.id;
@@ -126,6 +149,14 @@ export const authConfig = {
 
       return token;
     },
+    /**
+     * Session callback to manage session data.
+     *
+     * @param param - The parameters for the callback.
+     * @param session - The current session object.
+     * @param token - The JWT token.
+     * @returns A promise that resolves to the updated session object.
+     */
     async session({ session, token }: { session: Session; token: JWT }) {
       // Add accessToken to the session
       if (token) {

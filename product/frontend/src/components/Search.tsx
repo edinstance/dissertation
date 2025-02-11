@@ -7,6 +7,15 @@ import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import { useState } from "react";
 import { Input } from "./ui/Input";
 
+/**
+ * SearchBar component for searching items.
+ *
+ * This component renders a search input field with a magnifying glass icon.
+ * It allows users to input a search query and triggers a search when the form is submitted.
+ *
+ * @param props - The props for the component.
+ * @returns The rendered SearchBar component.
+ */
 export function SearchBar({
   placeholder = "Search...",
   className = "",

@@ -15,6 +15,13 @@ interface EmailData {
   message: string;
 }
 
+/**
+ * Sends a contact email to the recipient and optionally a confirmation email to the sender.
+ *
+ * @param emailData - The data of the email to be sent.
+ * @returns A promise that resolves to an object indicating the success or failure of the email sending operation.
+ * @throws If there is an error sending the email.
+ */
 export async function sendContactEmail(emailData: EmailData) {
   if (!SES_SENDER_EMAIL || !SES_RECIPIENT_EMAIL) {
     console.error("Missing required environment variables.");

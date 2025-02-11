@@ -2,6 +2,16 @@
 import { Button } from "../ui/Button";
 import { Section } from "../ui/Section";
 
+/**
+ * Landing component for displaying the landing page content.
+ *
+ * This component renders a section with a title, description, and buttons
+ * based on the launch status. It provides a welcoming message and options
+ * for users to either learn more or sign up.
+ *
+ * @param props - The props for the component.
+ * @returns The rendered Landing component.
+ */
 export function Landing({ launched }: { launched: boolean }) {
   return (
     <Section className="flex min-h-screen items-center justify-center">

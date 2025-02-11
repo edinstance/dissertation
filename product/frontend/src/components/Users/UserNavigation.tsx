@@ -4,6 +4,14 @@ import { LayoutGroup, motion } from "framer-motion";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
+/**
+ * UserNavigation component for rendering navigation links for user account management.
+ *
+ * This component displays a list of navigation links related to user account features.
+ * It highlights the active link with an animated underline using Framer Motion.
+ *
+ * @returns The rendered UserNavigation component.
+ */
 export default function UserNavigation() {
   const pathname = usePathname();
 

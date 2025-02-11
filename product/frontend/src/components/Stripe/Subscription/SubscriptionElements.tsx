@@ -10,6 +10,15 @@ import {
 import { useState } from "react";
 import { Button } from "../../ui/Button";
 
+/**
+ * SubscriptionElements component for handling subscription payments.
+ *
+ * This component renders a form that allows users to enter their payment
+ * information and billing address for subscription management. It uses
+ * Stripe's PaymentElement and AddressElement to handle payment processing.
+ *
+ * @returns The rendered SubscriptionElements component.
+ */
 export default function SubscriptionElements() {
   const userResponse = useQuery(GET_USER);
   const user = userResponse?.data?.getUser;
@@ -20,6 +29,11 @@ export default function SubscriptionElements() {
   const [errorMessage] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  /**
+   * Handles the form submission for payment processing.
+   *
+   * @param event - The form submission event.
+   */
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
 

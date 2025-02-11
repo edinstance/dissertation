@@ -9,6 +9,15 @@ import { signOut, useSession } from "next-auth/react";
 import { redirect } from "next/navigation";
 import { useState } from "react";
 
+/**
+ * Account component for managing user account settings.
+ *
+ * This component allows users to delete their account. It displays a button
+ * that opens a confirmation modal when clicked. If the user confirms the
+ * deletion, the account is deleted, and the user is signed out.
+ *
+ * @returns The rendered Account component.
+ */
 export default function Account() {
   const session = useSession();
 

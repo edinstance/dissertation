@@ -3,6 +3,16 @@ import { UnsubscribeButton } from "@/components/Stripe/Subscription/UnsubscribeB
 import { auth } from "@/server/auth";
 import { findExistingSubscriptionByUserId } from "@/utils/stripe";
 
+/**
+ * CheckoutPage component for managing user subscriptions.
+ *
+ * This component checks if the user has an existing subscription. If the user
+ * has an active subscription, it displays the subscription details and an option
+ * to unsubscribe. If not, it renders the SubscriptionForm for the user to create
+ * a new subscription.
+ *
+ * @returns A promise that resolves to the rendered CheckoutPage component.
+ */
 export default async function CheckoutPage() {
   const stripeKey = process.env.STRIPE_PUBLISHABLE_KEY!;
   const session = await auth();

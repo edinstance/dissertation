@@ -9,6 +9,15 @@ import { ThemeToggle } from "./ThemeToggle";
 import { Button } from "./ui/Button";
 import { UserMenu } from "./Users/UserMenu";
 
+/**
+ * Header component for the application.
+ *
+ * This component renders the top navigation bar, including the application title,
+ * theme toggle, user menu, and sign-in buttons. It also manages the mobile menu state.
+ *
+ * @param props - The props for the component.
+ * @returns The rendered Header component.
+ */
 export default function Header({ launched }: { launched: boolean }) {
   const session = useSession();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -57,6 +66,15 @@ export default function Header({ launched }: { launched: boolean }) {
   );
 }
 
+/**
+ * MenuIcon component for displaying the mobile menu icon.
+ *
+ * This component renders either a close icon or a hamburger icon based on the
+ * current state of the mobile menu.
+ *
+ * @param props - The props for the component.
+ * @returns The rendered MenuIcon component.
+ */
 const MenuIcon = ({ isOpen }: { isOpen: boolean }) => (
   <AnimatePresence mode="wait" initial={false}>
     {isOpen ? (
@@ -91,6 +109,15 @@ const MenuIcon = ({ isOpen }: { isOpen: boolean }) => (
   </AnimatePresence>
 );
 
+/**
+ * MobileMenu component for displaying the mobile navigation menu.
+ *
+ * This component renders a menu with options for signing in and signing up
+ * when the mobile menu is open.
+ *
+ * @param props - The props for the component.
+ * @returns The rendered MobileMenu component or null if not open.
+ */
 function MobileMenu({
   isOpen,
   onClose,

@@ -32,6 +32,16 @@ const contactSchema = z.object({
 // Infer the type from the schema
 type FormData = z.infer<typeof contactSchema>;
 
+/**
+ * Contact component for submitting a contact form.
+ *
+ * This component renders a form that allows users to send a message.
+ * It includes validation for the input fields and integrates with
+ * Google reCAPTCHA for spam protection.
+ *
+ * @param props - The props for the component.
+ * @returns The rendered Contact component.
+ */
 export function Contact({
   RECAPTCHA_SITE_KEY,
 }: {
@@ -61,7 +71,7 @@ export function Contact({
     e.preventDefault();
     setIsLoading(true);
     console.log(data);
-    const response = await fetch(`api/google/captcha/verify`, {
+    const response = await fetch("api/google/captcha/verify", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

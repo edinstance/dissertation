@@ -2,6 +2,14 @@
 
 import { SearchBar } from "@/components/Search";
 
+/**
+ * Shop component for displaying the shop page.
+ *
+ * This component renders a search bar at the top of the shop page and a title.
+ * It provides a layout for users to search for items within the shop.
+ *
+ * @returns The rendered Shop component.
+ */
 export default function Shop() {
   return (
     <div className="min-h-screen bg-zinc-100 pt-16 dark:bg-zinc-900">

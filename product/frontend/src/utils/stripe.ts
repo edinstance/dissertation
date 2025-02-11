@@ -1,6 +1,11 @@
 import Stripe from "stripe";
 
-// Find customer by userId
+/**
+ * Finds a Stripe customer by their user ID.
+ *
+ * @param userId - The user ID associated with the customer.
+ * @returns A promise that resolves to the Stripe customer object if found, or null if not found.
+ */
 export async function findCustomerByUserId(
   userId: string,
 ): Promise<Stripe.Customer | null> {
@@ -15,7 +20,12 @@ export async function findCustomerByUserId(
     : null;
 }
 
-// Get all subscriptions for a customer and return the most recent one
+/**
+ * Retrieves all subscriptions for a given customer and returns them sorted by creation date.
+ *
+ * @param customerId - The ID of the customer whose subscriptions are to be retrieved.
+ * @returns A promise that resolves to an array of subscriptions for the customer.
+ */
 async function getCustomerSubscriptions(
   customerId: string,
 ): Promise<Stripe.Subscription[]> {
@@ -32,7 +42,12 @@ async function getCustomerSubscriptions(
   return subscriptions.data;
 }
 
-// Find the most recent valid subscription (with a valid payment intent)
+/**
+ * Finds the most recent valid subscription for a given array of subscriptions.
+ *
+ * @param subscriptions - An array of subscriptions to search through.
+ * @returns The most recent valid subscription with a valid payment intent, or null if none found.
+ */
 function findExistingSubscription(
   subscriptions: Stripe.Subscription[],
 ): Stripe.Subscription | null {
@@ -45,7 +60,12 @@ function findExistingSubscription(
   );
 }
 
-// Find the most recent subscription for a given userId
+/**
+ * Finds the most recent subscription for a given user ID.
+ *
+ * @param userId - The user ID associated with the customer.
+ * @returns A promise that resolves to the most recent valid subscription for the user, or null if not found.
+ */
 export async function findExistingSubscriptionByUserId(
   userId: string,
 ): Promise<Stripe.Subscription | null> {

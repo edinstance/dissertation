@@ -1,4 +1,13 @@
 // The svg comes from https://www.material-tailwind.com/docs/html/spinner
+
+/**
+ * LoadingSpinner component that displays a loading spinner.
+ *
+ * This component renders an SVG spinner that indicates loading or processing
+ * activity. It uses Tailwind CSS for styling and animation.
+ *
+ * @returns The rendered loading spinner component.
+ */
 export default function LoadingSpinner() {
   return (
     <div className="flex items-center justify-center space-x-8">
