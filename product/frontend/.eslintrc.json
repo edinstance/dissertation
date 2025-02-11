@@ -1,3 +1,13 @@
 {
-  "extends": ["next/core-web-vitals", "next/typescript", "prettier"]
+  "extends": ["next/core-web-vitals", "next/typescript", "prettier"],
+  "plugins": ["eslint-plugin-tsdoc"],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "project": "./tsconfig.json",
+    "ecmaVersion": 2018,
+    "sourceType": "module"
+  },
+  "rules": {
+    "tsdoc/syntax": "warn"
+  }
 }
