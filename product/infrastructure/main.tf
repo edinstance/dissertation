@@ -122,7 +122,7 @@ module "database" {
 module "iam" {
   source = "./modules/iam"
 
-  environment = var.environment
+  environment           = var.environment
   cognito_user_pool_arn = module.cognito.cognito_user_pool_arn
 }
 
@@ -155,4 +155,12 @@ module "ssm" {
   postgres_password     = var.postgres_password
   redis_host            = module.database.redis_host
   redis_port            = "6789"
+}
+
+module "ses" {
+  source = "./modules/ses"
+
+  environment         = var.environment
+  domain              = var.domain
+  aws_route53_zone_id = module.route53.zone_id
 }
