@@ -38,7 +38,7 @@ public class ReportingMutations {
     String result = reportingService.reportBug(title, description);
 
     if (result.equals("Success")) {
-      return new MutationResponse(true, title + "reported successfully");
+      return new MutationResponse(true, title + ": reported successfully");
     }
     return new MutationResponse(false, title + ": " + result);
   }

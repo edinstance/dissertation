@@ -33,7 +33,7 @@ public class ReportingMutationTests {
     MutationResponse response = reportingMutations.reportBug(title, description);
 
     assert response.isSuccess();
-    assert response.getMessage().equals(title + "reported successfully");
+    assert response.getMessage().equals(title + ": reported successfully");
 
     verify(reportingService, times(1)).reportBug(title, description);
   }
