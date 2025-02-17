@@ -30,12 +30,6 @@ export type Scalars = {
   _FieldSet: { input: any; output: any };
 };
 
-export type DeleteResponse = {
-  __typename?: "DeleteResponse";
-  message?: Maybe<Scalars["String"]["output"]>;
-  success?: Maybe<Scalars["Boolean"]["output"]>;
-};
-
 export enum ErrorDetail {
   /**
    * The deadline expired before the operation could complete.
@@ -304,13 +298,19 @@ export type ItemInput = {
 export type Mutation = {
   __typename?: "Mutation";
   createUser?: Maybe<User>;
-  deleteUser?: Maybe<DeleteResponse>;
+  deleteUser?: Maybe<MutationResponse>;
+  reportBug?: Maybe<MutationResponse>;
   saveItem?: Maybe<Item>;
   saveUserDetails?: Maybe<User>;
 };
 
 export type MutationCreateUserArgs = {
   userInput?: InputMaybe<UserInput>;
+};
+
+export type MutationReportBugArgs = {
+  description: Scalars["String"]["input"];
+  title: Scalars["String"]["input"];
 };
 
 export type MutationSaveItemArgs = {
@@ -320,6 +320,12 @@ export type MutationSaveItemArgs = {
 export type MutationSaveUserDetailsArgs = {
   detailsInput?: InputMaybe<UserDetailsInput>;
   id: Scalars["String"]["input"];
+};
+
+export type MutationResponse = {
+  __typename?: "MutationResponse";
+  message?: Maybe<Scalars["String"]["output"]>;
+  success?: Maybe<Scalars["Boolean"]["output"]>;
 };
 
 export type Query = {
@@ -400,6 +406,20 @@ export type SearchItemsQuery = {
   } | null> | null;
 };
 
+export type ReportBugMutationVariables = Exact<{
+  title: Scalars["String"]["input"];
+  description: Scalars["String"]["input"];
+}>;
+
+export type ReportBugMutation = {
+  __typename?: "Mutation";
+  reportBug?: {
+    __typename?: "MutationResponse";
+    success?: boolean | null;
+    message?: string | null;
+  } | null;
+};
+
 export type CreateUserMutationVariables = Exact<{
   input: UserInput;
 }>;
@@ -459,7 +479,7 @@ export type DeleteUserMutationVariables = Exact<{ [key: string]: never }>;
 export type DeleteUserMutation = {
   __typename?: "Mutation";
   deleteUser?: {
-    __typename?: "DeleteResponse";
+    __typename?: "MutationResponse";
     success?: boolean | null;
     message?: string | null;
   } | null;
@@ -530,6 +550,80 @@ export const SearchItemsDocument = {
     },
   ],
 } as unknown as DocumentNode<SearchItemsQuery, SearchItemsQueryVariables>;
+export const ReportBugDocument = {
+  kind: "Document",
+  definitions: [
+    {
+      kind: "OperationDefinition",
+      operation: "mutation",
+      name: { kind: "Name", value: "ReportBug" },
+      variableDefinitions: [
+        {
+          kind: "VariableDefinition",
+          variable: {
+            kind: "Variable",
+            name: { kind: "Name", value: "title" },
+          },
+          type: {
+            kind: "NonNullType",
+            type: {
+              kind: "NamedType",
+              name: { kind: "Name", value: "String" },
+            },
+          },
+        },
+        {
+          kind: "VariableDefinition",
+          variable: {
+            kind: "Variable",
+            name: { kind: "Name", value: "description" },
+          },
+          type: {
+            kind: "NonNullType",
+            type: {
+              kind: "NamedType",
+              name: { kind: "Name", value: "String" },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "reportBug" },
+            arguments: [
+              {
+                kind: "Argument",
+                name: { kind: "Name", value: "title" },
+                value: {
+                  kind: "Variable",
+                  name: { kind: "Name", value: "title" },
+                },
+              },
+              {
+                kind: "Argument",
+                name: { kind: "Name", value: "description" },
+                value: {
+                  kind: "Variable",
+                  name: { kind: "Name", value: "description" },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                { kind: "Field", name: { kind: "Name", value: "success" } },
+                { kind: "Field", name: { kind: "Name", value: "message" } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<ReportBugMutation, ReportBugMutationVariables>;
 export const CreateUserDocument = {
   kind: "Document",
   definitions: [
