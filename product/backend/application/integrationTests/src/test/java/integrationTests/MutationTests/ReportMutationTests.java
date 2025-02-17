@@ -10,14 +10,15 @@ import io.restassured.response.Response;
 import java.util.UUID;
 
 import static io.restassured.RestAssured.given;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class ReportMutationTests {
 
-  private Response response;
   private final String title = UUID.randomUUID().toString();
   private final String description = "description";
   private final JiraUtilities jiraUtilities = new JiraUtilities();
+  private Response response;
   private Response jiraResponse;
 
   @When("the user reports a bug")
@@ -39,7 +40,7 @@ public class ReportMutationTests {
   @Then("the bug is created in jira")
   public void theBugIsCreatedInJira() {
     String jql = String.format("summary ~ \"%s\" AND description ~ \"%s\" AND created >= -1m",
-           title , description);
+            title, description);
 
     jiraResponse = jiraUtilities.searchJiraIssues(jql);
 

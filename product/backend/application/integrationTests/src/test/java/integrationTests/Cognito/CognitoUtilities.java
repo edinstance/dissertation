@@ -50,7 +50,7 @@ public class CognitoUtilities {
     AdminGetUserResponse response = cognitoClient.adminGetUser(getUserRequest);
 
     userId = response.userAttributes().stream()
-            .filter(attr -> "sub" .equals(attr.name()))
+            .filter(attr -> "sub".equals(attr.name()))
             .findFirst()
             .map(AttributeType::value)
             .orElseThrow(() -> new RuntimeException("User ID not found"));
