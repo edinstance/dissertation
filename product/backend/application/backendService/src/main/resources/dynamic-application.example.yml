@@ -40,6 +40,13 @@ management:
         include: "health"
         # This should be the actuator endpoints that you want to expose
 
+jira:
+  accessToken: ${JIRA_ACCESS_TOKEN}
+  email: ${JIRA_EMAIL}
+  url: ${JIRA_URL}
+  projectKey: ${JIRA_PROJECT_KEY}
+# This should be the jira information for reporting bugs
+
 api:
   key: ${API_KEY}
 # This key is used to access the backend
