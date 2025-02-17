@@ -19,6 +19,10 @@ postgres_user         =
 postgres_password     = 
 redis_host            =
 redis_port            = 
+jira_access_token     =
+jira_email            =
+jira_url              =
+jira_project_key      =
 
 # Shared
 api_key =

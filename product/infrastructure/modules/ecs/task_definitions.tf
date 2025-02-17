@@ -167,6 +167,22 @@ resource "aws_ecs_task_definition" "backend_task" {
         {
           name      = "API_KEY"
           valueFrom = var.api_key_arn
+        },
+        {
+          name      = "JIRA_ACCESS_TOKEN"
+          valueFrom = var.jira_access_token_arn
+        },
+        {
+          name      = "JIRA_EMAIL"
+          valueFrom = var.jira_email_arn
+        },
+        {
+          name      = "JIRA_URL"
+          valueFrom = var.jira_url_arn
+        },
+        {
+          name      = "JIRA_PROJECT_KEY"
+          valueFrom = var.jira_project_key_arn
         }
       ]
     }
