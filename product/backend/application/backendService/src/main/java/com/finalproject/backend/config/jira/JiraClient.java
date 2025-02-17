@@ -3,6 +3,9 @@ package com.finalproject.backend.config.jira;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.finalproject.backend.entities.UserEntity;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
@@ -10,8 +13,6 @@ import java.net.http.HttpResponse;
 import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
 
 /**
  * This class creates a Jira Client.
@@ -47,9 +48,9 @@ public class JiraClient {
   /**
    * This constructor creates the Jira client.
    *
-   * @param baseUrl the url of the Jira instance to interact with.
-   * @param email the email associated to the account being used.
-   * @param projectKey the key of the project which is being used.
+   * @param baseUrl     the url of the Jira instance to interact with.
+   * @param email       the email associated to the account being used.
+   * @param projectKey  the key of the project which is being used.
    * @param accessToken the access token for the account being used.
    */
   public JiraClient(
@@ -67,7 +68,7 @@ public class JiraClient {
   /**
    * This method creates the authentication header needed.
    *
-   * @param email the email of the account to use.
+   * @param email       the email of the account to use.
    * @param accessToken the access token of the account to use.
    * @return a base64 authentication header.
    */
@@ -79,36 +80,37 @@ public class JiraClient {
   /**
    * This method creates a bug ticket in Jira.
    *
-   * @param title the ticket title.
-   * @param user the user that logged the bug.
+   * @param title   the ticket title.
+   * @param user    the user that logged the bug.
    * @param message the message the user added.
    */
-  public void createBug(final String title, final UserEntity user, final String message) {
-    try {
-      String jsonPayload = createBugPayload(title, user, message);
+  public void createBug(final String title, final UserEntity user, final String message)
+          throws Exception {
+    String jsonPayload = createBugPayload(title, user, message);
 
-      HttpRequest request = HttpRequest.newBuilder()
-              .uri(URI.create(baseUrl + "/rest/api/2/issue"))
-              .header("Authorization", authHeader)
-              .header("Content-Type", "application/json")
-              .POST(HttpRequest.BodyPublishers.ofString(jsonPayload))
-              .build();
+    HttpRequest request = HttpRequest.newBuilder()
+            .uri(URI.create(baseUrl + "/rest/api/2/issue"))
+            .header("Authorization", authHeader)
+            .header("Content-Type", "application/json")
+            .POST(HttpRequest.BodyPublishers.ofString(jsonPayload))
+            .build();
 
-      HttpResponse<String> response = httpClient.send(request,
-              HttpResponse.BodyHandlers.ofString());
+    HttpResponse<String> response = httpClient.send(request,
+            HttpResponse.BodyHandlers.ofString());
 
-      System.out.println(response.body());
+    System.out.println(response.body());
 
-    } catch (Exception e) {
-      System.out.println("Error creating bug: " + e.getMessage());
+    if (response.statusCode() < 200 || response.statusCode() >= 300) {
+      throw new Exception("Failed to create Jira issue. Status: " + response.statusCode()
+              + ", Body: " + response.body());
     }
   }
 
   /**
    * This method creates the body of the http request for creating a bug.
    *
-   * @param title the title of the ticket.
-   * @param user the user that reported the bug.
+   * @param title   the title of the ticket.
+   * @param user    the user that reported the bug.
    * @param message the message the user added.
    * @return json value of the information.
    * @throws JsonProcessingException if there is a json processing error.

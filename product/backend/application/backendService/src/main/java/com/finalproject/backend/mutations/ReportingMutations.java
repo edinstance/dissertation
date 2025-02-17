@@ -1,5 +1,6 @@
 package com.finalproject.backend.mutations;
 
+import com.finalproject.backend.dto.MutationResponse;
 import com.finalproject.backend.services.ReportingService;
 import com.netflix.graphql.dgs.DgsComponent;
 import com.netflix.graphql.dgs.DgsMutation;
@@ -32,7 +33,13 @@ public class ReportingMutations {
    * @param description the description of the bug.
    */
   @DgsMutation
-  public void reportBug(@InputArgument String title, @InputArgument String description) {
-    reportingService.reportBug(title, description);
+  public MutationResponse reportBug(@InputArgument String title,
+                                    @InputArgument String description) {
+    String result = reportingService.reportBug(title, description);
+
+    if (result.equals("Success")) {
+      return new MutationResponse(true, title + "reported successfully");
+    }
+    return new MutationResponse(false, title + ": " + result);
   }
 }

@@ -29,7 +29,7 @@ public class ReportingService {
   /**
    * Constructor for setting up the reporting service.
    *
-   * @param jiraClient the jira client to use.
+   * @param jiraClient  the jira client to use.
    * @param authHelpers the authHelpers to use.
    * @param userService the userService to use.
    */
@@ -44,12 +44,17 @@ public class ReportingService {
   /**
    * This method reports bugs in jira.
    *
-   * @param title the title of the bug.
+   * @param title       the title of the bug.
    * @param description the description of the bug.
    */
-  public void reportBug(final String title, final String description) {
-    jiraClient.createBug(title, userService.getUserById(authHelpers.getCurrentUserId()),
-            description);
+  public String reportBug(final String title, final String description) {
+    try {
+      jiraClient.createBug(title, userService.getUserById(authHelpers.getCurrentUserId()),
+              description);
+      return "Success";
+    } catch (Exception e) {
+      return e.getMessage();
+    }
   }
 
 }
