@@ -1,7 +1,6 @@
 package com.finalproject.backend.MutationTests;
 
 import com.finalproject.backend.dto.MutationResponse;
-import com.finalproject.backend.entities.UserEntity;
 import com.finalproject.backend.mutations.ReportingMutations;
 import com.finalproject.backend.services.ReportingService;
 import org.junit.jupiter.api.Test;

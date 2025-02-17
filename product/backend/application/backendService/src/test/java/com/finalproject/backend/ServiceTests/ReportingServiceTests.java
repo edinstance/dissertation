@@ -38,15 +38,15 @@ public class ReportingServiceTests {
 
   @Test
   void reportBugTest() throws Exception {
-   UUID userId = UUID.randomUUID();
-   UserEntity newUser = new UserEntity(userId, "new@test.com", "New User");
+    UUID userId = UUID.randomUUID();
+    UserEntity newUser = new UserEntity(userId, "new@test.com", "New User");
 
-   when(authHelpers.getCurrentUserId()).thenReturn(userId);
-   when(userService.getUserById(userId)).thenReturn(newUser);
+    when(authHelpers.getCurrentUserId()).thenReturn(userId);
+    when(userService.getUserById(userId)).thenReturn(newUser);
 
-   String result = reportingService.reportBug("Title", "Description" );
+    String result = reportingService.reportBug("Title", "Description");
 
-   assert result.equals("Success");
+    assert result.equals("Success");
 
     verify(authHelpers).getCurrentUserId();
     verify(userService).getUserById(userId);
@@ -64,7 +64,7 @@ public class ReportingServiceTests {
     doThrow(new Exception("Jira error")).when(jiraClient)
             .createBug(anyString(), any(UserEntity.class), anyString());
 
-    String result = reportingService.reportBug("Title", "Description" );
+    String result = reportingService.reportBug("Title", "Description");
 
     assert result.equals("Jira error");
   }
