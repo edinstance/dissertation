@@ -10,7 +10,6 @@ import static org.hamcrest.Matchers.equalTo;
 
 public class JwtAuthenticationTests {
 
-  private final CognitoUtilities cognitoUtilities = new CognitoUtilities();
   private Response response;
 
   @When("the client requests the application health without a jwt token")
