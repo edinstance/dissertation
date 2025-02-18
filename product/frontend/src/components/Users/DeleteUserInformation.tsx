@@ -2,10 +2,10 @@
 import deleteUser from "@/actions/delete-user";
 import { DELETE_USER_MUTATION } from "@/lib/graphql/users";
 import { useMutation } from "@apollo/client";
+import { DialogTitle } from "@headlessui/react";
 import { signOut, useSession } from "next-auth/react";
 import { redirect } from "next/navigation";
 import { Button } from "../ui/Button";
-import { DialogTitle } from "@headlessui/react";
 
 function DeleteUserInformation({
   setOpen,

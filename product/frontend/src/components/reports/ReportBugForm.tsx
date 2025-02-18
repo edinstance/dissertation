@@ -49,29 +49,21 @@ function ReportBugForm({ setOpen }: { setOpen: (value: boolean) => void }) {
     setLoading(true);
     setResponse(null);
 
-    try {
-      const result = await reportBugMutation({
-        variables: {
-          title: data.title,
-          description: data.description,
-        },
-      });
+    const result = await reportBugMutation({
+      variables: {
+        title: data.title,
+        description: data.description,
+      },
+    });
 
-      const mutationResponse = result.data?.reportBug;
-      setResponse(mutationResponse || null);
-      setLoading(false);
+    const mutationResponse = result.data?.reportBug;
+    setResponse(mutationResponse || null);
+    setLoading(false);
 
-      if (mutationResponse?.success) {
-        setTimeout(() => {
-          setOpen(false);
-        }, 5000);
-      }
-    } catch (err) {
-      setLoading(false);
-      setResponse({
-        success: false,
-        message: "An unexpected error occurred. Please try again.",
-      });
+    if (mutationResponse?.success) {
+      setTimeout(() => {
+        setOpen(false);
+      }, 5000);
     }
   }
 
