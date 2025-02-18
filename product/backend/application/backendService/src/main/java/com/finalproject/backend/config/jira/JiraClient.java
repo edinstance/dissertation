@@ -97,8 +97,6 @@ public class JiraClient {
     HttpResponse<String> response = httpClient.send(request,
             HttpResponse.BodyHandlers.ofString());
 
-    System.out.println(response.body());
-
     if (response.statusCode() < 200 || response.statusCode() >= 300) {
       throw new Exception("Failed to create Jira issue. Status: " + response.statusCode()
               + ", Body: " + response.body());
@@ -119,7 +117,7 @@ public class JiraClient {
     Map<String, Object> fields = new HashMap<>();
     fields.put("project", Map.of("key", projectKey));
     fields.put("summary", title);
-    fields.put("description", "User ID" + user.getId() + "\n User Email "
+    fields.put("description", "User ID: " + user.getId() + "\n User Email: "
             + user.getEmail() + "\n Message: " + message);
     fields.put("issuetype", Map.of("name", "Bug"));
 

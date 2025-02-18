@@ -58,7 +58,7 @@ public class ReportMutationTests {
   public void theBugResponseIsCorrect() {
     assertEquals(200, response.getStatusCode());
     assertTrue(response.getBody().jsonPath().getBoolean("data.reportBug.success"));
-    assertEquals(title + ": reported successfully", response.getBody().jsonPath().getString("data.reportBug.message"));
+    assertEquals("Bug with title: " + title + " has been reported successfully.", response.getBody().jsonPath().getString("data.reportBug.message"));
   }
 
   @And("the jira ticket is deleted")
