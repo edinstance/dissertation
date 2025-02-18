@@ -1,6 +1,7 @@
 package com.finalproject.backend.mutations;
 
 
+import com.finalproject.backend.config.logging.AppLogger;
 import com.finalproject.backend.dto.MutationResponse;
 import com.finalproject.backend.dto.UserInput;
 import com.finalproject.backend.entities.UserEntity;
@@ -47,7 +48,9 @@ public class UserMutations {
    */
   @DgsMutation
   public UserEntity createUser(@InputArgument final UserInput userInput) {
-    return userService.createUser(userMapper.mapInputToUser(userInput));
+    UserEntity user = userService.createUser(userMapper.mapInputToUser(userInput));
+    AppLogger.info("Created user: " + user);
+    return user;
   }
 
   /**

@@ -2,6 +2,7 @@ package com.finalproject.backend.converters;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.finalproject.backend.config.logging.AppLogger;
 import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Converter;
 import java.io.IOException;
@@ -23,6 +24,7 @@ public class StringListToJsonbConverter implements AttributeConverter<List<Strin
     try {
       return objectMapper.writeValueAsString(attribute);
     } catch (JsonProcessingException e) {
+      AppLogger.error("Error converting list to jsonb", e);
       throw new IllegalArgumentException("Error converting list to JSON", e);
     }
   }
@@ -36,6 +38,7 @@ public class StringListToJsonbConverter implements AttributeConverter<List<Strin
       return objectMapper.readValue(dbData, objectMapper.getTypeFactory()
               .constructCollectionType(List.class, String.class));
     } catch (IOException e) {
+      AppLogger.error("Error converting string list to jsonb", e);
       throw new IllegalArgumentException("Error converting JSON to list", e);
     }
   }

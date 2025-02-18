@@ -1,5 +1,6 @@
 package com.finalproject.backend.mutations;
 
+import com.finalproject.backend.config.logging.AppLogger;
 import com.finalproject.backend.dto.UserDetailsInput;
 import com.finalproject.backend.entities.UserDetailsEntity;
 import com.finalproject.backend.entities.UserEntity;
@@ -50,6 +51,7 @@ public class UserDetailsMutations {
           @InputArgument UserDetailsInput detailsInput) {
     UserDetailsEntity userDetails = userDetailsMapper.mapInputToDetails(UUID.fromString(id),
             detailsInput);
+    AppLogger.info("UserDetails saved: " + userDetails);
     return userService.saveUserDetails(userDetails);
   }
 }

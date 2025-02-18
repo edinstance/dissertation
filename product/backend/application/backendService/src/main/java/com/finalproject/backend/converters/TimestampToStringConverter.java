@@ -1,5 +1,6 @@
 package com.finalproject.backend.converters;
 
+import com.finalproject.backend.config.logging.AppLogger;
 import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Converter;
 import java.sql.Timestamp;
@@ -29,6 +30,7 @@ public class TimestampToStringConverter implements AttributeConverter<String, Ti
     try {
       return new Timestamp(dateFormat.parse(attribute).getTime());
     } catch (ParseException e) {
+      AppLogger.error("Error while parsing timestamp", e);
       throw new IllegalArgumentException("Error converting String to Timestamp", e);
     }
   }

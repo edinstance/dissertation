@@ -2,6 +2,7 @@ package com.finalproject.backend.services;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.finalproject.backend.config.logging.AppLogger;
 import com.finalproject.backend.entities.ItemEntity;
 import com.finalproject.backend.repositories.ItemRepository;
 import java.sql.Timestamp;
@@ -63,12 +64,14 @@ public class ItemService {
       String cachedValueString = jedis.get(key);
 
       if (cachedValueString != null) {
+        AppLogger.info("Found cached value: " + cachedValueString);
         jedis.expire(key, 300);
         return objectMapper.readValue(cachedValueString, ItemEntity.class);
       }
 
-      ItemEntity item =  itemRepository.findById(id).orElse(null);
+      ItemEntity item = itemRepository.findById(id).orElse(null);
 
+      AppLogger.info("Found item in database: " + item);
       if (item != null) {
         jedis.set("item:" + item.getId(), objectMapper.writeValueAsString(item),
                 SetParams.setParams().ex(300));
@@ -77,6 +80,7 @@ public class ItemService {
       return item;
 
     } catch (JsonProcessingException e) {
+      AppLogger.error("Error while finding item: " + id, e);
       throw new RuntimeException(e);
     }
   }
@@ -107,6 +111,8 @@ public class ItemService {
               objectMapper.writeValueAsString(itemEntity),
               SetParams.setParams().ex(300));
     }
+
+    AppLogger.info("Updating item: " + itemEntity);
 
     return itemRepository.saveOrUpdateItem(itemEntity.getId(), itemEntity.getName(),
             itemEntity.getDescription(), itemEntity.getIsActive(),

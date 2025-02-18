@@ -1,6 +1,7 @@
 package com.finalproject.backend.services;
 
 import com.finalproject.backend.config.jira.JiraClient;
+import com.finalproject.backend.config.logging.AppLogger;
 import com.finalproject.backend.helpers.AuthHelpers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -53,6 +54,7 @@ public class ReportingService {
               description);
       return "Success";
     } catch (Exception e) {
+      AppLogger.error("Error creating bug", e);
       return e.getMessage();
     }
   }

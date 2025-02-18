@@ -2,6 +2,7 @@ package com.finalproject.backend.services;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.finalproject.backend.config.logging.AppLogger;
 import com.finalproject.backend.entities.UserEntity;
 import com.finalproject.backend.helpers.AuthHelpers;
 import com.finalproject.backend.repositories.UserRepository;
@@ -65,6 +66,7 @@ public class UserService {
     Optional<UserEntity> existingUser = userRepository.findById(newUser.getId());
 
     if (existingUser.isPresent()) {
+      AppLogger.error("User with id " + newUser.getId() + " already exists");
       throw new IllegalArgumentException("User with UUID "
               + newUser.getId() + " already exists.");
     }
@@ -75,6 +77,7 @@ public class UserService {
               SetParams.setParams().ex(300));
 
     } catch (JsonProcessingException e) {
+      AppLogger.error("Error while creating user", e);
       throw new RuntimeException("Error processing JSON", e);
     }
 
@@ -94,12 +97,13 @@ public class UserService {
       String cachedValueString = jedis.get(key);
 
       if (cachedValueString != null) {
+        AppLogger.info("User with id " + id + " found in cache");
         jedis.expire(key, 300);
         return objectMapper.readValue(cachedValueString, UserEntity.class);
       }
 
       UserEntity user = userRepository.findById(id).orElse(null);
-
+      AppLogger.info("User with id " + id + " found in the database");
       if (user == null || user.getIsDeleted()) {
         return null;
       }
@@ -110,6 +114,7 @@ public class UserService {
       return user;
 
     } catch (JsonProcessingException e) {
+      AppLogger.error("Error while getting user", e);
       throw new RuntimeException(e);
     }
   }
@@ -125,8 +130,10 @@ public class UserService {
       jedis.del(key);
 
       userRepository.deleteUser(userId);
+      AppLogger.info("User with id " + userId + " deleted");
       return true;
     } catch (Exception e) {
+      AppLogger.error("Error while deleting user", e);
       return false;
     }
   }
