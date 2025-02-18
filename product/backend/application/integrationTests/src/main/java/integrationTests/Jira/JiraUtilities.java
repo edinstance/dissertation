@@ -1,8 +1,8 @@
 package integrationTests.Jira;
 
-import io.restassured.response.Response;
 
-import static io.restassured.RestAssured.given;
+import io.restassured.RestAssured;
+import io.restassured.response.Response;
 
 public class JiraUtilities {
 
@@ -16,7 +16,7 @@ public class JiraUtilities {
   }
 
   public Response searchJiraIssues(String query) {
-    return given()
+    return RestAssured.given()
             .header("Authorization", "Basic " + getJiraAuthHeader())
             .contentType("application/json")
             .queryParam("jql", query)
@@ -24,7 +24,7 @@ public class JiraUtilities {
   }
 
   public void deleteJiraIssue(String issueKey) {
-    given()
+    RestAssured.given()
             .header("Authorization", "Basic " + getJiraAuthHeader())
             .delete(jiraUrl + "/rest/api/2/issue/" + issueKey);
   }
