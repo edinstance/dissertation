@@ -2,6 +2,7 @@ package com.finalproject.backend.services;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.finalproject.backend.config.logging.AppLogger;
 import com.finalproject.backend.entities.UserDetailsEntity;
 import com.finalproject.backend.entities.UserEntity;
 import com.finalproject.backend.helpers.UserHelpers;
@@ -71,11 +72,14 @@ public class UserDetailsService {
     UserEntity user = userHelpers.getUserById(newDetails.getId());
     user.setUserDetailsEntity(newDetails);
 
+    AppLogger.info("Saved user details: " + user);
+
     try (Jedis jedis = jedisPool.getResource()) {
       jedis.set("user:" + user.getId().toString(),
               objectMapper.writeValueAsString(user),
               SetParams.setParams().ex(300));
     } catch (JsonProcessingException e) {
+      AppLogger.error("Error while saving user details: " + e);
       throw new RuntimeException("Error processing JSON", e);
     }
 

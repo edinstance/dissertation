@@ -1,5 +1,6 @@
 package com.finalproject.backend.config.security;
 
+import com.finalproject.backend.config.logging.AppLogger;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.ServletRequest;
@@ -67,6 +68,7 @@ public class ApiKeyFilter extends GenericFilterBean {
       chain.doFilter(request, response);
     } catch (BadCredentialsException ex) {
       // Set 401 status and include an error message in the response
+      AppLogger.error(ex.getMessage());
       SecurityContextHolder.clearContext();
       httpResponse.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
       httpResponse.getWriter().write("Unauthorized: " + ex.getMessage());

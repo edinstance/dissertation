@@ -1,6 +1,7 @@
 package com.finalproject.backend.mutations;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.finalproject.backend.config.logging.AppLogger;
 import com.finalproject.backend.dto.ItemInput;
 import com.finalproject.backend.entities.ItemEntity;
 import com.finalproject.backend.mappers.ItemMapper;
@@ -47,6 +48,7 @@ public class ItemMutations {
   public ItemEntity saveItem(
           @InputArgument ItemInput itemInput) throws JsonProcessingException, ParseException {
     ItemEntity item = itemMapper.mapInputToItem(itemInput);
+    AppLogger.info("Item saved: " + item);
     return itemService.saveOrUpdateItem(item);
   }
 }

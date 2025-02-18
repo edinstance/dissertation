@@ -2,6 +2,7 @@ package com.finalproject.backend.config.jira;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.finalproject.backend.config.logging.AppLogger;
 import com.finalproject.backend.entities.UserEntity;
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -98,9 +99,12 @@ public class JiraClient {
             HttpResponse.BodyHandlers.ofString());
 
     if (response.statusCode() < 200 || response.statusCode() >= 300) {
+      AppLogger.error("Error creating JIRA bug: " + response.body());
       throw new Exception("Failed to create Jira issue. Status: " + response.statusCode()
               + ", Body: " + response.body());
     }
+
+    AppLogger.info("Created Jira issue: " + response.body());
   }
 
   /**

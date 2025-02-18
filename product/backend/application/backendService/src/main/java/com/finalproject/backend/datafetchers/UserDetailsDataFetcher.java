@@ -1,5 +1,6 @@
 package com.finalproject.backend.datafetchers;
 
+import com.finalproject.backend.config.logging.AppLogger;
 import com.finalproject.backend.entities.UserDetailsEntity;
 import com.finalproject.backend.entities.UserEntity;
 import com.finalproject.backend.helpers.UserHelpers;
@@ -41,6 +42,7 @@ public class UserDetailsDataFetcher {
     UserEntity user = dfe.getSource();
     
     if (user == null) {
+      AppLogger.error("UserDetailsDataFetcher.getUserDetails() returned null");
       throw new IllegalArgumentException("User not found");
     }
     return userHelpers.getUserById(user.getId()).getUserDetailsEntity();
