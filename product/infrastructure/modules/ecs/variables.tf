@@ -192,6 +192,26 @@ variable "redis_port_arn" {
   type        = string
 }
 
+variable "jira_access_token_arn" {
+  description = "The access token for Jira"
+  type        = string
+}
+
+variable "jira_email_arn" {
+  description = "The email for Jira"
+  type        = string
+}
+
+variable "jira_url_arn" {
+  description = "The URL for Jira"
+  type        = string
+}
+
+variable "jira_project_key_arn" {
+  description = "The project key for Jira"
+  type        = string
+}
+
 # Shared
 variable "api_key_arn" {
   description = "The arn of the API key"

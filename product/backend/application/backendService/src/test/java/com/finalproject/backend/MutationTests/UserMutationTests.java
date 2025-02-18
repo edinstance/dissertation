@@ -1,6 +1,6 @@
 package com.finalproject.backend.MutationTests;
 
-import com.finalproject.backend.dto.DeleteResponse;
+import com.finalproject.backend.dto.MutationResponse;
 import com.finalproject.backend.dto.UserInput;
 import com.finalproject.backend.entities.UserEntity;
 import com.finalproject.backend.mappers.UserMapper;
@@ -61,7 +61,7 @@ public class UserMutationTests {
   public void testDeleteUserSuccess() {
     when(userService.deleteUser()).thenReturn(true);
 
-    DeleteResponse response = userMutations.deleteUser();
+    MutationResponse response = userMutations.deleteUser();
 
     assertNotNull(response);
     assert response.isSuccess();
@@ -73,7 +73,7 @@ public class UserMutationTests {
   public void testDeleteUserFailure() {
     when(userService.deleteUser()).thenReturn(false);
 
-    DeleteResponse response = userMutations.deleteUser();
+    MutationResponse response = userMutations.deleteUser();
 
     assertNotNull(response);
     assert !response.isSuccess();

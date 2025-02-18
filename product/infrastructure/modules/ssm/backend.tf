@@ -39,3 +39,27 @@ resource "aws_ssm_parameter" "redis_port" {
   type  = "String"
   value = var.redis_port
 }
+
+resource "aws_ssm_parameter" "jira_access_token" {
+  name  = "/${var.environment}/backend/JIRA_ACCESS_TOKEN"
+  type  = "String"
+  value = var.jira_access_token
+}
+
+resource "aws_ssm_parameter" "jira_email" {
+  name  = "/${var.environment}/backend/JIRA_EMAIL"
+  type  = "String"
+  value = var.jira_email
+}
+
+resource "aws_ssm_parameter" "jira_url" {
+  name  = "/${var.environment}/backend/JIRA_URL"
+  type  = "String"
+  value = var.jira_url
+}
+
+resource "aws_ssm_parameter" "jira_project_key" {
+  name  = "/${var.environment}/backend/JIRA_PROJECT_KEY"
+  type  = "String"
+  value = var.jira_project_key
+}

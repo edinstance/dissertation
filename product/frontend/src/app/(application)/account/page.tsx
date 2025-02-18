@@ -1,12 +1,8 @@
 "use client";
-import deleteUser from "@/actions/delete-user";
+import ReportBugForm from "@/components/reports/ReportBugForm";
 import { Button } from "@/components/ui/Button";
 import Modal from "@/components/ui/Modal";
-import { DELETE_USER_MUTATION } from "@/lib/graphql/users";
-import { useMutation } from "@apollo/client";
-import { DialogTitle } from "@headlessui/react";
-import { signOut, useSession } from "next-auth/react";
-import { redirect } from "next/navigation";
+import DeleteUserInformation from "@/components/Users/DeleteUserInformation";
 import { useState } from "react";
 
 /**
@@ -19,26 +15,22 @@ import { useState } from "react";
  * @returns The rendered Account component.
  */
 export default function Account() {
-  const session = useSession();
-
-  const [deleteUserMutation] = useMutation(DELETE_USER_MUTATION);
-  const handleDeleteUser = async () => {
-    await deleteUserMutation();
-    signOut({ redirect: false });
-    await deleteUser({
-      userId: session.data?.user?.id,
-      email: session.data?.user?.email,
-    });
-
-    redirect("/");
-  };
-
   const [open, setOpen] = useState(false);
+  const [reportBugModalOpen, setReportBugModalOpen] = useState(false);
 
   return (
-    <div className="pt-8">
+    <div className="space-y-4 pt-8">
       <Button
         onClick={() => {
+          setReportBugModalOpen(true);
+          setOpen(true);
+        }}
+      >
+        Report an issue
+      </Button>
+      <Button
+        onClick={() => {
+          setReportBugModalOpen(false);
           setOpen(true);
         }}
         color="destructive"
@@ -46,21 +38,11 @@ export default function Account() {
         Delete User
       </Button>
       <Modal open={open} setOpen={setOpen}>
-        <DialogTitle className="text-lg text-black dark:text-white">
-          Are you sure?
-        </DialogTitle>
-        <p className="text-md text-black dark:text-white">
-          This action cannot be undone. Are you sure you want to delete your
-          account?
-        </p>
-        <div className="flex justify-end space-x-4">
-          <Button onClick={() => setOpen(false)} color="blue">
-            Cancel
-          </Button>
-          <Button onClick={handleDeleteUser} color="destructive">
-            Confirm
-          </Button>
-        </div>
+        {reportBugModalOpen ? (
+          <ReportBugForm setOpen={setOpen} />
+        ) : (
+          <DeleteUserInformation setOpen={setOpen} />
+        )}
       </Modal>
     </div>
   );

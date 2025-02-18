@@ -90,6 +90,10 @@ module "ecs" {
   postgres_password_arn     = module.ssm.postgres_password_arn
   redis_host_arn            = module.ssm.redis_host_arn
   redis_port_arn            = module.ssm.redis_port_arn
+  jira_access_token_arn     = module.ssm.jira_access_token_arn
+  jira_email_arn            = module.ssm.jira_email_arn
+  jira_url_arn              = module.ssm.jira_url_arn
+  jira_project_key_arn      = module.ssm.jira_project_key_arn
 }
 
 # Networking
@@ -161,6 +165,10 @@ module "ssm" {
   postgres_password     = var.postgres_password
   redis_host            = module.database.redis_host
   redis_port            = "6789"
+  jira_access_token     = var.jira_access_token
+  jira_email            = var.jira_email
+  jira_url              = var.jira_url
+  jira_project_key      = var.jira_project_key
 }
 
 module "ses" {

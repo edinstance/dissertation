@@ -30,7 +30,7 @@ public class JwtAuthenticationTests {
 
   @When("the client requests the application health with a valid jwt token")
   public void theClientRequestsTheApplicationHealthWithAValidJwtToken() {
-    response = RestAssured.given().header("Authorization", "Bearer " + cognitoUtilities.getAccessToken()).get("/details/health");
+    response = RestAssured.given().header("Authorization", "Bearer " + CognitoUtilities.getAccessToken()).get("/details/health");
   }
 
   @Then("the server allows the request and returns the health because of the token")

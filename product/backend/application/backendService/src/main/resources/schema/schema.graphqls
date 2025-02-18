@@ -2,7 +2,8 @@ type Mutation {
     createUser(userInput: UserInput): User
     saveUserDetails(id: String!, detailsInput: UserDetailsInput): User
     saveItem(itemInput: ItemInput): Item
-    deleteUser: DeleteResponse
+    deleteUser: MutationResponse
+    reportBug(title: String!, description: String!): MutationResponse
 }
 
 type Query {
@@ -37,7 +38,7 @@ input ItemInput {
     images: [String]
 }
 
-type DeleteResponse {
+type MutationResponse {
     success: Boolean
     message: String
 }

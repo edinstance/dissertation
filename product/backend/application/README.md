@@ -74,7 +74,7 @@ application either locally or in a container. When running the application make 
 
 Make sure the variables needed are set with the values from the test cognito user pool.
 ```
-mvn compile test -pl integrationTests -DTEST_AWS_REGION= -DTEST_AWS_USER_POOL_ID= -DTEST_AWS_CLIENT_ID=
+mvn compile test -DTEST_AWS_REGION= -DTEST_AWS_USER_POOL_ID= -DTEST_AWS_CLIENT_ID= -DJIRA_EMAIL= -DJIRA_URL= -DJIRA_ACCESS_TOKEN=
 ```
 
 ## Actuator

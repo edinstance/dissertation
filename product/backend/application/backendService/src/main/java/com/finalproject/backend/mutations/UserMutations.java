@@ -1,7 +1,7 @@
 package com.finalproject.backend.mutations;
 
 
-import com.finalproject.backend.dto.DeleteResponse;
+import com.finalproject.backend.dto.MutationResponse;
 import com.finalproject.backend.dto.UserInput;
 import com.finalproject.backend.entities.UserEntity;
 import com.finalproject.backend.mappers.UserMapper;
@@ -53,16 +53,16 @@ public class UserMutations {
   /**
    * GraphQL mutation to delete a user.
    *
-   * @return a delete response about the success of the mutation.
+   * @return a response about the success of the mutation.
    */
   @DgsMutation
-  public DeleteResponse deleteUser() {
+  public MutationResponse deleteUser() {
     Boolean result =  userService.deleteUser();
 
     if (result) {
-      return new DeleteResponse(true, "User deleted successfully");
+      return new MutationResponse(true, "User deleted successfully");
     } else {
-      return new DeleteResponse(false, "User deletion failed");
+      return new MutationResponse(false, "User deletion failed");
     }
   }
 }
