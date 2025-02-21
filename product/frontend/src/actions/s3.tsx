@@ -1,5 +1,6 @@
 "use server";
 
+import { auth } from "@/server/auth";
 import {
   DeleteObjectCommand,
   PutObjectCommand,
@@ -19,9 +20,13 @@ export async function getPresignedUrls(
   files: { name: string; type: string }[],
 ) {
   try {
+    const session = await auth();
+    if (!session) {
+      return { success: false, error: "Not authenticated" };
+    }
     const urls = await Promise.all(
       files.map(async (file) => {
-        const uniqueFileName = `${crypto.randomUUID()}-${file.name}`;
+        const uniqueFileName = `${session.user.id}/${crypto.randomUUID()}-${file.name}`;
 
         const command = new PutObjectCommand({
           Bucket: S3_BUCKET,
