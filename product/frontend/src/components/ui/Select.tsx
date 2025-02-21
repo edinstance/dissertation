@@ -75,7 +75,7 @@ export const Select = forwardRef<HTMLButtonElement, SelectProps>(
                         selected
                           ? "bg-blue-600 text-white"
                           : "text-gray-900 dark:text-gray-300",
-                        "dark:hover:bg-blue-900 dark:hover:text-white",
+                        "dark:hover:bg-blue-900 dark:hover:text-white hover:bg-blue-300",
                       )
                     }
                   >
