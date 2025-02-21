@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.finalproject.backend.config.logging.AppLogger;
 import com.finalproject.backend.entities.ItemEntity;
+import com.finalproject.backend.helpers.AuthHelpers;
 import com.finalproject.backend.repositories.ItemRepository;
 import java.sql.Timestamp;
 import java.text.ParseException;
@@ -38,6 +39,11 @@ public class ItemService {
   private final JedisPool jedisPool;
 
   /**
+   * The auth helpers to use.
+   */
+  private final AuthHelpers authHelpers;
+
+  /**
    * Constructs a ItemService with the specified ItemRepository.
    *
    * @param inputItemRepository The repository for accessing Item entities.
@@ -45,9 +51,11 @@ public class ItemService {
    */
   @Autowired
   public ItemService(final ItemRepository inputItemRepository,
-                     final JedisPool inputJedisPool) {
+                     final JedisPool inputJedisPool,
+                     final AuthHelpers authHelpers) {
     this.itemRepository = inputItemRepository;
     this.jedisPool = inputJedisPool;
+    this.authHelpers = authHelpers;
   }
 
   /**
@@ -119,7 +127,7 @@ public class ItemService {
             new Timestamp(dateFormat.parse(itemEntity.getEndingTime()).getTime()),
             itemEntity.getPrice(), itemEntity.getStock(), itemEntity.getCategory(),
             objectMapper.writeValueAsString(itemEntity.getImages()),
-            itemEntity.getSeller().getId());
+            authHelpers.getCurrentUserId());
   }
 
 }
