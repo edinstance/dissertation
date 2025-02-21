@@ -1,6 +1,10 @@
 "use server";
 
-import { DeleteObjectCommand, PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
+import {
+  DeleteObjectCommand,
+  PutObjectCommand,
+  S3Client,
+} from "@aws-sdk/client-s3";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 import crypto from "crypto";
 
@@ -29,11 +33,15 @@ export async function getPresignedUrls(
           expiresIn: 3600,
         });
 
-        return { presignedUrl, publicUrl: `https://${S3_BUCKET}.s3.amazonaws.com/${uniqueFileName}`, key: uniqueFileName};
+        return {
+          presignedUrl,
+          publicUrl: `https://${S3_BUCKET}.s3.amazonaws.com/${uniqueFileName}`,
+          key: uniqueFileName,
+        };
       }),
     );
 
-    return { success: true, urls};
+    return { success: true, urls };
   } catch (error) {
     console.error("Error generating presigned URLs:", error);
     return { success: false, error: "Failed to generate presigned URLs" };
@@ -41,16 +49,16 @@ export async function getPresignedUrls(
 }
 
 export async function deleteS3Object(key: string) {
-    try {
-      const command = new DeleteObjectCommand({
-        Bucket: S3_BUCKET,
-        Key: key,
-      });
-  
-      await s3Client.send(command);
-      return { success: true };
-    } catch (error) {
-      console.error("Error deleting S3 object:", error);
-      return { success: false, error: "Failed to delete file" };
-    }
+  try {
+    const command = new DeleteObjectCommand({
+      Bucket: S3_BUCKET,
+      Key: key,
+    });
+
+    await s3Client.send(command);
+    return { success: true };
+  } catch (error) {
+    console.error("Error deleting S3 object:", error);
+    return { success: false, error: "Failed to delete file" };
   }
+}

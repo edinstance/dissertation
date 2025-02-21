@@ -1,4 +1,9 @@
-import { Listbox, ListboxButton, ListboxOption, ListboxOptions } from "@headlessui/react";
+import {
+  Listbox,
+  ListboxButton,
+  ListboxOption,
+  ListboxOptions,
+} from "@headlessui/react";
 import { ChevronUpDownIcon } from "@heroicons/react/24/outline";
 import clsx from "clsx";
 import { forwardRef } from "react";
@@ -75,7 +80,7 @@ export const Select = forwardRef<HTMLButtonElement, SelectProps>(
                         selected
                           ? "bg-blue-600 text-white"
                           : "text-gray-900 dark:text-gray-300",
-                        "dark:hover:bg-blue-900 dark:hover:text-white hover:bg-blue-300",
+                        "hover:bg-blue-300 dark:hover:bg-blue-900 dark:hover:text-white",
                       )
                     }
                   >
