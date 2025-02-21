@@ -19,7 +19,9 @@
   "dependencies": {
     "@apollo/client": "^3.11.8",
     "@aws-sdk/client-cognito-identity-provider": "^3.682.0",
+    "@aws-sdk/client-s3": "^3.750.0",
     "@aws-sdk/client-ses": "^3.744.0",
+    "@aws-sdk/s3-request-presigner": "^3.750.0",
     "@headlessui/react": "^2.2.0",
     "@heroicons/react": "^2.1.5",
     "@hookform/resolvers": "^3.10.0",
@@ -34,6 +36,7 @@
     "next-themes": "^0.4.4",
     "react": "19.0.0",
     "react-dom": "19.0.0",
+    "react-dropzone": "^14.3.5",
     "react-google-recaptcha": "^3.1.0",
     "react-hook-form": "^7.53.2",
     "stripe": "^17.4.0",
