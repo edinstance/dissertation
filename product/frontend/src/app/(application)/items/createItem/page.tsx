@@ -7,6 +7,8 @@ import ImageUpload from "@/components/ui/ImageUpload";
 import { Input } from "@/components/ui/Input";
 import { Select } from "@/components/ui/Select";
 import { TextArea } from "@/components/ui/TextArea";
+import { SAVE_ITEM_MUTATION } from "@/lib/graphql/items";
+import { useMutation } from "@apollo/client";
 import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 
@@ -21,9 +23,9 @@ type FormData = {
 };
 
 const durationOptions = [
-  { value: "1_day", label: "1 Day" },
-  { value: "3_days", label: "3 Days" },
-  { value: "7_days", label: "7 Days" },
+  { value: 1, label: "1 Day" },
+  { value: 3, label: "3 Days" },
+  { value: 7, label: "7 Days" },
 ];
 
 export default function CreateItem() {
@@ -35,8 +37,36 @@ export default function CreateItem() {
     setValue,
   } = useForm<FormData>();
 
+  const [saveItemMutation] = useMutation(SAVE_ITEM_MUTATION);
+
   async function onSubmit(data: FormData) {
-  
+    const endingTime = new Date(
+      Date.now() + Number(data.duration) * 24 * 60 * 60 * 1000,
+    )
+      .toLocaleDateString("en-US", {
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit",
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit",
+        hour12: false,
+      })
+      .replace(/(\d+)\/(\d+)\/(\d+),\s/, "$3-$1-$2 ");
+
+    await saveItemMutation({
+      variables: {
+        itemInput: {
+          name: data.name,
+          description: data.description,
+          endingTime: endingTime,
+          price: Number(data.price),
+          stock: Number(data.stock),
+          category: data.category,
+          images: data.images,
+        },
+      },
+    });
   }
 
   const [uploadedImages, setUploadedImages] = useState<UploadedImage[]>([]);
@@ -50,7 +80,6 @@ export default function CreateItem() {
       throw new Error("Failed to get presigned URLs");
     }
 
-    // Upload files to S3
     const uploadedUrls = await Promise.all(
       files.map(async (file, index) => {
         const urlData = result.urls[index];
@@ -78,11 +107,10 @@ export default function CreateItem() {
       }),
     );
 
-
     setUploadedImages((prev) => [...prev, ...uploadedUrls]);
-    
+
     const allUrls = [...uploadedImages, ...uploadedUrls].map(
-      (img) => img.publicUrl
+      (img) => img.publicUrl,
     );
     setValue("images", allUrls);
   };
@@ -230,7 +258,7 @@ export default function CreateItem() {
                     options={durationOptions}
                     value={
                       durationOptions.find(
-                        (option) => option.value === field.value,
+                        (option) => option.value === Number(field.value),
                       ) || null
                     }
                     onChange={(selected) => field.onChange(selected.value)}
@@ -258,4 +286,3 @@ export default function CreateItem() {
     </div>
   );
 }
-
