@@ -37,7 +37,7 @@ public class ItemQueries {
    */
   @DgsQuery
   public ItemEntity getItemById(@InputArgument("id") String id) {
-    AppLogger.info("get item by id: " + id);
+    AppLogger.info("Get item by id: " + id);
     return itemService.getItemById(UUID.fromString(id));
   }
 
