@@ -8,7 +8,7 @@ export const Input = forwardRef(function Input(
     ...props
   }: {
     className?: string;
-    type?: "email" | "password" | "tel" | "text";
+    type?: "email" | "password" | "tel" | "text" | "number";
   } & Omit<InputProps, "className">,
   ref: React.ForwardedRef<HTMLInputElement>,
 ) {
