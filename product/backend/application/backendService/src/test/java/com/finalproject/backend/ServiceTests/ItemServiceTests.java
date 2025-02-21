@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.finalproject.backend.entities.ItemEntity;
 import com.finalproject.backend.entities.UserEntity;
+import com.finalproject.backend.helpers.AuthHelpers;
 import com.finalproject.backend.repositories.ItemRepository;
 import com.finalproject.backend.services.ItemService;
 import org.junit.jupiter.api.BeforeEach;
@@ -45,21 +46,25 @@ public class ItemServiceTests {
   @Mock
   private Jedis jedis;
 
+  @Mock
+  private AuthHelpers authHelpers;
+
   @InjectMocks
   private ItemService itemService;
 
   private UUID itemId;
+  private UserEntity user;
   private ItemEntity item;
 
   @BeforeEach
   public void setUp() throws ParseException {
     itemId = UUID.randomUUID();
-    UserEntity userEntity = new UserEntity(UUID.randomUUID(),
+    user = new UserEntity(UUID.randomUUID(),
             "seller@test.com", "Seller Name");
     item = new ItemEntity(itemId, "Item Name",
             "Item Description", dateFormat.format(new Date()), new BigDecimal("19.99"), 100,
             "Category",
-            List.of("image"), userEntity);
+            List.of("image"), user);
   }
 
   @Test
@@ -86,6 +91,8 @@ public class ItemServiceTests {
   @Test
   public void saveOrUpdateItem() throws JsonProcessingException, ParseException {
 
+    when(authHelpers.getCurrentUserId()).thenReturn(user.getId());
+
     when(itemRepository.saveOrUpdateItem(itemId,
             item.getName(),
             item.getDescription(),
@@ -95,7 +102,7 @@ public class ItemServiceTests {
             item.getStock(),
             item.getCategory(),
             objectMapper.writeValueAsString(item.getImages()),
-            item.getSeller().getId())).thenReturn(item);
+            user.getId())).thenReturn(item);;
 
     when(jedisPool.getResource()).thenReturn(jedis);
 
@@ -126,6 +133,8 @@ public class ItemServiceTests {
   @Test
   public void testSaveOrUpdateCacheWrite() throws ParseException, JsonProcessingException {
 
+    when(authHelpers.getCurrentUserId()).thenReturn(user.getId());
+
     when(itemRepository.saveOrUpdateItem(itemId,
             item.getName(),
             item.getDescription(),
@@ -135,7 +144,7 @@ public class ItemServiceTests {
             item.getStock(),
             item.getCategory(),
             objectMapper.writeValueAsString(item.getImages()),
-            item.getSeller().getId())).thenReturn(item);
+            user.getId())).thenReturn(item);
 
     when(jedisPool.getResource()).thenReturn(jedis);
 

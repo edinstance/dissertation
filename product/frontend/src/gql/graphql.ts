@@ -406,6 +406,32 @@ export type SearchItemsQuery = {
   } | null> | null;
 };
 
+export type SaveItemMutationVariables = Exact<{
+  itemInput: ItemInput;
+}>;
+
+export type SaveItemMutation = {
+  __typename?: "Mutation";
+  saveItem?: {
+    __typename?: "Item";
+    id?: string | null;
+    name?: string | null;
+    description?: string | null;
+    isActive?: boolean | null;
+    endingTime?: string | null;
+    price?: number | null;
+    stock?: number | null;
+    category?: string | null;
+    images?: Array<string | null> | null;
+    seller?: {
+      __typename?: "User";
+      id: string;
+      name?: string | null;
+      email: string;
+    } | null;
+  } | null;
+};
+
 export type ReportBugMutationVariables = Exact<{
   title: Scalars["String"]["input"];
   description: Scalars["String"]["input"];
@@ -550,6 +576,77 @@ export const SearchItemsDocument = {
     },
   ],
 } as unknown as DocumentNode<SearchItemsQuery, SearchItemsQueryVariables>;
+export const SaveItemDocument = {
+  kind: "Document",
+  definitions: [
+    {
+      kind: "OperationDefinition",
+      operation: "mutation",
+      name: { kind: "Name", value: "SaveItem" },
+      variableDefinitions: [
+        {
+          kind: "VariableDefinition",
+          variable: {
+            kind: "Variable",
+            name: { kind: "Name", value: "itemInput" },
+          },
+          type: {
+            kind: "NonNullType",
+            type: {
+              kind: "NamedType",
+              name: { kind: "Name", value: "ItemInput" },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "saveItem" },
+            arguments: [
+              {
+                kind: "Argument",
+                name: { kind: "Name", value: "itemInput" },
+                value: {
+                  kind: "Variable",
+                  name: { kind: "Name", value: "itemInput" },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                { kind: "Field", name: { kind: "Name", value: "id" } },
+                { kind: "Field", name: { kind: "Name", value: "name" } },
+                { kind: "Field", name: { kind: "Name", value: "description" } },
+                { kind: "Field", name: { kind: "Name", value: "isActive" } },
+                { kind: "Field", name: { kind: "Name", value: "endingTime" } },
+                { kind: "Field", name: { kind: "Name", value: "price" } },
+                { kind: "Field", name: { kind: "Name", value: "stock" } },
+                { kind: "Field", name: { kind: "Name", value: "category" } },
+                { kind: "Field", name: { kind: "Name", value: "images" } },
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "seller" },
+                  selectionSet: {
+                    kind: "SelectionSet",
+                    selections: [
+                      { kind: "Field", name: { kind: "Name", value: "id" } },
+                      { kind: "Field", name: { kind: "Name", value: "name" } },
+                      { kind: "Field", name: { kind: "Name", value: "email" } },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<SaveItemMutation, SaveItemMutationVariables>;
 export const ReportBugDocument = {
   kind: "Document",
   definitions: [
