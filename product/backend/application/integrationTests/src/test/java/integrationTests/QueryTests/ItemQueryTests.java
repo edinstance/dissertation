@@ -19,6 +19,7 @@ public class ItemQueryTests {
   private final String formattedDate = dateFormat.format(new Date());
   private Response initalItemResponse;
   private Response result;
+  private String itemId;
 
   @And("an item the user wants exists")
   public void anItemTheUserWantsExists() {
@@ -49,6 +50,8 @@ public class ItemQueryTests {
             .contentType("application/json")
             .body(mutation)
             .post("/graphql");
+
+    itemId = initalItemResponse.getBody().jsonPath().getString("data.saveItem.id");
   }
 
   @When("a user searches for the item")
@@ -96,6 +99,54 @@ public class ItemQueryTests {
     assert Objects.equals(result.getBody().jsonPath().getString("data.searchForItems[0].seller.id"),
             initalItemResponse.getBody().jsonPath().getString("data.saveItem.seller.id"));
     assert Objects.equals(result.getBody().jsonPath().getString("data.searchForItems[0].seller.name"),
+            initalItemResponse.getBody().jsonPath().getString("data.saveItem.seller.name"));
+  }
+
+  @When("the user searches for the item by its id")
+  public void theUserSearchesForTheItemByItsId() {
+    String query = String.format("{ \"query\": \"query { getItemById(id: \\\"%s\\\") { " +
+                    "id " +
+                    "name " +
+                    "description " +
+                    "isActive " +
+                    "endingTime " +
+                    "price " +
+                    "stock " +
+                    "category " +
+                    "images " +
+                    "seller { id name } " +
+                    "} }\" }",
+            itemId);
+
+    result = given()
+            .contentType("application/json")
+            .body(query)
+            .post("/graphql");
+  }
+
+  @Then("the server returns the item with the correct id")
+  public void theServerReturnsTheItemWithTheCorrectId() {
+    assert Objects.equals(result.getBody().jsonPath().getString("data.getItemById.id"),
+            initalItemResponse.getBody().jsonPath().getString("data.saveItem.id"));
+    assert Objects.equals(result.getBody().jsonPath().getString("data.getItemById.name"),
+            initalItemResponse.getBody().jsonPath().getString("data.saveItem.name"));
+    assert Objects.equals(result.getBody().jsonPath().getString("data.getItemById.description"),
+            initalItemResponse.getBody().jsonPath().getString("data.saveItem.description"));
+    assert Objects.equals(result.getBody().jsonPath().getBoolean("data.getItemById.isActive"),
+            initalItemResponse.getBody().jsonPath().getBoolean("data.saveItem.isActive"));
+    assert Objects.equals(result.getBody().jsonPath().getString("data.getItemById.endingTime"),
+            initalItemResponse.getBody().jsonPath().getString("data.saveItem.endingTime"));
+    assert Objects.equals(result.getBody().jsonPath().getDouble("data.getItemById.price"),
+            initalItemResponse.getBody().jsonPath().getDouble("data.saveItem.price"));
+    assert Objects.equals(result.getBody().jsonPath().getInt("data.getItemById.stock"),
+            initalItemResponse.getBody().jsonPath().getInt("data.saveItem.stock"));
+    assert Objects.equals(result.getBody().jsonPath().getString("data.getItemById.category"),
+            initalItemResponse.getBody().jsonPath().getString("data.saveItem.category"));
+    assert Objects.equals(result.getBody().jsonPath().getString("data.getItemById.images"),
+            initalItemResponse.getBody().jsonPath().getString("data.saveItem.images"));
+    assert Objects.equals(result.getBody().jsonPath().getString("data.getItemById.seller.id"),
+            initalItemResponse.getBody().jsonPath().getString("data.saveItem.seller.id"));
+    assert Objects.equals(result.getBody().jsonPath().getString("data.getItemById.seller.name"),
             initalItemResponse.getBody().jsonPath().getString("data.saveItem.seller.name"));
   }
 }

@@ -1,11 +1,13 @@
 package com.finalproject.backend.queries;
 
+import com.finalproject.backend.config.logging.AppLogger;
 import com.finalproject.backend.entities.ItemEntity;
 import com.finalproject.backend.services.ItemService;
 import com.netflix.graphql.dgs.DgsComponent;
 import com.netflix.graphql.dgs.DgsQuery;
 import com.netflix.graphql.dgs.InputArgument;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * This class contains the user queries.
@@ -25,6 +27,18 @@ public class ItemQueries {
    */
   public ItemQueries(ItemService inputItemService) {
     this.itemService = inputItemService;
+  }
+
+  /**
+   * Query for getting an item from an id.
+   *
+   * @param id the id of the item.
+   * @return the item that was found.
+   */
+  @DgsQuery
+  public ItemEntity getItemById(@InputArgument("id") String id) {
+    AppLogger.info("Get item by id: " + id);
+    return itemService.getItemById(UUID.fromString(id));
   }
 
   /**

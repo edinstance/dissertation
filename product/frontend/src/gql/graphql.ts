@@ -331,8 +331,13 @@ export type MutationResponse = {
 export type Query = {
   __typename?: "Query";
   _service: _Service;
+  getItemById?: Maybe<Item>;
   getUser?: Maybe<User>;
   searchForItems?: Maybe<Array<Maybe<Item>>>;
+};
+
+export type QueryGetItemByIdArgs = {
+  id: Scalars["String"]["input"];
 };
 
 export type QuerySearchForItemsArgs = {
@@ -404,6 +409,32 @@ export type SearchItemsQuery = {
       email: string;
     } | null;
   } | null> | null;
+};
+
+export type GetItemByIdQueryVariables = Exact<{
+  id: Scalars["String"]["input"];
+}>;
+
+export type GetItemByIdQuery = {
+  __typename?: "Query";
+  getItemById?: {
+    __typename?: "Item";
+    id?: string | null;
+    name?: string | null;
+    description?: string | null;
+    isActive?: boolean | null;
+    endingTime?: string | null;
+    price?: number | null;
+    stock?: number | null;
+    category?: string | null;
+    images?: Array<string | null> | null;
+    seller?: {
+      __typename?: "User";
+      id: string;
+      name?: string | null;
+      email: string;
+    } | null;
+  } | null;
 };
 
 export type SaveItemMutationVariables = Exact<{
@@ -576,6 +607,74 @@ export const SearchItemsDocument = {
     },
   ],
 } as unknown as DocumentNode<SearchItemsQuery, SearchItemsQueryVariables>;
+export const GetItemByIdDocument = {
+  kind: "Document",
+  definitions: [
+    {
+      kind: "OperationDefinition",
+      operation: "query",
+      name: { kind: "Name", value: "GetItemById" },
+      variableDefinitions: [
+        {
+          kind: "VariableDefinition",
+          variable: { kind: "Variable", name: { kind: "Name", value: "id" } },
+          type: {
+            kind: "NonNullType",
+            type: {
+              kind: "NamedType",
+              name: { kind: "Name", value: "String" },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "getItemById" },
+            arguments: [
+              {
+                kind: "Argument",
+                name: { kind: "Name", value: "id" },
+                value: {
+                  kind: "Variable",
+                  name: { kind: "Name", value: "id" },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                { kind: "Field", name: { kind: "Name", value: "id" } },
+                { kind: "Field", name: { kind: "Name", value: "name" } },
+                { kind: "Field", name: { kind: "Name", value: "description" } },
+                { kind: "Field", name: { kind: "Name", value: "isActive" } },
+                { kind: "Field", name: { kind: "Name", value: "endingTime" } },
+                { kind: "Field", name: { kind: "Name", value: "price" } },
+                { kind: "Field", name: { kind: "Name", value: "stock" } },
+                { kind: "Field", name: { kind: "Name", value: "category" } },
+                { kind: "Field", name: { kind: "Name", value: "images" } },
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "seller" },
+                  selectionSet: {
+                    kind: "SelectionSet",
+                    selections: [
+                      { kind: "Field", name: { kind: "Name", value: "id" } },
+                      { kind: "Field", name: { kind: "Name", value: "name" } },
+                      { kind: "Field", name: { kind: "Name", value: "email" } },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<GetItemByIdQuery, GetItemByIdQueryVariables>;
 export const SaveItemDocument = {
   kind: "Document",
   definitions: [
