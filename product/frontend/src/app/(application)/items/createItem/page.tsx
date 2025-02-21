@@ -7,12 +7,14 @@ import ImageUpload from "@/components/ui/ImageUpload";
 import { Input } from "@/components/ui/Input";
 import { Select } from "@/components/ui/Select";
 import { TextArea } from "@/components/ui/TextArea";
-import { SAVE_ITEM_MUTATION } from "@/lib/graphql/items";
-import { useMutation } from "@apollo/client";
+import { GET_ITEM_BY_ID_QUERY, SAVE_ITEM_MUTATION } from "@/lib/graphql/items";
+import { useMutation, useQuery } from "@apollo/client";
+import { useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 
 type FormData = {
+  id: string | null;
   name: string;
   description: string;
   duration: string;
@@ -37,36 +39,83 @@ export default function CreateItem() {
     setValue,
   } = useForm<FormData>();
 
+  const searchParams = useSearchParams();
+  const itemId = searchParams.get("itemId");
+
+  const [endingTime, setEndingTime] = useState<string | null>(null);
+
+  useQuery(GET_ITEM_BY_ID_QUERY, {
+    skip: !itemId,
+    variables: { id: itemId! },
+    onCompleted: (data) => {
+      const item = data.getItemById;
+      if (item) {
+        setValue("id", item.id || null);
+        setValue("name", item.name || "");
+        setValue("description", item.description || "");
+        setValue("category", item.category || "");
+        setValue("price", item.price || 0);
+        setValue("stock", item.stock || 0);
+        setValue(
+          "images",
+          item.images
+            ? item.images.filter((img): img is string => img !== null)
+            : [],
+        );
+        setEndingTime(item.endingTime || null);
+      }
+    },
+  });
+
   const [saveItemMutation] = useMutation(SAVE_ITEM_MUTATION);
 
   async function onSubmit(data: FormData) {
-    const endingTime = new Date(
-      Date.now() + Number(data.duration) * 24 * 60 * 60 * 1000,
-    )
-      .toLocaleDateString("en-US", {
-        year: "numeric",
-        month: "2-digit",
-        day: "2-digit",
-        hour: "2-digit",
-        minute: "2-digit",
-        second: "2-digit",
-        hour12: false,
-      })
-      .replace(/(\d+)\/(\d+)\/(\d+),\s/, "$3-$1-$2 ");
+    if (!data.id) {
+      const newEndingTime = new Date(
+        Date.now() + Number(data.duration) * 24 * 60 * 60 * 1000,
+      )
+        .toLocaleDateString("en-UK", {
+          year: "numeric",
+          month: "2-digit",
+          day: "2-digit",
+          hour: "2-digit",
+          minute: "2-digit",
+          second: "2-digit",
+          hour12: false,
+        })
+        .replace(/(\d+)\/(\d+)\/(\d+),\s/, "$3-$2-$1 ");
 
-    await saveItemMutation({
-      variables: {
-        itemInput: {
-          name: data.name,
-          description: data.description,
-          endingTime: endingTime,
-          price: Number(data.price),
-          stock: Number(data.stock),
-          category: data.category,
-          images: data.images,
+      console.log(newEndingTime);
+
+      await saveItemMutation({
+        variables: {
+          itemInput: {
+            name: data.name,
+            description: data.description,
+            endingTime: newEndingTime,
+            price: Number(data.price),
+            stock: Number(data.stock),
+            category: data.category,
+            images: data.images,
+          },
         },
-      },
-    });
+      });
+    } else {
+      await saveItemMutation({
+        variables: {
+          itemInput: {
+            id: data.id,
+            name: data.name,
+            description: data.description,
+            endingTime: endingTime,
+            price: Number(data.price),
+            stock: Number(data.stock),
+            category: data.category,
+            images: data.images,
+          },
+        },
+      });
+    }
   }
 
   const [uploadedImages, setUploadedImages] = useState<UploadedImage[]>([]);
@@ -240,41 +289,43 @@ export default function CreateItem() {
 
         <Divider />
 
-        <div className="grid gap-x-8 gap-y-6 py-4 sm:grid-cols-2">
-          <div className="space-y-4">
-            <h2>Duration</h2>
-            <p className="text-xs text-gray-500">
-              Set how long you want this item to be available for.
-            </p>
-          </div>
-          <div className="space-y-4">
-            <div className="min-h-12 space-y-1">
-              <Controller
-                name="duration"
-                control={control}
-                rules={{ required: "Duration is required" }}
-                render={({ field }) => (
-                  <Select
-                    options={durationOptions}
-                    value={
-                      durationOptions.find(
-                        (option) => option.value === Number(field.value),
-                      ) || null
-                    }
-                    onChange={(selected) => field.onChange(selected.value)}
-                    placeholder="Select Duration"
-                    invalid={!!errors.duration}
-                  />
+        {!itemId && (
+          <div className="grid gap-x-8 gap-y-6 py-4 sm:grid-cols-2">
+            <div className="space-y-4">
+              <h2>Duration</h2>
+              <p className="text-xs text-gray-500">
+                Set how long you want this item to be available for.
+              </p>
+            </div>
+            <div className="space-y-4">
+              <div className="min-h-12 space-y-1">
+                <Controller
+                  name="duration"
+                  control={control}
+                  rules={{ required: "Duration is required" }}
+                  render={({ field }) => (
+                    <Select
+                      options={durationOptions}
+                      value={
+                        durationOptions.find(
+                          (option) => option.value === Number(field.value),
+                        ) || null
+                      }
+                      onChange={(selected) => field.onChange(selected.value)}
+                      placeholder="Select Duration"
+                      invalid={!!errors.duration}
+                    />
+                  )}
+                />
+                {errors.duration && (
+                  <p className="text-xs text-red-500">
+                    {errors.duration.message}
+                  </p>
                 )}
-              />
-              {errors.duration && (
-                <p className="text-xs text-red-500">
-                  {errors.duration.message}
-                </p>
-              )}
+              </div>
             </div>
           </div>
-        </div>
+        )}
 
         <Divider />
         <div className="flex flex-row items-end justify-end space-x-4 pt-4">
