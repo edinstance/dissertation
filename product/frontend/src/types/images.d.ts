@@ -1,5 +1,5 @@
 type UploadedImage = {
-  file: File;
+  file?: File;
   publicUrl: string;
   key: string;
 };

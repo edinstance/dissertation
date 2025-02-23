@@ -3,6 +3,11 @@ import { XMarkIcon } from "@heroicons/react/24/outline";
 import { useCallback } from "react";
 import { FileRejection, useDropzone } from "react-dropzone";
 
+function getFileName({ key }: { key: string }) {
+  const parts = key.split("/");
+  return parts[parts.length - 1];
+}
+
 interface ImageUploadProps {
   onImagesChange: (files: File[]) => void;
   removeFile: (key: string) => void;
@@ -96,11 +101,13 @@ function ImageUpload({
                 <div className="min-w-0 flex-1">
                   <div className="flex flex-row items-center gap-2 truncate text-sm">
                     <span className="w-1/2 truncate font-medium text-gray-900 dark:text-gray-100">
-                      {image.file.name}
+                      {getFileName({ key: image.key })}
                     </span>
-                    <span className="text-xs text-gray-500 dark:text-gray-400">
-                      ({formatFileSize(image.file.size)})
-                    </span>
+                    {image.file?.size && (
+                      <span className="text-xs text-gray-500 dark:text-gray-400">
+                        ({formatFileSize(image.file.size)})
+                      </span>
+                    )}
                   </div>
                 </div>
                 <button

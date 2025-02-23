@@ -7,7 +7,6 @@ import {
   S3Client,
 } from "@aws-sdk/client-s3";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
-import crypto from "crypto";
 
 const S3_BUCKET = process.env.S3_BUCKET_NAME;
 
@@ -26,7 +25,7 @@ export async function getPresignedUrls(
     }
     const urls = await Promise.all(
       files.map(async (file) => {
-        const uniqueFileName = `${session.user.id}/${crypto.randomUUID()}-${file.name}`;
+        const uniqueFileName = `${session.user.id}/${file.name}`;
 
         const command = new PutObjectCommand({
           Bucket: S3_BUCKET,

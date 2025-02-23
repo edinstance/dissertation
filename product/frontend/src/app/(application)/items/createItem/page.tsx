@@ -43,6 +43,7 @@ export default function CreateItem() {
   const itemId = searchParams.get("itemId");
 
   const [endingTime, setEndingTime] = useState<string | null>(null);
+  const [uploadedImages, setUploadedImages] = useState<UploadedImage[]>([]);
 
   useQuery(GET_ITEM_BY_ID_QUERY, {
     skip: !itemId,
@@ -63,6 +64,17 @@ export default function CreateItem() {
             : [],
         );
         setEndingTime(item.endingTime || null);
+
+        setUploadedImages(
+          item.images
+            ? item.images
+                .filter((img): img is string => img !== null)
+                .map((img) => ({
+                  publicUrl: img,
+                  key: img,
+                }))
+            : [],
+        );
       }
     },
   });
@@ -101,6 +113,7 @@ export default function CreateItem() {
         },
       });
     } else {
+      console.log(data.images);
       await saveItemMutation({
         variables: {
           itemInput: {
@@ -117,8 +130,6 @@ export default function CreateItem() {
       });
     }
   }
-
-  const [uploadedImages, setUploadedImages] = useState<UploadedImage[]>([]);
 
   const handleImagesChange = async (files: File[]) => {
     const result = await getPresignedUrls(
@@ -165,8 +176,24 @@ export default function CreateItem() {
   };
 
   function removeFile(key: string) {
-    setUploadedImages((prev) => prev.filter((img) => img.key !== key));
-    deleteS3Object(key);
+    const s3Key = key.includes(".s3.amazonaws.com/")
+      ? key.split(".s3.amazonaws.com/")[1]
+      : key;
+
+    setUploadedImages((prev) =>
+      prev.filter((img) => img.key !== key && img.key !== s3Key),
+    );
+
+    setValue(
+      "images",
+      uploadedImages
+        .filter((img) => img.key !== key && img.key !== s3Key)
+        .map((img) => img.publicUrl),
+    );
+
+    if (s3Key) {
+      deleteS3Object(s3Key);
+    }
   }
 
   return (
