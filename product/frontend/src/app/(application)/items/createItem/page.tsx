@@ -97,8 +97,6 @@ export default function CreateItem() {
         })
         .replace(/(\d+)\/(\d+)\/(\d+),\s/, "$3-$2-$1 ");
 
-      console.log(newEndingTime);
-
       await saveItemMutation({
         variables: {
           itemInput: {
@@ -113,7 +111,6 @@ export default function CreateItem() {
         },
       });
     } else {
-      console.log(data.images);
       await saveItemMutation({
         variables: {
           itemInput: {
@@ -356,8 +353,9 @@ export default function CreateItem() {
 
         <Divider />
         <div className="flex flex-row items-end justify-end space-x-4 pt-4">
-          <Button type="submit" className="max-w-32">
-            Create Item
+          <Button type="submit" className="max-w-40">
+            {!itemId && <span>Create Item</span>}
+            {itemId && <span>Save Changes</span>}
           </Button>
         </div>
       </form>
