@@ -39,6 +39,16 @@ input ItemInput {
     images: [String]
 }
 
+input PaginationInput {
+    page: Int
+    size: Int
+}
+
+type Pagination {
+    page: Int
+    size: Int
+    total: Int
+}
 type MutationResponse {
     success: Boolean
     message: String
