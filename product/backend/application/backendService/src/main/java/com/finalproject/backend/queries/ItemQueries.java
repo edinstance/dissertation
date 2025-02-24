@@ -7,6 +7,7 @@ import com.finalproject.backend.services.ItemService;
 import com.netflix.graphql.dgs.DgsComponent;
 import com.netflix.graphql.dgs.DgsQuery;
 import com.netflix.graphql.dgs.InputArgument;
+
 import java.util.List;
 import java.util.UUID;
 
@@ -53,10 +54,14 @@ public class ItemQueries {
           @InputArgument String searchText,
           @InputArgument PaginationInput pagination) {
 
-    int pageSize = pagination.getPageSize();
-    if (pageSize == 0) {
-      pagination.setPageSize(10);
+    if (pagination == null) {
+      pagination = new PaginationInput(0, 10);
+    } else {
+      if (pagination.getPageSize() == 0) {
+        pagination.setPageSize(10);
+      }
     }
+
 
     return itemService.searchForItemsByName(searchText, pagination);
 
