@@ -62,4 +62,11 @@
             stripComments="false" />
     </changeSet>
 
+    <changeSet id="search_for_items_pagination" author="zlac370" runOnChange="false">
+        <sqlFile path="../../src/sql/tests/search_for_items_pagination.sql"
+            relativeToChangelogFile="true"
+            splitStatements="false"
+            stripComments="false" />
+    </changeSet>
+
 </databaseChangeLog>
