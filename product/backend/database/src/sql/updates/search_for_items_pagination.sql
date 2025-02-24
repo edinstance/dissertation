@@ -1,6 +1,8 @@
 -- This function searches for items in the items table based on the similarity of the item name to the search text.
 -- It now includes pagination so not all the values are returned at once.
 
+DROP FUNCTION IF EXISTS search_for_items(character varying);
+
 CREATE OR REPLACE FUNCTION search_for_items(
     search_text VARCHAR,
     page INT DEFAULT 0,
