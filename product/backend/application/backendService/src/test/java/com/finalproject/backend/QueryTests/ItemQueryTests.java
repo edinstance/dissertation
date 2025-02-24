@@ -1,5 +1,6 @@
 package com.finalproject.backend.QueryTests;
 
+import com.finalproject.backend.dto.PaginationInput;
 import com.finalproject.backend.entities.ItemEntity;
 import com.finalproject.backend.entities.UserEntity;
 import com.finalproject.backend.queries.ItemQueries;
@@ -42,9 +43,10 @@ public class ItemQueryTests {
 
   @Test
   public void testSearchForItem() {
-    when(itemService.searchForItemsByName("name")).thenReturn(List.of(item));
+    PaginationInput paginationInput = new PaginationInput();
+    when(itemService.searchForItemsByName("name", paginationInput )).thenReturn(List.of(item));
 
-    List<ItemEntity> result = itemQueries.searchForItems("name");
+    List<ItemEntity> result = itemQueries.searchForItems("name", paginationInput);
 
     assert result.size() == 1;
     assert result.contains(item);

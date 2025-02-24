@@ -8,7 +8,7 @@ type Mutation {
 
 type Query {
     getUser: User
-    searchForItems(searchText: String): [Item]
+    searchForItems(searchText: String, pagination: PaginationInput): [Item]
     getItemById(id: String!): Item
 }
 

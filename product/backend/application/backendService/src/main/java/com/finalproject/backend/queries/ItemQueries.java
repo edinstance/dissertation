@@ -1,6 +1,7 @@
 package com.finalproject.backend.queries;
 
 import com.finalproject.backend.config.logging.AppLogger;
+import com.finalproject.backend.dto.PaginationInput;
 import com.finalproject.backend.entities.ItemEntity;
 import com.finalproject.backend.services.ItemService;
 import com.netflix.graphql.dgs.DgsComponent;
@@ -49,9 +50,15 @@ public class ItemQueries {
    */
   @DgsQuery
   public List<ItemEntity> searchForItems(
-          @InputArgument String searchText) {
+          @InputArgument String searchText,
+          @InputArgument PaginationInput pagination) {
 
-    return itemService.searchForItemsByName(searchText);
+    int pageSize = pagination.getPageSize();
+    if (pageSize == 0) {
+      pagination.setPageSize(10);
+    }
+
+    return itemService.searchForItemsByName(searchText, pagination);
 
   }
 }

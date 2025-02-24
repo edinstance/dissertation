@@ -3,6 +3,7 @@ package com.finalproject.backend.services;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.finalproject.backend.config.logging.AppLogger;
+import com.finalproject.backend.dto.PaginationInput;
 import com.finalproject.backend.entities.ItemEntity;
 import com.finalproject.backend.helpers.AuthHelpers;
 import com.finalproject.backend.repositories.ItemRepository;
@@ -97,35 +98,10 @@ public class ItemService {
    * Searches for items based on an input name.
    *
    * @param searchText The name to search against.
-   * @param page The page of the items.
-   * @param pageSize The size of the page.
    * @return The items found.
    */
-  public List<ItemEntity> searchForItemsByName(final String searchText ,
-                                               final int page, final int pageSize) {
-    return itemRepository.searchForItems(searchText, page, pageSize);
-  }
-
-  /**
-   * Searches for items based on an input name.
-   *
-   * @param searchText The name to search against.
-   * @param page The page of the items.
-   * @return The items found.
-   */
-  public List<ItemEntity> searchForItemsByName(final String searchText ,
-                                               final int page) {
-    return itemRepository.searchForItems(searchText, page, 10);
-  }
-
-  /**
-   * Searches for items based on an input name.
-   *
-   * @param searchText The name to search against.
-   * @return The items found.
-   */
-  public List<ItemEntity> searchForItemsByName(final String searchText) {
-    return itemRepository.searchForItems(searchText, 0, 10);
+  public List<ItemEntity> searchForItemsByName(final String searchText, final PaginationInput pagination) {
+    return itemRepository.searchForItems(searchText, pagination.getPage(), pagination.getPageSize());
   }
 
   /**
