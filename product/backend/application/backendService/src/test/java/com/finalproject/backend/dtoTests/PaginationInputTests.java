@@ -23,7 +23,7 @@ public class PaginationInputTests {
 
     assertNotNull(paginationInput);
     assert paginationInput.getPage() == 1;
-    assert paginationInput.getPageSize() == 1;
+    assert paginationInput.getSize() == 1;
   }
 
   @BeforeEach
@@ -39,8 +39,8 @@ public class PaginationInputTests {
 
   @Test
   public void testPageSizeMethods() {
-    paginationInput.setPageSize(2);
-    assert paginationInput.getPageSize() == 2;
+    paginationInput.setSize(2);
+    assert paginationInput.getSize() == 2;
   }
 
 }

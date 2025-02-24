@@ -18,7 +18,7 @@ public class PaginationInput {
   /**
    * The size of the page.
    */
-  private int pageSize;
+  private int size;
 
   /**
    * Default constructor.
@@ -30,10 +30,10 @@ public class PaginationInput {
    * This constructor creates a PaginationInput with the specified details.
    *
    * @param inputPage     The Page.
-   * @param inputPageSize The size of the page.
+   * @param inputSize The size of the page.
    */
-  public PaginationInput(final int inputPage, final int inputPageSize) {
+  public PaginationInput(final int inputPage, final int inputSize) {
     this.page = inputPage;
-    this.pageSize = inputPageSize;
+    this.size = inputSize;
   }
 }

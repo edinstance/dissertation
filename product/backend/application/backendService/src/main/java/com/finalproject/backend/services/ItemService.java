@@ -103,7 +103,7 @@ public class ItemService {
   public List<ItemEntity> searchForItemsByName(final String searchText,
                                                final PaginationInput pagination) {
     return itemRepository.searchForItems(searchText, pagination.getPage(),
-            pagination.getPageSize());
+            pagination.getSize());
   }
 
   /**

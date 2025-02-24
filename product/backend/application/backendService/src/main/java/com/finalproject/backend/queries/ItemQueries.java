@@ -57,11 +57,10 @@ public class ItemQueries {
     if (pagination == null) {
       pagination = new PaginationInput(0, 10);
     } else {
-      if (pagination.getPageSize() == 0) {
-        pagination.setPageSize(10);
+      if (pagination.getSize() == 0) {
+        pagination.setSize(10);
       }
     }
-
 
     return itemService.searchForItemsByName(searchText, pagination);
 

@@ -86,7 +86,7 @@ public class ItemServiceTests {
 
   @Test
   public void testSearchForItems() {
-    when(itemRepository.searchForItems("Item Name", paginationInput.getPage(), paginationInput.getPageSize())).thenReturn(List.of(item));
+    when(itemRepository.searchForItems("Item Name", paginationInput.getPage(), paginationInput.getSize())).thenReturn(List.of(item));
 
     assert itemService.searchForItemsByName("Item Name", paginationInput).contains(item);
     verify(itemRepository).searchForItems("Item Name", 0, 0);
