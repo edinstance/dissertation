@@ -97,6 +97,31 @@ public class ItemService {
    * Searches for items based on an input name.
    *
    * @param searchText The name to search against.
+   * @param page The page of the items.
+   * @param pageSize The size of the page.
+   * @return The items found.
+   */
+  public List<ItemEntity> searchForItemsByName(final String searchText ,
+                                               final int page, final int pageSize) {
+    return itemRepository.searchForItems(searchText, page, pageSize);
+  }
+
+  /**
+   * Searches for items based on an input name.
+   *
+   * @param searchText The name to search against.
+   * @param page The page of the items.
+   * @return The items found.
+   */
+  public List<ItemEntity> searchForItemsByName(final String searchText ,
+                                               final int page) {
+    return itemRepository.searchForItems(searchText, page, 10);
+  }
+
+  /**
+   * Searches for items based on an input name.
+   *
+   * @param searchText The name to search against.
    * @return The items found.
    */
   public List<ItemEntity> searchForItemsByName(final String searchText) {

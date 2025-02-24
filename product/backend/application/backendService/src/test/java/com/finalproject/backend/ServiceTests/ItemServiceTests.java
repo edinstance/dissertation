@@ -55,6 +55,7 @@ public class ItemServiceTests {
   private UUID itemId;
   private UserEntity user;
   private ItemEntity item;
+  private List<ItemEntity> items;
 
   @BeforeEach
   public void setUp() throws ParseException {
@@ -184,8 +185,32 @@ public class ItemServiceTests {
   }
 
   @Test
-  public void testSearchForItemsPagination(){
-
+  public void testDefaultSearchPagination(){
     when(itemRepository.searchForItems("Item Name", 0, 10)).thenReturn(List.of(item));
+
+    items = itemService.searchForItemsByName("Item Name");
+
+    assertEquals(items.getFirst(), item);
+    verify(itemRepository, times(1)).searchForItems("Item Name", 0, 10);
+  }
+
+  @Test
+  public void testCustomPageSearchPagination(){
+    when(itemRepository.searchForItems("Item Name", 1, 10)).thenReturn(List.of(item));
+
+    items = itemService.searchForItemsByName("Item Name", 1);
+
+    assertEquals(items.getFirst(), item);
+    verify(itemRepository, times(1)).searchForItems("Item Name", 1, 10);
+  }
+
+  @Test
+  public void testCustomSearchPagination(){
+    when(itemRepository.searchForItems("Item Name", 2, 3)).thenReturn(List.of(item));
+
+    items = itemService.searchForItemsByName("Item Name", 2, 3);
+
+    assertEquals(items.getFirst(), item);
+    verify(itemRepository, times(1)).searchForItems("Item Name", 2, 3);
   }
 }
