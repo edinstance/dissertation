@@ -107,7 +107,7 @@ public class ItemService {
             pagination.getPage(), pagination.getSize()),
             new Pagination(pagination.getPage(), pagination.getSize(),
                     itemRepository.getItemSearchPages(searchText,
-                            pagination.getPage())));
+                            pagination.getSize())));
   }
 
   /**
