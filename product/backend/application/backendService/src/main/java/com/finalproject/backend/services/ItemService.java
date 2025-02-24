@@ -100,7 +100,7 @@ public class ItemService {
    * @return The items found.
    */
   public List<ItemEntity> searchForItemsByName(final String searchText) {
-    return itemRepository.searchForItems(searchText);
+    return itemRepository.searchForItems(searchText, 0, 10);
   }
 
   /**

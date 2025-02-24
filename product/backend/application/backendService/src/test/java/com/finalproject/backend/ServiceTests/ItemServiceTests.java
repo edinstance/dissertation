@@ -82,10 +82,10 @@ public class ItemServiceTests {
 
   @Test
   public void testSearchForItems() {
-    when(itemRepository.searchForItems("Item Name")).thenReturn(List.of(item));
+    when(itemRepository.searchForItems("Item Name", 0, 10)).thenReturn(List.of(item));
 
     assert itemService.searchForItemsByName("Item Name").contains(item);
-    verify(itemRepository).searchForItems("Item Name");
+    verify(itemRepository).searchForItems("Item Name", 0, 10);
   }
 
   @Test
@@ -181,5 +181,11 @@ public class ItemServiceTests {
     verify(jedis, times(1))
             .set(eq("item:" + itemId), anyString(), any(SetParams.class));
     verify(itemRepository, times(1)).findById(itemId);
+  }
+
+  @Test
+  public void testSearchForItemsPagination(){
+
+    when(itemRepository.searchForItems("Item Name", 0, 10)).thenReturn(List.of(item));
   }
 }
