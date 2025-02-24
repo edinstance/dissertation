@@ -8,7 +8,7 @@ type Mutation {
 
 type Query {
     getUser: User
-    searchForItems(searchText: String): [Item]
+    searchForItems(searchText: String, pagination: PaginationInput): [Item]
     getItemById(id: String!): Item
 }
 
@@ -37,6 +37,17 @@ input ItemInput {
     stock: Int
     category: String
     images: [String]
+}
+
+input PaginationInput {
+    page: Int
+    size: Int
+}
+
+type Pagination {
+    page: Int
+    size: Int
+    total: Int
 }
 
 type MutationResponse {

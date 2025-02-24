@@ -8,9 +8,12 @@ import io.restassured.response.Response;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 import static io.restassured.RestAssured.given;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class ItemQueryTests {
 
@@ -21,29 +24,30 @@ public class ItemQueryTests {
   private Response result;
   private String itemId;
 
+  private final String mutation = String.format("{ \"query\": \"mutation { saveItem(itemInput: { " +
+                  "name: \\\"%s\\\", " +
+                  "description: \\\"%s\\\", " +
+                  "isActive: %b, " +
+                  "endingTime: \\\"%s\\\", " +
+                  "price: %f, " +
+                  "stock: %d, " +
+                  "category: \\\"%s\\\", " +
+                  "images: [%s] " +
+                  "}) { " +
+                  "id name description isActive endingTime price stock category images " +
+                  "seller { id name } " +
+                  "} }\" }",
+          "Test Item",
+          "This is a test item",
+          true,
+          formattedDate,
+          99.99,
+          10,
+          "Electronics",
+          "\\\"/images/test.jpg\\\"");
+
   @And("an item the user wants exists")
   public void anItemTheUserWantsExists() {
-    String mutation = String.format("{ \"query\": \"mutation { saveItem(itemInput: { " +
-                    "name: \\\"%s\\\", " +
-                    "description: \\\"%s\\\", " +
-                    "isActive: %b, " +
-                    "endingTime: \\\"%s\\\", " +
-                    "price: %f, " +
-                    "stock: %d, " +
-                    "category: \\\"%s\\\", " +
-                    "images: [%s] " +
-                    "}) { " +
-                    "id name description isActive endingTime price stock category images " +
-                    "seller { id name } " +
-                    "} }\" }",
-            "Test Item",
-            "This is a test item",
-            true,
-            formattedDate,
-            99.99,
-            10,
-            "Electronics",
-            "\\\"/images/test.jpg\\\"");
 
     initalItemResponse = given()
             .header("Authorization", "Bearer " + CognitoUtilities.getAccessToken())
@@ -149,4 +153,81 @@ public class ItemQueryTests {
     assert Objects.equals(result.getBody().jsonPath().getString("data.getItemById.seller.name"),
             initalItemResponse.getBody().jsonPath().getString("data.saveItem.seller.name"));
   }
+
+  @And("there are many items in the application")
+  public void thereAreManyItemsInTheApplication() {
+    for (int i = 0; i < 16; i ++) {
+      initalItemResponse = given()
+              .header("Authorization", "Bearer " + CognitoUtilities.getAccessToken())
+              .contentType("application/json")
+              .body(mutation)
+              .post("/graphql");
+    }
+  }
+
+  @When("the user requests the items without pagination")
+  public void theUserRequestsTheItemsWithoutPagination() {
+    String query = String.format("{ \"query\": \"query { searchForItems(searchText: \\\"%s\\\") { " +
+                    "id " +
+                    "name " +
+                    "description " +
+                    "isActive " +
+                    "endingTime " +
+                    "price " +
+                    "stock " +
+                    "category " +
+                    "images " +
+                    "seller { id name } " +
+                    "} }\" }",
+            "Test Item");
+
+    result = given()
+            .contentType("application/json")
+            .body(query)
+            .post("/graphql");
+  }
+
+  @Then("the server returns paginated data")
+  public void theServerReturnsPaginatedData() {
+    List<Map<String, Object>> items = result.getBody().jsonPath()
+            .getList("data.searchForItems");
+
+    assertNotNull(items);
+    assertFalse(items.isEmpty());
+    assertTrue(items.size() <= 10);
+  }
+
+  @Then("the user requests for the second page of data")
+  public void theUserRequestsForTheSecondPageOfData() {
+    String query = String.format("{ \"query\": \"query { searchForItems(searchText: \\\"%s\\\"," +
+                    "pagination: {page: 1, size: 10}) { " +
+                    "id " +
+                    "name " +
+                    "description " +
+                    "isActive " +
+                    "endingTime " +
+                    "price " +
+                    "stock " +
+                    "category " +
+                    "images " +
+                    "seller { id name } " +
+                    "} }\" }",
+            "Test Item");
+
+    result = given()
+            .contentType("application/json")
+            .body(query)
+            .post("/graphql");
+  }
+
+  @And("the server returns the second page of items")
+  public void theServerReturnsTheSecondPageOfItems() {
+    List<Map<String, Object>> items = result.getBody().jsonPath()
+            .getList("data.searchForItems");
+
+    assertNotNull(items);
+    assertFalse(items.isEmpty());
+    assertEquals(6, items.size());
+  }
+
 }

@@ -18,15 +18,15 @@ public interface ItemRepository  extends JpaRepository<ItemEntity, UUID> {
   /**
    * This query creates or updates an item.
    *
-   * @param itemId The id of the item to update or insert.
-   * @param name The name of the item.
+   * @param itemId      The id of the item to update or insert.
+   * @param name        The name of the item.
    * @param description The description of the item.
-   * @param isActive The active status of the item.
-   * @param price The price of the item.
-   * @param stock The stock quantity of the item.
-   * @param category The category of the item.
-   * @param images The images of the item.
-   * @param sellerId The id of the seller.
+   * @param isActive    The active status of the item.
+   * @param price       The price of the item.
+   * @param stock       The stock quantity of the item.
+   * @param category    The category of the item.
+   * @param images      The images of the item.
+   * @param sellerId    The id of the seller.
    */
   @Query(value = "SELECT * FROM insert_or_update_item(:itemId, :name, :description,"
           + ":isActive, :endingDate, :price, :stock, :category, CAST(:images AS jsonb), :sellerId)",
@@ -49,9 +49,13 @@ public interface ItemRepository  extends JpaRepository<ItemEntity, UUID> {
    * This query gets items based on the similarity of the item name and the search text.
    *
    * @param searchText The search text to match against item names.
+   * @param page       The page to search retrieve.
+   * @param pageSize   the size of the page.
    * @return A list of items that match the search text.
    */
-  @Query(value = "SELECT * FROM search_for_items(:searchText)",
+  @Query(value = "SELECT * FROM search_for_items(:searchText, :page, :pageSize)",
           nativeQuery = true)
-  List<ItemEntity> searchForItems(@Param("searchText") String searchText);
+  List<ItemEntity> searchForItems(@Param("searchText") String searchText,
+                                  @Param("page") int page,
+                                  @Param("pageSize") int pageSize);
 }

@@ -2,6 +2,7 @@ package com.finalproject.backend.ServiceTests;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.finalproject.backend.dto.PaginationInput;
 import com.finalproject.backend.entities.ItemEntity;
 import com.finalproject.backend.entities.UserEntity;
 import com.finalproject.backend.helpers.AuthHelpers;
@@ -55,6 +56,8 @@ public class ItemServiceTests {
   private UUID itemId;
   private UserEntity user;
   private ItemEntity item;
+  private List<ItemEntity> items;
+  private PaginationInput paginationInput;
 
   @BeforeEach
   public void setUp() throws ParseException {
@@ -65,6 +68,7 @@ public class ItemServiceTests {
             "Item Description", dateFormat.format(new Date()), new BigDecimal("19.99"), 100,
             "Category",
             List.of("image"), user);
+    paginationInput = new PaginationInput();
   }
 
   @Test
@@ -82,10 +86,10 @@ public class ItemServiceTests {
 
   @Test
   public void testSearchForItems() {
-    when(itemRepository.searchForItems("Item Name")).thenReturn(List.of(item));
+    when(itemRepository.searchForItems("Item Name", paginationInput.getPage(), paginationInput.getSize())).thenReturn(List.of(item));
 
-    assert itemService.searchForItemsByName("Item Name").contains(item);
-    verify(itemRepository).searchForItems("Item Name");
+    assert itemService.searchForItemsByName("Item Name", paginationInput).contains(item);
+    verify(itemRepository).searchForItems("Item Name", 0, 0);
   }
 
   @Test
@@ -181,5 +185,15 @@ public class ItemServiceTests {
     verify(jedis, times(1))
             .set(eq("item:" + itemId), anyString(), any(SetParams.class));
     verify(itemRepository, times(1)).findById(itemId);
+  }
+
+  @Test
+  public void testCustomSearchPagination(){
+    when(itemRepository.searchForItems("Item Name", 2, 3)).thenReturn(List.of(item));
+
+    items = itemService.searchForItemsByName("Item Name", new PaginationInput(2, 3));
+
+    assertEquals(items.getFirst(), item);
+    verify(itemRepository, times(1)).searchForItems("Item Name", 2, 3);
   }
 }

@@ -21,7 +21,7 @@ BEGIN
                 EXECUTE procedure_name; -- Execute the query
             EXCEPTION
                 WHEN OTHERS THEN
-                    RAISE EXCEPTION 'Error executing %', procedure_name;
+                    RAISE EXCEPTION '% failed: %', procedure_name, SQLERRM;
                 -- Raise an exception if any of the procedures raise exceptions
             END;
         END LOOP;

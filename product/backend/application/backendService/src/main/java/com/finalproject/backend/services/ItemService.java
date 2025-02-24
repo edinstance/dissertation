@@ -3,6 +3,7 @@ package com.finalproject.backend.services;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.finalproject.backend.config.logging.AppLogger;
+import com.finalproject.backend.dto.PaginationInput;
 import com.finalproject.backend.entities.ItemEntity;
 import com.finalproject.backend.helpers.AuthHelpers;
 import com.finalproject.backend.repositories.ItemRepository;
@@ -99,8 +100,10 @@ public class ItemService {
    * @param searchText The name to search against.
    * @return The items found.
    */
-  public List<ItemEntity> searchForItemsByName(final String searchText) {
-    return itemRepository.searchForItems(searchText);
+  public List<ItemEntity> searchForItemsByName(final String searchText,
+                                               final PaginationInput pagination) {
+    return itemRepository.searchForItems(searchText, pagination.getPage(),
+            pagination.getSize());
   }
 
   /**

@@ -1,11 +1,13 @@
 package com.finalproject.backend.queries;
 
 import com.finalproject.backend.config.logging.AppLogger;
+import com.finalproject.backend.dto.PaginationInput;
 import com.finalproject.backend.entities.ItemEntity;
 import com.finalproject.backend.services.ItemService;
 import com.netflix.graphql.dgs.DgsComponent;
 import com.netflix.graphql.dgs.DgsQuery;
 import com.netflix.graphql.dgs.InputArgument;
+
 import java.util.List;
 import java.util.UUID;
 
@@ -49,9 +51,18 @@ public class ItemQueries {
    */
   @DgsQuery
   public List<ItemEntity> searchForItems(
-          @InputArgument String searchText) {
+          @InputArgument String searchText,
+          @InputArgument PaginationInput pagination) {
 
-    return itemService.searchForItemsByName(searchText);
+    if (pagination == null) {
+      pagination = new PaginationInput(0, 10);
+    } else {
+      if (pagination.getSize() == 0) {
+        pagination.setSize(10);
+      }
+    }
+
+    return itemService.searchForItemsByName(searchText, pagination);
 
   }
 }
