@@ -44,6 +44,11 @@ input PaginationInput {
     size: Int
 }
 
+type SearchedItemsResponse {
+    items: [Item]
+    pagination: Pagination
+}
+
 type Pagination {
     page: Int
     size: Int

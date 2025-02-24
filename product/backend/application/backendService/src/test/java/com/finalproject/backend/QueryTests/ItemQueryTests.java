@@ -1,8 +1,10 @@
 package com.finalproject.backend.QueryTests;
 
 import com.finalproject.backend.dto.PaginationInput;
+import com.finalproject.backend.dto.SearchedItemsResponse;
 import com.finalproject.backend.entities.ItemEntity;
 import com.finalproject.backend.entities.UserEntity;
+import com.finalproject.backend.helpers.Pagination;
 import com.finalproject.backend.queries.ItemQueries;
 import com.finalproject.backend.services.ItemService;
 import org.junit.jupiter.api.BeforeEach;
@@ -44,12 +46,14 @@ public class ItemQueryTests {
   @Test
   public void testSearchForItem() {
     PaginationInput paginationInput = new PaginationInput();
-    when(itemService.searchForItemsByName("name", paginationInput )).thenReturn(List.of(item));
+    when(itemService.searchForItemsByName("name", paginationInput ))
+            .thenReturn(new SearchedItemsResponse(List.of(item), new Pagination()));
 
-    List<ItemEntity> result = itemQueries.searchForItems("name", paginationInput);
+    SearchedItemsResponse result = itemQueries.searchForItems("name",
+            paginationInput);
 
-    assert result.size() == 1;
-    assert result.contains(item);
+    assert result.getItems().size() == 1;
+    assert result.getItems().contains(item);
   }
 
   @Test

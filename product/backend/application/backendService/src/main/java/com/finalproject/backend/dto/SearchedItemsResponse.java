@@ -2,10 +2,9 @@ package com.finalproject.backend.dto;
 
 import com.finalproject.backend.entities.ItemEntity;
 import com.finalproject.backend.helpers.Pagination;
+import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
-
-import java.util.List;
 
 /**
  * This is a dto for a list of items and the pagination data.
@@ -30,10 +29,11 @@ public class SearchedItemsResponse {
   public SearchedItemsResponse() {
 
   }
+
   /**
    * A constructor with the items and pagination.
    *
-   * @param items The items for the response.
+   * @param items      The items for the response.
    * @param pagination The pagination information for the response.
    */
   public SearchedItemsResponse(List<ItemEntity> items, Pagination pagination) {
