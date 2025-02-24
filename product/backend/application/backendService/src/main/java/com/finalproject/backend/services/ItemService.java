@@ -100,8 +100,10 @@ public class ItemService {
    * @param searchText The name to search against.
    * @return The items found.
    */
-  public List<ItemEntity> searchForItemsByName(final String searchText, final PaginationInput pagination) {
-    return itemRepository.searchForItems(searchText, pagination.getPage(), pagination.getPageSize());
+  public List<ItemEntity> searchForItemsByName(final String searchText,
+                                               final PaginationInput pagination) {
+    return itemRepository.searchForItems(searchText, pagination.getPage(),
+            pagination.getPageSize());
   }
 
   /**
