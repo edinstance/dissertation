@@ -49,6 +49,7 @@ type Pagination {
     size: Int
     total: Int
 }
+
 type MutationResponse {
     success: Boolean
     message: String
