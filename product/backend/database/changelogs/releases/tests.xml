@@ -69,4 +69,11 @@
             stripComments="false" />
     </changeSet>
 
+    <changeSet id="get_items_by_user" author="zlac370" runOnChange="false">
+        <sqlFile path="../../src/sql/tests/get_items_by_user.sql"
+            relativeToChangelogFile="true"
+            splitStatements="false"
+            stripComments="false" />
+    </changeSet>
+
 </databaseChangeLog>
