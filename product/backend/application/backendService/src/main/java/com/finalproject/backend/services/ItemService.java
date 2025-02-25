@@ -4,13 +4,14 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.finalproject.backend.config.logging.AppLogger;
 import com.finalproject.backend.dto.PaginationInput;
+import com.finalproject.backend.dto.SearchedItemsResponse;
 import com.finalproject.backend.entities.ItemEntity;
 import com.finalproject.backend.helpers.AuthHelpers;
+import com.finalproject.backend.helpers.Pagination;
 import com.finalproject.backend.repositories.ItemRepository;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.List;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -98,12 +99,15 @@ public class ItemService {
    * Searches for items based on an input name.
    *
    * @param searchText The name to search against.
-   * @return The items found.
+   * @return The items found and the pagination information.
    */
-  public List<ItemEntity> searchForItemsByName(final String searchText,
-                                               final PaginationInput pagination) {
-    return itemRepository.searchForItems(searchText, pagination.getPage(),
-            pagination.getSize());
+  public SearchedItemsResponse searchForItemsByName(final String searchText,
+                                                    final PaginationInput pagination) {
+    return new SearchedItemsResponse(itemRepository.searchForItems(searchText,
+            pagination.getPage(), pagination.getSize()),
+            new Pagination(pagination.getPage(), pagination.getSize(),
+                    itemRepository.getItemSearchPages(searchText,
+                            pagination.getSize())));
   }
 
   /**

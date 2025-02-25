@@ -50,12 +50,25 @@ public interface ItemRepository  extends JpaRepository<ItemEntity, UUID> {
    *
    * @param searchText The search text to match against item names.
    * @param page       The page to search retrieve.
-   * @param pageSize   the size of the page.
+   * @param pageSize   The size of the page.
    * @return A list of items that match the search text.
    */
   @Query(value = "SELECT * FROM search_for_items(:searchText, :page, :pageSize)",
           nativeQuery = true)
   List<ItemEntity> searchForItems(@Param("searchText") String searchText,
                                   @Param("page") int page,
+                                  @Param("pageSize") int pageSize);
+
+
+  /**
+   * This query gets the total amount of pages for a search text.
+   *
+   * @param searchText The search text to match against item names.
+   * @param pageSize   The size of the page.
+   * @return The total amount of pages for the search text.
+   */
+  @Query(value = "SELECT * FROM get_item_search_pages(:searchText, :pageSize)",
+          nativeQuery = true)
+  int getItemSearchPages(@Param("searchText") String searchText,
                                   @Param("pageSize") int pageSize);
 }

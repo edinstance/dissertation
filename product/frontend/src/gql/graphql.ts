@@ -328,12 +328,24 @@ export type MutationResponse = {
   success?: Maybe<Scalars["Boolean"]["output"]>;
 };
 
+export type Pagination = {
+  __typename?: "Pagination";
+  page?: Maybe<Scalars["Int"]["output"]>;
+  size?: Maybe<Scalars["Int"]["output"]>;
+  total?: Maybe<Scalars["Int"]["output"]>;
+};
+
+export type PaginationInput = {
+  page?: InputMaybe<Scalars["Int"]["input"]>;
+  size?: InputMaybe<Scalars["Int"]["input"]>;
+};
+
 export type Query = {
   __typename?: "Query";
   _service: _Service;
   getItemById?: Maybe<Item>;
   getUser?: Maybe<User>;
-  searchForItems?: Maybe<Array<Maybe<Item>>>;
+  searchForItems?: Maybe<SearchedItemsResponse>;
 };
 
 export type QueryGetItemByIdArgs = {
@@ -341,7 +353,14 @@ export type QueryGetItemByIdArgs = {
 };
 
 export type QuerySearchForItemsArgs = {
+  pagination?: InputMaybe<PaginationInput>;
   searchText?: InputMaybe<Scalars["String"]["input"]>;
+};
+
+export type SearchedItemsResponse = {
+  __typename?: "SearchedItemsResponse";
+  items?: Maybe<Array<Maybe<Item>>>;
+  pagination?: Maybe<Pagination>;
 };
 
 export type User = {
@@ -391,24 +410,27 @@ export type SearchItemsQueryVariables = Exact<{
 
 export type SearchItemsQuery = {
   __typename?: "Query";
-  searchForItems?: Array<{
-    __typename?: "Item";
-    id?: string | null;
-    name?: string | null;
-    description?: string | null;
-    isActive?: boolean | null;
-    endingTime?: string | null;
-    price?: number | null;
-    stock?: number | null;
-    category?: string | null;
-    images?: Array<string | null> | null;
-    seller?: {
-      __typename?: "User";
-      id: string;
+  searchForItems?: {
+    __typename?: "SearchedItemsResponse";
+    items?: Array<{
+      __typename?: "Item";
+      id?: string | null;
       name?: string | null;
-      email: string;
-    } | null;
-  } | null> | null;
+      description?: string | null;
+      isActive?: boolean | null;
+      endingTime?: string | null;
+      price?: number | null;
+      stock?: number | null;
+      category?: string | null;
+      images?: Array<string | null> | null;
+      seller?: {
+        __typename?: "User";
+        id: string;
+        name?: string | null;
+        email: string;
+      } | null;
+    } | null> | null;
+  } | null;
 };
 
 export type GetItemByIdQueryVariables = Exact<{
@@ -578,24 +600,57 @@ export const SearchItemsDocument = {
             selectionSet: {
               kind: "SelectionSet",
               selections: [
-                { kind: "Field", name: { kind: "Name", value: "id" } },
-                { kind: "Field", name: { kind: "Name", value: "name" } },
-                { kind: "Field", name: { kind: "Name", value: "description" } },
-                { kind: "Field", name: { kind: "Name", value: "isActive" } },
-                { kind: "Field", name: { kind: "Name", value: "endingTime" } },
-                { kind: "Field", name: { kind: "Name", value: "price" } },
-                { kind: "Field", name: { kind: "Name", value: "stock" } },
-                { kind: "Field", name: { kind: "Name", value: "category" } },
-                { kind: "Field", name: { kind: "Name", value: "images" } },
                 {
                   kind: "Field",
-                  name: { kind: "Name", value: "seller" },
+                  name: { kind: "Name", value: "items" },
                   selectionSet: {
                     kind: "SelectionSet",
                     selections: [
                       { kind: "Field", name: { kind: "Name", value: "id" } },
                       { kind: "Field", name: { kind: "Name", value: "name" } },
-                      { kind: "Field", name: { kind: "Name", value: "email" } },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "description" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "isActive" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "endingTime" },
+                      },
+                      { kind: "Field", name: { kind: "Name", value: "price" } },
+                      { kind: "Field", name: { kind: "Name", value: "stock" } },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "category" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "images" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "seller" },
+                        selectionSet: {
+                          kind: "SelectionSet",
+                          selections: [
+                            {
+                              kind: "Field",
+                              name: { kind: "Name", value: "id" },
+                            },
+                            {
+                              kind: "Field",
+                              name: { kind: "Name", value: "name" },
+                            },
+                            {
+                              kind: "Field",
+                              name: { kind: "Name", value: "email" },
+                            },
+                          ],
+                        },
+                      },
                     ],
                   },
                 },

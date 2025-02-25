@@ -61,6 +61,7 @@ public class ItemQueryTests {
   @When("a user searches for the item")
   public void aUserSearchesForTheItem() {
     String query = String.format("{ \"query\": \"query { searchForItems(searchText: \\\"%s\\\") { " +
+                    "items { " +
                     "id " +
                     "name " +
                     "description " +
@@ -71,7 +72,7 @@ public class ItemQueryTests {
                     "category " +
                     "images " +
                     "seller { id name } " +
-                    "} }\" }",
+                    "} } }\" }",
             "Test Item");  // Using the same item name from the Given step
 
     result = given()
@@ -82,27 +83,27 @@ public class ItemQueryTests {
 
   @Then("the server returns the item the user searched for")
   public void theServerReturnsTheItemTheUserSearchedFor() {
-    assert Objects.equals(result.getBody().jsonPath().getString("data.searchForItems[0].id"),
+    assert Objects.equals(result.getBody().jsonPath().getString("data.searchForItems.items[0].id"),
             initalItemResponse.getBody().jsonPath().getString("data.saveItem.id"));
-    assert Objects.equals(result.getBody().jsonPath().getString("data.searchForItems[0].name"),
+    assert Objects.equals(result.getBody().jsonPath().getString("data.searchForItems.items[0].name"),
             initalItemResponse.getBody().jsonPath().getString("data.saveItem.name"));
-    assert Objects.equals(result.getBody().jsonPath().getString("data.searchForItems[0].description"),
+    assert Objects.equals(result.getBody().jsonPath().getString("data.searchForItems.items[0].description"),
             initalItemResponse.getBody().jsonPath().getString("data.saveItem.description"));
-    assert Objects.equals(result.getBody().jsonPath().getBoolean("data.searchForItems[0].isActive"),
+    assert Objects.equals(result.getBody().jsonPath().getBoolean("data.searchForItems.items[0].isActive"),
             initalItemResponse.getBody().jsonPath().getBoolean("data.saveItem.isActive"));
-    assert Objects.equals(result.getBody().jsonPath().getString("data.searchForItems[0].endingTime"),
+    assert Objects.equals(result.getBody().jsonPath().getString("data.searchForItems.items[0].endingTime"),
             initalItemResponse.getBody().jsonPath().getString("data.saveItem.endingTime"));
-    assert Objects.equals(result.getBody().jsonPath().getDouble("data.searchForItems[0].price"),
+    assert Objects.equals(result.getBody().jsonPath().getDouble("data.searchForItems.items[0].price"),
             initalItemResponse.getBody().jsonPath().getDouble("data.saveItem.price"));
-    assert Objects.equals(result.getBody().jsonPath().getInt("data.searchForItems[0].stock"),
+    assert Objects.equals(result.getBody().jsonPath().getInt("data.searchForItems.items[0].stock"),
             initalItemResponse.getBody().jsonPath().getInt("data.saveItem.stock"));
-    assert Objects.equals(result.getBody().jsonPath().getString("data.searchForItems[0].category"),
+    assert Objects.equals(result.getBody().jsonPath().getString("data.searchForItems.items[0].category"),
             initalItemResponse.getBody().jsonPath().getString("data.saveItem.category"));
-    assert Objects.equals(result.getBody().jsonPath().getString("data.searchForItems[0].images"),
+    assert Objects.equals(result.getBody().jsonPath().getString("data.searchForItems.items[0].images"),
             initalItemResponse.getBody().jsonPath().getString("data.saveItem.images"));
-    assert Objects.equals(result.getBody().jsonPath().getString("data.searchForItems[0].seller.id"),
+    assert Objects.equals(result.getBody().jsonPath().getString("data.searchForItems.items[0].seller.id"),
             initalItemResponse.getBody().jsonPath().getString("data.saveItem.seller.id"));
-    assert Objects.equals(result.getBody().jsonPath().getString("data.searchForItems[0].seller.name"),
+    assert Objects.equals(result.getBody().jsonPath().getString("data.searchForItems.items[0].seller.name"),
             initalItemResponse.getBody().jsonPath().getString("data.saveItem.seller.name"));
   }
 
@@ -156,7 +157,7 @@ public class ItemQueryTests {
 
   @And("there are many items in the application")
   public void thereAreManyItemsInTheApplication() {
-    for (int i = 0; i < 16; i ++) {
+    for (int i = 0; i < 16; i++) {
       initalItemResponse = given()
               .header("Authorization", "Bearer " + CognitoUtilities.getAccessToken())
               .contentType("application/json")
@@ -168,6 +169,7 @@ public class ItemQueryTests {
   @When("the user requests the items without pagination")
   public void theUserRequestsTheItemsWithoutPagination() {
     String query = String.format("{ \"query\": \"query { searchForItems(searchText: \\\"%s\\\") { " +
+                    "items { " +
                     "id " +
                     "name " +
                     "description " +
@@ -178,7 +180,7 @@ public class ItemQueryTests {
                     "category " +
                     "images " +
                     "seller { id name } " +
-                    "} }\" }",
+                    "} } }\" }",
             "Test Item");
 
     result = given()
@@ -189,8 +191,9 @@ public class ItemQueryTests {
 
   @Then("the server returns paginated data")
   public void theServerReturnsPaginatedData() {
+    System.out.println(result.getBody().jsonPath().getString("data.searchForItems.items"));
     List<Map<String, Object>> items = result.getBody().jsonPath()
-            .getList("data.searchForItems");
+            .getList("data.searchForItems.items");
 
     assertNotNull(items);
     assertFalse(items.isEmpty());
@@ -201,6 +204,7 @@ public class ItemQueryTests {
   public void theUserRequestsForTheSecondPageOfData() {
     String query = String.format("{ \"query\": \"query { searchForItems(searchText: \\\"%s\\\"," +
                     "pagination: {page: 1, size: 10}) { " +
+                    "items { " +
                     "id " +
                     "name " +
                     "description " +
@@ -211,7 +215,7 @@ public class ItemQueryTests {
                     "category " +
                     "images " +
                     "seller { id name } " +
-                    "} }\" }",
+                    "} } }\" }",
             "Test Item");
 
     result = given()
@@ -223,7 +227,7 @@ public class ItemQueryTests {
   @And("the server returns the second page of items")
   public void theServerReturnsTheSecondPageOfItems() {
     List<Map<String, Object>> items = result.getBody().jsonPath()
-            .getList("data.searchForItems");
+            .getList("data.searchForItems.items");
 
     assertNotNull(items);
     assertFalse(items.isEmpty());

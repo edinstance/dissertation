@@ -33,4 +33,11 @@
                         stripComments="false" />
         </changeSet>
 
+        <changeSet id="get_search_item_pages" author="zlac370" runOnChange="false">
+                <sqlFile path="../../src/sql/functions/get_search_item_pages.sql"
+                        relativeToChangelogFile="true"
+                        splitStatements="false"
+                        stripComments="false" />
+        </changeSet>
+
 </databaseChangeLog>
