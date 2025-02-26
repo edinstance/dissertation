@@ -59,6 +59,36 @@ public interface ItemRepository  extends JpaRepository<ItemEntity, UUID> {
                                   @Param("page") int page,
                                   @Param("pageSize") int pageSize);
 
+  /**
+   * This query gets all the items for a user.
+   *
+   * @param userId The user id to search against.
+   * @param isActive If the items are active or not.
+   * @param page The page of items to search for.
+   * @param pageSize The size of the pages.
+   * @return The items for the user.
+   */
+  @Query(value = "SELECT * FROM get_items_by_user(:userId, :isActive, :page, :pageSize)",
+          nativeQuery = true)
+  List<ItemEntity> getUserItems(@Param("userId") UUID userId,
+                        @Param("isActive") Boolean isActive,
+                        @Param("page") int page,
+                        @Param("pageSize") int pageSize);
+
+  /**
+   * This query gets the total amount of pages for a user.
+   *
+   * @param userId The user id to search against.
+   * @param isActive If the items are active.
+   * @param pageSize The page size.
+   * @return The total amount of pages.
+   */
+  @Query(value = "SELECT * FROM get_items_by_user_pages(:userId, :isActive, :pageSize)",
+          nativeQuery = true)
+  int getUserItemsPages(@Param("userId") UUID userId,
+                         @Param("isActive") Boolean isActive,
+                         @Param("pageSize") int pageSize);
+
 
   /**
    * This query gets the total amount of pages for a search text.

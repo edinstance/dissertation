@@ -7,6 +7,7 @@ import com.finalproject.backend.dto.SearchedItemsResponse;
 import com.finalproject.backend.entities.ItemEntity;
 import com.finalproject.backend.entities.UserEntity;
 import com.finalproject.backend.helpers.AuthHelpers;
+import com.finalproject.backend.helpers.Pagination;
 import com.finalproject.backend.repositories.ItemRepository;
 import com.finalproject.backend.services.ItemService;
 import org.junit.jupiter.api.BeforeEach;
@@ -57,7 +58,6 @@ public class ItemServiceTests {
   private UUID itemId;
   private UserEntity user;
   private ItemEntity item;
-  private List<ItemEntity> items;
   private PaginationInput paginationInput;
 
   @BeforeEach
@@ -160,7 +160,7 @@ public class ItemServiceTests {
   }
 
   @Test
-  public void testFindItemByIdRefreshCacheItem() throws JsonProcessingException, ParseException {
+  public void testFindItemByIdRefreshCacheItem() throws JsonProcessingException {
 
     when(jedisPool.getResource()).thenReturn(jedis);
     when(jedis.get("item:" + itemId)).thenReturn(objectMapper.writeValueAsString(item));
@@ -174,7 +174,7 @@ public class ItemServiceTests {
   }
 
   @Test
-  public void testFindItemByIdWriteCacheItem() throws JsonProcessingException, ParseException {
+  public void testFindItemByIdWriteCacheItem() {
 
     when(jedisPool.getResource()).thenReturn(jedis);
     when(jedis.get("item:" + itemId)).thenReturn(null);
@@ -196,5 +196,16 @@ public class ItemServiceTests {
 
     assertEquals(searchedItemsResponse.getItems().getFirst(), item);
     verify(itemRepository, times(1)).searchForItems("Item Name", 2, 3);
+  }
+
+  @Test
+  public void testGetItemsByUser(){
+    when(itemRepository.getUserItems(user.getId(), true, 0, 10 )).thenReturn(List.of(item));
+    when(itemRepository.getUserItemsPages(user.getId(), true, 10)).thenReturn(2);
+
+    itemService.getItemsByUser(user.getId(), true, new PaginationInput(0, 10));
+
+    verify(itemRepository, times(1)).getUserItems(user.getId(), true,  0, 10);
+    verify(itemRepository, times(1)).getUserItemsPages(user.getId(), true, 10);
   }
 }

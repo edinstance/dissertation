@@ -111,6 +111,24 @@ public class ItemService {
   }
 
   /**
+   * This query gets all the items for a user.
+   *
+   * @param userId The id of the user.
+   * @param isActive If the items are active or not.
+   * @param pagination The pagination data for the query.
+   * @return The items and pagination data.
+   */
+  public SearchedItemsResponse getItemsByUser(final UUID userId,
+                                              final Boolean isActive,
+                                              final PaginationInput pagination) {
+
+    return new SearchedItemsResponse(itemRepository.getUserItems(userId, isActive,
+            pagination.getPage(), pagination.getSize()),
+            new Pagination(pagination.getPage(), pagination.getSize(),
+                    itemRepository.getUserItemsPages(userId, isActive, pagination.getSize())));
+  }
+
+  /**
    * This saves or updates an item in the database.
    *
    * @param itemEntity is the item to create or update.
