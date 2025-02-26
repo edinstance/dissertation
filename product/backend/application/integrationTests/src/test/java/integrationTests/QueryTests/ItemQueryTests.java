@@ -261,7 +261,6 @@ public class ItemQueryTests {
             .contentType("application/json")
             .body(query)
             .post("/graphql");
-    log.info(String.valueOf(result));
     
   }
 
