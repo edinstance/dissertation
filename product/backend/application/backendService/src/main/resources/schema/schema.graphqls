@@ -1,16 +1,9 @@
 type Mutation {
-    createUser(userInput: UserInput): User
-    saveUserDetails(id: String!, detailsInput: UserDetailsInput): User
-    saveItem(itemInput: ItemInput): Item
-    deleteUser: MutationResponse
-    reportBug(title: String!, description: String!): MutationResponse
+    
 }
 
 type Query {
-    getUser: User
-    searchForItems(searchText: String, pagination: PaginationInput): SearchedItemsResponse
-    getItemById(id: String!): Item
-    getItemsByUser(id: String!, isActive: Boolean, pagination: PaginationInput): SearchedItemsResponse
+
 }
 
 input PaginationInput {
