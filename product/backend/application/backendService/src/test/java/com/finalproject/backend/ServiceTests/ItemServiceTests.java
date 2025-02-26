@@ -1,6 +1,7 @@
 package com.finalproject.backend.ServiceTests;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.finalproject.backend.dto.PaginationInput;
 import com.finalproject.backend.dto.SearchedItemsResponse;
@@ -57,7 +58,6 @@ public class ItemServiceTests {
   private UUID itemId;
   private UserEntity user;
   private ItemEntity item;
-  private List<ItemEntity> items;
   private PaginationInput paginationInput;
 
   @BeforeEach
@@ -160,7 +160,7 @@ public class ItemServiceTests {
   }
 
   @Test
-  public void testFindItemByIdRefreshCacheItem() throws JsonProcessingException, ParseException {
+  public void testFindItemByIdRefreshCacheItem() throws JsonProcessingException {
 
     when(jedisPool.getResource()).thenReturn(jedis);
     when(jedis.get("item:" + itemId)).thenReturn(objectMapper.writeValueAsString(item));
@@ -174,7 +174,7 @@ public class ItemServiceTests {
   }
 
   @Test
-  public void testFindItemByIdWriteCacheItem() throws JsonProcessingException, ParseException {
+  public void testFindItemByIdWriteCacheItem() {
 
     when(jedisPool.getResource()).thenReturn(jedis);
     when(jedis.get("item:" + itemId)).thenReturn(null);
@@ -196,5 +196,31 @@ public class ItemServiceTests {
 
     assertEquals(searchedItemsResponse.getItems().getFirst(), item);
     verify(itemRepository, times(1)).searchForItems("Item Name", 2, 3);
+  }
+
+  @Test
+  public void testGetItemsByUserNoCache() throws JsonProcessingException {
+    when(jedisPool.getResource()).thenReturn(jedis);
+    when(itemRepository.getUserItems(user.getId(), true, 0, 10 )).thenReturn(List.of(item));
+    when(itemRepository.getUserItemsPages(user.getId(), true, 10)).thenReturn(2);
+
+    itemService.getItemsByUser(user.getId(), true, new PaginationInput(0, 10));
+
+    verify(itemRepository, times(1)).getUserItems(user.getId(), true,  0, 10);
+    verify(itemRepository, times(1)).getUserItemsPages(user.getId(), true, 10);
+    verify(jedis, times(0)).expire(anyString(), anyLong());
+    verify(jedis, times(1)).set(eq("user:" + user.getId() + ":items:page:" + 0), anyString(), any(SetParams.class));
+  }
+
+  @Test
+  public void testGetItemsByUserCache() throws JsonProcessingException {
+    when(jedisPool.getResource()).thenReturn(jedis);
+    when(jedis.get("user:" + user.getId() + ":items:page:" + 0))
+            .thenReturn(objectMapper.writeValueAsString(List.of(item)));
+
+    itemService.getItemsByUser(user.getId(), true, new PaginationInput(0, 10));
+
+    verify(jedis, times(1)).expire(anyString(), anyLong());
+    verify(itemRepository, times(0)).getUserItems(user.getId(), true,  0, 10);
   }
 }

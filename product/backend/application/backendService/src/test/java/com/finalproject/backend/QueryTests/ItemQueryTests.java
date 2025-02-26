@@ -31,12 +31,14 @@ public class ItemQueryTests {
   ItemQueries itemQueries;
   private ItemEntity item;
 
+  private UUID id;
+
   @BeforeEach
   void setUp() {
     UserEntity user = new UserEntity(UUID.randomUUID(), "seller@test.com",
             "Seller Name");
 
-    UUID id = UUID.randomUUID();
+    id = UUID.randomUUID();
     String endingTime = new Date().toString();
     item = new ItemEntity(id, "name",
             "description", endingTime, new BigDecimal("2.2"),
@@ -64,5 +66,18 @@ public class ItemQueryTests {
     ItemEntity result = itemQueries.getItemById(item.getId().toString());
 
     assert result.getId().equals(item.getId());
+  }
+
+  @Test
+  public void testGetItemsByUser() {
+    PaginationInput paginationInput = new PaginationInput();
+    when(itemService.getItemsByUser(id, true, paginationInput ))
+            .thenReturn(new SearchedItemsResponse(List.of(item), new Pagination()));
+
+    SearchedItemsResponse result = itemQueries.getItemsByUser(id.toString(), true,
+            paginationInput);
+
+    assert result.getItems().size() == 1;
+    assert result.getItems().contains(item);
   }
 }

@@ -64,4 +64,33 @@ public class ItemQueries {
     return itemService.searchForItemsByName(searchText, pagination);
 
   }
+
+  /**
+   * This is a query to get the items of a user.
+   *
+   * @param id The id of the user to search against.
+   * @param isActive If the items are active or not.
+   * @param pagination The pagination input.
+   * @return The items and pagination information.
+   */
+  @DgsQuery
+  public SearchedItemsResponse getItemsByUser(
+          @InputArgument String id,
+          @InputArgument Boolean isActive,
+          @InputArgument PaginationInput pagination) {
+
+    if (pagination == null) {
+      pagination = new PaginationInput(0, 10);
+    } else {
+      if (pagination.getSize() == 0) {
+        pagination.setSize(10);
+      }
+    }
+
+    if (isActive == null) {
+      isActive = true;
+    }
+
+    return itemService.getItemsByUser(UUID.fromString(id), isActive, pagination);
+  }
 }

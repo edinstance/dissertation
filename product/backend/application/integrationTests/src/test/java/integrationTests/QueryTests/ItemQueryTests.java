@@ -1,10 +1,13 @@
 package integrationTests.QueryTests;
 
+import groovy.util.logging.Slf4j;
 import integrationTests.Cognito.CognitoUtilities;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import io.restassured.response.Response;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -14,9 +17,10 @@ import java.util.Objects;
 
 import static io.restassured.RestAssured.given;
 import static org.junit.jupiter.api.Assertions.*;
-
+@Slf4j
 public class ItemQueryTests {
 
+  private static final Logger log = LoggerFactory.getLogger(ItemQueryTests.class);
   private final SimpleDateFormat dateFormat =
           new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
   private final String formattedDate = dateFormat.format(new Date());
@@ -191,7 +195,6 @@ public class ItemQueryTests {
 
   @Then("the server returns paginated data")
   public void theServerReturnsPaginatedData() {
-    System.out.println(result.getBody().jsonPath().getString("data.searchForItems.items"));
     List<Map<String, Object>> items = result.getBody().jsonPath()
             .getList("data.searchForItems.items");
 
@@ -234,4 +237,42 @@ public class ItemQueryTests {
     assertEquals(6, items.size());
   }
 
+  @When("the user requests the users items")
+  public void theUserRequestsTheUsersItems() {
+
+    String query = String.format("{ \"query\": \"query { getItemsByUser(id: \\\"%s\\\"," +
+                    "isActive: true," +
+                    "pagination: {page: 1, size: 10}) { " +
+                    "items { " +
+                    "id " +
+                    "name " +
+                    "description " +
+                    "isActive " +
+                    "endingTime " +
+                    "price " +
+                    "stock " +
+                    "category " +
+                    "images " +
+                    "seller { id name } " +
+                    "} } }\" }",
+            CognitoUtilities.getUserId());
+
+    result = given()
+            .contentType("application/json")
+            .body(query)
+            .post("/graphql");
+    
+  }
+
+  @Then("the server returns the users items")
+  public void theServerReturnsTheUsersItems() {
+    List<Map<String, Object>> items = result.getBody().jsonPath()
+            .getList("data.getItemsByUser.items");
+    log.info(String.valueOf(items));
+
+    assertNotNull(items);
+    assertFalse(items.isEmpty());
+    assertTrue(items.size() <= 10);
+
+  }
 }
