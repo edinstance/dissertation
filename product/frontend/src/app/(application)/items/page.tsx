@@ -1,6 +1,7 @@
 "use client";
 import ItemOverviewGrid from "@/components/Items/ItemOverviewGrid";
 import { Button } from "@/components/ui/Button";
+import LoadingSpinner from "@/components/ui/LoadingSpinner";
 import {
   GetItemsByUserQuery,
   GetItemsByUserQueryVariables,
@@ -16,28 +17,28 @@ export default function Items() {
 
   const [items, setItems] = useState<Item[]>([]);
 
-  useQuery<GetItemsByUserQuery, GetItemsByUserQueryVariables>(
-    GET_ITEMS_BY_USER_QUERY,
-    {
-      variables: { id: session.data?.user?.id, isActive: true },
-      onCompleted: (data) => {
-        const items = data.getItemsByUser?.items;
-        if (items) {
-          const validItems = items
-            .filter((item): item is NonNullable<typeof item> => item !== null)
-            .map((item) => ({
-              id: item.id || "",
-              name: item.name || "",
-              description: item.description || "",
-              isActive: item.isActive || false,
-              stock: item.stock || 0,
-            }));
+  const { loading } = useQuery<
+    GetItemsByUserQuery,
+    GetItemsByUserQueryVariables
+  >(GET_ITEMS_BY_USER_QUERY, {
+    variables: { id: session.data?.user?.id, isActive: true },
+    onCompleted: (data) => {
+      const items = data.getItemsByUser?.items;
+      if (items) {
+        const validItems = items
+          .filter((item): item is NonNullable<typeof item> => item !== null)
+          .map((item) => ({
+            id: item.id || "",
+            name: item.name || "",
+            description: item.description || "",
+            isActive: item.isActive || false,
+            stock: item.stock || 0,
+          }));
 
-          setItems(validItems);
-        }
-      },
+        setItems(validItems);
+      }
     },
-  );
+  });
 
   return (
     <div className="px-8 pt-20">
@@ -48,7 +49,13 @@ export default function Items() {
         </Button>
       </div>
       <div>
-        {items.length != 0 ? (
+        {loading ? (
+          <div className="flex min-h-screen items-center justify-center pt-20">
+            <div className="text-center">
+              <LoadingSpinner />
+            </div>
+          </div>
+        ) : items.length !== 0 ? (
           <ItemOverviewGrid items={items} />
         ) : (
           <div className="flex flex-col items-center justify-center pt-8">
