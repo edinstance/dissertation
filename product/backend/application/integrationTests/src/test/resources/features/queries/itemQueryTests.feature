@@ -19,3 +19,9 @@ Feature: Searching for an item
     Then the server returns paginated data
     Then the user requests for the second page of data
     And the server returns the second page of items
+
+  Scenario: A user requests all the items for a certain user
+    Given a user is created using the cognito user
+    And there are many items in the application
+    When the user requests the users items
+    Then the server returns the users items
