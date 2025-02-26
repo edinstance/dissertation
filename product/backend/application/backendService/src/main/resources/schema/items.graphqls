@@ -1,3 +1,14 @@
+
+extend type Mutation {
+    saveItem(itemInput: ItemInput): Item
+}
+
+extend type Query {
+    searchForItems(searchText: String, pagination: PaginationInput): SearchedItemsResponse
+    getItemById(id: String!): Item
+    getItemsByUser(id: String!, isActive: Boolean, pagination: PaginationInput): SearchedItemsResponse
+}
+
 type SearchedItemsResponse {
     items: [Item]
     pagination: Pagination

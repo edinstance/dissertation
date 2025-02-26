@@ -1,4 +1,14 @@
 
+extend type Mutation {
+    createUser(userInput: UserInput): User
+    saveUserDetails(id: String!, detailsInput: UserDetailsInput): User
+    deleteUser: MutationResponse
+}
+
+extend type Query {
+    getUser: User
+}
+
 input UserInput {
     id: String!
     email: String!
