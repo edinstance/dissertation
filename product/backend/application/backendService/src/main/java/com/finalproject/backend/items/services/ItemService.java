@@ -9,6 +9,7 @@ import com.finalproject.backend.common.helpers.AuthHelpers;
 import com.finalproject.backend.common.helpers.Pagination;
 import com.finalproject.backend.items.dto.SearchedItemsResponse;
 import com.finalproject.backend.items.entities.ItemEntity;
+import com.finalproject.backend.items.helpers.ItemCacheHelpers;
 import com.finalproject.backend.items.repositories.ItemRepository;
 import java.sql.Timestamp;
 import java.text.ParseException;
@@ -48,6 +49,11 @@ public class ItemService {
   private final AuthHelpers authHelpers;
 
   /**
+   * The item cache helper to use.
+   */
+  private final ItemCacheHelpers itemCacheHelpers;
+
+  /**
    * Constructs a ItemService with the specified ItemRepository.
    *
    * @param inputItemRepository The repository for accessing Item entities.
@@ -55,10 +61,12 @@ public class ItemService {
   @Autowired
   public ItemService(final ItemRepository inputItemRepository,
                      final JedisPool inputJedisPool,
-                     final AuthHelpers authHelpers) {
+                     final AuthHelpers authHelpers,
+                     final ItemCacheHelpers itemCacheHelpers) {
     this.itemRepository = inputItemRepository;
     this.jedisPool = inputJedisPool;
     this.authHelpers = authHelpers;
+    this.itemCacheHelpers = itemCacheHelpers;
   }
 
   /**
@@ -173,6 +181,8 @@ public class ItemService {
     }
 
     AppLogger.info("Updating item: " + itemEntity);
+
+    itemCacheHelpers.invalidateUserItems(authHelpers.getCurrentUserId());
 
     return itemRepository.saveOrUpdateItem(itemEntity.getId(), itemEntity.getName(),
             itemEntity.getDescription(), itemEntity.getIsActive(),

@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.finalproject.backend.common.dto.PaginationInput;
 import com.finalproject.backend.items.dto.SearchedItemsResponse;
 import com.finalproject.backend.items.entities.ItemEntity;
+import com.finalproject.backend.items.helpers.ItemCacheHelpers;
 import com.finalproject.backend.users.entities.UserEntity;
 import com.finalproject.backend.common.helpers.AuthHelpers;
 import com.finalproject.backend.items.repositories.ItemRepository;
@@ -50,6 +51,9 @@ public class ItemServiceTests {
 
   @Mock
   private AuthHelpers authHelpers;
+
+  @Mock
+  private ItemCacheHelpers itemCacheHelpers;
 
   @InjectMocks
   private ItemService itemService;
@@ -221,5 +225,27 @@ public class ItemServiceTests {
 
     verify(jedis, times(1)).expire(anyString(), anyLong());
     verify(itemRepository, times(0)).getUserItems(user.getId(), true,  0, 10);
+  }
+
+  @Test
+  public void testUserItemsCacheInvalidate() throws JsonProcessingException, ParseException {
+    when(authHelpers.getCurrentUserId()).thenReturn(user.getId());
+
+    when(itemRepository.saveOrUpdateItem(itemId,
+            item.getName(),
+            item.getDescription(),
+            item.getIsActive(),
+            new Timestamp(dateFormat.parse(item.getEndingTime()).getTime()),
+            item.getPrice(),
+            item.getStock(),
+            item.getCategory(),
+            objectMapper.writeValueAsString(item.getImages()),
+            user.getId())).thenReturn(item);
+
+    when(jedisPool.getResource()).thenReturn(jedis);
+
+    itemService.saveOrUpdateItem(item);
+
+    verify(itemCacheHelpers).invalidateUserItems(user.getId());
   }
 }
