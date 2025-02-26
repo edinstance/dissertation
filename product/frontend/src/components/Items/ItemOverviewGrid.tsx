@@ -1,18 +1,18 @@
 import { Item } from "@/gql/graphql";
 import { PencilSquareIcon } from "@heroicons/react/24/outline";
+import { Badge } from "../ui/Badge";
 import { Button } from "../ui/Button";
 import { Card, CardContent, CardFooter } from "../ui/Card";
-import { Badge } from "../ui/Badge";
 
 function ItemOverviewGrid({ items }: { items: Item[] }) {
   return (
-    <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+    <div className="grid grid-cols-2 gap-4 md:grid-cols-3">
       {items.map((item) => (
         <Card
           key={item.id}
-          className="group relative overflow-hidden transition-shadow hover:shadow-lg flex flex-col"
+          className="group relative flex flex-col overflow-hidden transition-shadow hover:shadow-lg"
         >
-          <CardContent className="p-4 flex-grow">
+          <CardContent className="flex-grow p-4">
             <div className="mb-2 flex items-start justify-between">
               <h3 className="group-hover:text-primary text-xl font-semibold transition-colors">
                 {item.name}
@@ -27,7 +27,10 @@ function ItemOverviewGrid({ items }: { items: Item[] }) {
             <p className="text-sm font-medium">Stock: {item.stock}</p>
           </CardContent>
           <CardFooter className="flex justify-end p-4 pt-0">
-            <Button variant="outline" href={`/items/createItem?itemId=${item.id}`}>
+            <Button
+              variant="outline"
+              href={`/items/createItem?itemId=${item.id}`}
+            >
               <PencilSquareIcon className="mr-2 h-4 w-4" />
               Edit
             </Button>
