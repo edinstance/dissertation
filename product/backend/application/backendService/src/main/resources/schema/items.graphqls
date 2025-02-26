@@ -1,0 +1,29 @@
+type SearchedItemsResponse {
+    items: [Item]
+    pagination: Pagination
+}
+
+input ItemInput {
+    id: String
+    name: String
+    description: String
+    isActive: Boolean
+    endingTime: String
+    price: Float
+    stock: Int
+    category: String
+    images: [String]
+}
+
+type Item {
+    id: String
+    name: String
+    description: String
+    isActive: Boolean
+    endingTime: String
+    price: Float
+    stock: Int
+    category: String
+    images: [String]
+    seller: User
+}
