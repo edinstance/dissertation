@@ -8,10 +8,12 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
+
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class ItemHelperTests {
@@ -27,13 +29,36 @@ public class ItemHelperTests {
 
   @Test
   public void testInvalidateUserItemsCache() {
-    when(jedisPool.getResource()).thenReturn(jedis);
-
     UUID userId = UUID.randomUUID();
+    String pattern = "user:" + userId + ":items:page:*";
 
-    itemCacheHelpers.invalidateUserItems(userId, 0);
+    Set<String> mockKeys = new HashSet<>();
+    mockKeys.add("user:" + userId + ":items:page:0");
+    mockKeys.add("user:" + userId + ":items:page:1");
 
-    verify(jedis).del("user:" + userId +":items:page:" + 0);
+    when(jedisPool.getResource()).thenReturn(jedis);
+    when(jedis.keys(pattern)).thenReturn(mockKeys);
 
+    itemCacheHelpers.invalidateUserItems(userId);
+
+    verify(jedis).keys(pattern);
+    verify(jedis).del(mockKeys.toArray(new String[0]));
+    verify(jedis).del(mockKeys.toArray(new String[1]));
+  }
+
+  @Test
+  public void testInvalidateItemsNoKeys() {
+    UUID userId = UUID.randomUUID();
+    String pattern = "user:" + userId + ":items:page:*";
+
+    Set<String> mockKeys = new HashSet<>();
+
+    when(jedisPool.getResource()).thenReturn(jedis);
+    when(jedis.keys(pattern)).thenReturn(mockKeys);
+
+    itemCacheHelpers.invalidateUserItems(userId);
+
+    verify(jedis).keys(pattern);
+    verify(jedis, times(0)).del(mockKeys.toArray(new String[0]));
   }
 }

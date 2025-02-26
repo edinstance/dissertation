@@ -1,6 +1,7 @@
 package com.finalproject.backend.items.helpers;
 
 import com.finalproject.backend.common.config.logging.AppLogger;
+import java.util.Set;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -36,16 +37,23 @@ public class ItemCacheHelpers {
    * This function invalidated a users items in the cache.
    *
    * @param userId The userId of the items to invalidate.
-   * @param page The page of items to invalidate.
    */
-  public void invalidateUserItems(final UUID userId, final int page) {
+  public void invalidateUserItems(final UUID userId) {
     try (Jedis jedis = jedisPool.getResource()) {
-      String key = "user:" + userId + ":items:page:" + page;
+      String pattern = "user:" + userId + ":items:page:*";
 
-      AppLogger.info("Invalidating: " + key);
+      AppLogger.info("Invalidating all user items with pattern: " + pattern);
 
-      jedis.del(key);
+      Set<String> keys = jedis.keys(pattern);
+
+      if (!keys.isEmpty()) {
+        jedis.del(keys.toArray(new String[0]));
+        AppLogger.info("Invalidated " + keys.size() + " cache entries for user: " + userId);
+      } else {
+        AppLogger.info("No cache entries found to invalidate for user: " + userId);
+      }
     }
   }
 
 }
+
