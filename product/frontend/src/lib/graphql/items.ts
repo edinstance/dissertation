@@ -44,6 +44,23 @@ export const GET_ITEM_BY_ID_QUERY = graphql(`
   }
 `);
 
+export const GET_ITEMS_BY_USER_QUERY = graphql(`
+  query GetItemsByUser(
+    $id: String!
+    $isActive: Boolean
+    $pagination: PaginationInput
+  ) {
+    getItemsByUser(id: $id, isActive: $isActive, pagination: $pagination) {
+      items {
+        id
+        name
+        description
+        isActive
+        stock
+      }
+    }
+  }
+`);
 export const SAVE_ITEM_MUTATION = graphql(`
   mutation SaveItem($itemInput: ItemInput!) {
     saveItem(itemInput: $itemInput) {
