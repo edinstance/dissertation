@@ -5,12 +5,13 @@ import { Button } from "@/components/ui/Button";
 import Divider from "@/components/ui/Divider";
 import ImageUpload from "@/components/ui/ImageUpload";
 import { Input } from "@/components/ui/Input";
+import LoadingSpinner from "@/components/ui/LoadingSpinner";
 import { Select } from "@/components/ui/Select";
 import { TextArea } from "@/components/ui/TextArea";
 import { GET_ITEM_BY_ID_QUERY, SAVE_ITEM_MUTATION } from "@/lib/graphql/items";
 import { useMutation, useQuery } from "@apollo/client";
-import { useSearchParams } from "next/navigation";
-import { useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 
 type FormData = {
@@ -39,47 +40,56 @@ export default function CreateItem() {
     setValue,
   } = useForm<FormData>();
 
+  const router = useRouter();
+
   const searchParams = useSearchParams();
   const itemId = searchParams.get("itemId");
 
   const [endingTime, setEndingTime] = useState<string | null>(null);
   const [uploadedImages, setUploadedImages] = useState<UploadedImage[]>([]);
 
-  useQuery(GET_ITEM_BY_ID_QUERY, {
+  const { loading, data } = useQuery(GET_ITEM_BY_ID_QUERY, {
     skip: !itemId,
     variables: { id: itemId! },
-    onCompleted: (data) => {
-      const item = data.getItemById;
-      if (item) {
-        setValue("id", item.id || null);
-        setValue("name", item.name || "");
-        setValue("description", item.description || "");
-        setValue("category", item.category || "");
-        setValue("price", item.price || 0);
-        setValue("stock", item.stock || 0);
-        setValue(
-          "images",
-          item.images
-            ? item.images.filter((img): img is string => img !== null)
-            : [],
-        );
-        setEndingTime(item.endingTime || null);
+  });
 
-        setUploadedImages(
-          item.images
-            ? item.images
-                .filter((img): img is string => img !== null)
-                .map((img) => ({
-                  publicUrl: img,
-                  key: img,
-                }))
-            : [],
-        );
+  useEffect(() => {
+    if (data?.getItemById) {
+      const item = data.getItemById;
+      setValue("id", item.id || null);
+      setValue("name", item.name || "");
+      setValue("description", item.description || "");
+      setValue("category", item.category || "");
+      setValue("price", item.price || 0);
+      setValue("stock", item.stock || 0);
+      setValue(
+        "images",
+        item.images
+          ? item.images.filter((img): img is string => img !== null)
+          : [],
+      );
+      setEndingTime(item.endingTime || null);
+
+      setUploadedImages(
+        item.images
+          ? item.images
+              .filter((img): img is string => img !== null)
+              .map((img) => ({
+                publicUrl: img,
+                key: img,
+              }))
+          : [],
+      );
+    }
+  }, [data, setValue]);
+
+  const [saveItemMutation] = useMutation(SAVE_ITEM_MUTATION, {
+    onCompleted: (data) => {
+      if (data?.saveItem?.id) {
+        router.push(`/items/createItem?itemId=${data.saveItem.id}`);
       }
     },
   });
-
-  const [saveItemMutation] = useMutation(SAVE_ITEM_MUTATION);
 
   async function onSubmit(data: FormData) {
     if (!data.id) {
@@ -193,13 +203,29 @@ export default function CreateItem() {
     }
   }
 
+  if (itemId && loading) {
+    return (
+      <div className="flex min-h-screen items-center justify-center pt-20">
+        <div className="text-center">
+          <LoadingSpinner />
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="pt-20">
       <form
         onSubmit={handleSubmit(onSubmit)}
         className="min-h-screen max-w-3xl py-20 pl-8"
       >
-        <h1 className="pb-4 text-4xl">List an Item</h1>
+        <div className="flex flex-row items-center justify-between pb-4">
+          <h1 className="text-4xl">List an Item</h1>
+          <Button className="mt-4" href={"/items"}>
+            Return
+          </Button>
+        </div>
+
         <Divider />
         <div className="grid gap-x-8 gap-y-6 py-4 sm:grid-cols-2">
           <div className="space-y-4">
