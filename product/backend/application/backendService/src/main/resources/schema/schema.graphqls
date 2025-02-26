@@ -10,6 +10,7 @@ type Query {
     getUser: User
     searchForItems(searchText: String, pagination: PaginationInput): SearchedItemsResponse
     getItemById(id: String!): Item
+    getItemsByUser(id: String!, isActive: Boolean, pagination: PaginationInput): SearchedItemsResponse
 }
 
 input UserInput {

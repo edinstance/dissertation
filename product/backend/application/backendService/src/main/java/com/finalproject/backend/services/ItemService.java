@@ -75,14 +75,16 @@ public class ItemService {
       String cachedValueString = jedis.get(key);
 
       if (cachedValueString != null) {
-        AppLogger.info("Found cached value: " + cachedValueString);
+        AppLogger.info("Found item " + id + " in cache");
+
         jedis.expire(key, 300);
         return objectMapper.readValue(cachedValueString, ItemEntity.class);
       }
 
       ItemEntity item = itemRepository.findById(id).orElse(null);
 
-      AppLogger.info("Found item in database: " + item);
+      AppLogger.info("Found item " + id + " in database");
+      
       if (item != null) {
         jedis.set("item:" + item.getId(), objectMapper.writeValueAsString(item),
                 SetParams.setParams().ex(300));
@@ -127,6 +129,9 @@ public class ItemService {
     try (Jedis jedis = jedisPool.getResource()) {
       String cachedItems = jedis.get(key);
       if (cachedItems != null) {
+
+        AppLogger.info("Found user " + userId + " items in cache");
+
         items = objectMapper.readValue(cachedItems,
                 new TypeReference<>() {});
 
@@ -134,6 +139,8 @@ public class ItemService {
       } else {
         items = itemRepository.getUserItems(userId, isActive,
                 pagination.getPage(), pagination.getSize());
+
+        AppLogger.info("Found user " + userId + " items in database");
 
         jedis.set(key, objectMapper.writeValueAsString(items),
                 SetParams.setParams().ex(300));
