@@ -30,12 +30,6 @@ export type Scalars = {
   _FieldSet: { input: any; output: any };
 };
 
-export type DeleteResponse = {
-  __typename?: "DeleteResponse";
-  message?: Maybe<Scalars["String"]["output"]>;
-  success?: Maybe<Scalars["Boolean"]["output"]>;
-};
-
 export enum ErrorDetail {
   /**
    * The deadline expired before the operation could complete.
@@ -304,13 +298,19 @@ export type ItemInput = {
 export type Mutation = {
   __typename?: "Mutation";
   createUser?: Maybe<User>;
-  deleteUser?: Maybe<DeleteResponse>;
+  deleteUser?: Maybe<MutationResponse>;
+  reportBug?: Maybe<MutationResponse>;
   saveItem?: Maybe<Item>;
   saveUserDetails?: Maybe<User>;
 };
 
 export type MutationCreateUserArgs = {
   userInput?: InputMaybe<UserInput>;
+};
+
+export type MutationReportBugArgs = {
+  description: Scalars["String"]["input"];
+  title: Scalars["String"]["input"];
 };
 
 export type MutationSaveItemArgs = {
@@ -322,15 +322,52 @@ export type MutationSaveUserDetailsArgs = {
   id: Scalars["String"]["input"];
 };
 
+export type MutationResponse = {
+  __typename?: "MutationResponse";
+  message?: Maybe<Scalars["String"]["output"]>;
+  success?: Maybe<Scalars["Boolean"]["output"]>;
+};
+
+export type Pagination = {
+  __typename?: "Pagination";
+  page?: Maybe<Scalars["Int"]["output"]>;
+  size?: Maybe<Scalars["Int"]["output"]>;
+  total?: Maybe<Scalars["Int"]["output"]>;
+};
+
+export type PaginationInput = {
+  page?: InputMaybe<Scalars["Int"]["input"]>;
+  size?: InputMaybe<Scalars["Int"]["input"]>;
+};
+
 export type Query = {
   __typename?: "Query";
   _service: _Service;
+  getItemById?: Maybe<Item>;
+  getItemsByUser?: Maybe<SearchedItemsResponse>;
   getUser?: Maybe<User>;
-  searchForItems?: Maybe<Array<Maybe<Item>>>;
+  searchForItems?: Maybe<SearchedItemsResponse>;
+};
+
+export type QueryGetItemByIdArgs = {
+  id: Scalars["String"]["input"];
+};
+
+export type QueryGetItemsByUserArgs = {
+  id: Scalars["String"]["input"];
+  isActive?: InputMaybe<Scalars["Boolean"]["input"]>;
+  pagination?: InputMaybe<PaginationInput>;
 };
 
 export type QuerySearchForItemsArgs = {
+  pagination?: InputMaybe<PaginationInput>;
   searchText?: InputMaybe<Scalars["String"]["input"]>;
+};
+
+export type SearchedItemsResponse = {
+  __typename?: "SearchedItemsResponse";
+  items?: Maybe<Array<Maybe<Item>>>;
+  pagination?: Maybe<Pagination>;
 };
 
 export type User = {
@@ -372,6 +409,122 @@ export type UserInput = {
 export type _Service = {
   __typename?: "_Service";
   sdl: Scalars["String"]["output"];
+};
+
+export type SearchItemsQueryVariables = Exact<{
+  searchText?: InputMaybe<Scalars["String"]["input"]>;
+}>;
+
+export type SearchItemsQuery = {
+  __typename?: "Query";
+  searchForItems?: {
+    __typename?: "SearchedItemsResponse";
+    items?: Array<{
+      __typename?: "Item";
+      id?: string | null;
+      name?: string | null;
+      description?: string | null;
+      isActive?: boolean | null;
+      endingTime?: string | null;
+      price?: number | null;
+      stock?: number | null;
+      category?: string | null;
+      images?: Array<string | null> | null;
+      seller?: {
+        __typename?: "User";
+        id: string;
+        name?: string | null;
+        email: string;
+      } | null;
+    } | null> | null;
+  } | null;
+};
+
+export type GetItemByIdQueryVariables = Exact<{
+  id: Scalars["String"]["input"];
+}>;
+
+export type GetItemByIdQuery = {
+  __typename?: "Query";
+  getItemById?: {
+    __typename?: "Item";
+    id?: string | null;
+    name?: string | null;
+    description?: string | null;
+    isActive?: boolean | null;
+    endingTime?: string | null;
+    price?: number | null;
+    stock?: number | null;
+    category?: string | null;
+    images?: Array<string | null> | null;
+    seller?: {
+      __typename?: "User";
+      id: string;
+      name?: string | null;
+      email: string;
+    } | null;
+  } | null;
+};
+
+export type GetItemsByUserQueryVariables = Exact<{
+  id: Scalars["String"]["input"];
+  isActive?: InputMaybe<Scalars["Boolean"]["input"]>;
+  pagination?: InputMaybe<PaginationInput>;
+}>;
+
+export type GetItemsByUserQuery = {
+  __typename?: "Query";
+  getItemsByUser?: {
+    __typename?: "SearchedItemsResponse";
+    items?: Array<{
+      __typename?: "Item";
+      id?: string | null;
+      name?: string | null;
+      description?: string | null;
+      isActive?: boolean | null;
+      stock?: number | null;
+    } | null> | null;
+  } | null;
+};
+
+export type SaveItemMutationVariables = Exact<{
+  itemInput: ItemInput;
+}>;
+
+export type SaveItemMutation = {
+  __typename?: "Mutation";
+  saveItem?: {
+    __typename?: "Item";
+    id?: string | null;
+    name?: string | null;
+    description?: string | null;
+    isActive?: boolean | null;
+    endingTime?: string | null;
+    price?: number | null;
+    stock?: number | null;
+    category?: string | null;
+    images?: Array<string | null> | null;
+    seller?: {
+      __typename?: "User";
+      id: string;
+      name?: string | null;
+      email: string;
+    } | null;
+  } | null;
+};
+
+export type ReportBugMutationVariables = Exact<{
+  title: Scalars["String"]["input"];
+  description: Scalars["String"]["input"];
+}>;
+
+export type ReportBugMutation = {
+  __typename?: "Mutation";
+  reportBug?: {
+    __typename?: "MutationResponse";
+    success?: boolean | null;
+    message?: string | null;
+  } | null;
 };
 
 export type CreateUserMutationVariables = Exact<{
@@ -433,12 +586,425 @@ export type DeleteUserMutationVariables = Exact<{ [key: string]: never }>;
 export type DeleteUserMutation = {
   __typename?: "Mutation";
   deleteUser?: {
-    __typename?: "DeleteResponse";
+    __typename?: "MutationResponse";
     success?: boolean | null;
     message?: string | null;
   } | null;
 };
 
+export const SearchItemsDocument = {
+  kind: "Document",
+  definitions: [
+    {
+      kind: "OperationDefinition",
+      operation: "query",
+      name: { kind: "Name", value: "SearchItems" },
+      variableDefinitions: [
+        {
+          kind: "VariableDefinition",
+          variable: {
+            kind: "Variable",
+            name: { kind: "Name", value: "searchText" },
+          },
+          type: { kind: "NamedType", name: { kind: "Name", value: "String" } },
+        },
+      ],
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "searchForItems" },
+            arguments: [
+              {
+                kind: "Argument",
+                name: { kind: "Name", value: "searchText" },
+                value: {
+                  kind: "Variable",
+                  name: { kind: "Name", value: "searchText" },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "items" },
+                  selectionSet: {
+                    kind: "SelectionSet",
+                    selections: [
+                      { kind: "Field", name: { kind: "Name", value: "id" } },
+                      { kind: "Field", name: { kind: "Name", value: "name" } },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "description" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "isActive" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "endingTime" },
+                      },
+                      { kind: "Field", name: { kind: "Name", value: "price" } },
+                      { kind: "Field", name: { kind: "Name", value: "stock" } },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "category" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "images" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "seller" },
+                        selectionSet: {
+                          kind: "SelectionSet",
+                          selections: [
+                            {
+                              kind: "Field",
+                              name: { kind: "Name", value: "id" },
+                            },
+                            {
+                              kind: "Field",
+                              name: { kind: "Name", value: "name" },
+                            },
+                            {
+                              kind: "Field",
+                              name: { kind: "Name", value: "email" },
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<SearchItemsQuery, SearchItemsQueryVariables>;
+export const GetItemByIdDocument = {
+  kind: "Document",
+  definitions: [
+    {
+      kind: "OperationDefinition",
+      operation: "query",
+      name: { kind: "Name", value: "GetItemById" },
+      variableDefinitions: [
+        {
+          kind: "VariableDefinition",
+          variable: { kind: "Variable", name: { kind: "Name", value: "id" } },
+          type: {
+            kind: "NonNullType",
+            type: {
+              kind: "NamedType",
+              name: { kind: "Name", value: "String" },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "getItemById" },
+            arguments: [
+              {
+                kind: "Argument",
+                name: { kind: "Name", value: "id" },
+                value: {
+                  kind: "Variable",
+                  name: { kind: "Name", value: "id" },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                { kind: "Field", name: { kind: "Name", value: "id" } },
+                { kind: "Field", name: { kind: "Name", value: "name" } },
+                { kind: "Field", name: { kind: "Name", value: "description" } },
+                { kind: "Field", name: { kind: "Name", value: "isActive" } },
+                { kind: "Field", name: { kind: "Name", value: "endingTime" } },
+                { kind: "Field", name: { kind: "Name", value: "price" } },
+                { kind: "Field", name: { kind: "Name", value: "stock" } },
+                { kind: "Field", name: { kind: "Name", value: "category" } },
+                { kind: "Field", name: { kind: "Name", value: "images" } },
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "seller" },
+                  selectionSet: {
+                    kind: "SelectionSet",
+                    selections: [
+                      { kind: "Field", name: { kind: "Name", value: "id" } },
+                      { kind: "Field", name: { kind: "Name", value: "name" } },
+                      { kind: "Field", name: { kind: "Name", value: "email" } },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<GetItemByIdQuery, GetItemByIdQueryVariables>;
+export const GetItemsByUserDocument = {
+  kind: "Document",
+  definitions: [
+    {
+      kind: "OperationDefinition",
+      operation: "query",
+      name: { kind: "Name", value: "GetItemsByUser" },
+      variableDefinitions: [
+        {
+          kind: "VariableDefinition",
+          variable: { kind: "Variable", name: { kind: "Name", value: "id" } },
+          type: {
+            kind: "NonNullType",
+            type: {
+              kind: "NamedType",
+              name: { kind: "Name", value: "String" },
+            },
+          },
+        },
+        {
+          kind: "VariableDefinition",
+          variable: {
+            kind: "Variable",
+            name: { kind: "Name", value: "isActive" },
+          },
+          type: { kind: "NamedType", name: { kind: "Name", value: "Boolean" } },
+        },
+        {
+          kind: "VariableDefinition",
+          variable: {
+            kind: "Variable",
+            name: { kind: "Name", value: "pagination" },
+          },
+          type: {
+            kind: "NamedType",
+            name: { kind: "Name", value: "PaginationInput" },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "getItemsByUser" },
+            arguments: [
+              {
+                kind: "Argument",
+                name: { kind: "Name", value: "id" },
+                value: {
+                  kind: "Variable",
+                  name: { kind: "Name", value: "id" },
+                },
+              },
+              {
+                kind: "Argument",
+                name: { kind: "Name", value: "isActive" },
+                value: {
+                  kind: "Variable",
+                  name: { kind: "Name", value: "isActive" },
+                },
+              },
+              {
+                kind: "Argument",
+                name: { kind: "Name", value: "pagination" },
+                value: {
+                  kind: "Variable",
+                  name: { kind: "Name", value: "pagination" },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "items" },
+                  selectionSet: {
+                    kind: "SelectionSet",
+                    selections: [
+                      { kind: "Field", name: { kind: "Name", value: "id" } },
+                      { kind: "Field", name: { kind: "Name", value: "name" } },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "description" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "isActive" },
+                      },
+                      { kind: "Field", name: { kind: "Name", value: "stock" } },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<GetItemsByUserQuery, GetItemsByUserQueryVariables>;
+export const SaveItemDocument = {
+  kind: "Document",
+  definitions: [
+    {
+      kind: "OperationDefinition",
+      operation: "mutation",
+      name: { kind: "Name", value: "SaveItem" },
+      variableDefinitions: [
+        {
+          kind: "VariableDefinition",
+          variable: {
+            kind: "Variable",
+            name: { kind: "Name", value: "itemInput" },
+          },
+          type: {
+            kind: "NonNullType",
+            type: {
+              kind: "NamedType",
+              name: { kind: "Name", value: "ItemInput" },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "saveItem" },
+            arguments: [
+              {
+                kind: "Argument",
+                name: { kind: "Name", value: "itemInput" },
+                value: {
+                  kind: "Variable",
+                  name: { kind: "Name", value: "itemInput" },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                { kind: "Field", name: { kind: "Name", value: "id" } },
+                { kind: "Field", name: { kind: "Name", value: "name" } },
+                { kind: "Field", name: { kind: "Name", value: "description" } },
+                { kind: "Field", name: { kind: "Name", value: "isActive" } },
+                { kind: "Field", name: { kind: "Name", value: "endingTime" } },
+                { kind: "Field", name: { kind: "Name", value: "price" } },
+                { kind: "Field", name: { kind: "Name", value: "stock" } },
+                { kind: "Field", name: { kind: "Name", value: "category" } },
+                { kind: "Field", name: { kind: "Name", value: "images" } },
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "seller" },
+                  selectionSet: {
+                    kind: "SelectionSet",
+                    selections: [
+                      { kind: "Field", name: { kind: "Name", value: "id" } },
+                      { kind: "Field", name: { kind: "Name", value: "name" } },
+                      { kind: "Field", name: { kind: "Name", value: "email" } },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<SaveItemMutation, SaveItemMutationVariables>;
+export const ReportBugDocument = {
+  kind: "Document",
+  definitions: [
+    {
+      kind: "OperationDefinition",
+      operation: "mutation",
+      name: { kind: "Name", value: "ReportBug" },
+      variableDefinitions: [
+        {
+          kind: "VariableDefinition",
+          variable: {
+            kind: "Variable",
+            name: { kind: "Name", value: "title" },
+          },
+          type: {
+            kind: "NonNullType",
+            type: {
+              kind: "NamedType",
+              name: { kind: "Name", value: "String" },
+            },
+          },
+        },
+        {
+          kind: "VariableDefinition",
+          variable: {
+            kind: "Variable",
+            name: { kind: "Name", value: "description" },
+          },
+          type: {
+            kind: "NonNullType",
+            type: {
+              kind: "NamedType",
+              name: { kind: "Name", value: "String" },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "reportBug" },
+            arguments: [
+              {
+                kind: "Argument",
+                name: { kind: "Name", value: "title" },
+                value: {
+                  kind: "Variable",
+                  name: { kind: "Name", value: "title" },
+                },
+              },
+              {
+                kind: "Argument",
+                name: { kind: "Name", value: "description" },
+                value: {
+                  kind: "Variable",
+                  name: { kind: "Name", value: "description" },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                { kind: "Field", name: { kind: "Name", value: "success" } },
+                { kind: "Field", name: { kind: "Name", value: "message" } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<ReportBugMutation, ReportBugMutationVariables>;
 export const CreateUserDocument = {
   kind: "Document",
   definitions: [

@@ -53,6 +53,9 @@ module "ecs" {
   ecs_task_execution_role_arn = module.iam.ecs_task_execution_role_arn
   ecs_task_role_arn           = module.iam.ecs_task_role_arn
 
+  # DNS
+  acm_certificate_arn = module.route53.certificate_arn
+
   # Networking
   public_subnet_ids  = module.networking.public_subnet_ids
   private_subnet_ids = module.networking.private_subnet_ids
@@ -75,6 +78,9 @@ module "ecs" {
   launched_arn                   = module.ssm.launched_arn
   recaptcha_site_key_arn         = module.ssm.recaptcha_site_key_arn
   recaptcha_secret_key_arn       = module.ssm.recaptcha_secret_key_arn
+  ses_sender_email_arn           = module.ssm.ses_sender_email_arn
+  ses_recipient_email_arn        = module.ssm.ses_recipient_email_arn
+  ses_production_arn             = module.ssm.ses_production_arn
 
   # Backend enviroment variables
   spring_active_profile_arn = module.ssm.spring_active_profile_arn
@@ -84,6 +90,10 @@ module "ecs" {
   postgres_password_arn     = module.ssm.postgres_password_arn
   redis_host_arn            = module.ssm.redis_host_arn
   redis_port_arn            = module.ssm.redis_port_arn
+  jira_access_token_arn     = module.ssm.jira_access_token_arn
+  jira_email_arn            = module.ssm.jira_email_arn
+  jira_url_arn              = module.ssm.jira_url_arn
+  jira_project_key_arn      = module.ssm.jira_project_key_arn
 }
 
 # Networking
@@ -119,6 +129,7 @@ module "database" {
 module "iam" {
   source = "./modules/iam"
 
+  environment           = var.environment
   cognito_user_pool_arn = module.cognito.cognito_user_pool_arn
 }
 
@@ -142,6 +153,9 @@ module "ssm" {
   launched                   = var.launched
   recaptcha_site_key         = var.recaptcha_site_key
   recaptcha_secret_key       = var.recaptcha_secret_key
+  ses_sender_email           = var.ses_sender_email
+  ses_recipient_email        = var.ses_recipient_email
+  ses_production             = var.ses_production
 
   # Backend
   spring_active_profile = var.spring_active_profile
@@ -151,4 +165,16 @@ module "ssm" {
   postgres_password     = var.postgres_password
   redis_host            = module.database.redis_host
   redis_port            = "6789"
+  jira_access_token     = var.jira_access_token
+  jira_email            = var.jira_email
+  jira_url              = var.jira_url
+  jira_project_key      = var.jira_project_key
+}
+
+module "ses" {
+  source = "./modules/ses"
+
+  environment         = var.environment
+  domain              = var.domain
+  aws_route53_zone_id = module.route53.zone_id
 }

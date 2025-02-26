@@ -40,6 +40,18 @@ const styles = {
   },
 };
 
+/**
+ * Button component that can render as a link or a button.
+ *
+ * This component supports different styles based on the provided color and variant.
+ * It can be used as a standard button or as a link, depending on the props passed.
+ *
+ * @param props - The props for the button component.
+ * @param className - Additional class names to apply to the button.
+ * @param color - The color variant of the button. Defaults to "blue".
+ * @param variant - The style variant of the button. Defaults to "solid".
+ * @returns The rendered button component.
+ */
 export function Button({
   className,
   color = "blue",

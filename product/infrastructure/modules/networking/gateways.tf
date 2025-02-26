@@ -8,15 +8,15 @@ resource "aws_internet_gateway" "igw" {
 
 # This creates an Elastic IP for each Availability Zone
 resource "aws_eip" "elastic_ip" {
-  domain = "vpc" 
-  count = length(var.availability_zones)
+  domain = "vpc"
+  count  = length(var.availability_zones)
 }
 
 # This creates a NAT Gateway in each Availability Zone
 resource "aws_nat_gateway" "nat_gateway" {
-  count = length(var.availability_zones)
+  count         = length(var.availability_zones)
   allocation_id = aws_eip.elastic_ip[count.index].id
-  subnet_id = element(aws_subnet.public_subnet[*].id, count.index)
+  subnet_id     = element(aws_subnet.public_subnet[*].id, count.index)
 
   tags = {
     Name = "${var.environment}-${element(var.availability_zones, count.index)}-nat-gateway"

@@ -8,6 +8,13 @@ import {
 } from "@aws-sdk/client-cognito-identity-provider";
 import Stripe from "stripe";
 
+/**
+ * Creates a new user in the Cognito user pool and Stripe customer.
+ *
+ * @param params - The parameters for creating a user.
+ * @returns A promise that resolves to an object indicating the result of the user creation process.
+ * @throws Throws an error if user creation fails.
+ */
 async function createUser({
   name,
   email,

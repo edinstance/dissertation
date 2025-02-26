@@ -5,6 +5,13 @@ import { findCustomerByUserId } from "@/utils/stripe";
 import { AdminDeleteUserCommand } from "@aws-sdk/client-cognito-identity-provider";
 import Stripe from "stripe";
 
+/**
+ * Deletes a user from Stripe and Cognito.
+ *
+ * @param params - The parameters for deleting the user.
+ * @returns A promise that resolves to an object indicating the success or failure of the deletion.
+ * @throws Throws an error if there is an issue deleting the user.
+ */
 async function deleteUser({
   userId,
   email,

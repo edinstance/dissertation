@@ -33,6 +33,15 @@ const signUpSchema = z
     path: ["confirmPassword"],
   });
 
+/**
+ * SignUpPage component for user registration.
+ *
+ * This component renders a form that allows users to create a new account.
+ * It includes validation for the input fields and integrates with Apollo Client
+ * for user creation and NextAuth for authentication.
+ *
+ * @returns The rendered SignUpPage component.
+ */
 function SignUpPage() {
   const [errorMessage, setErrorMessage] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -45,6 +54,11 @@ function SignUpPage() {
 
   const [createUserMutation] = useMutation(CREATE_USER_MUTATION);
 
+  /**
+   * Handles form submission to create a new user.
+   *
+   * @param event - The form submission event.
+   */
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
 
@@ -88,6 +102,12 @@ function SignUpPage() {
     }
   };
 
+  /**
+   * Validates the password against the defined schema.
+   *
+   * @param password - The password to validate.
+   * @returns An object indicating the validation results.
+   */
   const validatePassword = (password: string) => {
     const result = passwordSchema.safeParse(password);
     const errors = result.success

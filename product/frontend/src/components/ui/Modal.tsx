@@ -1,6 +1,18 @@
 import { Dialog, DialogPanel } from "@headlessui/react";
 import React, { Dispatch, SetStateAction } from "react";
 
+/**
+ * Modal component for displaying content in a dialog overlay.
+ *
+ * This component uses Headless UI's Dialog to create a modal that can be opened
+ * and closed based on the `open` state. It accepts children to render inside the modal.
+ *
+ * @param props - The props for the component.
+ * @param open - Indicates whether the modal is open or closed.
+ * @param setOpen - Function to set the open state of the modal.
+ * @param children - The content to be displayed inside the modal.
+ * @returns The rendered modal component.
+ */
 export default function Modal({
   open,
   setOpen,

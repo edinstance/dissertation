@@ -9,6 +9,12 @@ variable "environment" {
 }
 
 
+# DNS
+variable "acm_certificate_arn" {
+  description = "The ARN of the ACM certificate"
+  type        = string
+}
+
 # Networking
 variable "public_subnet_ids" {
   description = "The IDs of the public subnets"
@@ -53,8 +59,8 @@ variable "frontend_image_tag" {
 }
 
 variable "frontend_ecr_repo" {
-    description = "The URL of the frontend ECR repository"
-    type        = string
+  description = "The URL of the frontend ECR repository"
+  type        = string
 }
 
 variable "backend_image_tag" {
@@ -63,8 +69,8 @@ variable "backend_image_tag" {
 }
 
 variable "backend_ecr_repo" {
-    description = "The URL of the backend ECR repository"
-    type        = string
+  description = "The URL of the backend ECR repository"
+  type        = string
 }
 
 # IAM
@@ -132,8 +138,22 @@ variable "recaptcha_site_key_arn" {
 
 variable "recaptcha_secret_key_arn" {
   description = "The arn of the Recaptcha secret key"
-  type = string
-  
+  type        = string
+}
+
+variable "ses_sender_email_arn" {
+  description = "The arn of the SES sender email"
+  type        = string
+}
+
+variable "ses_recipient_email_arn" {
+  description = "The arn of the SES recipient email"
+  type        = string
+}
+
+variable "ses_production_arn" {
+  description = "The arn of whether SES is in production"
+  type        = string
 }
 
 # Backend environment variables
@@ -169,6 +189,26 @@ variable "redis_host_arn" {
 
 variable "redis_port_arn" {
   description = "The port for the Redis database"
+  type        = string
+}
+
+variable "jira_access_token_arn" {
+  description = "The access token for Jira"
+  type        = string
+}
+
+variable "jira_email_arn" {
+  description = "The email for Jira"
+  type        = string
+}
+
+variable "jira_url_arn" {
+  description = "The URL for Jira"
+  type        = string
+}
+
+variable "jira_project_key_arn" {
+  description = "The project key for Jira"
   type        = string
 }
 

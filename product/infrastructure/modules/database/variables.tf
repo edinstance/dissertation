@@ -11,7 +11,7 @@ variable "environment" {
 
 variable "availability_zones" {
   description = "The availability zones for the database"
-  type = list(string)
+  type        = list(string)
 }
 
 variable "private_subnet_ids" {
@@ -22,10 +22,10 @@ variable "private_subnet_ids" {
 # Security groups
 variable "db_sg_id" {
   description = "The ID of the database security group"
-  type = string
+  type        = string
 }
 
 variable "redis_sg_id" {
   description = "The ID of the Redis security group"
-  type = string
+  type        = string
 }

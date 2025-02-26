@@ -10,11 +10,11 @@ output "backend_client_id" {
 }
 
 output "cognito_user_pool_id" {
-    description = "The user pool id"
-    value       = aws_cognito_user_pool.user_pool.id
+  description = "The user pool id"
+  value       = aws_cognito_user_pool.user_pool.id
 }
 
 output "cognito_user_pool_arn" {
-    description = "The arn of the Cognito user pool"
-    value       = aws_cognito_user_pool.user_pool.arn
+  description = "The arn of the Cognito user pool"
+  value       = aws_cognito_user_pool.user_pool.arn
 }

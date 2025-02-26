@@ -13,6 +13,16 @@ export const metadata: Metadata = {
   description: "Final Year Project",
 };
 
+/**
+ * RootLayout component for the application.
+ *
+ * This component serves as the main layout for the application, wrapping
+ * the content with necessary providers for theme management and authentication.
+ * It includes a header and applies global styles.
+ *
+ * @param props - The props for the component.
+ * @returns The rendered RootLayout component.
+ */
 export default async function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {

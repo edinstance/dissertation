@@ -62,4 +62,25 @@
             stripComments="false" />
     </changeSet>
 
+    <changeSet id="search_for_items_pagination" author="zlac370" runOnChange="false">
+        <sqlFile path="../../src/sql/tests/search_for_items_pagination.sql"
+            relativeToChangelogFile="true"
+            splitStatements="false"
+            stripComments="false" />
+    </changeSet>
+
+    <changeSet id="get_items_by_user" author="zlac370" runOnChange="false">
+        <sqlFile path="../../src/sql/tests/get_items_by_user.sql"
+            relativeToChangelogFile="true"
+            splitStatements="false"
+            stripComments="false" />
+    </changeSet>
+
+    <changeSet id="get_items_by_user_pages" author="zlac370" runOnChange="false">
+        <sqlFile path="../../src/sql/tests/get_items_by_user_pages.sql"
+            relativeToChangelogFile="true"
+            splitStatements="false"
+            stripComments="false" />
+    </changeSet>
+
 </databaseChangeLog>

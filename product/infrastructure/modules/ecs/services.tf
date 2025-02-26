@@ -8,7 +8,7 @@ resource "aws_ecs_service" "frontend_service" {
   launch_type = "FARGATE"
 
   network_configuration {
-    subnets = var.private_subnet_ids
+    subnets         = var.private_subnet_ids
     security_groups = [var.frontend_sg_id]
   }
 
@@ -18,9 +18,9 @@ resource "aws_ecs_service" "frontend_service" {
     container_port   = 3000
   }
 
-  depends_on = [ aws_lb.frontend_alb, aws_lb_target_group.alb_frontend_tg ]
+  depends_on = [aws_lb.frontend_alb, aws_lb_target_group.alb_frontend_tg]
 
- lifecycle {
+  lifecycle {
     # Allow external changes without Terraform plan difference such as autoscaling
     ignore_changes = [desired_count, task_definition]
   }
@@ -36,7 +36,7 @@ resource "aws_ecs_service" "backend_service" {
   launch_type = "FARGATE"
 
   network_configuration {
-    subnets = var.private_subnet_ids
+    subnets         = var.private_subnet_ids
     security_groups = [var.backend_sg_id]
   }
 
@@ -46,9 +46,9 @@ resource "aws_ecs_service" "backend_service" {
     container_port   = 8080
   }
 
-  depends_on = [ aws_lb.backend_alb, aws_lb_target_group.alb_backend_tg ]
+  depends_on = [aws_lb.backend_alb, aws_lb_target_group.alb_backend_tg]
 
- lifecycle {
+  lifecycle {
     # Allow external changes without Terraform plan difference such as autoscaling
     ignore_changes = [desired_count, task_definition]
   }

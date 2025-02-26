@@ -1,4 +1,5 @@
 {
+  "types": ["next-auth"],
   "compilerOptions": {
     /* Base Options: */
     "esModuleInterop": true,
@@ -42,5 +43,5 @@
     "postcss.config.js",
     "prettier.config.mjs"
   ],
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules", "docs"]
 }

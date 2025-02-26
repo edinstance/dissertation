@@ -5,6 +5,17 @@ import {
 import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
 
+/**
+ * Handles POST requests for creating or managing subscriptions.
+ *
+ * This function retrieves the user ID from the request, checks for an existing
+ * customer and subscription, and either reactivates an existing subscription
+ * or creates a new one. It returns the client secret needed for payment processing.
+ *
+ * @param request - The incoming request object containing the user ID.
+ * @returns A promise that resolves to a NextResponse object
+ * containing the client secret or an error message.
+ */
 export async function POST(request: NextRequest) {
   try {
     const { userId } = await request.json();

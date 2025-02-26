@@ -7,6 +7,16 @@ import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import SubscriptionElements from "./SubscriptionElements";
 
+/**
+ * SubscriptionForm component for managing user subscriptions.
+ *
+ * This component fetches the client secret from the server and renders the
+ * Stripe Elements for subscription management. It displays a loading spinner
+ * while the client secret is being fetched.
+ *
+ * @param props - The props for the component.
+ * @returns The rendered SubscriptionForm component.
+ */
 export default function SubscriptionForm({ stripeKey }: { stripeKey: string }) {
   const stripePromise = loadStripe(stripeKey);
   const session = useSession();

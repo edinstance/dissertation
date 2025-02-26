@@ -50,7 +50,7 @@ resource "aws_iam_policy" "ssm_access_policy" {
           "ssm:GetParameters",
           "ssm:GetParametersByPath"
         ]
-        Resource = "*"
+        Resource = "${var.environment}/*"
       },
     ]
   })
@@ -81,6 +81,27 @@ resource "aws_iam_policy" "ecs_cognito_policy" {
   })
 }
 
+# IAM policy for sending SES emails
+resource "aws_iam_policy" "ecs_ses_policy" {
+  name        = "ECSSESAccessPolicy"
+  description = "Policy to allow ECS tasks to send emails via SES"
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Effect = "Allow"
+        Action = [
+          "ses:SendEmail",
+          "ses:SendRawEmail",
+          "ses:SendTemplatedEmail"
+        ]
+        Resource = "*"
+      },
+    ]
+  })
+}
+
 # Attach Managed Policy
 resource "aws_iam_role_policy_attachment" "ecs_task_execution_managed_policy_attach" {
   policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy"
@@ -96,5 +117,11 @@ resource "aws_iam_role_policy_attachment" "ecs_task_execution_ssm_policy_attach"
 # Attach the Cognito Access Policy to the ECS Task Role
 resource "aws_iam_role_policy_attachment" "ecs_cognito_policy_attach" {
   policy_arn = aws_iam_policy.ecs_cognito_policy.arn
+  role       = aws_iam_role.ecs_task_role.name
+}
+
+# Attach the SES Access Policy to the ECS Task Role
+resource "aws_iam_role_policy_attachment" "ecs_ses_policy_attach" {
+  policy_arn = aws_iam_policy.ecs_ses_policy.arn
   role       = aws_iam_role.ecs_task_role.name
 }

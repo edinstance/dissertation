@@ -1,6 +1,6 @@
 # This creates a public route table for each AZ
 resource "aws_route_table" "public" {
-  count = length(var.availability_zones)
+  count  = length(var.availability_zones)
   vpc_id = aws_vpc.vpc.id
 
   route {
@@ -22,7 +22,7 @@ resource "aws_route_table_association" "public" {
 
 # This creates a private route table for each AZ
 resource "aws_route_table" "private" {
-  count = length(var.availability_zones)
+  count  = length(var.availability_zones)
   vpc_id = aws_vpc.vpc.id
 
   tags = {

@@ -1,5 +1,6 @@
 "use client";
 
+import { sendContactEmail } from "@/actions/send-contact-email";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useTheme } from "next-themes";
 import { useState } from "react";
@@ -31,6 +32,16 @@ const contactSchema = z.object({
 // Infer the type from the schema
 type FormData = z.infer<typeof contactSchema>;
 
+/**
+ * Contact component for submitting a contact form.
+ *
+ * This component renders a form that allows users to send a message.
+ * It includes validation for the input fields and integrates with
+ * Google reCAPTCHA for spam protection.
+ *
+ * @param props - The props for the component.
+ * @returns The rendered Contact component.
+ */
 export function Contact({
   RECAPTCHA_SITE_KEY,
 }: {
@@ -54,12 +65,13 @@ export function Contact({
   const [isLoading, setIsLoading] = useState(false);
   const [captcha, setCaptcha] = useState<string | null>(null);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [emailError, setEmailError] = useState(false);
 
   const onSubmit = async (data: FormData, e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
     console.log(data);
-    const response = await fetch(`api/google/captcha/verify`, {
+    const response = await fetch("api/google/captcha/verify", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -68,14 +80,22 @@ export function Contact({
     });
     const result = await response.json();
     if (result.success) {
+      const emailResult = await sendContactEmail(data);
       setIsLoading(false);
-      setIsSubmitted(true);
+
+      if (emailResult.success) {
+        setIsSubmitted(true);
+      }
+      if (emailResult.error) {
+        setEmailError(true);
+      }
     } else {
-      console.error(result.message);
+      setEmailError(true);
     }
     setTimeout(() => {
       reset();
       setIsSubmitted(false);
+      setEmailError(false);
     }, 3000);
   };
 
@@ -185,10 +205,18 @@ export function Contact({
               </div>
             </div>
 
-            {isSubmitted && (
+            {isSubmitted && !emailError && (
               <div className="mb-6 mt-4 w-full max-w-2xl rounded-lg bg-green-100 p-4 text-center text-green-800 dark:bg-green-800/30 dark:text-green-400">
                 <p className="text-sm font-medium">
                   Thank you for your message! We&apos;ll get back to you soon.
+                </p>
+              </div>
+            )}
+            {emailError && (
+              <div className="mb-6 mt-4 w-full max-w-2xl rounded-lg bg-red-100 p-4 text-center text-red-800 dark:bg-red-800/30 dark:text-red-400">
+                <p className="text-sm font-medium">
+                  There was an error sending your message. Please try again
+                  later.
                 </p>
               </div>
             )}

@@ -14,6 +14,16 @@ import * as types from "./graphql";
  * Learn more about it here: https://the-guild.dev/graphql/codegen/plugins/presets/preset-client#reducing-bundle-size
  */
 const documents = {
+  "\n  query SearchItems($searchText: String) {\n    searchForItems(searchText: $searchText) {\n      items {\n        id\n        name\n        description\n        isActive\n        endingTime\n        price\n        stock\n        category\n        images\n        seller {\n          id\n          name\n          email\n        }\n      }\n    }\n  }\n":
+    types.SearchItemsDocument,
+  "\n  query GetItemById($id: String!) {\n    getItemById(id: $id) {\n      id\n      name\n      description\n      isActive\n      endingTime\n      price\n      stock\n      category\n      images\n      seller {\n        id\n        name\n        email\n      }\n    }\n  }\n":
+    types.GetItemByIdDocument,
+  "\n  query GetItemsByUser(\n    $id: String!\n    $isActive: Boolean\n    $pagination: PaginationInput\n  ) {\n    getItemsByUser(id: $id, isActive: $isActive, pagination: $pagination) {\n      items {\n        id\n        name\n        description\n        isActive\n        stock\n      }\n    }\n  }\n":
+    types.GetItemsByUserDocument,
+  "\n  mutation SaveItem($itemInput: ItemInput!) {\n    saveItem(itemInput: $itemInput) {\n      id\n      name\n      description\n      isActive\n      endingTime\n      price\n      stock\n      category\n      images\n      seller {\n        id\n        name\n        email\n      }\n    }\n  }\n":
+    types.SaveItemDocument,
+  "\n  mutation ReportBug($title: String!, $description: String!) {\n    reportBug(title: $title, description: $description) {\n      success\n      message\n    }\n  }\n":
+    types.ReportBugDocument,
   "\n  mutation CreateUser($input: UserInput!) {\n    createUser(userInput: $input) {\n      id\n    }\n  }\n":
     types.CreateUserDocument,
   "\n  mutation SaveUserDetails($id: String!, $detailsInput: UserDetailsInput!) {\n    saveUserDetails(id: $id, detailsInput: $detailsInput) {\n      id\n      details {\n        id\n        contactNumber\n        houseName\n        addressStreet\n        addressCity\n        addressCounty\n        addressPostcode\n      }\n    }\n  }\n":
@@ -38,6 +48,36 @@ const documents = {
  */
 export function graphql(source: string): unknown;
 
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(
+  source: "\n  query SearchItems($searchText: String) {\n    searchForItems(searchText: $searchText) {\n      items {\n        id\n        name\n        description\n        isActive\n        endingTime\n        price\n        stock\n        category\n        images\n        seller {\n          id\n          name\n          email\n        }\n      }\n    }\n  }\n",
+): (typeof documents)["\n  query SearchItems($searchText: String) {\n    searchForItems(searchText: $searchText) {\n      items {\n        id\n        name\n        description\n        isActive\n        endingTime\n        price\n        stock\n        category\n        images\n        seller {\n          id\n          name\n          email\n        }\n      }\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(
+  source: "\n  query GetItemById($id: String!) {\n    getItemById(id: $id) {\n      id\n      name\n      description\n      isActive\n      endingTime\n      price\n      stock\n      category\n      images\n      seller {\n        id\n        name\n        email\n      }\n    }\n  }\n",
+): (typeof documents)["\n  query GetItemById($id: String!) {\n    getItemById(id: $id) {\n      id\n      name\n      description\n      isActive\n      endingTime\n      price\n      stock\n      category\n      images\n      seller {\n        id\n        name\n        email\n      }\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(
+  source: "\n  query GetItemsByUser(\n    $id: String!\n    $isActive: Boolean\n    $pagination: PaginationInput\n  ) {\n    getItemsByUser(id: $id, isActive: $isActive, pagination: $pagination) {\n      items {\n        id\n        name\n        description\n        isActive\n        stock\n      }\n    }\n  }\n",
+): (typeof documents)["\n  query GetItemsByUser(\n    $id: String!\n    $isActive: Boolean\n    $pagination: PaginationInput\n  ) {\n    getItemsByUser(id: $id, isActive: $isActive, pagination: $pagination) {\n      items {\n        id\n        name\n        description\n        isActive\n        stock\n      }\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(
+  source: "\n  mutation SaveItem($itemInput: ItemInput!) {\n    saveItem(itemInput: $itemInput) {\n      id\n      name\n      description\n      isActive\n      endingTime\n      price\n      stock\n      category\n      images\n      seller {\n        id\n        name\n        email\n      }\n    }\n  }\n",
+): (typeof documents)["\n  mutation SaveItem($itemInput: ItemInput!) {\n    saveItem(itemInput: $itemInput) {\n      id\n      name\n      description\n      isActive\n      endingTime\n      price\n      stock\n      category\n      images\n      seller {\n        id\n        name\n        email\n      }\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(
+  source: "\n  mutation ReportBug($title: String!, $description: String!) {\n    reportBug(title: $title, description: $description) {\n      success\n      message\n    }\n  }\n",
+): (typeof documents)["\n  mutation ReportBug($title: String!, $description: String!) {\n    reportBug(title: $title, description: $description) {\n      success\n      message\n    }\n  }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

@@ -3,6 +3,15 @@ import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 import { UserCircleIcon } from "@heroicons/react/24/outline";
 import { signOut, useSession } from "next-auth/react";
 
+/**
+ * UserMenu component for displaying a user menu with account options.
+ *
+ * This component renders a button that shows the user's name and an icon.
+ * When clicked, it displays a dropdown menu with options to navigate to the account page
+ * and to sign out of the session.
+ *
+ * @returns The rendered UserMenu component.
+ */
 export function UserMenu() {
   const session = useSession();
   return (

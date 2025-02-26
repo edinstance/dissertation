@@ -16,6 +16,15 @@ type FormData = {
   addressPostcode: string;
 };
 
+/**
+ * UserDetailsForm component for managing user details.
+ *
+ * This component fetches the current user's details and allows the user to
+ * update their contact information and address. It uses Apollo Client for
+ * GraphQL queries and mutations, and react-hook-form for form management.
+ *
+ * @returns The rendered UserDetailsForm component.
+ */
 export default function UserDetailsForm() {
   const { data: userData, loading: queryLoading } = useQuery(GET_USER);
   const [saveUserDetailsMutation, { loading: mutationLoading }] = useMutation(
@@ -42,6 +51,11 @@ export default function UserDetailsForm() {
     },
   });
 
+  /**
+   * Handles form submission to save user details.
+   *
+   * @param data - The form data containing user details.
+   */
   function onSubmit(data: FormData) {
     if (user) {
       saveUserDetailsMutation({

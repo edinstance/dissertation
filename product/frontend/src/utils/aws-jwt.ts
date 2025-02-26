@@ -7,6 +7,14 @@ import { CognitoJwtVerifier } from "aws-jwt-verify/cognito-verifier";
 
 type TokenUse = "id" | "access";
 
+/**
+ * Verifies an AWS Cognito token.
+ *
+ * @param token - The token to verify.
+ * @param tokenUse - The type of token being verified (either "id" or "access").
+ * @returns A promise that resolves to the decoded token payload if verification is successful.
+ * @throws Throws an error if the token verification fails.
+ */
 export async function verifyAWSToken(token: string, tokenUse: TokenUse) {
   const verifier = CognitoJwtVerifier.create({
     userPoolId: process.env.COGNITO_USER_POOL_ID as string,
@@ -23,6 +31,13 @@ export async function verifyAWSToken(token: string, tokenUse: TokenUse) {
   }
 }
 
+/**
+ * Refreshes an access token using a refresh token.
+ *
+ * @param refreshToken - The refresh token used to obtain a new access token.
+ * @returns A promise that resolves to an object containing the new access token and its expiration time.
+ * @throws Throws an error if the refresh token operation fails.
+ */
 export async function refreshAccessToken(refreshToken: string) {
   const cognitoClient = new CognitoIdentityProviderClient({
     region: "eu-west-2",

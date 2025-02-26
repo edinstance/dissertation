@@ -3,6 +3,16 @@
 import { findExistingSubscriptionByUserId } from "@/utils/stripe";
 import Stripe from "stripe";
 
+/**
+ * Unsubscribes a user by canceling their subscription.
+ *
+ * This function fetches the existing subscription for the user and cancels it
+ * using the Stripe API. It returns a success message or an error if the
+ * cancellation fails.
+ *
+ * @param params - The parameters for the unsubscribe operation.
+ * @returns A promise that resolves to an object indicating the result of the operation.
+ */
 export async function unsubscribe({ id }: { id: string }) {
   try {
     // Fetch the existing subscription
