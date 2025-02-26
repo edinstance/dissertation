@@ -344,12 +344,19 @@ export type Query = {
   __typename?: "Query";
   _service: _Service;
   getItemById?: Maybe<Item>;
+  getItemsByUser?: Maybe<SearchedItemsResponse>;
   getUser?: Maybe<User>;
   searchForItems?: Maybe<SearchedItemsResponse>;
 };
 
 export type QueryGetItemByIdArgs = {
   id: Scalars["String"]["input"];
+};
+
+export type QueryGetItemsByUserArgs = {
+  id: Scalars["String"]["input"];
+  isActive?: InputMaybe<Scalars["Boolean"]["input"]>;
+  pagination?: InputMaybe<PaginationInput>;
 };
 
 export type QuerySearchForItemsArgs = {
@@ -456,6 +463,27 @@ export type GetItemByIdQuery = {
       name?: string | null;
       email: string;
     } | null;
+  } | null;
+};
+
+export type GetItemsByUserQueryVariables = Exact<{
+  id: Scalars["String"]["input"];
+  isActive?: InputMaybe<Scalars["Boolean"]["input"]>;
+  pagination?: InputMaybe<PaginationInput>;
+}>;
+
+export type GetItemsByUserQuery = {
+  __typename?: "Query";
+  getItemsByUser?: {
+    __typename?: "SearchedItemsResponse";
+    items?: Array<{
+      __typename?: "Item";
+      id?: string | null;
+      name?: string | null;
+      description?: string | null;
+      isActive?: boolean | null;
+      stock?: number | null;
+    } | null> | null;
   } | null;
 };
 
@@ -730,6 +758,108 @@ export const GetItemByIdDocument = {
     },
   ],
 } as unknown as DocumentNode<GetItemByIdQuery, GetItemByIdQueryVariables>;
+export const GetItemsByUserDocument = {
+  kind: "Document",
+  definitions: [
+    {
+      kind: "OperationDefinition",
+      operation: "query",
+      name: { kind: "Name", value: "GetItemsByUser" },
+      variableDefinitions: [
+        {
+          kind: "VariableDefinition",
+          variable: { kind: "Variable", name: { kind: "Name", value: "id" } },
+          type: {
+            kind: "NonNullType",
+            type: {
+              kind: "NamedType",
+              name: { kind: "Name", value: "String" },
+            },
+          },
+        },
+        {
+          kind: "VariableDefinition",
+          variable: {
+            kind: "Variable",
+            name: { kind: "Name", value: "isActive" },
+          },
+          type: { kind: "NamedType", name: { kind: "Name", value: "Boolean" } },
+        },
+        {
+          kind: "VariableDefinition",
+          variable: {
+            kind: "Variable",
+            name: { kind: "Name", value: "pagination" },
+          },
+          type: {
+            kind: "NamedType",
+            name: { kind: "Name", value: "PaginationInput" },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "getItemsByUser" },
+            arguments: [
+              {
+                kind: "Argument",
+                name: { kind: "Name", value: "id" },
+                value: {
+                  kind: "Variable",
+                  name: { kind: "Name", value: "id" },
+                },
+              },
+              {
+                kind: "Argument",
+                name: { kind: "Name", value: "isActive" },
+                value: {
+                  kind: "Variable",
+                  name: { kind: "Name", value: "isActive" },
+                },
+              },
+              {
+                kind: "Argument",
+                name: { kind: "Name", value: "pagination" },
+                value: {
+                  kind: "Variable",
+                  name: { kind: "Name", value: "pagination" },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "items" },
+                  selectionSet: {
+                    kind: "SelectionSet",
+                    selections: [
+                      { kind: "Field", name: { kind: "Name", value: "id" } },
+                      { kind: "Field", name: { kind: "Name", value: "name" } },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "description" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "isActive" },
+                      },
+                      { kind: "Field", name: { kind: "Name", value: "stock" } },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<GetItemsByUserQuery, GetItemsByUserQueryVariables>;
 export const SaveItemDocument = {
   kind: "Document",
   definitions: [
