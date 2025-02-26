@@ -1,6 +1,7 @@
 package com.finalproject.backend.services;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.finalproject.backend.config.logging.AppLogger;
 import com.finalproject.backend.dto.PaginationInput;
@@ -12,6 +13,7 @@ import com.finalproject.backend.repositories.ItemRepository;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.List;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -49,7 +51,6 @@ public class ItemService {
    * Constructs a ItemService with the specified ItemRepository.
    *
    * @param inputItemRepository The repository for accessing Item entities.
-   *
    */
   @Autowired
   public ItemService(final ItemRepository inputItemRepository,
@@ -113,19 +114,38 @@ public class ItemService {
   /**
    * This query gets all the items for a user.
    *
-   * @param userId The id of the user.
-   * @param isActive If the items are active or not.
+   * @param userId     The id of the user.
+   * @param isActive   If the items are active or not.
    * @param pagination The pagination data for the query.
    * @return The items and pagination data.
    */
   public SearchedItemsResponse getItemsByUser(final UUID userId,
                                               final Boolean isActive,
                                               final PaginationInput pagination) {
+    List<ItemEntity> items;
+    String key = "user:" + userId + ":items:page:" + pagination.getPage();
+    try (Jedis jedis = jedisPool.getResource()) {
+      String cachedItems = jedis.get(key);
+      if (cachedItems != null) {
+        items = objectMapper.readValue(cachedItems,
+                new TypeReference<>() {});
 
-    return new SearchedItemsResponse(itemRepository.getUserItems(userId, isActive,
-            pagination.getPage(), pagination.getSize()),
-            new Pagination(pagination.getPage(), pagination.getSize(),
-                    itemRepository.getUserItemsPages(userId, isActive, pagination.getSize())));
+        jedis.expire(key, 300);
+      } else {
+        items = itemRepository.getUserItems(userId, isActive,
+                pagination.getPage(), pagination.getSize());
+
+        jedis.set(key, objectMapper.writeValueAsString(items),
+                SetParams.setParams().ex(300));
+      }
+    } catch (JsonProcessingException e) {
+      throw new RuntimeException(e);
+    }
+
+    return new SearchedItemsResponse(items, new Pagination(pagination.getPage(),
+            pagination.getSize(), itemRepository.getUserItemsPages(userId,
+            isActive, pagination.getSize())));
+
   }
 
   /**
