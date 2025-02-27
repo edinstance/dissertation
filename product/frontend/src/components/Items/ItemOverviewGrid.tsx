@@ -18,7 +18,9 @@ function ItemOverviewGrid({ items }: { items: Item[] }) {
                 {item.name}
               </h3>
               <div className="hidden md:block">
-                {item.stock !== undefined && <StockBadge stock={item?.stock ?? 0} />}
+                {item.stock !== undefined && (
+                  <StockBadge stock={item?.stock ?? 0} />
+                )}
               </div>
             </div>
             <p className="text-muted-foreground mb-4 text-sm">
