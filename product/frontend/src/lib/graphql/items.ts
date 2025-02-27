@@ -58,6 +58,11 @@ export const GET_ITEMS_BY_USER_QUERY = graphql(`
         isActive
         stock
       }
+      pagination {
+        total
+        page
+        size
+      }
     }
   }
 `);
