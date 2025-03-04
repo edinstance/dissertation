@@ -18,7 +18,9 @@ function ItemOverviewGrid({ items }: { items: Item[] }) {
                 {item.name}
               </h3>
               <div className="hidden md:block">
-                {item.stock && <StockBadge stock={item?.stock ?? 0} />}
+                {item.stock !== undefined && (
+                  <StockBadge stock={item?.stock ?? 0} />
+                )}
               </div>
             </div>
             <p className="text-muted-foreground mb-4 text-sm">
@@ -44,19 +46,19 @@ function ItemOverviewGrid({ items }: { items: Item[] }) {
 export default ItemOverviewGrid;
 
 function StockBadge({ stock }: { stock: number }) {
-  let variant: "default" | "secondary" | "destructive";
+  let color: "default" | "secondary" | "destructive" | "success";
   let label: string;
 
-  if (stock > 10) {
-    variant = "default";
-    label = "In Stock";
-  } else if (stock > 0) {
-    variant = "secondary";
-    label = "Low Stock";
-  } else {
-    variant = "destructive";
+  if (stock === 0) {
+    color = "destructive";
     label = "Out of Stock";
+  } else if (stock > 10) {
+    color = "success";
+    label = "In Stock";
+  } else {
+    color = "secondary";
+    label = "Low Stock";
   }
 
-  return <Badge variant={variant}>{label}</Badge>;
+  return <Badge color={color}>{label}</Badge>;
 }

@@ -484,6 +484,12 @@ export type GetItemsByUserQuery = {
       isActive?: boolean | null;
       stock?: number | null;
     } | null> | null;
+    pagination?: {
+      __typename?: "Pagination";
+      total?: number | null;
+      page?: number | null;
+      size?: number | null;
+    } | null;
   } | null;
 };
 
@@ -849,6 +855,18 @@ export const GetItemsByUserDocument = {
                         name: { kind: "Name", value: "isActive" },
                       },
                       { kind: "Field", name: { kind: "Name", value: "stock" } },
+                    ],
+                  },
+                },
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "pagination" },
+                  selectionSet: {
+                    kind: "SelectionSet",
+                    selections: [
+                      { kind: "Field", name: { kind: "Name", value: "total" } },
+                      { kind: "Field", name: { kind: "Name", value: "page" } },
+                      { kind: "Field", name: { kind: "Name", value: "size" } },
                     ],
                   },
                 },
