@@ -115,7 +115,7 @@ function Pagination({
   };
 
   return (
-    <div className="flex items-center justify-center gap-2 pt-8">
+    <div className="flex items-center justify-center gap-2 pb-4 pt-8">
       <button
         onClick={() => handlePageChange(displayPage - 1)}
         disabled={page === 0}
