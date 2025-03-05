@@ -3,6 +3,7 @@ import ItemOverviewGrid from "@/components/Items/ItemOverviewGrid";
 import { Button } from "@/components/ui/Button";
 import LoadingSpinner from "@/components/ui/LoadingSpinner";
 import Pagination from "@/components/ui/Pagination";
+import Switch from "@/components/ui/Switch";
 import {
   GetItemsByUserQuery,
   GetItemsByUserQueryVariables,
@@ -18,6 +19,7 @@ export default function Items() {
   const session = useSession();
 
   const [items, setItems] = useState<Item[]>([]);
+  const [itemsActive, setItemsActive] = useState(true);
   const [pagination, setPagination] = useState<PaginationType>({
     total: 1,
     page: 0,
@@ -30,7 +32,7 @@ export default function Items() {
   >(GET_ITEMS_BY_USER_QUERY, {
     variables: {
       id: session.data?.user?.id,
-      isActive: true,
+      isActive: itemsActive,
       pagination: { size: pagination?.size ?? 2, page: pagination?.page ?? 0 },
     },
     skip: !session.data?.user?.id,
@@ -63,7 +65,7 @@ export default function Items() {
     if (session.data?.user?.id) {
       refetch({
         id: session.data.user.id,
-        isActive: true,
+        isActive: itemsActive,
         pagination: { size: pagination.size, page: pagination.page },
       });
     }
@@ -73,13 +75,22 @@ export default function Items() {
     setPagination((prev) => ({ ...prev, page: newPage }));
   };
 
+  console.log(itemsActive);
+
   return (
     <div className="px-8 pt-20">
       <div className="flex flex-col justify-between pb-4 md:flex-row">
         <h1 className="text-4xl">Manage your Items</h1>
-        <Button className="mt-4" href={"items/createItem"}>
-          Create a new Item
-        </Button>
+        <div className="flex items-center">
+          <div className="flex items-center pr-2">
+            <p className="mr-2">Active</p>
+            <Switch checked={itemsActive} onCheckedChange={setItemsActive} />
+          </div>
+
+          <Button className="ml-4" href={"items/createItem"}>
+            Create a new Item
+          </Button>
+        </div>
       </div>
       <div>
         {loading ? (
@@ -99,6 +110,13 @@ export default function Items() {
               />
             )}
           </>
+        ) : !itemsActive && items.length === 0 ? (
+          <div className="flex flex-col items-center justify-center pt-8">
+            <p>All of your items are currently active</p>
+            <Button className="mt-4" onClick={() => setItemsActive(true)}>
+              Return to active items
+            </Button>
+          </div>
         ) : (
           <div className="flex flex-col items-center justify-center pt-8">
             <p>You have no items yet. Create a new one!</p>
