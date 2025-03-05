@@ -40,3 +40,7 @@ jira:
 api:
   key:
 # This key is used to access the backend
+
+server:
+  max-http-request-header-size: 20000
+# This allows larger headers to be sent
