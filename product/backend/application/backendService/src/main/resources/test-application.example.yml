@@ -44,3 +44,7 @@ jira:
 api:
   key: "test"
   # This is to test the api key authentication
+
+  server:
+    max-http-request-header-size: 20000
+  # This allows larger headers to be sent
