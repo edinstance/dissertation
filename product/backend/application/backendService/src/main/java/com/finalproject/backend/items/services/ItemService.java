@@ -133,7 +133,7 @@ public class ItemService {
                                               final Boolean isActive,
                                               final PaginationInput pagination) {
     List<ItemEntity> items;
-    String key = "user:" + userId + ":items:page:" + pagination.getPage();
+    String key = "user:" + userId + ":items:page:" + pagination.getPage() + "active:" + isActive;
     try (Jedis jedis = jedisPool.getResource()) {
       String cachedItems = jedis.get(key);
       if (cachedItems != null) {

@@ -212,13 +212,13 @@ public class ItemServiceTests {
     verify(itemRepository, times(1)).getUserItems(user.getId(), true,  0, 10);
     verify(itemRepository, times(1)).getUserItemsPages(user.getId(), true, 10);
     verify(jedis, times(0)).expire(anyString(), anyLong());
-    verify(jedis, times(1)).set(eq("user:" + user.getId() + ":items:page:" + 0), anyString(), any(SetParams.class));
+    verify(jedis, times(1)).set(eq("user:" + user.getId() + ":items:page:" + 0 + "active:true"), anyString(), any(SetParams.class));
   }
 
   @Test
   public void testGetItemsByUserCache() throws JsonProcessingException {
     when(jedisPool.getResource()).thenReturn(jedis);
-    when(jedis.get("user:" + user.getId() + ":items:page:" + 0))
+    when(jedis.get("user:" + user.getId() + ":items:page:" + 0 + "active:true"))
             .thenReturn(objectMapper.writeValueAsString(List.of(item)));
 
     itemService.getItemsByUser(user.getId(), true, new PaginationInput(0, 10));
