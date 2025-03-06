@@ -1,16 +1,19 @@
-import { SearchItemsQuery } from "@/gql/graphql";
 import { create } from "zustand";
 
 interface SearchStore {
   searchQuery: string;
-  results: SearchItemsQuery["searchForItems"];
+  debouncedQuery: string;
+  currentPage: number;
   setSearchQuery: (query: string) => void;
-  setSearchResults: (results: SearchItemsQuery["searchForItems"]) => void;
+  setDebouncedQuery: (query: string) => void;
+  setCurrentPage: (page: number) => void;
 }
 
 export const useSearchStore = create<SearchStore>((set) => ({
   searchQuery: "",
-  results: [],
+  debouncedQuery: "",
+  currentPage: 1,
   setSearchQuery: (searchQuery) => set({ searchQuery }),
-  setSearchResults: (results) => set({ results }),
+  setDebouncedQuery: (debouncedQuery) => set({ debouncedQuery }),
+  setCurrentPage: (currentPage) => set({ currentPage }),
 }));

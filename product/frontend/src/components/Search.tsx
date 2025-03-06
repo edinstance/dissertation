@@ -1,10 +1,9 @@
 "use client";
 
-import { SEARCH_FOR_ITEMS } from "@/lib/graphql/items";
 import { useSearchStore } from "@/stores/SearchStore";
-import { useLazyQuery } from "@apollo/client";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
-import { useState } from "react";
+import debounce from "lodash.debounce";
+import { useEffect, useState } from "react";
 import { Input } from "./ui/Input";
 
 /**
@@ -24,31 +23,25 @@ export function SearchBar({
   className?: string;
 }) {
   const [isFocused, setIsFocused] = useState(false);
-  const { searchQuery, setSearchQuery, setSearchResults, results } =
+  const { searchQuery, setSearchQuery, setDebouncedQuery, setCurrentPage } =
     useSearchStore();
 
-  const [executeSearch] = useLazyQuery(SEARCH_FOR_ITEMS, {
-    onCompleted: (data) => {
-      setSearchResults(data.searchForItems);
-    },
-  });
+  const debouncedSearch = debounce((query: string) => {
+    setDebouncedQuery(query);
+  }, 300);
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!searchQuery.trim()) return;
+  useEffect(() => {
+    debouncedSearch(searchQuery);
+    return () => debouncedSearch.cancel();
+  }, [searchQuery, debouncedSearch]);
 
-    executeSearch({
-      variables: {
-        searchText: searchQuery,
-      },
-    });
-
-    console.log("Searching for:", searchQuery);
-    console.log(results);
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchQuery(e.target.value);
+    setCurrentPage(0);
   };
 
   return (
-    <form onSubmit={handleSubmit} className={`w-full max-w-md ${className}`}>
+    <form className={`w-full max-w-md ${className}`}>
       <div className="relative">
         <div
           className={`pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 transition-opacity duration-200 ${
@@ -60,7 +53,7 @@ export function SearchBar({
         <Input
           type="text"
           value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
+          onChange={handleInputChange}
           onFocus={() => setIsFocused(true)}
           onBlur={() => setIsFocused(false)}
           placeholder={placeholder}
