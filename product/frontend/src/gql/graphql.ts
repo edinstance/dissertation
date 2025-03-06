@@ -413,6 +413,7 @@ export type _Service = {
 
 export type SearchItemsQueryVariables = Exact<{
   searchText?: InputMaybe<Scalars["String"]["input"]>;
+  pagination?: InputMaybe<PaginationInput>;
 }>;
 
 export type SearchItemsQuery = {
@@ -437,6 +438,12 @@ export type SearchItemsQuery = {
         email: string;
       } | null;
     } | null> | null;
+    pagination?: {
+      __typename?: "Pagination";
+      total?: number | null;
+      page?: number | null;
+      size?: number | null;
+    } | null;
   } | null;
 };
 
@@ -614,6 +621,17 @@ export const SearchItemsDocument = {
           },
           type: { kind: "NamedType", name: { kind: "Name", value: "String" } },
         },
+        {
+          kind: "VariableDefinition",
+          variable: {
+            kind: "Variable",
+            name: { kind: "Name", value: "pagination" },
+          },
+          type: {
+            kind: "NamedType",
+            name: { kind: "Name", value: "PaginationInput" },
+          },
+        },
       ],
       selectionSet: {
         kind: "SelectionSet",
@@ -628,6 +646,14 @@ export const SearchItemsDocument = {
                 value: {
                   kind: "Variable",
                   name: { kind: "Name", value: "searchText" },
+                },
+              },
+              {
+                kind: "Argument",
+                name: { kind: "Name", value: "pagination" },
+                value: {
+                  kind: "Variable",
+                  name: { kind: "Name", value: "pagination" },
                 },
               },
             ],
@@ -685,6 +711,18 @@ export const SearchItemsDocument = {
                           ],
                         },
                       },
+                    ],
+                  },
+                },
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "pagination" },
+                  selectionSet: {
+                    kind: "SelectionSet",
+                    selections: [
+                      { kind: "Field", name: { kind: "Name", value: "total" } },
+                      { kind: "Field", name: { kind: "Name", value: "page" } },
+                      { kind: "Field", name: { kind: "Name", value: "size" } },
                     ],
                   },
                 },

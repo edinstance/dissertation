@@ -1,8 +1,8 @@
 import { graphql } from "@/gql";
 
 export const SEARCH_FOR_ITEMS = graphql(`
-  query SearchItems($searchText: String) {
-    searchForItems(searchText: $searchText) {
+  query SearchItems($searchText: String, $pagination: PaginationInput) {
+    searchForItems(searchText: $searchText, pagination: $pagination) {
       items {
         id
         name
@@ -18,6 +18,11 @@ export const SEARCH_FOR_ITEMS = graphql(`
           name
           email
         }
+      }
+      pagination {
+        total
+        page
+        size
       }
     }
   }

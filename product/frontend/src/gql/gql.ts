@@ -14,7 +14,7 @@ import * as types from "./graphql";
  * Learn more about it here: https://the-guild.dev/graphql/codegen/plugins/presets/preset-client#reducing-bundle-size
  */
 const documents = {
-  "\n  query SearchItems($searchText: String) {\n    searchForItems(searchText: $searchText) {\n      items {\n        id\n        name\n        description\n        isActive\n        endingTime\n        price\n        stock\n        category\n        images\n        seller {\n          id\n          name\n          email\n        }\n      }\n    }\n  }\n":
+  "\n  query SearchItems($searchText: String, $pagination: PaginationInput) {\n    searchForItems(searchText: $searchText, pagination: $pagination) {\n      items {\n        id\n        name\n        description\n        isActive\n        endingTime\n        price\n        stock\n        category\n        images\n        seller {\n          id\n          name\n          email\n        }\n      }\n      pagination {\n        total\n        page\n        size\n      }\n    }\n  }\n":
     types.SearchItemsDocument,
   "\n  query GetItemById($id: String!) {\n    getItemById(id: $id) {\n      id\n      name\n      description\n      isActive\n      endingTime\n      price\n      stock\n      category\n      images\n      seller {\n        id\n        name\n        email\n      }\n    }\n  }\n":
     types.GetItemByIdDocument,
@@ -52,8 +52,8 @@ export function graphql(source: string): unknown;
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(
-  source: "\n  query SearchItems($searchText: String) {\n    searchForItems(searchText: $searchText) {\n      items {\n        id\n        name\n        description\n        isActive\n        endingTime\n        price\n        stock\n        category\n        images\n        seller {\n          id\n          name\n          email\n        }\n      }\n    }\n  }\n",
-): (typeof documents)["\n  query SearchItems($searchText: String) {\n    searchForItems(searchText: $searchText) {\n      items {\n        id\n        name\n        description\n        isActive\n        endingTime\n        price\n        stock\n        category\n        images\n        seller {\n          id\n          name\n          email\n        }\n      }\n    }\n  }\n"];
+  source: "\n  query SearchItems($searchText: String, $pagination: PaginationInput) {\n    searchForItems(searchText: $searchText, pagination: $pagination) {\n      items {\n        id\n        name\n        description\n        isActive\n        endingTime\n        price\n        stock\n        category\n        images\n        seller {\n          id\n          name\n          email\n        }\n      }\n      pagination {\n        total\n        page\n        size\n      }\n    }\n  }\n",
+): (typeof documents)["\n  query SearchItems($searchText: String, $pagination: PaginationInput) {\n    searchForItems(searchText: $searchText, pagination: $pagination) {\n      items {\n        id\n        name\n        description\n        isActive\n        endingTime\n        price\n        stock\n        category\n        images\n        seller {\n          id\n          name\n          email\n        }\n      }\n      pagination {\n        total\n        page\n        size\n      }\n    }\n  }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
