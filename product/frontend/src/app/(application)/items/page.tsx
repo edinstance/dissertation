@@ -69,13 +69,17 @@ export default function Items() {
         pagination: { size: pagination.size, page: pagination.page },
       });
     }
-  }, [pagination.page, refetch, session.data?.user?.id, pagination.size]);
+  }, [
+    pagination.page,
+    refetch,
+    session.data?.user?.id,
+    pagination.size,
+    itemsActive,
+  ]);
 
   const handlePageChange = (newPage: number) => {
     setPagination((prev) => ({ ...prev, page: newPage }));
   };
-
-  console.log(itemsActive);
 
   return (
     <div className="px-8 pt-20">

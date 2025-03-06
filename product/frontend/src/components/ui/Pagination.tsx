@@ -58,7 +58,7 @@ function Pagination({
         2,
         displayPage - Math.floor((maxButtonsToShow - 2) / 2),
       );
-      let endPage = Math.min(total - 1, startPage + maxButtonsToShow - 3);
+      const endPage = Math.min(total - 1, startPage + maxButtonsToShow - 3);
 
       if (endPage - startPage < maxButtonsToShow - 3) {
         startPage = Math.max(2, endPage - (maxButtonsToShow - 3));
