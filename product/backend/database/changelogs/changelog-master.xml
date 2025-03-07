@@ -16,4 +16,5 @@
     <include file="releases/schemas.xml" relativeToChangelogFile="true" />
     <include file="releases/tests.xml" relativeToChangelogFile="true" />
     <include file="releases/constraints.xml" relativeToChangelogFile="true" />
+    <include file="releases/types.xml" relativeToChangelogFile="true" />
 </databaseChangeLog>

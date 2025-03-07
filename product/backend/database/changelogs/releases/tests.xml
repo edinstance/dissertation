@@ -55,7 +55,7 @@
             stripComments="false" />
     </changeSet>
 
-     <changeSet id="user_email_constraints" author="zlac370" runOnChange="false">
+    <changeSet id="user_email_constraints" author="zlac370" runOnChange="false">
         <sqlFile path="../../src/sql/tests/email_constraint.sql"
             relativeToChangelogFile="true"
             splitStatements="false"
@@ -78,6 +78,13 @@
 
     <changeSet id="get_items_by_user_pages" author="zlac370" runOnChange="false">
         <sqlFile path="../../src/sql/tests/get_items_by_user_pages.sql"
+            relativeToChangelogFile="true"
+            splitStatements="false"
+            stripComments="false" />
+    </changeSet>
+
+    <changeSet id="sort_order_direction" author="zlac370" runOnChange="false">
+        <sqlFile path="../../src/sql/tests/sort_order_direction.sql"
             relativeToChangelogFile="true"
             splitStatements="false"
             stripComments="false" />
