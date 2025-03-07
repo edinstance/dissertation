@@ -90,4 +90,18 @@
             stripComments="false" />
     </changeSet>
 
+    <changeSet id="get_shop_items" author="zlac370" runOnChange="false">
+        <sqlFile path="../../src/sql/tests/get_shop_items.sql"
+            relativeToChangelogFile="true"
+            splitStatements="false"
+            stripComments="false" />
+    </changeSet>
+
+    <changeSet id="get_shop_items_pages" author="zlac370" runOnChange="false">
+        <sqlFile path="../../src/sql/tests/get_shop_items_pages.sql"
+            relativeToChangelogFile="true"
+            splitStatements="false"
+            stripComments="false" />
+    </changeSet>
+
 </databaseChangeLog>
