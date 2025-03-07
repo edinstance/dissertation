@@ -169,7 +169,7 @@ public class ItemService {
   public SearchedItemsResponse getShopItems(final PaginationInput pagination,
                                             final SortInput sortInput) {
     List<ItemEntity> items = itemRepository.getShopItems(sortInput.getSortBy(),
-            sortInput.getSortDirection(),
+            sortInput.getSortDirection().name(),
             pagination.getPage(), pagination.getSize());
 
     AppLogger.info("Retrieved " + items.size() + " items for the shop");

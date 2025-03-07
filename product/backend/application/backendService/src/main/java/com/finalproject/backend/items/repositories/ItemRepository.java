@@ -78,10 +78,10 @@ public interface ItemRepository extends JpaRepository<ItemEntity, UUID> {
                                 @Param("pageSize") int pageSize);
 
 
-  @Query(value = "SELECT * FROM get_shop_items(:order_by, :order_direction, :page, :pageSize)",
+  @Query(value = "SELECT * FROM get_shop_items(:order_by, CAST(:order_direction AS sort_order_direction), :page, :pageSize)",
           nativeQuery = true)
   List<ItemEntity> getShopItems(@Param("order_by") String orderBy,
-                                @Param("order_direction") SortDirection orderDirection,
+                                @Param("order_direction") String orderDirection,
                                 @Param("page") int page,
                                 @Param("pageSize") int pageSize);
 
