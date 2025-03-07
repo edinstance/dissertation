@@ -3,6 +3,8 @@ package com.finalproject.backend.ItemsTests.ServiceTests;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.finalproject.backend.common.dto.PaginationInput;
+import com.finalproject.backend.common.dto.SortInput;
+import com.finalproject.backend.common.types.SortDirection;
 import com.finalproject.backend.items.dto.SearchedItemsResponse;
 import com.finalproject.backend.items.entities.ItemEntity;
 import com.finalproject.backend.items.helpers.ItemCacheHelpers;
@@ -62,6 +64,7 @@ public class ItemServiceTests {
   private UserEntity user;
   private ItemEntity item;
   private PaginationInput paginationInput;
+  private SortInput sortInput;
 
   @BeforeEach
   public void setUp() throws ParseException {
@@ -73,6 +76,7 @@ public class ItemServiceTests {
             "Category",
             List.of("image"), user);
     paginationInput = new PaginationInput();
+    sortInput = new SortInput("name", SortDirection.ASC);
   }
 
   @Test
@@ -247,5 +251,15 @@ public class ItemServiceTests {
     itemService.saveOrUpdateItem(item);
 
     verify(itemCacheHelpers).invalidateUserItems(user.getId());
+  }
+
+  @Test
+  public void testGetShopItems() {
+    when(itemRepository.getShopItems(sortInput.getSortBy(), sortInput.getSortDirection(), 0, 10 )).thenReturn(List.of(item));
+    when(itemRepository.getShopItemsPages(10)).thenReturn(2);
+
+    itemService.getShopItems(new PaginationInput(0, 10), sortInput);
+
+    verify(itemRepository, times(1)).getShopItems(sortInput.getSortBy(), sortInput.getSortDirection(),  0, 10);
   }
 }

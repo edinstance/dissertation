@@ -5,22 +5,24 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.finalproject.backend.common.config.logging.AppLogger;
 import com.finalproject.backend.common.dto.PaginationInput;
+import com.finalproject.backend.common.dto.SortInput;
 import com.finalproject.backend.common.helpers.AuthHelpers;
 import com.finalproject.backend.common.helpers.Pagination;
 import com.finalproject.backend.items.dto.SearchedItemsResponse;
 import com.finalproject.backend.items.entities.ItemEntity;
 import com.finalproject.backend.items.helpers.ItemCacheHelpers;
 import com.finalproject.backend.items.repositories.ItemRepository;
-import java.sql.Timestamp;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.List;
-import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.params.SetParams;
+
+import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.List;
+import java.util.UUID;
 
 /**
  * Service class for managing User entities.
@@ -92,7 +94,7 @@ public class ItemService {
       ItemEntity item = itemRepository.findById(id).orElse(null);
 
       AppLogger.info("Found item " + id + " in database");
-      
+
       if (item != null) {
         jedis.set("item:" + item.getId(), objectMapper.writeValueAsString(item),
                 SetParams.setParams().ex(300));
@@ -141,7 +143,8 @@ public class ItemService {
         AppLogger.info("Found user " + userId + " items in cache");
 
         items = objectMapper.readValue(cachedItems,
-                new TypeReference<>() {});
+                new TypeReference<>() {
+                });
 
         jedis.expire(key, 300);
       } else {
@@ -160,6 +163,19 @@ public class ItemService {
     return new SearchedItemsResponse(items, new Pagination(pagination.getPage(),
             pagination.getSize(), itemRepository.getUserItemsPages(userId,
             isActive, pagination.getSize())));
+
+  }
+
+  public SearchedItemsResponse getShopItems(final PaginationInput pagination,
+                                            final SortInput sortInput) {
+    List<ItemEntity> items = itemRepository.getShopItems(sortInput.getSortBy(),
+            sortInput.getSortDirection(),
+            pagination.getPage(), pagination.getSize());
+
+    AppLogger.info("Retrieved " + items.size() + " items for the shop");
+
+    return new SearchedItemsResponse(items, new Pagination(pagination.getPage(),
+            pagination.getSize(), itemRepository.getShopItemsPages(pagination.getSize())));
 
   }
 

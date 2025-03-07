@@ -1,19 +1,21 @@
 package com.finalproject.backend.items.repositories;
 
+import com.finalproject.backend.common.types.SortDirection;
 import com.finalproject.backend.items.entities.ItemEntity;
 import jakarta.transaction.Transactional;
-import java.math.BigDecimal;
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.math.BigDecimal;
+import java.util.Date;
+import java.util.List;
+import java.util.UUID;
+
 /**
  * Repository interface for managing item entities.
  */
-public interface ItemRepository  extends JpaRepository<ItemEntity, UUID> {
+public interface ItemRepository extends JpaRepository<ItemEntity, UUID> {
 
   /**
    * This query creates or updates an item.
@@ -62,23 +64,31 @@ public interface ItemRepository  extends JpaRepository<ItemEntity, UUID> {
   /**
    * This query gets all the items for a user.
    *
-   * @param userId The user id to search against.
+   * @param userId   The user id to search against.
    * @param isActive If the items are active or not.
-   * @param page The page of items to search for.
+   * @param page     The page of items to search for.
    * @param pageSize The size of the pages.
    * @return The items for the user.
    */
   @Query(value = "SELECT * FROM get_items_by_user(:userId, :isActive, :page, :pageSize)",
           nativeQuery = true)
   List<ItemEntity> getUserItems(@Param("userId") UUID userId,
-                        @Param("isActive") Boolean isActive,
-                        @Param("page") int page,
-                        @Param("pageSize") int pageSize);
+                                @Param("isActive") Boolean isActive,
+                                @Param("page") int page,
+                                @Param("pageSize") int pageSize);
+
+
+  @Query(value = "SELECT * FROM get_shop_items(:order_by, :order_direction, :page, :pageSize)",
+          nativeQuery = true)
+  List<ItemEntity> getShopItems(@Param("orderBy") String orderBy,
+                                @Param("order_direction") SortDirection orderDirection,
+                                @Param("page") int page,
+                                @Param("pageSize") int pageSize);
 
   /**
    * This query gets the total amount of pages for a user.
    *
-   * @param userId The user id to search against.
+   * @param userId   The user id to search against.
    * @param isActive If the items are active.
    * @param pageSize The page size.
    * @return The total amount of pages.
@@ -86,8 +96,8 @@ public interface ItemRepository  extends JpaRepository<ItemEntity, UUID> {
   @Query(value = "SELECT * FROM get_items_by_user_pages(:userId, :isActive, :pageSize)",
           nativeQuery = true)
   int getUserItemsPages(@Param("userId") UUID userId,
-                         @Param("isActive") Boolean isActive,
-                         @Param("pageSize") int pageSize);
+                        @Param("isActive") Boolean isActive,
+                        @Param("pageSize") int pageSize);
 
 
   /**
@@ -100,5 +110,15 @@ public interface ItemRepository  extends JpaRepository<ItemEntity, UUID> {
   @Query(value = "SELECT * FROM get_item_search_pages(:searchText, :pageSize)",
           nativeQuery = true)
   int getItemSearchPages(@Param("searchText") String searchText,
-                                  @Param("pageSize") int pageSize);
+                         @Param("pageSize") int pageSize);
+
+  /**
+   * This query gets the total amount of pages for the shop page.
+   *
+   * @param pageSize   The size of the page.
+   * @return The total amount of pages for the shop.
+   */
+  @Query(value = "SELECT * FROM get_shop_items_pages(:pageSize)",
+          nativeQuery = true)
+  int getShopItemsPages(@Param("pageSize") int pageSize);
 }
