@@ -80,7 +80,7 @@ public interface ItemRepository extends JpaRepository<ItemEntity, UUID> {
 
   @Query(value = "SELECT * FROM get_shop_items(:order_by, :order_direction, :page, :pageSize)",
           nativeQuery = true)
-  List<ItemEntity> getShopItems(@Param("orderBy") String orderBy,
+  List<ItemEntity> getShopItems(@Param("order_by") String orderBy,
                                 @Param("order_direction") SortDirection orderDirection,
                                 @Param("page") int page,
                                 @Param("pageSize") int pageSize);
