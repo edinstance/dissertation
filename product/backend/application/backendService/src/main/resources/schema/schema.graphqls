@@ -11,6 +11,11 @@ input PaginationInput {
     size: Int
 }
 
+input SortInput {
+    sortBy: String
+    direction: SortDirection
+}
+
 type Pagination {
     page: Int
     size: Int
@@ -22,7 +27,12 @@ type MutationResponse {
     message: String
 }
 
-enum SortOrder {
+type Sorting {
+    sortBy: String
+    direction: SortDirection
+}
+
+enum SortDirection {
     ASC
     DESC
 }
