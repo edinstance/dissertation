@@ -7,6 +7,7 @@ extend type Query {
     searchForItems(searchText: String, pagination: PaginationInput): SearchedItemsResponse
     getItemById(id: String!): Item
     getItemsByUser(id: String!, isActive: Boolean, pagination: PaginationInput): SearchedItemsResponse
+    getShopItems(pagination: PaginationInput, sorting: SortInput): SearchedItemsResponse
 }
 
 type SearchedItemsResponse {
