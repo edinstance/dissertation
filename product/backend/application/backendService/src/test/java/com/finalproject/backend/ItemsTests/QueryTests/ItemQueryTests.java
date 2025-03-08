@@ -3,6 +3,7 @@ package com.finalproject.backend.ItemsTests.QueryTests;
 import com.finalproject.backend.common.dto.PaginationInput;
 import com.finalproject.backend.common.dto.SortInput;
 import com.finalproject.backend.common.helpers.Pagination;
+import com.finalproject.backend.common.helpers.Sorting;
 import com.finalproject.backend.common.types.SortDirection;
 import com.finalproject.backend.items.dto.SearchedItemsResponse;
 import com.finalproject.backend.items.entities.ItemEntity;
@@ -164,7 +165,8 @@ public class ItemQueryTests {
   public void testGetItemsByUserPaginationSizeZero() {
     PaginationInput paginationInput = new PaginationInput(0, 0);
     when(itemService.getItemsByUser(eq(id), eq(true), any(PaginationInput.class)))
-            .thenReturn(new SearchedItemsResponse(List.of(item), new Pagination()));
+            .thenReturn(new SearchedItemsResponse(List.of(item), new Pagination(),
+                    new Sorting()));
 
     SearchedItemsResponse result = itemQueries.getItemsByUser(id.toString(), true, paginationInput);
 
@@ -201,7 +203,8 @@ public class ItemQueryTests {
     PaginationInput paginationInput = new PaginationInput();
     SortInput sortInput = new SortInput();
     when(itemService.getShopItems( paginationInput, sortInput))
-            .thenReturn(new SearchedItemsResponse(List.of(item), new Pagination()));
+            .thenReturn(new SearchedItemsResponse(List.of(item), new Pagination(),
+                    new Sorting()));
 
     SearchedItemsResponse result = itemQueries.getShopItems(paginationInput, sortInput);
 
@@ -213,7 +216,7 @@ public class ItemQueryTests {
   public void testGetShopItemsNullInputs() {
 
     when(itemService.getShopItems( any(PaginationInput.class), any(SortInput.class)))
-            .thenReturn(new SearchedItemsResponse(List.of(item), new Pagination()));
+            .thenReturn(new SearchedItemsResponse(List.of(item), new Pagination(), new Sorting()));
 
     SearchedItemsResponse result = itemQueries.getShopItems(null, null);
 
@@ -233,7 +236,8 @@ public class ItemQueryTests {
   public void testGetShopItemsPaginationSizeZero() {
 
     when(itemService.getShopItems( any(PaginationInput.class), any(SortInput.class)))
-            .thenReturn(new SearchedItemsResponse(List.of(item), new Pagination()));
+            .thenReturn(new SearchedItemsResponse(List.of(item), new Pagination(),
+                    new Sorting()));
 
     SearchedItemsResponse result = itemQueries.getShopItems(new PaginationInput(0,0), null);
 
@@ -250,7 +254,8 @@ public class ItemQueryTests {
   public void testGetShopItemsPaginationSizeNotZero() {
     PaginationInput paginationInput = new PaginationInput(0, 1);
     when(itemService.getShopItems( any(PaginationInput.class), any(SortInput.class)))
-            .thenReturn(new SearchedItemsResponse(List.of(item), new Pagination(0,1,10)));
+            .thenReturn(new SearchedItemsResponse(List.of(item), new Pagination(0,1,10),
+                    new Sorting("ending_time", SortDirection.ASC)));
 
     SearchedItemsResponse result = itemQueries.getShopItems(paginationInput, null);
 
@@ -261,5 +266,21 @@ public class ItemQueryTests {
     assert paginationCaptor.getValue().getSize() == 1;
     assert result.getItems().size() == 1;
     assert result.getItems().contains(item);
+  }
+
+  @Test
+  public void testGetShopItemsSortResult() {
+    PaginationInput paginationInput = new PaginationInput();
+    SortInput sortInput = new SortInput();
+    when(itemService.getShopItems( paginationInput, sortInput))
+            .thenReturn(new SearchedItemsResponse(List.of(item), new Pagination(),
+                    new Sorting("ending_time", SortDirection.ASC)));
+
+    SearchedItemsResponse result = itemQueries.getShopItems(paginationInput, sortInput);
+
+    assert result.getItems().size() == 1;
+    assert result.getItems().contains(item);
+    assert result.getSorting().getSortBy().equals("ending_time");
+    assert result.getSorting().getSortDirection() == SortDirection.ASC;
   }
 }

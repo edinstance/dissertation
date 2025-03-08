@@ -8,6 +8,7 @@ import com.finalproject.backend.common.dto.PaginationInput;
 import com.finalproject.backend.common.dto.SortInput;
 import com.finalproject.backend.common.helpers.AuthHelpers;
 import com.finalproject.backend.common.helpers.Pagination;
+import com.finalproject.backend.common.helpers.Sorting;
 import com.finalproject.backend.items.dto.SearchedItemsResponse;
 import com.finalproject.backend.items.entities.ItemEntity;
 import com.finalproject.backend.items.helpers.ItemCacheHelpers;
@@ -175,7 +176,8 @@ public class ItemService {
     AppLogger.info("Retrieved " + items.size() + " items for the shop");
 
     return new SearchedItemsResponse(items, new Pagination(pagination.getPage(),
-            pagination.getSize(), itemRepository.getShopItemsPages(pagination.getSize())));
+            pagination.getSize(), itemRepository.getShopItemsPages(pagination.getSize())),
+            new Sorting(sortInput.getSortBy(), sortInput.getSortDirection()));
 
   }
 

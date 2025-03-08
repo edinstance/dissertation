@@ -1,5 +1,6 @@
 package com.finalproject.backend.ItemsTests.dtoTests;
 
+import com.finalproject.backend.common.helpers.Sorting;
 import com.finalproject.backend.items.dto.SearchedItemsResponse;
 import com.finalproject.backend.items.entities.ItemEntity;
 import com.finalproject.backend.common.helpers.Pagination;
@@ -15,6 +16,7 @@ public class SearchedItemsResponseTests{
   private SearchedItemsResponse searchedItemsResponse;
   private final ItemEntity item = new ItemEntity();
   private final Pagination pagination = new Pagination();
+  private final Sorting sorting = new Sorting();
 
   @Test
   public void searchedItemsResponseDefaultConstructorTest(){
@@ -30,9 +32,16 @@ public class SearchedItemsResponseTests{
     assertNotNull(searchedItemsResponse);
   }
 
+  @Test
+  public void searchedItemsResponseSortingConstructorTest(){
+    searchedItemsResponse = new SearchedItemsResponse(List.of(item), pagination, sorting);
+
+    assertNotNull(searchedItemsResponse);
+  }
+
   @BeforeEach
   public void setUp(){
-    searchedItemsResponse = new SearchedItemsResponse(List.of(item), pagination);
+    searchedItemsResponse = new SearchedItemsResponse(List.of(item), pagination, sorting);
   }
 
   @Test
@@ -48,5 +57,11 @@ public class SearchedItemsResponseTests{
     searchedItemsResponse.setPagination(pagination);
 
     assert searchedItemsResponse.getPagination().equals(pagination);
+  }
+
+  @Test
+  public void sortingMethodsTest(){
+    searchedItemsResponse.setSorting(sorting);
+    assert searchedItemsResponse.getSorting().equals(sorting);
   }
 }

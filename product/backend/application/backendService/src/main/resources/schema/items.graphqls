@@ -13,6 +13,7 @@ extend type Query {
 type SearchedItemsResponse {
     items: [Item]
     pagination: Pagination
+    sorting: Sorting
 }
 
 input ItemInput {

@@ -13,7 +13,7 @@ input PaginationInput {
 
 input SortInput {
     sortBy: String
-    direction: SortDirection
+    sortDirection: SortDirection
 }
 
 type Pagination {
@@ -29,7 +29,7 @@ type MutationResponse {
 
 type Sorting {
     sortBy: String
-    direction: SortDirection
+    sortDirection: SortDirection
 }
 
 enum SortDirection {
