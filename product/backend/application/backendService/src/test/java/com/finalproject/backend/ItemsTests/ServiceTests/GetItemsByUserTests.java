@@ -1,6 +1,5 @@
 package com.finalproject.backend.ItemsTests.ServiceTests;
 
-import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.finalproject.backend.common.dto.PaginationInput;
 import org.junit.jupiter.api.Test;
@@ -8,7 +7,6 @@ import redis.clients.jedis.params.SetParams;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 

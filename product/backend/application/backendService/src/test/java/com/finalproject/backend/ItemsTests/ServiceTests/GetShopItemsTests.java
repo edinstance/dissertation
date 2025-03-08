@@ -11,11 +11,11 @@ public class GetShopItemsTests extends SetupServiceTests {
 
   @Test
   public void testGetShopItems() {
-    when(itemRepository.getShopItems(sortInput.getSortBy(), sortInput.getSortDirection().name(), 0, 10 )).thenReturn(List.of(item));
+    when(itemRepository.getShopItems(sortInput.getSortBy(), sortInput.getSortDirection().name(), 0, 10)).thenReturn(List.of(item));
     when(itemRepository.getShopItemsPages(10)).thenReturn(2);
 
     itemService.getShopItems(new PaginationInput(0, 10), sortInput);
 
-    verify(itemRepository, times(1)).getShopItems(sortInput.getSortBy(), sortInput.getSortDirection().name(),  0, 10);
+    verify(itemRepository, times(1)).getShopItems(sortInput.getSortBy(), sortInput.getSortDirection().name(), 0, 10);
   }
 }

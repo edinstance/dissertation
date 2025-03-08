@@ -29,7 +29,7 @@ public class SortInputTests {
 
   @BeforeEach
   void setUp() {
-    sortInput = new SortInput("date", SortDirection.ASC );
+    sortInput = new SortInput("date", SortDirection.ASC);
   }
 
   @Test

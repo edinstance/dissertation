@@ -11,7 +11,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
-public class SearchForItemsTests extends  SetupServiceTests {
+public class SearchForItemsTests extends SetupServiceTests {
 
   @Test
   public void testSearchForItems() {
@@ -19,11 +19,11 @@ public class SearchForItemsTests extends  SetupServiceTests {
             paginationInput.getPage(), paginationInput.getSize())).thenReturn(List.of(item));
 
     assert itemService.searchForItemsByName("Item Name", paginationInput, sortInput).getItems().contains(item);
-    verify(itemRepository).searchForItems("Item Name", "name", SortDirection.ASC,0, 0);
+    verify(itemRepository).searchForItems("Item Name", "name", SortDirection.ASC, 0, 0);
   }
 
   @Test
-  public void testCustomSearchPagination(){
+  public void testCustomSearchPagination() {
     when(itemRepository.searchForItems("Item Name", sortInput.getSortBy(), sortInput.getSortDirection(), 2, 3)).thenReturn(List.of(item));
 
     SearchedItemsResponse searchedItemsResponse = itemService.searchForItemsByName("Item Name", new PaginationInput(2, 3), sortInput);
@@ -33,7 +33,7 @@ public class SearchForItemsTests extends  SetupServiceTests {
   }
 
   @Test
-  public void testCustomSearchSorting(){
+  public void testCustomSearchSorting() {
     when(itemRepository.searchForItems("Item Name", "price", SortDirection.DESC, 2, 3)).thenReturn(List.of(item));
 
     SearchedItemsResponse searchedItemsResponse = itemService.searchForItemsByName("Item Name", new PaginationInput(2, 3), new SortInput("price", SortDirection.DESC));

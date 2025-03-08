@@ -16,13 +16,13 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-public class SearchForItemsTests extends SetupQueryTests{
+public class SearchForItemsTests extends SetupQueryTests {
 
   @Test
   public void testSearchForItem() {
     PaginationInput paginationInput = new PaginationInput();
     SortInput sortInput = new SortInput();
-    when(itemService.searchForItemsByName("name", paginationInput,sortInput ))
+    when(itemService.searchForItemsByName("name", paginationInput, sortInput))
             .thenReturn(new SearchedItemsResponse(List.of(item), new Pagination(), new Sorting()));
 
     SearchedItemsResponse result = itemQueries.searchForItems("name",
@@ -79,10 +79,10 @@ public class SearchForItemsTests extends SetupQueryTests{
     when(itemService.searchForItemsByName(eq("name"), any(PaginationInput.class), any(SortInput.class)))
             .thenReturn(new SearchedItemsResponse(List.of(item), new Pagination(0, 12, 1)));
 
-    SearchedItemsResponse result = itemQueries.searchForItems("name", new SortInput() ,new PaginationInput(0, 12));
+    SearchedItemsResponse result = itemQueries.searchForItems("name", new SortInput(), new PaginationInput(0, 12));
 
     ArgumentCaptor<PaginationInput> paginationCaptor = ArgumentCaptor.forClass(PaginationInput.class);
-    verify(itemService).searchForItemsByName(eq("name"), paginationCaptor.capture(),any(SortInput.class));
+    verify(itemService).searchForItemsByName(eq("name"), paginationCaptor.capture(), any(SortInput.class));
 
     PaginationInput capturedPagination = paginationCaptor.getValue();
     assert capturedPagination.getPage() == 0;
@@ -97,7 +97,7 @@ public class SearchForItemsTests extends SetupQueryTests{
   public void testSearchForItemsSorting() {
     PaginationInput paginationInput = new PaginationInput();
     SortInput sortInput = new SortInput("price", SortDirection.ASC);
-    when(itemService.searchForItemsByName("name", paginationInput, sortInput ))
+    when(itemService.searchForItemsByName("name", paginationInput, sortInput))
             .thenReturn(new SearchedItemsResponse(List.of(item), new Pagination(), new Sorting("price", SortDirection.ASC)));
 
     SearchedItemsResponse result = itemQueries.searchForItems("name",
@@ -114,7 +114,7 @@ public class SearchForItemsTests extends SetupQueryTests{
     when(itemService.searchForItemsByName(eq("name"), any(PaginationInput.class), any(SortInput.class)))
             .thenReturn(new SearchedItemsResponse(List.of(item), new Pagination(0, 12, 1), new Sorting()));
 
-    SearchedItemsResponse result = itemQueries.searchForItems("name",null ,new PaginationInput(0, 12));
+    SearchedItemsResponse result = itemQueries.searchForItems("name", null, new PaginationInput(0, 12));
 
     ArgumentCaptor<SortInput> sortCaptor = ArgumentCaptor.forClass(SortInput.class);
     verify(itemService).searchForItemsByName(eq("name"), any(PaginationInput.class), sortCaptor.capture());

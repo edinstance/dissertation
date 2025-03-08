@@ -9,7 +9,7 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.Mockito.*;
 
-public class GetItemByIdTests extends SetupServiceTests{
+public class GetItemByIdTests extends SetupServiceTests {
 
   @Test
   public void testGetItemById() {

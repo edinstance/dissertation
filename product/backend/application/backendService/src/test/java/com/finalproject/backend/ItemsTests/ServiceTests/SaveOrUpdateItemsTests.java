@@ -9,9 +9,7 @@ import java.sql.Timestamp;
 import java.text.ParseException;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 
 public class SaveOrUpdateItemsTests extends SetupServiceTests {
@@ -30,7 +28,7 @@ public class SaveOrUpdateItemsTests extends SetupServiceTests {
             item.getStock(),
             item.getCategory(),
             objectMapper.writeValueAsString(item.getImages()),
-            user.getId())).thenReturn(item);;
+            user.getId())).thenReturn(item);
 
     when(jedisPool.getResource()).thenReturn(jedis);
 

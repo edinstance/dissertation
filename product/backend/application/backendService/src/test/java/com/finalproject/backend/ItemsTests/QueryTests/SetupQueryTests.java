@@ -18,14 +18,12 @@ import java.util.UUID;
 @ExtendWith(MockitoExtension.class)
 public class SetupQueryTests {
 
+  public ItemEntity item;
+  public UUID id;
   @Mock
   ItemService itemService;
-
   @InjectMocks
   ItemQueries itemQueries;
-  public ItemEntity item;
-
-  public UUID id;
 
   @BeforeEach
   void setUp() {
