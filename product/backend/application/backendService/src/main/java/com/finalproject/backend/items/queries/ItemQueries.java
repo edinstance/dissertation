@@ -102,11 +102,18 @@ public class ItemQueries {
     return itemService.getItemsByUser(UUID.fromString(id), isActive, pagination);
   }
 
+  /**
+   * This query gets the shop items.
+   *
+   * @param pagination The pagination information.
+   * @param sorting The sorting information.
+   * @return The items for the shop.
+   */
   @DgsQuery
   public SearchedItemsResponse getShopItems(
           @InputArgument PaginationInput pagination,
           @InputArgument SortInput sorting
-  ){
+  ) {
 
     if (pagination == null) {
       pagination = new PaginationInput(0, 10);

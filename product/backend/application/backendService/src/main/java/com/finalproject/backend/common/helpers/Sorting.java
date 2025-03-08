@@ -24,7 +24,7 @@ public class Sorting {
   /**
    * Default constructor.
    */
-  public Sorting(){
+  public Sorting() {
 
   }
 

@@ -3,14 +3,13 @@ package com.finalproject.backend.items.repositories;
 import com.finalproject.backend.common.types.SortDirection;
 import com.finalproject.backend.items.entities.ItemEntity;
 import jakarta.transaction.Transactional;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
-
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 /**
  * Repository interface for managing item entities.
@@ -55,8 +54,8 @@ public interface ItemRepository extends JpaRepository<ItemEntity, UUID> {
    * @param pageSize   The size of the page.
    * @return A list of items that match the search text.
    */
-  @Query(value = "SELECT * FROM search_for_items(:searchText, :order_by, " +
-          "CAST(:order_direction AS sort_order_direction), :page, :pageSize)",
+  @Query(value = "SELECT * FROM search_for_items(:searchText, :order_by, "
+          + "CAST(:order_direction AS sort_order_direction), :page, :pageSize)",
           nativeQuery = true)
   List<ItemEntity> searchForItems(@Param("searchText") String searchText,
                                   @Param("order_by") String orderBy,
@@ -81,7 +80,17 @@ public interface ItemRepository extends JpaRepository<ItemEntity, UUID> {
                                 @Param("pageSize") int pageSize);
 
 
-  @Query(value = "SELECT * FROM get_shop_items(:order_by, CAST(:order_direction AS sort_order_direction), :page, :pageSize)",
+  /**
+   * This query gets the shop items.
+   *
+   * @param orderBy What to order the items on.
+   * @param orderDirection Which direction to order the items.
+   * @param page The current page.
+   * @param pageSize The size of the page.
+   * @return The shops items.
+   */
+  @Query(value = "SELECT * FROM get_shop_items(:order_by, "
+          + "CAST(:order_direction AS sort_order_direction), :page, :pageSize)",
           nativeQuery = true)
   List<ItemEntity> getShopItems(@Param("order_by") String orderBy,
                                 @Param("order_direction") String orderDirection,

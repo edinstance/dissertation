@@ -13,17 +13,16 @@ import com.finalproject.backend.items.dto.SearchedItemsResponse;
 import com.finalproject.backend.items.entities.ItemEntity;
 import com.finalproject.backend.items.helpers.ItemCacheHelpers;
 import com.finalproject.backend.items.repositories.ItemRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import redis.clients.jedis.Jedis;
-import redis.clients.jedis.JedisPool;
-import redis.clients.jedis.params.SetParams;
-
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.UUID;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import redis.clients.jedis.Jedis;
+import redis.clients.jedis.JedisPool;
+import redis.clients.jedis.params.SetParams;
 
 /**
  * Service class for managing User entities.
@@ -147,7 +146,8 @@ public class ItemService {
 
         items = objectMapper.readValue(cachedItems,
                 new TypeReference<>() {
-                });
+          }
+        );
 
         jedis.expire(key, 300);
       } else {
@@ -170,6 +170,13 @@ public class ItemService {
 
   }
 
+  /**
+   * This function gets the shop items and returns them.
+   *
+   * @param pagination The pagination information.
+   * @param sortInput The sort information.
+   * @return The shop items.
+   */
   public SearchedItemsResponse getShopItems(final PaginationInput pagination,
                                             final SortInput sortInput) {
     List<ItemEntity> items = itemRepository.getShopItems(sortInput.getSortBy(),

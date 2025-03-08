@@ -25,7 +25,7 @@ public class SearchedItemsResponse {
   private Pagination pagination;
 
   /**
-   * The sorting information
+   * The sorting information.
    */
   private Sorting sorting;
 
