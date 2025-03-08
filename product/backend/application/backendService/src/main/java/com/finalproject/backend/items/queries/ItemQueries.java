@@ -53,6 +53,7 @@ public class ItemQueries {
   @DgsQuery
   public SearchedItemsResponse searchForItems(
           @InputArgument String searchText,
+          @InputArgument SortInput sorting,
           @InputArgument PaginationInput pagination) {
 
     if (pagination == null) {
@@ -63,7 +64,12 @@ public class ItemQueries {
       }
     }
 
-    return itemService.searchForItemsByName(searchText, pagination);
+    if (sorting == null) {
+      sorting = new SortInput("ending_time", SortDirection.ASC);
+    }
+
+
+    return itemService.searchForItemsByName(searchText, pagination, sorting);
 
   }
 

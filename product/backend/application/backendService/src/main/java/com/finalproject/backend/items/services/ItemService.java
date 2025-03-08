@@ -116,8 +116,10 @@ public class ItemService {
    * @return The items found and the pagination information.
    */
   public SearchedItemsResponse searchForItemsByName(final String searchText,
-                                                    final PaginationInput pagination) {
+                                    final PaginationInput pagination, final SortInput sort
+  ) {
     return new SearchedItemsResponse(itemRepository.searchForItems(searchText,
+            sort.getSortBy(), sort.getSortDirection(),
             pagination.getPage(), pagination.getSize()),
             new Pagination(pagination.getPage(), pagination.getSize(),
                     itemRepository.getItemSearchPages(searchText,
@@ -158,6 +160,7 @@ public class ItemService {
                 SetParams.setParams().ex(300));
       }
     } catch (JsonProcessingException e) {
+      AppLogger.error("Error while finding items for " + userId, e);
       throw new RuntimeException(e);
     }
 

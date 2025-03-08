@@ -55,9 +55,12 @@ public interface ItemRepository extends JpaRepository<ItemEntity, UUID> {
    * @param pageSize   The size of the page.
    * @return A list of items that match the search text.
    */
-  @Query(value = "SELECT * FROM search_for_items(:searchText, :page, :pageSize)",
+  @Query(value = "SELECT * FROM search_for_items(:searchText, :order_by, " +
+          "CAST(:order_direction AS sort_order_direction), :page, :pageSize)",
           nativeQuery = true)
   List<ItemEntity> searchForItems(@Param("searchText") String searchText,
+                                  @Param("order_by") String orderBy,
+                                  @Param("order_direction") SortDirection orderDirection,
                                   @Param("page") int page,
                                   @Param("pageSize") int pageSize);
 
