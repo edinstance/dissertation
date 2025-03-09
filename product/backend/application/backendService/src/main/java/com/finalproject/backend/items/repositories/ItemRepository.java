@@ -59,7 +59,7 @@ public interface ItemRepository extends JpaRepository<ItemEntity, UUID> {
           nativeQuery = true)
   List<ItemEntity> searchForItems(@Param("searchText") String searchText,
                                   @Param("order_by") String orderBy,
-                                  @Param("order_direction") SortDirection orderDirection,
+                                  @Param("order_direction") String orderDirection,
                                   @Param("page") int page,
                                   @Param("pageSize") int pageSize);
 

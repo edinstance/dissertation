@@ -118,7 +118,7 @@ public class ItemService {
                                     final PaginationInput pagination, final SortInput sort
   ) {
     return new SearchedItemsResponse(itemRepository.searchForItems(searchText,
-            sort.getSortBy(), sort.getSortDirection(),
+            sort.getSortBy(), sort.getSortDirection().name(),
             pagination.getPage(), pagination.getSize()),
             new Pagination(pagination.getPage(), pagination.getSize(),
                     itemRepository.getItemSearchPages(searchText,
