@@ -5,8 +5,10 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.finalproject.backend.common.config.logging.AppLogger;
 import com.finalproject.backend.common.dto.PaginationInput;
+import com.finalproject.backend.common.dto.SortInput;
 import com.finalproject.backend.common.helpers.AuthHelpers;
 import com.finalproject.backend.common.helpers.Pagination;
+import com.finalproject.backend.common.helpers.Sorting;
 import com.finalproject.backend.items.dto.SearchedItemsResponse;
 import com.finalproject.backend.items.entities.ItemEntity;
 import com.finalproject.backend.items.helpers.ItemCacheHelpers;
@@ -92,7 +94,7 @@ public class ItemService {
       ItemEntity item = itemRepository.findById(id).orElse(null);
 
       AppLogger.info("Found item " + id + " in database");
-      
+
       if (item != null) {
         jedis.set("item:" + item.getId(), objectMapper.writeValueAsString(item),
                 SetParams.setParams().ex(300));
@@ -113,8 +115,10 @@ public class ItemService {
    * @return The items found and the pagination information.
    */
   public SearchedItemsResponse searchForItemsByName(final String searchText,
-                                                    final PaginationInput pagination) {
+                                    final PaginationInput pagination, final SortInput sort
+  ) {
     return new SearchedItemsResponse(itemRepository.searchForItems(searchText,
+            sort.getSortBy(), sort.getSortDirection().name(),
             pagination.getPage(), pagination.getSize()),
             new Pagination(pagination.getPage(), pagination.getSize(),
                     itemRepository.getItemSearchPages(searchText,
@@ -141,7 +145,9 @@ public class ItemService {
         AppLogger.info("Found user " + userId + " items in cache");
 
         items = objectMapper.readValue(cachedItems,
-                new TypeReference<>() {});
+                new TypeReference<>() {
+          }
+        );
 
         jedis.expire(key, 300);
       } else {
@@ -154,12 +160,34 @@ public class ItemService {
                 SetParams.setParams().ex(300));
       }
     } catch (JsonProcessingException e) {
+      AppLogger.error("Error while finding items for " + userId, e);
       throw new RuntimeException(e);
     }
 
     return new SearchedItemsResponse(items, new Pagination(pagination.getPage(),
             pagination.getSize(), itemRepository.getUserItemsPages(userId,
             isActive, pagination.getSize())));
+
+  }
+
+  /**
+   * This function gets the shop items and returns them.
+   *
+   * @param pagination The pagination information.
+   * @param sortInput The sort information.
+   * @return The shop items.
+   */
+  public SearchedItemsResponse getShopItems(final PaginationInput pagination,
+                                            final SortInput sortInput) {
+    List<ItemEntity> items = itemRepository.getShopItems(sortInput.getSortBy(),
+            sortInput.getSortDirection().name(),
+            pagination.getPage(), pagination.getSize());
+
+    AppLogger.info("Retrieved " + items.size() + " items for the shop");
+
+    return new SearchedItemsResponse(items, new Pagination(pagination.getPage(),
+            pagination.getSize(), itemRepository.getShopItemsPages(pagination.getSize())),
+            new Sorting(sortInput.getSortBy(), sortInput.getSortDirection()));
 
   }
 

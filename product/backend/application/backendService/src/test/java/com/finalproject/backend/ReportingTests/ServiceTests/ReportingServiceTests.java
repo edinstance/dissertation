@@ -1,9 +1,9 @@
 package com.finalproject.backend.ReportingTests.ServiceTests;
 
-import com.finalproject.backend.reporting.config.jira.JiraClient;
-import com.finalproject.backend.users.entities.UserEntity;
 import com.finalproject.backend.common.helpers.AuthHelpers;
+import com.finalproject.backend.reporting.config.jira.JiraClient;
 import com.finalproject.backend.reporting.services.ReportingService;
+import com.finalproject.backend.users.entities.UserEntity;
 import com.finalproject.backend.users.services.UserService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

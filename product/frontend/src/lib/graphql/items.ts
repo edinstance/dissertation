@@ -1,8 +1,16 @@
 import { graphql } from "@/gql";
 
 export const SEARCH_FOR_ITEMS = graphql(`
-  query SearchItems($searchText: String) {
-    searchForItems(searchText: $searchText) {
+  query SearchItems(
+    $searchText: String
+    $pagination: PaginationInput
+    $sorting: SortInput
+  ) {
+    searchForItems(
+      searchText: $searchText
+      pagination: $pagination
+      sorting: $sorting
+    ) {
       items {
         id
         name
@@ -18,6 +26,47 @@ export const SEARCH_FOR_ITEMS = graphql(`
           name
           email
         }
+      }
+      pagination {
+        total
+        page
+        size
+      }
+      sorting {
+        sortBy
+        sortDirection
+      }
+    }
+  }
+`);
+
+export const GET_SHOP_ITEMS = graphql(`
+  query getShopItems($pagination: PaginationInput, $sorting: SortInput) {
+    getShopItems(pagination: $pagination, sorting: $sorting) {
+      items {
+        id
+        name
+        description
+        isActive
+        endingTime
+        price
+        stock
+        category
+        images
+        seller {
+          id
+          name
+          email
+        }
+      }
+      pagination {
+        total
+        page
+        size
+      }
+      sorting {
+        sortBy
+        sortDirection
       }
     }
   }
