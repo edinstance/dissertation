@@ -40,3 +40,9 @@ type Item {
     images: [String]
     seller: User
 }
+
+enum ItemSortOptions {
+    PRICE
+    ENDING_TIME
+    STOCK
+}
