@@ -40,6 +40,44 @@ export const SEARCH_FOR_ITEMS = graphql(`
   }
 `);
 
+export const GET_SHOP_ITEMS = graphql(`
+  query getShopItems(
+    $pagination: PaginationInput
+    $sorting: SortInput
+  ) {
+    getShopItems(
+      pagination: $pagination
+      sorting: $sorting
+    ) {
+      items {
+        id
+        name
+        description
+        isActive
+        endingTime
+        price
+        stock
+        category
+        images
+        seller {
+          id
+          name
+          email
+        }
+      }
+      pagination {
+        total
+        page
+        size
+      }
+      sorting {
+        sortBy
+        sortDirection
+      }
+    }
+  }
+`);
+
 export const GET_ITEM_BY_ID_QUERY = graphql(`
   query GetItemById($id: String!) {
     getItemById(id: $id) {

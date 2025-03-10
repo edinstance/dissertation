@@ -5,7 +5,7 @@ import { SearchBar } from "@/components/Search";
 import LoadingSpinner from "@/components/ui/LoadingSpinner";
 import Pagination from "@/components/ui/Pagination";
 import { Item, SortDirection, Sorting } from "@/gql/graphql";
-import { SEARCH_FOR_ITEMS } from "@/lib/graphql/items";
+import { GET_SHOP_ITEMS, SEARCH_FOR_ITEMS } from "@/lib/graphql/items";
 import { useSearchStore } from "@/stores/SearchStore";
 import { useLazyQuery } from "@apollo/client";
 import { useEffect, useState } from "react";
@@ -19,14 +19,34 @@ import { useEffect, useState } from "react";
  */
 export default function Shop() {
   const { debouncedQuery, currentPage, setCurrentPage } = useSearchStore();
-  const [executeSearch, { data, loading }] = useLazyQuery(SEARCH_FOR_ITEMS);
+  const [
+    executeSearch,
+    { data: searchItemsData, loading: searchItemsLoading },
+  ] = useLazyQuery(SEARCH_FOR_ITEMS);
+  const [getShopItems, { data: shopItemsData, loading: shopItemsLoading }] =
+    useLazyQuery(GET_SHOP_ITEMS);
+
   const [sorting, setSorting] = useState<Sorting>({
     sortBy: "ending_time",
     sortDirection: SortDirection.Asc,
   });
 
+  const isSearchMode = debouncedQuery.trim().length > 0;
+  const loading = isSearchMode ? searchItemsLoading : shopItemsLoading;
+
+  const getResults = () => {
+    if (isSearchMode && searchItemsData?.searchForItems) {
+      return searchItemsData.searchForItems;
+    } else if (!isSearchMode && shopItemsData?.getShopItems) {
+      return shopItemsData.getShopItems;
+    }
+    return null;
+  };
+
+  const results = getResults();
+
   useEffect(() => {
-    if (debouncedQuery.trim()) {
+    if (isSearchMode) {
       executeSearch({
         variables: {
           searchText: debouncedQuery,
@@ -34,12 +54,28 @@ export default function Shop() {
           sorting: sorting,
         },
       });
+    } else {
+      getShopItems({
+        variables: {
+          pagination: { page: currentPage },
+          sorting: sorting,
+        },
+      });
     }
-  }, [debouncedQuery, currentPage, executeSearch, sorting]);
-
-  const results = data?.searchForItems;
+  }, [
+    debouncedQuery,
+    currentPage,
+    executeSearch,
+    getShopItems,
+    isSearchMode,
+    sorting,
+  ]);
 
   const hasResults = results?.items && results.items.length > 0;
+
+  const filteredItems = results?.items
+    ? results.items.filter((item): item is Item => item !== null)
+    : [];
 
   return (
     <div className="flex min-h-screen flex-col bg-zinc-100 pt-16 dark:bg-zinc-900">
@@ -58,12 +94,7 @@ export default function Shop() {
       <div className="max-w-7xl flex-grow px-4 pt-24 text-black dark:text-white">
         {loading && <LoadingSpinner />}
         {hasResults ? (
-          <ResultsList
-            items={
-              results?.items?.filter((item): item is Item => item !== null) ??
-              []
-            }
-          />
+          <ResultsList items={filteredItems} />
         ) : (
           !loading && <p>No results found.</p>
         )}

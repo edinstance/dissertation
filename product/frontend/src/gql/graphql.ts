@@ -483,6 +483,47 @@ export type SearchItemsQuery = {
   } | null;
 };
 
+export type GetShopItemsQueryVariables = Exact<{
+  pagination?: InputMaybe<PaginationInput>;
+  sorting?: InputMaybe<SortInput>;
+}>;
+
+export type GetShopItemsQuery = {
+  __typename?: "Query";
+  getShopItems?: {
+    __typename?: "SearchedItemsResponse";
+    items?: Array<{
+      __typename?: "Item";
+      id?: string | null;
+      name?: string | null;
+      description?: string | null;
+      isActive?: boolean | null;
+      endingTime?: string | null;
+      price?: number | null;
+      stock?: number | null;
+      category?: string | null;
+      images?: Array<string | null> | null;
+      seller?: {
+        __typename?: "User";
+        id: string;
+        name?: string | null;
+        email: string;
+      } | null;
+    } | null> | null;
+    pagination?: {
+      __typename?: "Pagination";
+      total?: number | null;
+      page?: number | null;
+      size?: number | null;
+    } | null;
+    sorting?: {
+      __typename?: "Sorting";
+      sortBy?: string | null;
+      sortDirection?: SortDirection | null;
+    } | null;
+  } | null;
+};
+
 export type GetItemByIdQueryVariables = Exact<{
   id: Scalars["String"]["input"];
 }>;
@@ -811,6 +852,155 @@ export const SearchItemsDocument = {
     },
   ],
 } as unknown as DocumentNode<SearchItemsQuery, SearchItemsQueryVariables>;
+export const GetShopItemsDocument = {
+  kind: "Document",
+  definitions: [
+    {
+      kind: "OperationDefinition",
+      operation: "query",
+      name: { kind: "Name", value: "getShopItems" },
+      variableDefinitions: [
+        {
+          kind: "VariableDefinition",
+          variable: {
+            kind: "Variable",
+            name: { kind: "Name", value: "pagination" },
+          },
+          type: {
+            kind: "NamedType",
+            name: { kind: "Name", value: "PaginationInput" },
+          },
+        },
+        {
+          kind: "VariableDefinition",
+          variable: {
+            kind: "Variable",
+            name: { kind: "Name", value: "sorting" },
+          },
+          type: {
+            kind: "NamedType",
+            name: { kind: "Name", value: "SortInput" },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "getShopItems" },
+            arguments: [
+              {
+                kind: "Argument",
+                name: { kind: "Name", value: "pagination" },
+                value: {
+                  kind: "Variable",
+                  name: { kind: "Name", value: "pagination" },
+                },
+              },
+              {
+                kind: "Argument",
+                name: { kind: "Name", value: "sorting" },
+                value: {
+                  kind: "Variable",
+                  name: { kind: "Name", value: "sorting" },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "items" },
+                  selectionSet: {
+                    kind: "SelectionSet",
+                    selections: [
+                      { kind: "Field", name: { kind: "Name", value: "id" } },
+                      { kind: "Field", name: { kind: "Name", value: "name" } },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "description" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "isActive" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "endingTime" },
+                      },
+                      { kind: "Field", name: { kind: "Name", value: "price" } },
+                      { kind: "Field", name: { kind: "Name", value: "stock" } },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "category" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "images" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "seller" },
+                        selectionSet: {
+                          kind: "SelectionSet",
+                          selections: [
+                            {
+                              kind: "Field",
+                              name: { kind: "Name", value: "id" },
+                            },
+                            {
+                              kind: "Field",
+                              name: { kind: "Name", value: "name" },
+                            },
+                            {
+                              kind: "Field",
+                              name: { kind: "Name", value: "email" },
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "pagination" },
+                  selectionSet: {
+                    kind: "SelectionSet",
+                    selections: [
+                      { kind: "Field", name: { kind: "Name", value: "total" } },
+                      { kind: "Field", name: { kind: "Name", value: "page" } },
+                      { kind: "Field", name: { kind: "Name", value: "size" } },
+                    ],
+                  },
+                },
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "sorting" },
+                  selectionSet: {
+                    kind: "SelectionSet",
+                    selections: [
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "sortBy" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "sortDirection" },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<GetShopItemsQuery, GetShopItemsQueryVariables>;
 export const GetItemByIdDocument = {
   kind: "Document",
   definitions: [
