@@ -40,8 +40,13 @@ export function SearchBar({
     setCurrentPage(0);
   };
 
+  const handleSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
+    setDebouncedQuery(searchQuery);
+  };
+
   return (
-    <form className={`w-full max-w-md ${className}`}>
+    <form className={`w-full max-w-md ${className}`} onSubmit={handleSubmit}>
       <div className="relative">
         <div
           className={`pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 transition-opacity duration-200 ${

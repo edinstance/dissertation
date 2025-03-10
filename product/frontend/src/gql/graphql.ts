@@ -295,6 +295,12 @@ export type ItemInput = {
   stock?: InputMaybe<Scalars["Int"]["input"]>;
 };
 
+export enum ItemSortOptions {
+  EndingTime = "ENDING_TIME",
+  Price = "PRICE",
+  Stock = "STOCK",
+}
+
 export type Mutation = {
   __typename?: "Mutation";
   createUser?: Maybe<User>;
@@ -345,6 +351,7 @@ export type Query = {
   _service: _Service;
   getItemById?: Maybe<Item>;
   getItemsByUser?: Maybe<SearchedItemsResponse>;
+  getShopItems?: Maybe<SearchedItemsResponse>;
   getUser?: Maybe<User>;
   searchForItems?: Maybe<SearchedItemsResponse>;
 };
@@ -359,15 +366,38 @@ export type QueryGetItemsByUserArgs = {
   pagination?: InputMaybe<PaginationInput>;
 };
 
+export type QueryGetShopItemsArgs = {
+  pagination?: InputMaybe<PaginationInput>;
+  sorting?: InputMaybe<SortInput>;
+};
+
 export type QuerySearchForItemsArgs = {
   pagination?: InputMaybe<PaginationInput>;
   searchText?: InputMaybe<Scalars["String"]["input"]>;
+  sorting?: InputMaybe<SortInput>;
 };
 
 export type SearchedItemsResponse = {
   __typename?: "SearchedItemsResponse";
   items?: Maybe<Array<Maybe<Item>>>;
   pagination?: Maybe<Pagination>;
+  sorting?: Maybe<Sorting>;
+};
+
+export enum SortDirection {
+  Asc = "ASC",
+  Desc = "DESC",
+}
+
+export type SortInput = {
+  sortBy?: InputMaybe<Scalars["String"]["input"]>;
+  sortDirection?: InputMaybe<SortDirection>;
+};
+
+export type Sorting = {
+  __typename?: "Sorting";
+  sortBy?: Maybe<Scalars["String"]["output"]>;
+  sortDirection?: Maybe<SortDirection>;
 };
 
 export type User = {
@@ -414,6 +444,7 @@ export type _Service = {
 export type SearchItemsQueryVariables = Exact<{
   searchText?: InputMaybe<Scalars["String"]["input"]>;
   pagination?: InputMaybe<PaginationInput>;
+  sorting?: InputMaybe<SortInput>;
 }>;
 
 export type SearchItemsQuery = {
@@ -443,6 +474,11 @@ export type SearchItemsQuery = {
       total?: number | null;
       page?: number | null;
       size?: number | null;
+    } | null;
+    sorting?: {
+      __typename?: "Sorting";
+      sortBy?: string | null;
+      sortDirection?: SortDirection | null;
     } | null;
   } | null;
 };
@@ -496,6 +532,11 @@ export type GetItemsByUserQuery = {
       total?: number | null;
       page?: number | null;
       size?: number | null;
+    } | null;
+    sorting?: {
+      __typename?: "Sorting";
+      sortBy?: string | null;
+      sortDirection?: SortDirection | null;
     } | null;
   } | null;
 };
@@ -632,6 +673,17 @@ export const SearchItemsDocument = {
             name: { kind: "Name", value: "PaginationInput" },
           },
         },
+        {
+          kind: "VariableDefinition",
+          variable: {
+            kind: "Variable",
+            name: { kind: "Name", value: "sorting" },
+          },
+          type: {
+            kind: "NamedType",
+            name: { kind: "Name", value: "SortInput" },
+          },
+        },
       ],
       selectionSet: {
         kind: "SelectionSet",
@@ -654,6 +706,14 @@ export const SearchItemsDocument = {
                 value: {
                   kind: "Variable",
                   name: { kind: "Name", value: "pagination" },
+                },
+              },
+              {
+                kind: "Argument",
+                name: { kind: "Name", value: "sorting" },
+                value: {
+                  kind: "Variable",
+                  name: { kind: "Name", value: "sorting" },
                 },
               },
             ],
@@ -723,6 +783,23 @@ export const SearchItemsDocument = {
                       { kind: "Field", name: { kind: "Name", value: "total" } },
                       { kind: "Field", name: { kind: "Name", value: "page" } },
                       { kind: "Field", name: { kind: "Name", value: "size" } },
+                    ],
+                  },
+                },
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "sorting" },
+                  selectionSet: {
+                    kind: "SelectionSet",
+                    selections: [
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "sortBy" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "sortDirection" },
+                      },
                     ],
                   },
                 },
@@ -905,6 +982,23 @@ export const GetItemsByUserDocument = {
                       { kind: "Field", name: { kind: "Name", value: "total" } },
                       { kind: "Field", name: { kind: "Name", value: "page" } },
                       { kind: "Field", name: { kind: "Name", value: "size" } },
+                    ],
+                  },
+                },
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "sorting" },
+                  selectionSet: {
+                    kind: "SelectionSet",
+                    selections: [
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "sortBy" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "sortDirection" },
+                      },
                     ],
                   },
                 },

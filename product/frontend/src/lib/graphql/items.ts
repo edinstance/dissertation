@@ -1,8 +1,16 @@
 import { graphql } from "@/gql";
 
 export const SEARCH_FOR_ITEMS = graphql(`
-  query SearchItems($searchText: String, $pagination: PaginationInput) {
-    searchForItems(searchText: $searchText, pagination: $pagination) {
+  query SearchItems(
+    $searchText: String
+    $pagination: PaginationInput
+    $sorting: SortInput
+  ) {
+    searchForItems(
+      searchText: $searchText
+      pagination: $pagination
+      sorting: $sorting
+    ) {
       items {
         id
         name
@@ -23,6 +31,10 @@ export const SEARCH_FOR_ITEMS = graphql(`
         total
         page
         size
+      }
+      sorting {
+        sortBy
+        sortDirection
       }
     }
   }
@@ -67,6 +79,10 @@ export const GET_ITEMS_BY_USER_QUERY = graphql(`
         total
         page
         size
+      }
+      sorting {
+        sortBy
+        sortDirection
       }
     }
   }

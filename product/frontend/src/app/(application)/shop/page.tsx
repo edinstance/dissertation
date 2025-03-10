@@ -1,13 +1,14 @@
 "use client";
 
+import ItemSorting from "@/components/Items/ItemSorting";
 import { SearchBar } from "@/components/Search";
 import LoadingSpinner from "@/components/ui/LoadingSpinner";
 import Pagination from "@/components/ui/Pagination";
-import { Item } from "@/gql/graphql";
+import { Item, SortDirection, Sorting } from "@/gql/graphql";
 import { SEARCH_FOR_ITEMS } from "@/lib/graphql/items";
 import { useSearchStore } from "@/stores/SearchStore";
 import { useLazyQuery } from "@apollo/client";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 /**
  * Shop component for displaying the shop page.
@@ -19,6 +20,10 @@ import { useEffect } from "react";
 export default function Shop() {
   const { debouncedQuery, currentPage, setCurrentPage } = useSearchStore();
   const [executeSearch, { data, loading }] = useLazyQuery(SEARCH_FOR_ITEMS);
+  const [sorting, setSorting] = useState<Sorting>({
+    sortBy: "ending_time",
+    sortDirection: SortDirection.Asc,
+  });
 
   useEffect(() => {
     if (debouncedQuery.trim()) {
@@ -26,10 +31,11 @@ export default function Shop() {
         variables: {
           searchText: debouncedQuery,
           pagination: { page: currentPage },
+          sorting: sorting,
         },
       });
     }
-  }, [debouncedQuery, currentPage, executeSearch]);
+  }, [debouncedQuery, currentPage, executeSearch, sorting]);
 
   const results = data?.searchForItems;
 
@@ -38,11 +44,14 @@ export default function Shop() {
   return (
     <div className="flex min-h-screen flex-col bg-zinc-100 pt-16 dark:bg-zinc-900">
       <div className="z-35 fixed left-0 right-0 top-16 border-b bg-zinc-100/90 px-4 py-4 pl-20 backdrop-blur-lg dark:border-zinc-800 dark:bg-zinc-900/80 sm:pl-4">
-        <div className="mx-auto max-w-4xl">
+        <div className="mx-auto flex max-w-4xl flex-row justify-between space-x-4">
           <SearchBar
             placeholder="Search for items..."
             className="w-full max-w-full"
           />
+          <div>
+            <ItemSorting value={sorting} setItemSortValue={setSorting} />
+          </div>
         </div>
       </div>
 
