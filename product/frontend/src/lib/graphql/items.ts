@@ -118,10 +118,6 @@ export const GET_ITEMS_BY_USER_QUERY = graphql(`
         page
         size
       }
-      sorting {
-        sortBy
-        sortDirection
-      }
     }
   }
 `);

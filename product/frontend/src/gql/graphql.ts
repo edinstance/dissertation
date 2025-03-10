@@ -574,11 +574,6 @@ export type GetItemsByUserQuery = {
       page?: number | null;
       size?: number | null;
     } | null;
-    sorting?: {
-      __typename?: "Sorting";
-      sortBy?: string | null;
-      sortDirection?: SortDirection | null;
-    } | null;
   } | null;
 };
 
@@ -1172,23 +1167,6 @@ export const GetItemsByUserDocument = {
                       { kind: "Field", name: { kind: "Name", value: "total" } },
                       { kind: "Field", name: { kind: "Name", value: "page" } },
                       { kind: "Field", name: { kind: "Name", value: "size" } },
-                    ],
-                  },
-                },
-                {
-                  kind: "Field",
-                  name: { kind: "Name", value: "sorting" },
-                  selectionSet: {
-                    kind: "SelectionSet",
-                    selections: [
-                      {
-                        kind: "Field",
-                        name: { kind: "Name", value: "sortBy" },
-                      },
-                      {
-                        kind: "Field",
-                        name: { kind: "Name", value: "sortDirection" },
-                      },
                     ],
                   },
                 },
