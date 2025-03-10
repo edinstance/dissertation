@@ -41,14 +41,8 @@ export const SEARCH_FOR_ITEMS = graphql(`
 `);
 
 export const GET_SHOP_ITEMS = graphql(`
-  query getShopItems(
-    $pagination: PaginationInput
-    $sorting: SortInput
-  ) {
-    getShopItems(
-      pagination: $pagination
-      sorting: $sorting
-    ) {
+  query getShopItems($pagination: PaginationInput, $sorting: SortInput) {
+    getShopItems(pagination: $pagination, sorting: $sorting) {
       items {
         id
         name
