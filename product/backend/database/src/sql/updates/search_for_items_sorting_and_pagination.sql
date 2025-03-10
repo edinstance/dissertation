@@ -49,7 +49,7 @@ RETURNS TABLE (
             i.seller_id
         FROM items i
         WHERE similarity(i.name, $1) > 0.3
-        ORDER BY similarity(i.name, $1) DESC, %I %s
+        ORDER BY %I %s
         LIMIT $2 OFFSET $3', 
         order_by,
         order_direction
