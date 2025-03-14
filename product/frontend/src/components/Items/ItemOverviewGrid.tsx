@@ -1,8 +1,8 @@
 import { Item } from "@/gql/graphql";
 import { PencilSquareIcon } from "@heroicons/react/24/outline";
-import { Badge } from "../ui/Badge";
 import { Button } from "../ui/Button";
 import { Card, CardContent, CardFooter } from "../ui/Card";
+import ItemStockBadge from "./ItemStockBadge";
 
 function ItemOverviewGrid({ items }: { items: Item[] }) {
   return (
@@ -19,7 +19,7 @@ function ItemOverviewGrid({ items }: { items: Item[] }) {
               </h3>
               <div className="hidden md:block">
                 {item.stock !== undefined && (
-                  <StockBadge stock={item?.stock ?? 0} />
+                  <ItemStockBadge stock={item?.stock ?? 0} />
                 )}
               </div>
             </div>
@@ -44,21 +44,3 @@ function ItemOverviewGrid({ items }: { items: Item[] }) {
 }
 
 export default ItemOverviewGrid;
-
-function StockBadge({ stock }: { stock: number }) {
-  let color: "default" | "secondary" | "destructive" | "success";
-  let label: string;
-
-  if (stock === 0) {
-    color = "destructive";
-    label = "Out of Stock";
-  } else if (stock > 10) {
-    color = "success";
-    label = "In Stock";
-  } else {
-    color = "secondary";
-    label = "Low Stock";
-  }
-
-  return <Badge color={color}>{label}</Badge>;
-}
