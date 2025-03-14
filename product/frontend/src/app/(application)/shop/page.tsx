@@ -1,5 +1,6 @@
 "use client";
 
+import ItemShopCard from "@/components/Items/ItemShopCard";
 import ItemSorting from "@/components/Items/ItemSorting";
 import { SearchBar } from "@/components/Search";
 import LoadingSpinner from "@/components/ui/LoadingSpinner";
@@ -50,14 +51,14 @@ export default function Shop() {
       executeSearch({
         variables: {
           searchText: debouncedQuery,
-          pagination: { page: currentPage },
+          pagination: { page: currentPage, size: 9 },
           sorting: sorting,
         },
       });
     } else {
       getShopItems({
         variables: {
-          pagination: { page: currentPage },
+          pagination: { page: currentPage, size: 9 },
           sorting: sorting,
         },
       });
@@ -79,8 +80,8 @@ export default function Shop() {
 
   return (
     <div className="flex min-h-screen flex-col bg-zinc-100 pt-16 dark:bg-zinc-900">
-      <div className="z-35 fixed left-0 right-0 top-16 border-b bg-zinc-100/90 px-4 py-4 pl-20 backdrop-blur-lg dark:border-zinc-800 dark:bg-zinc-900/80 sm:pl-4">
-        <div className="mx-auto flex max-w-4xl flex-row justify-between space-x-4">
+      <div className="fixed left-0 right-0 top-16 z-50 border-b bg-zinc-100 px-4 py-4 pl-20 dark:border-zinc-800 dark:bg-zinc-900 sm:pl-4">
+        <div className="mx-auto flex max-w-4xl flex-row justify-between space-x-4 sm:pl-16">
           <SearchBar
             placeholder="Search for items..."
             className="w-full max-w-full"
@@ -91,7 +92,7 @@ export default function Shop() {
         </div>
       </div>
 
-      <div className="max-w-7xl flex-grow px-4 pt-24 text-black dark:text-white">
+      <div className="relative max-w-7xl flex-grow overflow-hidden px-4 pt-24 text-black dark:text-white">
         {loading && <LoadingSpinner />}
         {hasResults ? (
           <ResultsList items={filteredItems} />
@@ -118,12 +119,8 @@ export default function Shop() {
  */
 function ResultsList({ items }: { items: Item[] | null }) {
   return (
-    <div>
-      {items?.map((item, index) => (
-        <div key={index} className="mb-4">
-          <p>{item.name}</p>
-        </div>
-      ))}
+    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      {items?.map((item, index) => <ItemShopCard key={index} item={item} />)}
     </div>
   );
 }
