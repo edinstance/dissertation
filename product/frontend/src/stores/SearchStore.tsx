@@ -12,7 +12,7 @@ interface SearchStore {
 export const useSearchStore = create<SearchStore>((set) => ({
   searchQuery: "",
   debouncedQuery: "",
-  currentPage: 1,
+  currentPage: 0,
   setSearchQuery: (searchQuery) => set({ searchQuery }),
   setDebouncedQuery: (debouncedQuery) => set({ debouncedQuery }),
   setCurrentPage: (currentPage) => set({ currentPage }),
