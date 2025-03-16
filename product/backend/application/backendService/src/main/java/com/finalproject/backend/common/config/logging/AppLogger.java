@@ -40,6 +40,25 @@ public class AppLogger {
   }
 
   /**
+   * Warn level logging with a message.
+   *
+   * @param message the message to log.
+   */
+  public static void warn(String message) {
+    logger.warn(message);
+  }
+
+  /**
+   * Warn level logging with message and objects.
+   *
+   * @param message the message to log.
+   * @param params the objects to log.
+   */
+  public static void warn(String message, Object... params) {
+    logger.warn(message, params);
+  }
+
+  /**
    * Error logging with messages.
    *
    * @param message the message to log.
