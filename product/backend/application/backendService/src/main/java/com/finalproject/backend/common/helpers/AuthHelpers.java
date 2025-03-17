@@ -2,6 +2,7 @@ package com.finalproject.backend.common.helpers;
 
 import com.finalproject.backend.common.config.logging.AppLogger;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -42,11 +43,17 @@ public class AuthHelpers {
    * @throws IllegalStateException if the groups are missing or invalid.
    */
   public List<String> getCurrentUserGroups() {
-    Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-    if (principal instanceof Jwt jwt) {
-      return jwt.getClaimAsStringList("cognito:groups");
+    try {
+      AppLogger.info("Getting current user groups", SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+      Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+      if (principal instanceof Jwt jwt) {
+        return jwt.getClaimAsStringList("cognito:groups");
+      }
+      AppLogger.warn("Unable to extract user groups from token: Principal is not a JWT");
+      return Collections.emptyList();
+    } catch (Exception e) {
+      AppLogger.error("Error extracting user groups: " + e.getMessage(), e);
+      return Collections.emptyList();
     }
-    AppLogger.error("Unable to extract user groups from token");
-    throw new IllegalStateException("Unable to extract user groups from token");
   }
 }

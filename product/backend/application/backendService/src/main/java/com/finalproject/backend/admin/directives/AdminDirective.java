@@ -4,7 +4,9 @@ import com.finalproject.backend.common.config.logging.AppLogger;
 import com.finalproject.backend.common.helpers.AuthHelpers;
 import com.netflix.graphql.dgs.DgsComponent;
 import com.netflix.graphql.dgs.DgsDirective;
-import graphql.GraphQLException;
+import com.netflix.graphql.types.errors.ErrorType;
+import graphql.GraphQLError;
+import graphql.execution.DataFetcherResult;
 import graphql.schema.DataFetcher;
 import graphql.schema.DataFetcherFactories;
 import graphql.schema.GraphQLFieldDefinition;
@@ -51,11 +53,13 @@ public class AdminDirective implements SchemaDirectiveWiring {
               // Check if the current user has admin privileges
               List<String> userGroups = authHelpers.getCurrentUserGroups();
 
-              if (userGroups == null || !userGroups.contains("SubShopAdmin")) {
+              if (userGroups.isEmpty() || !userGroups.contains("SubShopAdmin")) {
                 AppLogger.warn("Unauthorized access attempt to admin-only field: " + fieldName);
-                throw new GraphQLException("Access denied: Admin privileges required");
+                return DataFetcherResult.newResult()
+                        .error(GraphQLError.newError().errorType(ErrorType.PERMISSION_DENIED)
+                                .message("Access denied").build())
+                        .build();
               }
-
               AppLogger.info("Admin access granted for field: " + fieldName);
               return value;
             }

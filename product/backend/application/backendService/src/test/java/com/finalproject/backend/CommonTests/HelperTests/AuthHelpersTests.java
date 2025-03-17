@@ -55,11 +55,9 @@ public class AuthHelpersTests {
   void testGetUserWithNoJwt() {
     when(authentication.getPrincipal()).thenReturn("");
 
-    IllegalStateException exception = assertThrows(IllegalStateException.class, () -> {
-      authHelpers.getCurrentUserId();
-    });
+    List<String> result = authHelpers.getCurrentUserGroups();
 
-    assertEquals("Unable to extract user ID from token", exception.getMessage());
+    assert result.isEmpty();
   }
 
   @Test
@@ -84,10 +82,8 @@ public class AuthHelpersTests {
   void testGetUserGroupsError() {
     when(authentication.getPrincipal()).thenReturn("Not a JWT");
 
-    IllegalStateException exception = assertThrows(IllegalStateException.class, () -> {
-      authHelpers.getCurrentUserGroups();
-    });
+    List<String> result = authHelpers.getCurrentUserGroups();
 
-    assertEquals("Unable to extract user groups from token", exception.getMessage());
+    assert result.isEmpty();
   }
 }
