@@ -10,6 +10,7 @@ import java.util.Map;
 public class CognitoUtilities {
 
   private static String accessToken;
+  private static String adminAccessToken;
   private static String userId;
   private final String userPoolId = System.getProperty("TEST_AWS_USER_POOL_ID");
   private final CognitoIdentityProviderClient cognitoClient = CognitoClient.getInstance();
@@ -18,11 +19,15 @@ public class CognitoUtilities {
     return accessToken;
   }
 
+  public static String getAdminAccessToken() {
+    return adminAccessToken;
+  }
+
   public static String getUserId() {
     return userId;
   }
 
-  public void createUser(String username, String password) {
+  public void createUser(String username, String password, Boolean isAdmin) {
 
     AdminCreateUserRequest userRequest = AdminCreateUserRequest.builder()
             .userPoolId(userPoolId)
@@ -49,11 +54,13 @@ public class CognitoUtilities {
 
     AdminGetUserResponse response = cognitoClient.adminGetUser(getUserRequest);
 
-    userId = response.userAttributes().stream()
-            .filter(attr -> "sub".equals(attr.name()))
-            .findFirst()
-            .map(AttributeType::value)
-            .orElseThrow(() -> new RuntimeException("User ID not found"));
+    if(!isAdmin) {
+      userId = response.userAttributes().stream()
+              .filter(attr -> "sub".equals(attr.name()))
+              .findFirst()
+              .map(AttributeType::value)
+              .orElseThrow(() -> new RuntimeException("User ID not found"));
+    }
 
   }
 
@@ -66,7 +73,20 @@ public class CognitoUtilities {
 
   }
 
-  public void loginUser(String username, String password) {
+  public void makeUserAdmin(String username) {
+
+    AdminAddUserToGroupRequest addRequest =
+            AdminAddUserToGroupRequest.builder()
+                    .userPoolId(userPoolId)
+                    .username(username)
+                    .groupName("SubShopAdmin")
+                    .build();
+
+    cognitoClient.adminAddUserToGroup(addRequest);
+
+  }
+
+  public void loginUser(String username, String password, Boolean isAdmin) {
 
     Map<String, String> authParameters = new java.util.HashMap<>();
     authParameters.put("USERNAME", username);
@@ -79,6 +99,14 @@ public class CognitoUtilities {
             .build();
 
     InitiateAuthResponse response = cognitoClient.initiateAuth(loginRequest);
-    accessToken = response.authenticationResult().accessToken();
+
+    if (isAdmin) {
+      adminAccessToken = response.authenticationResult().accessToken();
+    } else {
+
+      accessToken = response.authenticationResult().accessToken();
+    }
+
   }
 }
+
