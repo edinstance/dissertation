@@ -1,0 +1,12 @@
+directive @admin on FIELD_DEFINITION
+
+extend type Query {
+    getUserStats: UserStats @admin
+}
+
+
+type UserStats {
+    total: Int
+    newUserTotal: Int
+    deletedUserTotal: Int
+}

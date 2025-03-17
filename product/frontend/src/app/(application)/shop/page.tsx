@@ -80,7 +80,7 @@ export default function Shop() {
 
   return (
     <div className="flex min-h-screen flex-col bg-zinc-100 pt-16 dark:bg-zinc-900">
-      <div className="fixed left-0 right-0 top-16 z-50 border-b bg-zinc-100 px-4 py-4 pl-20 dark:border-zinc-800 dark:bg-zinc-900 sm:pl-4">
+      <div className="fixed left-16 right-0 top-16 z-50 border-b bg-zinc-100 px-4 py-4 pl-20 dark:border-zinc-800 dark:bg-zinc-900 sm:pl-4">
         <div className="mx-auto flex max-w-4xl flex-row justify-between space-x-4 sm:pl-16">
           <SearchBar
             placeholder="Search for items..."

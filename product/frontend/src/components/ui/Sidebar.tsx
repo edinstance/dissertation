@@ -30,7 +30,7 @@ export function Sidebar() {
   const pathname = usePathname();
 
   return (
-    <div className="fixed left-0 top-16 z-40 h-full w-16 border-r border-gray-200 bg-white dark:border-gray-800 dark:bg-zinc-900">
+    <div className="fixed left-0 top-16 z-50 h-full w-16 border-r border-gray-200 bg-white dark:border-gray-800 dark:bg-zinc-900">
       <div className="flex h-full flex-col items-center space-y-4 py-4">
         {sidebarLinks.map((link) => (
           <Link

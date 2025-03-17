@@ -12,6 +12,7 @@ import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.jwt.Jwt;
 
+import java.util.List;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -54,10 +55,35 @@ public class AuthHelpersTests {
   void testGetUserWithNoJwt() {
     when(authentication.getPrincipal()).thenReturn("");
 
-    IllegalStateException exception = assertThrows(IllegalStateException.class, () -> {
-      authHelpers.getCurrentUserId();
-    });
+    List<String> result = authHelpers.getCurrentUserGroups();
 
-    assertEquals("Unable to extract user ID from token", exception.getMessage());
+    assert result.isEmpty();
+  }
+
+  @Test
+  void testGetUserGroups() {
+    when(jwt.getClaimAsStringList("cognito:groups")).thenReturn(List.of("admin"));
+
+    List<String> result = authHelpers.getCurrentUserGroups();
+
+    assertEquals(List.of("admin"), result);
+  }
+
+  @Test
+  void testGetUserNoGroups() {
+    when(jwt.getClaimAsStringList("cognito:groups")).thenReturn(List.of());
+
+    List<String> result = authHelpers.getCurrentUserGroups();
+
+    assert result.isEmpty();
+  }
+
+  @Test
+  void testGetUserGroupsError() {
+    when(authentication.getPrincipal()).thenReturn("Not a JWT");
+
+    List<String> result = authHelpers.getCurrentUserGroups();
+
+    assert result.isEmpty();
   }
 }

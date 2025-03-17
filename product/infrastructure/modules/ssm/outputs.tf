@@ -84,6 +84,22 @@ output "redis_port_arn" {
   value = aws_ssm_parameter.redis_port.arn
 }
 
+output "jira_access_token_arn" {
+  value = aws_ssm_parameter.jira_access_token.arn
+}
+
+output "jira_email_arn" {
+  value = aws_ssm_parameter.jira_email.arn
+}
+
+output "jira_url_arn" {
+  value = aws_ssm_parameter.jira_url.arn
+}
+
+output "jira_project_key_arn" {
+  value = aws_ssm_parameter.jira_project_key.arn
+}
+
 # Shared
 output "api_key_arn" {
   value = aws_ssm_parameter.api_key.arn

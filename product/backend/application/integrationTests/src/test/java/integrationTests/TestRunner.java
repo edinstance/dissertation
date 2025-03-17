@@ -19,17 +19,25 @@ import java.sql.Statement;
 @SelectClasspathResource("features")
 public class TestRunner {
 
+  public static CognitoUtilities cognitoUtilities = new CognitoUtilities();
+
   @BeforeAll
   public static void seedCognito() {
     CognitoUtilities cognitoUtilities = new CognitoUtilities();
-    cognitoUtilities.createUser("test1@test.com", "TestPassword1!");
-    cognitoUtilities.loginUser("test1@test.com", "TestPassword1!");
+
+    cognitoUtilities.createUser("test1@test.com", "TestPassword1!", false);
+    cognitoUtilities.loginUser("test1@test.com", "TestPassword1!", false);
+
+    // Create and login admin user
+    cognitoUtilities.createUser("admin@test.com", "TestPassword2!", true);
+    cognitoUtilities.makeUserAdmin("admin@test.com");
+    cognitoUtilities.loginUser("admin@test.com", "TestPassword2!", true);
   }
 
   @AfterAll
   public static void tearDownCognito() {
-    CognitoUtilities cognitoUtilities = new CognitoUtilities();
     cognitoUtilities.deleteUser("test1@test.com");
+    cognitoUtilities.deleteUser("admin@test.com");
   }
 
   @After
