@@ -353,6 +353,7 @@ export type Query = {
   getItemsByUser?: Maybe<SearchedItemsResponse>;
   getShopItems?: Maybe<SearchedItemsResponse>;
   getUser?: Maybe<User>;
+  getUserStats?: Maybe<UserStats>;
   searchForItems?: Maybe<SearchedItemsResponse>;
 };
 
@@ -436,9 +437,28 @@ export type UserInput = {
   name?: InputMaybe<Scalars["String"]["input"]>;
 };
 
+export type UserStats = {
+  __typename?: "UserStats";
+  deletedUserTotal?: Maybe<Scalars["Int"]["output"]>;
+  newUserTotal?: Maybe<Scalars["Int"]["output"]>;
+  total?: Maybe<Scalars["Int"]["output"]>;
+};
+
 export type _Service = {
   __typename?: "_Service";
   sdl: Scalars["String"]["output"];
+};
+
+export type GetUserStatsQueryVariables = Exact<{ [key: string]: never }>;
+
+export type GetUserStatsQuery = {
+  __typename?: "Query";
+  getUserStats?: {
+    __typename?: "UserStats";
+    total?: number | null;
+    newUserTotal?: number | null;
+    deletedUserTotal?: number | null;
+  } | null;
 };
 
 export type SearchItemsQueryVariables = Exact<{
@@ -682,6 +702,39 @@ export type DeleteUserMutation = {
   } | null;
 };
 
+export const GetUserStatsDocument = {
+  kind: "Document",
+  definitions: [
+    {
+      kind: "OperationDefinition",
+      operation: "query",
+      name: { kind: "Name", value: "getUserStats" },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "getUserStats" },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                { kind: "Field", name: { kind: "Name", value: "total" } },
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "newUserTotal" },
+                },
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "deletedUserTotal" },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<GetUserStatsQuery, GetUserStatsQueryVariables>;
 export const SearchItemsDocument = {
   kind: "Document",
   definitions: [
