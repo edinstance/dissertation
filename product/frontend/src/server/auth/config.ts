@@ -99,7 +99,7 @@ export const authConfig = {
             id: userDetails.sub,
             email: credentials.email as string,
             name: userDetails.name as string,
-            groups: accessDetails["cognito:groups"],
+            groups: accessDetails["cognito:groups"] || [],
             cognitoTokens: {
               accessToken: response.AuthenticationResult?.AccessToken,
               refreshToken: response.AuthenticationResult?.RefreshToken,
