@@ -53,7 +53,7 @@ public class AdminDirective implements SchemaDirectiveWiring {
               // Check if the current user has admin privileges
               List<String> userGroups = authHelpers.getCurrentUserGroups();
 
-              if (userGroups.isEmpty() || !userGroups.contains("SubShopAdmin")) {
+              if (userGroups == null || userGroups.isEmpty() || !userGroups.contains("SubShopAdmin")) {
                 AppLogger.warn("Unauthorized access attempt to admin-only field: " + fieldName);
                 return DataFetcherResult.newResult()
                         .error(GraphQLError.newError().errorType(ErrorType.PERMISSION_DENIED)
