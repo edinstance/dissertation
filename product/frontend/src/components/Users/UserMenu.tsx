@@ -14,6 +14,9 @@ import { signOut, useSession } from "next-auth/react";
  */
 export function UserMenu() {
   const session = useSession();
+  const isAdmin =
+    session && session.data?.user?.groups.includes("SubShopAdmin");
+
   return (
     <Menu>
       <MenuButton>
@@ -35,6 +38,16 @@ export function UserMenu() {
             Account
           </a>
         </MenuItem>
+        {isAdmin && (
+          <MenuItem>
+            <a
+              className="block w-full rounded-md bg-white px-4 py-2 text-left text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 dark:bg-zinc-800 dark:text-white dark:hover:bg-zinc-700 dark:focus:ring-offset-zinc-900"
+              href="/admin"
+            >
+              Admin
+            </a>
+          </MenuItem>
+        )}
         <MenuItem>
           <button
             onClick={() => {
