@@ -1,9 +1,9 @@
 package com.finalproject.backend.ItemsTests.TypesTests;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 import com.finalproject.backend.items.types.ItemSortOptions;
 import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 class ItemSortOptionsTests {
 

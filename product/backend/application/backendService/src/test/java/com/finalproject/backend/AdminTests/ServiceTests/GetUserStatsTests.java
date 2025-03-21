@@ -27,7 +27,7 @@ public class GetUserStatsTests {
   @Test
   public void getUserStatsWithData() {
     List<Object[]> mockResults = new ArrayList<>();
-    Object[] row = { 10L, 5L, 2L };
+    Object[] row = {10L, 5L, 2L};
     mockResults.add(row);
 
     when(userRepository.getAdminUserStats()).thenReturn(mockResults);

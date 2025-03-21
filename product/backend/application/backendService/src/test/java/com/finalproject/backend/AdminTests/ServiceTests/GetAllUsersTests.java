@@ -29,7 +29,7 @@ public class GetAllUsersTests {
 
 
   @Test
-  public void getAllUsersNoResultsTest(){
+  public void getAllUsersNoResultsTest() {
     when(userRepository.findAll()).thenReturn(List.of());
 
     List<UserEntity> result = adminService.getAllUsers();
@@ -40,7 +40,7 @@ public class GetAllUsersTests {
   }
 
   @Test
-  public void getAllUsersTest(){
+  public void getAllUsersTest() {
 
     UserEntity userEntity = new UserEntity(UUID.randomUUID(), "email@test.com", "name");
     when(userRepository.findAll()).thenReturn(List.of(userEntity));

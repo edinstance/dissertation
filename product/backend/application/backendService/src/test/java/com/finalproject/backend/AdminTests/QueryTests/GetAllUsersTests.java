@@ -1,6 +1,5 @@
 package com.finalproject.backend.AdminTests.QueryTests;
 
-import com.finalproject.backend.admin.dto.UserStats;
 import com.finalproject.backend.admin.queries.AdminQueries;
 import com.finalproject.backend.admin.services.AdminService;
 import com.finalproject.backend.users.entities.UserEntity;
@@ -30,10 +29,10 @@ public class GetAllUsersTests {
     UserEntity userEntity = new UserEntity(UUID.randomUUID(), "test@test.com", "name");
     when(adminService.getAllUsers()).thenReturn(List.of(userEntity));
 
-   List<UserEntity> users = adminQueries.getAllUsers();
+    List<UserEntity> users = adminQueries.getAllUsers();
 
-   assertNotNull(users);
-   assert users.size() == 1;
-   assert users.contains(userEntity);
+    assertNotNull(users);
+    assert users.size() == 1;
+    assert users.contains(userEntity);
   }
 }
