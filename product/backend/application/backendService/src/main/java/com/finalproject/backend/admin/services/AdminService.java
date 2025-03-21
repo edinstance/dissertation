@@ -4,10 +4,10 @@ import com.finalproject.backend.admin.dto.UserStats;
 import com.finalproject.backend.common.config.logging.AppLogger;
 import com.finalproject.backend.users.entities.UserEntity;
 import com.finalproject.backend.users.repositories.UserRepository;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 
 /**
  * Service class for Admin data.
@@ -26,12 +26,16 @@ public class AdminService {
    * @param inputUserRepository The repository for accessing user information.
    */
   @Autowired
-  public AdminService( UserRepository inputUserRepository) {
+  public AdminService(UserRepository inputUserRepository) {
     this.userRepository = inputUserRepository;
   }
 
-
-  public UserStats getUserStats(){
+  /**
+   * A function to get all the user statistics from the repository.
+   *
+   * @return the user statistics.
+   */
+  public UserStats getUserStats() {
     List<Object[]> results = userRepository.getAdminUserStats();
 
     if (results != null && !results.isEmpty()) {
@@ -48,6 +52,11 @@ public class AdminService {
     }
   }
 
+  /**
+   * A function to get all the users from the user repository.
+   *
+   * @return the list of users.
+   */
   public List<UserEntity> getAllUsers() {
     return userRepository.findAll();
   }

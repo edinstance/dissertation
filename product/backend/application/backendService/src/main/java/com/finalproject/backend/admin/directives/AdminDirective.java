@@ -9,14 +9,13 @@ import graphql.GraphQLError;
 import graphql.execution.DataFetcherResult;
 import graphql.schema.DataFetcher;
 import graphql.schema.DataFetcherFactories;
+import graphql.schema.FieldCoordinates;
 import graphql.schema.GraphQLFieldDefinition;
 import graphql.schema.GraphQLObjectType;
-import graphql.schema.FieldCoordinates;
 import graphql.schema.idl.SchemaDirectiveWiring;
 import graphql.schema.idl.SchemaDirectiveWiringEnvironment;
-import org.springframework.beans.factory.annotation.Autowired;
-
 import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * This class is the admin directive.
@@ -30,22 +29,40 @@ public class AdminDirective implements SchemaDirectiveWiring {
    */
   private final AuthHelpers authHelpers;
 
+  /**
+   * The constructor for the admin directive.
+   *
+   * @param authHelpers the auth helpers object to use.
+   */
   @Autowired
   public AdminDirective(AuthHelpers authHelpers) {
     this.authHelpers = authHelpers;
   }
 
+  /**
+   * This function intercepts the data fetcher of a field and applies
+   * the admin checks.
+   *
+   * @param environment the graphql environment.
+   * @return the original field definition and the modified field data fetcher.
+   */
   @Override
-  public GraphQLFieldDefinition onField(SchemaDirectiveWiringEnvironment<GraphQLFieldDefinition> environment) {
-    GraphQLObjectType parentType = (GraphQLObjectType) environment.getFieldsContainer();
+  public GraphQLFieldDefinition onField(
+          SchemaDirectiveWiringEnvironment<GraphQLFieldDefinition> environment) {
+
+    GraphQLObjectType parentType = (GraphQLObjectType)
+            environment.getFieldsContainer();
+
     GraphQLFieldDefinition fieldDefinition = environment.getFieldDefinition();
 
     String parentName = parentType.getName();
     String fieldName = fieldDefinition.getName();
 
-    FieldCoordinates coordinates = FieldCoordinates.coordinates(parentName, fieldName);
+    FieldCoordinates coordinates = FieldCoordinates.coordinates(parentName,
+            fieldName);
 
-    DataFetcher<?> originalDataFetcher = environment.getCodeRegistry().getDataFetcher(coordinates, fieldDefinition);
+    DataFetcher<?> originalDataFetcher = environment.getCodeRegistry()
+            .getDataFetcher(coordinates, fieldDefinition);
 
     DataFetcher<?> dataFetcher = DataFetcherFactories.wrapDataFetcher(
             originalDataFetcher,
@@ -53,7 +70,9 @@ public class AdminDirective implements SchemaDirectiveWiring {
               // Check if the current user has admin privileges
               List<String> userGroups = authHelpers.getCurrentUserGroups();
 
-              if (userGroups == null || userGroups.isEmpty() || !userGroups.contains("SubShopAdmin")) {
+              if (userGroups == null || userGroups.isEmpty()
+                      || !userGroups.contains("SubShopAdmin")) {
+
                 AppLogger.warn("Unauthorized access attempt to admin-only field: " + fieldName);
                 return DataFetcherResult.newResult()
                         .error(GraphQLError.newError().errorType(ErrorType.PERMISSION_DENIED)

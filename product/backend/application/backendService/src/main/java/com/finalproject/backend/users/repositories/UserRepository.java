@@ -1,7 +1,6 @@
 package com.finalproject.backend.users.repositories;
 
 import com.finalproject.backend.users.entities.UserEntity;
-
 import java.util.List;
 import java.util.UUID;
 import org.springframework.data.jpa.repository.JpaRepository;
