@@ -8,7 +8,7 @@ import static io.restassured.RestAssured.given;
 
 public class AdminQueryTests {
 
-  String query = "{ \"query\": \"query { getUserStats { total newUserTotal deletedUserTotal } }\" }";
+  String getUserStatsQuery = "{ \"query\": \"query { getUserStats { total newUserTotal deletedUserTotal } }\" }";
 
 
   private Response result;
@@ -17,7 +17,7 @@ public class AdminQueryTests {
   public void aUserTriesToAccessAdminData() {
     result = given()
             .contentType("application/json")
-            .body(query)
+            .body(getUserStatsQuery)
             .post("/graphql");
   }
 
@@ -34,7 +34,7 @@ public class AdminQueryTests {
     result = given()
             .contentType("application/json")
             .header("Authorization", "Bearer " + CognitoUtilities.getAdminAccessToken())
-            .body(query)
+            .body(getUserStatsQuery)
             .post("/graphql");
   }
 
