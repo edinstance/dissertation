@@ -2,6 +2,7 @@ directive @admin on FIELD_DEFINITION
 
 extend type Query {
     getUserStats: UserStats @admin
+    getAllUsers: [User]
 }
 
 
