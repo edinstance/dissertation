@@ -2,6 +2,7 @@ package com.finalproject.backend.admin.services;
 
 import com.finalproject.backend.admin.dto.UserStats;
 import com.finalproject.backend.common.config.logging.AppLogger;
+import com.finalproject.backend.users.entities.UserEntity;
 import com.finalproject.backend.users.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -45,6 +46,10 @@ public class AdminService {
       AppLogger.error("No user information found");
       return new UserStats(0, 0, 0);
     }
+  }
+
+  public List<UserEntity> getAllUsers() {
+    return userRepository.findAll();
   }
 
 }
