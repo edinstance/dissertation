@@ -349,6 +349,7 @@ export type PaginationInput = {
 export type Query = {
   __typename?: "Query";
   _service: _Service;
+  getAllUsers?: Maybe<Array<Maybe<User>>>;
   getItemById?: Maybe<Item>;
   getItemsByUser?: Maybe<SearchedItemsResponse>;
   getShopItems?: Maybe<SearchedItemsResponse>;
@@ -459,6 +460,19 @@ export type GetUserStatsQuery = {
     newUserTotal?: number | null;
     deletedUserTotal?: number | null;
   } | null;
+};
+
+export type GetAllUsersQueryVariables = Exact<{ [key: string]: never }>;
+
+export type GetAllUsersQuery = {
+  __typename?: "Query";
+  getAllUsers?: Array<{
+    __typename?: "User";
+    id: string;
+    email: string;
+    name?: string | null;
+    status?: string | null;
+  } | null> | null;
 };
 
 export type SearchItemsQueryVariables = Exact<{
@@ -735,6 +749,34 @@ export const GetUserStatsDocument = {
     },
   ],
 } as unknown as DocumentNode<GetUserStatsQuery, GetUserStatsQueryVariables>;
+export const GetAllUsersDocument = {
+  kind: "Document",
+  definitions: [
+    {
+      kind: "OperationDefinition",
+      operation: "query",
+      name: { kind: "Name", value: "getAllUsers" },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "getAllUsers" },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                { kind: "Field", name: { kind: "Name", value: "id" } },
+                { kind: "Field", name: { kind: "Name", value: "email" } },
+                { kind: "Field", name: { kind: "Name", value: "name" } },
+                { kind: "Field", name: { kind: "Name", value: "status" } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<GetAllUsersQuery, GetAllUsersQueryVariables>;
 export const SearchItemsDocument = {
   kind: "Document",
   definitions: [

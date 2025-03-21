@@ -9,3 +9,14 @@ export const GET_USER_STATS = graphql(`
     }
   }
 `);
+
+export const GET_ALL_USERS = graphql(`
+  query getAllUsers {
+    getAllUsers {
+      id
+      email
+      name
+      status
+    }
+  }
+`);

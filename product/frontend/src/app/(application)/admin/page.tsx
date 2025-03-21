@@ -1,4 +1,5 @@
 "use client";
+import UserTable from "@/components/Admin/UserTable";
 import LoadingSpinner from "@/components/ui/LoadingSpinner";
 import { GET_USER_STATS } from "@/lib/graphql/admin";
 import { useQuery } from "@apollo/client";
@@ -15,7 +16,8 @@ export default function Admin() {
       {loading ? (
         <LoadingSpinner />
       ) : (
-        <div className="flex flex-col justify-between space-y-4 px-8 md:flex-row md:space-x-4 md:space-y-0">
+        <div className="space-y-4">
+          <div className="flex flex-col justify-between space-y-4 px-8 md:flex-row md:space-x-4 md:space-y-0">
           <TotalCard title="Total users:" value={userStats?.total ?? 0} />
           <TotalCard title="New users:" value={userStats?.newUserTotal ?? 0} />
           <TotalCard
@@ -23,6 +25,9 @@ export default function Admin() {
             value={userStats?.deletedUserTotal ?? 0}
           />
         </div>
+          <UserTable />
+        </div>
+        
       )}
     </div>
   );
