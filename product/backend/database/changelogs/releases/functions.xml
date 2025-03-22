@@ -90,7 +90,7 @@
         </changeSet>
 
         <changeSet id="create_admin" author="zlac370" runOnChange="false">
-                <sqlFile path="../../src/sql/functions/get_admin_user_stats.sql"
+                <sqlFile path="../../src/sql/functions/create_admin.sql"
                         relativeToChangelogFile="true"
                         splitStatements="false"
                         stripComments="false" />
