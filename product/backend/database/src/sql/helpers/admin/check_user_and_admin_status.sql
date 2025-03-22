@@ -6,7 +6,7 @@ BEGIN
 
     IF NOT EXISTS(
         SELECT 1 FROM users
-        WHERE users.user_id = _admin_id 
+        WHERE users.user_id = _admin_id
         AND users.is_deleted = FALSE
     ) THEN
         RAISE EXCEPTION 'Admin with ID % does not exist or is deleted', _admin_id;
@@ -14,8 +14,8 @@ BEGIN
 
     IF NOT EXISTS(
         SELECT 1 FROM admins
-        WHERE admins.user_id = _admin_id 
-        AND admins.is_deleted = FALSE 
+        WHERE admins.user_id = _admin_id
+        AND admins.is_deleted = FALSE
         AND admins.status != 'DEACTIVATED'
     ) THEN
         RAISE EXCEPTION 'Admin with ID % is not active', _admin_id;
