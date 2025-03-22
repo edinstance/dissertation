@@ -1,4 +1,4 @@
-CREATE OR REPLACE PROCEDURE test.test_get_new_user_total()
+CREATE OR REPLACE PROCEDURE test.test_admin_user_stats()
 AS $$
 DECLARE
   stats_results RECORD;
