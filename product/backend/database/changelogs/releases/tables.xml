@@ -75,4 +75,12 @@
                         splitStatements="false"
                         stripComments="false" />
         </changeSet>
+
+        <changeSet id="admin_roles_table" author="zlac370" runOnChange="false">
+                <sqlFile path="../../src/sql/tables/admin_roles.sql"
+                        relativeToChangelogFile="true"
+                        splitStatements="false"
+                        stripComments="false" />
+        </changeSet>
+
 </databaseChangeLog>
