@@ -19,4 +19,5 @@
     <include file="releases/constraints.xml" relativeToChangelogFile="true" />
     <include file="releases/helpers.xml" relativeToChangelogFile="true" />
     <include file="releases/indexes.xml" relativeToChangelogFile="true" />
+    <include file="releases/seeds.xml" relativeToChangelogFile="true" />
 </databaseChangeLog>
