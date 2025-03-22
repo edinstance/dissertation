@@ -27,4 +27,18 @@
             stripComments="false" />
     </changeSet>
 
+    <changeSet id="seed_roles" author="zlac370" runOnChange="false">
+        <sqlFile path="../../src/sql/seeds/roles.sql"
+            relativeToChangelogFile="true"
+            splitStatements="false"
+            stripComments="false" />
+    </changeSet>
+
+    <changeSet id="seed_role_permissions" author="zlac370" runOnChange="false">
+        <sqlFile path="../../src/sql/seeds/role_permissions.sql"
+            relativeToChangelogFile="true"
+            splitStatements="false"
+            stripComments="false" />
+    </changeSet>
+
 </databaseChangeLog>

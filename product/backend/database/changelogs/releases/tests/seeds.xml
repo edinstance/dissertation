@@ -6,7 +6,7 @@
     xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.2.xsd">
 
     <!-- Release changelogs -->
-     <changeSet id="test_actions_seeds" author="zlac370" runOnChange="false">
+    <changeSet id="test_actions_seeds" author="zlac370" runOnChange="false">
         <sqlFile path="../../../src/sql/tests/seeds/actions.sql"
             relativeToChangelogFile="true"
             splitStatements="false"
@@ -24,6 +24,20 @@
 
     <changeSet id="test_permission_seeds" author="zlac370" runOnChange="false">
         <sqlFile path="../../../src/sql/tests/seeds/permissions.sql"
+            relativeToChangelogFile="true"
+            splitStatements="false"
+            stripComments="false" />
+    </changeSet>
+
+    <changeSet id="test_roles_seeds" author="zlac370" runOnChange="false">
+        <sqlFile path="../../../src/sql/tests/seeds/roles.sql"
+            relativeToChangelogFile="true"
+            splitStatements="false"
+            stripComments="false" />
+    </changeSet>
+
+    <changeSet id="test_role_permissions_seeds" author="zlac370" runOnChange="false">
+        <sqlFile path="../../../src/sql/tests/seeds/role_permissions.sql"
             relativeToChangelogFile="true"
             splitStatements="false"
             stripComments="false" />
