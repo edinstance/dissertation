@@ -27,4 +27,52 @@
                         stripComments="false" />
         </changeSet>
 
+        <changeSet id="admins_table" author="zlac370" runOnChange="false">
+                <sqlFile path="../../src/sql/tables/admins.sql"
+                        relativeToChangelogFile="true"
+                        splitStatements="false"
+                        stripComments="false" />
+        </changeSet>
+
+        <changeSet id="actions_table" author="zlac370" runOnChange="false">
+                <sqlFile path="../../src/sql/tables/actions.sql"
+                        relativeToChangelogFile="true"
+                        splitStatements="false"
+                        stripComments="false" />
+        </changeSet>
+
+        <changeSet id="resources_table" author="zlac370" runOnChange="false">
+                <sqlFile path="../../src/sql/tables/resources.sql"
+                        relativeToChangelogFile="true"
+                        splitStatements="false"
+                        stripComments="false" />
+        </changeSet>
+
+        <changeSet id="permissions_table" author="zlac370" runOnChange="false">
+                <sqlFile path="../../src/sql/tables/permissions.sql"
+                        relativeToChangelogFile="true"
+                        splitStatements="false"
+                        stripComments="false" />
+        </changeSet>
+
+        <changeSet id="admin_permissions_table" author="zlac370" runOnChange="false">
+                <sqlFile path="../../src/sql/tables/admin_permissions.sql"
+                        relativeToChangelogFile="true"
+                        splitStatements="false"
+                        stripComments="false" />
+        </changeSet>
+
+        <changeSet id="roles_table" author="zlac370" runOnChange="false">
+                <sqlFile path="../../src/sql/tables/roles.sql"
+                        relativeToChangelogFile="true"
+                        splitStatements="false"
+                        stripComments="false" />
+        </changeSet>
+
+        <changeSet id="role_permissions_table" author="zlac370" runOnChange="false">
+                <sqlFile path="../../src/sql/tables/role_permissions.sql"
+                        relativeToChangelogFile="true"
+                        splitStatements="false"
+                        stripComments="false" />
+        </changeSet>
 </databaseChangeLog>
