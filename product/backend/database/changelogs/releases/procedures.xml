@@ -20,4 +20,11 @@
                         stripComments="false" />
         </changeSet>
 
+        <changeSet id="delete_admin" author="zlac370" runOnChange="false">
+                <sqlFile path="../../src/sql/procedures/delete_admin.sql"
+                        relativeToChangelogFile="true"
+                        splitStatements="false"
+                        stripComments="false" />
+        </changeSet>
+
 </databaseChangeLog>
