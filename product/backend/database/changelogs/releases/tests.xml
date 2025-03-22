@@ -140,5 +140,6 @@
     </changeSet>
 
     <include file="tests/seeds.xml" relativeToChangelogFile="true" />
+    <include file="tests/admins.xml" relativeToChangelogFile="true" />
 
 </databaseChangeLog>

@@ -89,4 +89,11 @@
                         stripComments="false" />
         </changeSet>
 
+        <changeSet id="create_admin" author="zlac370" runOnChange="false">
+                <sqlFile path="../../src/sql/functions/get_admin_user_stats.sql"
+                        relativeToChangelogFile="true"
+                        splitStatements="false"
+                        stripComments="false" />
+        </changeSet>
+
 </databaseChangeLog>
