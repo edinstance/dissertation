@@ -139,4 +139,6 @@
             stripComments="false" />
     </changeSet>
 
+    <include file="tests/seeds.xml" relativeToChangelogFile="true" />
+
 </databaseChangeLog>
