@@ -27,4 +27,11 @@
             stripComments="false" />
     </changeSet>
 
+    <changeSet id="test_deactivate_admin" author="zlac370" runOnChange="false">
+        <sqlFile path="../../../src/sql/tests/admin/deactivate_admin.sql"
+            relativeToChangelogFile="true"
+            splitStatements="false"
+            stripComments="false" />
+    </changeSet>
+
 </databaseChangeLog>
