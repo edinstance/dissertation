@@ -1,6 +1,7 @@
 package com.finalproject.backend.permissions.entities;
 
 import com.finalproject.backend.permissions.entities.ids.RolePermissionId;
+import jakarta.persistence.Column;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -43,6 +44,12 @@ public class RolePermissionEntity {
   private PermissionsEntity permission;
 
   /**
+   * The grant type of the permission.
+   */
+  @Column(name = "grant_type")
+  private String grantType;
+
+  /**
    * Default constructor.
    */
   public RolePermissionEntity() {
@@ -54,8 +61,10 @@ public class RolePermissionEntity {
    * @param role the role.
    * @param permission the permission.
    */
-  public RolePermissionEntity(RoleEntity role, PermissionsEntity permission) {
+  public RolePermissionEntity(RoleEntity role, PermissionsEntity permission,
+                              String grantType) {
     this.role = role;
     this.permission = permission;
+    this.grantType = grantType;
   }
 }

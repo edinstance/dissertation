@@ -38,7 +38,7 @@ public class RolePermissionEntityTests {
     PermissionsEntity permission = new PermissionsEntity(resource, action, "Test Permission");
     permission.setId(UUID.randomUUID());
 
-    RolePermissionEntity entity = new RolePermissionEntity(role, permission);
+    RolePermissionEntity entity = new RolePermissionEntity(role, permission, "grant");
 
     assertNotNull(entity);
     assertEquals(role, entity.getRole());
@@ -62,7 +62,7 @@ public class RolePermissionEntityTests {
     rolePermissionId.setRoleId(roleEntity.getId());
     rolePermissionId.setPermissionId(permissionsEntity.getId());
     
-    rolePermissionEntity = new RolePermissionEntity(roleEntity, permissionsEntity);
+    rolePermissionEntity = new RolePermissionEntity(roleEntity, permissionsEntity, "grant");
     rolePermissionEntity.setId(rolePermissionId);
   }
 
@@ -96,5 +96,11 @@ public class RolePermissionEntityTests {
 
     rolePermissionEntity.setPermission(newPermission);
     assertEquals(newPermission, rolePermissionEntity.getPermission());
+  }
+
+  @Test
+  public void testGrantTypeMethods() {
+    rolePermissionEntity.setGrantType("deny");
+    assertEquals("deny", rolePermissionEntity.getGrantType());
   }
 }
