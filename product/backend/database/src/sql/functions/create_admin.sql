@@ -12,9 +12,6 @@ RETURNS TABLE (
     is_deleted BOOLEAN
 ) AS $$
 DECLARE
-    user_exists BOOLEAN;
-    admin_exists BOOLEAN;
-    admin_active BOOLEAN;
     _role_id UUID;
     new_admin RECORD;
 BEGIN    
