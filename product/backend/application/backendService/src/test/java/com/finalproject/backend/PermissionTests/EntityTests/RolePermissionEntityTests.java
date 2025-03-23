@@ -7,6 +7,7 @@ import com.finalproject.backend.permissions.entities.RoleEntity;
 import com.finalproject.backend.permissions.entities.RolePermissionEntity;
 import com.finalproject.backend.permissions.entities.ids.RolePermissionId;
 import com.finalproject.backend.permissions.types.Actions;
+import com.finalproject.backend.permissions.types.GrantType;
 import com.finalproject.backend.permissions.types.Resources;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -38,7 +39,7 @@ public class RolePermissionEntityTests {
     PermissionsEntity permission = new PermissionsEntity(resource, action, "Test Permission");
     permission.setId(UUID.randomUUID());
 
-    RolePermissionEntity entity = new RolePermissionEntity(role, permission, "grant");
+    RolePermissionEntity entity = new RolePermissionEntity(role, permission, GrantType.GRANT);
 
     assertNotNull(entity);
     assertEquals(role, entity.getRole());
@@ -62,7 +63,7 @@ public class RolePermissionEntityTests {
     rolePermissionId.setRoleId(roleEntity.getId());
     rolePermissionId.setPermissionId(permissionsEntity.getId());
     
-    rolePermissionEntity = new RolePermissionEntity(roleEntity, permissionsEntity, "grant");
+    rolePermissionEntity = new RolePermissionEntity(roleEntity, permissionsEntity, GrantType.GRANT);
     rolePermissionEntity.setId(rolePermissionId);
   }
 
@@ -100,7 +101,7 @@ public class RolePermissionEntityTests {
 
   @Test
   public void testGrantTypeMethods() {
-    rolePermissionEntity.setGrantType("deny");
-    assertEquals("deny", rolePermissionEntity.getGrantType());
+    rolePermissionEntity.setGrantType(GrantType.DENY);
+    assertEquals(GrantType.DENY, rolePermissionEntity.getGrantType());
   }
 }
