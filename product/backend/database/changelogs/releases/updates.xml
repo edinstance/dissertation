@@ -46,4 +46,11 @@
                         stripComments="false" />
         </changeSet>
 
+        <changeSet id="add_grant_type_to_role_permissions" author="zlac370" runOnChange="false">
+                <sqlFile path="../../src/sql/updates/add_grant_type_to_role_permissions.sql"
+                        relativeToChangelogFile="true"
+                        splitStatements="false"
+                        stripComments="false" />
+        </changeSet>
+
 </databaseChangeLog>
