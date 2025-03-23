@@ -6,6 +6,7 @@ import com.finalproject.backend.permissions.entities.ResourcesEntity;
 import com.finalproject.backend.permissions.entities.RoleEntity;
 import com.finalproject.backend.permissions.entities.RolePermissionEntity;
 import com.finalproject.backend.permissions.entities.ids.RolePermissionId;
+import com.finalproject.backend.permissions.types.Actions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -31,7 +32,7 @@ public class RolePermissionEntityTests {
     role.setRoleName("TestRole");
 
     ResourcesEntity resource = new ResourcesEntity(UUID.randomUUID(), "Test Resource", "Test Resource Description");
-    ActionsEntity action = new ActionsEntity(UUID.randomUUID(), "Test Action", "Test Action Description");
+    ActionsEntity action = new ActionsEntity(UUID.randomUUID(), Actions.READ, "Test Action Description");
 
     PermissionsEntity permission = new PermissionsEntity(resource, action, "Test Permission");
     permission.setId(UUID.randomUUID());
@@ -51,7 +52,7 @@ public class RolePermissionEntityTests {
     roleEntity.setDescription("Administrator role");
 
     ResourcesEntity resourcesEntity = new ResourcesEntity(UUID.randomUUID(), "Resource", "Resource Description");
-    ActionsEntity actionsEntity = new ActionsEntity(UUID.randomUUID(), "Action", "Action Description");
+    ActionsEntity actionsEntity = new ActionsEntity(UUID.randomUUID(), Actions.READ, "Action Description");
 
     PermissionsEntity permissionsEntity = new PermissionsEntity(resourcesEntity, actionsEntity, "Permission Description");
     permissionsEntity.setId(UUID.randomUUID());
@@ -87,7 +88,7 @@ public class RolePermissionEntityTests {
   @Test
   public void testPermissionMethods() {
     ResourcesEntity resource = new ResourcesEntity(UUID.randomUUID(), "New Resource", "New Resource Description");
-    ActionsEntity action = new ActionsEntity(UUID.randomUUID(), "New Action", "New Action Description");
+    ActionsEntity action = new ActionsEntity(UUID.randomUUID(), Actions.READ, "New Action Description");
 
     PermissionsEntity newPermission = new PermissionsEntity(resource, action, "New Permission");
     newPermission.setId(UUID.randomUUID());

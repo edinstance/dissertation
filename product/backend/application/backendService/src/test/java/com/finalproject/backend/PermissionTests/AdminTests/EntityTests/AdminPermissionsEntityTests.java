@@ -4,6 +4,7 @@ import com.finalproject.backend.admin.entities.AdminEntity;
 import com.finalproject.backend.permissions.admin.entities.AdminPermissionsEntity;
 import com.finalproject.backend.permissions.admin.entities.ids.AdminPermissionsEntityId;
 import com.finalproject.backend.permissions.entities.*;
+import com.finalproject.backend.permissions.types.Actions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -35,7 +36,7 @@ public class AdminPermissionsEntityTests {
 
 
     ResourcesEntity resourcesEntity = new ResourcesEntity(UUID.randomUUID(), "Resource", "Resource Description");
-    ActionsEntity actionsEntity = new ActionsEntity(UUID.randomUUID(), "Action", "Action Description");
+    ActionsEntity actionsEntity = new ActionsEntity(UUID.randomUUID(), Actions.READ, "Action Description");
 
     PermissionsEntity permissionsEntity = new PermissionsEntity(resourcesEntity, actionsEntity, "Permission Description");
     permissionsEntity.setId(UUID.randomUUID());

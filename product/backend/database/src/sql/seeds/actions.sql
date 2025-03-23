@@ -4,7 +4,7 @@ INSERT INTO
 VALUES
     (
         gen_random_uuid (),
-        'read',
+        'READ',
         'This action allows the user to read data'
     );
 
@@ -13,6 +13,6 @@ INSERT INTO
 VALUES
     (
         gen_random_uuid (),
-        'write',
+        'WRITE',
         'This action allows the user to write data'
     );

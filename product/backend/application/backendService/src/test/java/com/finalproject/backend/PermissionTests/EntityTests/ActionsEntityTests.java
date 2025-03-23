@@ -1,6 +1,7 @@
 package com.finalproject.backend.PermissionTests.EntityTests;
 
 import com.finalproject.backend.permissions.entities.ActionsEntity;
+import com.finalproject.backend.permissions.types.Actions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -20,15 +21,15 @@ public class ActionsEntityTests {
 
   @Test
   public void testConstructor(){
-    actionsEntity = new ActionsEntity(UUID.randomUUID(), "Action", "Description");
+    actionsEntity = new ActionsEntity(UUID.randomUUID(), Actions.READ, "Description");
     assertNotNull(actionsEntity);
-    assert actionsEntity.getAction().equals("Action");
+    assert actionsEntity.getAction().equals(Actions.READ);
     assert actionsEntity.getDescription().equals("Description");
   }
 
   @BeforeAll
   public static void setUp(){
-    actionsEntity = new ActionsEntity(UUID.randomUUID(), "Action", "Description");
+    actionsEntity = new ActionsEntity(UUID.randomUUID(), Actions.READ, "Description");
   }
 
   @Test
@@ -40,8 +41,8 @@ public class ActionsEntityTests {
 
   @Test
   public void testActionMethods(){
-    actionsEntity.setAction("New Action");
-    assert(actionsEntity.getAction().equals("New Action"));
+    actionsEntity.setAction(Actions.WRITE);
+    assert(actionsEntity.getAction().equals(Actions.WRITE));
   }
 
   @Test

@@ -1,10 +1,9 @@
 package com.finalproject.backend.permissions.entities;
 
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import com.finalproject.backend.permissions.types.Actions;
+import jakarta.persistence.*;
+
 import java.util.UUID;
 import lombok.Getter;
 import lombok.Setter;
@@ -28,8 +27,9 @@ public class ActionsEntity {
   /**
    * The action.
    */
+  @Enumerated(EnumType.STRING)
   @Column(name = "action")
-  private String action;
+  private Actions action;
 
   /**
    * The description of the action.
@@ -49,7 +49,7 @@ public class ActionsEntity {
    * @param action the action.
    * @param description the description.
    */
-  public ActionsEntity(UUID actionId, String action, String description) {
+  public ActionsEntity(UUID actionId, Actions action, String description) {
     this.actionId = actionId;
     this.action = action;
     this.description = description;
