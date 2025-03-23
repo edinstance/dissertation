@@ -1,0 +1,70 @@
+package com.finalproject.backend.permissions.admin.entities.ids;
+
+import jakarta.persistence.Embeddable;
+import lombok.Getter;
+import lombok.Setter;
+import org.hibernate.Hibernate;
+
+import java.io.Serial;
+import java.io.Serializable;
+import java.util.Objects;
+import java.util.UUID;
+
+/**
+ * A composite id for the admin permissions entity.
+ */
+@Getter
+@Setter
+@Embeddable
+public class AdminPermissionId implements Serializable {
+
+  @Serial
+  private static final long serialVersionUID = -4085129020358584838L;
+
+  /**
+   * The id of the admin.
+   */
+  private UUID adminId;
+
+  /**
+   * The id of the permission.
+   */
+  private UUID permissionId;
+
+  /**
+   * The id of the resource.
+   */
+  private UUID resourceId;
+
+  /**
+   * The id of the action.
+   */
+  private UUID actionId;
+
+  /**
+   * Indicates whether some other object is "equal to" this one.
+   *
+   * @param o the object to compare with.
+   * @return true if this object is the same as the o argument; false otherwise.
+   */
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+    AdminPermissionId that = (AdminPermissionId) o;
+    return Objects.equals(adminId, that.adminId) &&
+            Objects.equals(permissionId, that.permissionId) &&
+            Objects.equals(resourceId, that.resourceId) &&
+            Objects.equals(actionId, that.actionId);
+  }
+
+  /**
+   * Returns a hash code value for the object.
+   *
+   * @return the hash code.
+   */
+  @Override
+  public int hashCode() {
+    return Objects.hash(adminId, permissionId, resourceId, actionId);
+  }
+}
