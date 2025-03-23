@@ -1,10 +1,9 @@
 package com.finalproject.backend.permissions.entities;
 
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import com.finalproject.backend.permissions.types.Resources;
+import jakarta.persistence.*;
+
 import java.util.UUID;
 import lombok.Getter;
 import lombok.Setter;
@@ -28,8 +27,9 @@ public class ResourcesEntity {
   /**
    * The resource.
    */
+  @Enumerated(EnumType.STRING)
   @Column(name = "resource")
-  private String resource;
+  private Resources resource;
 
   /**
    * The description of the resource.
@@ -50,7 +50,7 @@ public class ResourcesEntity {
    * @param resource the resource.
    * @param description the description of the resource.
    */
-  public ResourcesEntity(UUID id, String resource, String description) {
+  public ResourcesEntity(UUID id, Resources resource, String description) {
     this.id = id;
     this.resource = resource;
     this.description = description;

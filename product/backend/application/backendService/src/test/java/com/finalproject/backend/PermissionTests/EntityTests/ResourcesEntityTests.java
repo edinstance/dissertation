@@ -1,6 +1,7 @@
 package com.finalproject.backend.PermissionTests.EntityTests;
 
 import com.finalproject.backend.permissions.entities.ResourcesEntity;
+import com.finalproject.backend.permissions.types.Resources;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -21,16 +22,16 @@ public class ResourcesEntityTests {
   @Test
   public void testConstructor() {
     UUID id = UUID.randomUUID();
-    resourcesEntity = new ResourcesEntity(id, "Resource", "Description");
+    resourcesEntity = new ResourcesEntity(id, Resources.USERS, "Description");
     assertNotNull(resourcesEntity);
     assert resourcesEntity.getId().equals(id);
-    assert resourcesEntity.getResource().equals("Resource");
+    assert resourcesEntity.getResource().equals(Resources.USERS);
     assert resourcesEntity.getDescription().equals("Description");
   }
 
   @BeforeAll
   public static void setUp() {
-    resourcesEntity = new ResourcesEntity(UUID.randomUUID(), "Resource", "Description");
+    resourcesEntity = new ResourcesEntity(UUID.randomUUID(), Resources.USERS, "Description");
   }
 
   @Test
@@ -42,8 +43,8 @@ public class ResourcesEntityTests {
 
   @Test
   public void testResourceMethods(){
-    resourcesEntity.setResource("New Resource");
-    assert resourcesEntity.getResource().equals("New Resource");
+    resourcesEntity.setResource(Resources.ADMIN_PERMISSIONS);
+    assert resourcesEntity.getResource().equals(Resources.ADMIN_PERMISSIONS);
   }
 
   @Test

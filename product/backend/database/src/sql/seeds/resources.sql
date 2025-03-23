@@ -4,7 +4,7 @@ INSERT INTO
 VALUES
     (
         gen_random_uuid (),
-        'Admin',
+        'ADMINS',
         'This resource is for the admin information'
     );
 
@@ -13,6 +13,6 @@ INSERT INTO
 VALUES
     (
         gen_random_uuid (),
-        'User',
+        'USERS',
         'This resource is for the user information'
     );

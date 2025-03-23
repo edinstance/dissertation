@@ -5,5 +5,4 @@ public enum Actions {
   WRITE,
   DELETE,
   CREATE,
-
 }

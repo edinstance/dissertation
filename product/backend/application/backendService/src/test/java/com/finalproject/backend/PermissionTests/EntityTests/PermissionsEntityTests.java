@@ -5,6 +5,7 @@ import com.finalproject.backend.permissions.entities.PermissionsEntity;
 import com.finalproject.backend.permissions.entities.ResourcesEntity;
 import com.finalproject.backend.permissions.entities.RolePermissionEntity;
 import com.finalproject.backend.permissions.types.Actions;
+import com.finalproject.backend.permissions.types.Resources;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -21,7 +22,7 @@ public class PermissionsEntityTests {
 
   @BeforeAll
   public static void setUp() {
-    ResourcesEntity resourcesEntity = new ResourcesEntity(UUID.randomUUID(), "Resource", "Resource Description");
+    ResourcesEntity resourcesEntity = new ResourcesEntity(UUID.randomUUID(), Resources.USERS, "Resource Description");
     ActionsEntity actionsEntity = new ActionsEntity(UUID.randomUUID(), Actions.READ, "Action Description");
     permissionsEntity = new PermissionsEntity(resourcesEntity, actionsEntity, "Permission Description");
   }
@@ -34,7 +35,7 @@ public class PermissionsEntityTests {
 
   @Test
   public void testConstructor() {
-    ResourcesEntity resource = new ResourcesEntity(UUID.randomUUID(), "Test Resource", "Test Resource Description");
+    ResourcesEntity resource = new ResourcesEntity(UUID.randomUUID(), Resources.USERS, "Test Resource Description");
     ActionsEntity action = new ActionsEntity(UUID.randomUUID(), Actions.READ, "Test Action Description");
     PermissionsEntity entity = new PermissionsEntity(resource, action, "Test Description");
 
@@ -53,7 +54,7 @@ public class PermissionsEntityTests {
 
   @Test
   public void testResourceMethods() {
-    ResourcesEntity newResource = new ResourcesEntity(UUID.randomUUID(), "New Resource", "New Resource Description");
+    ResourcesEntity newResource = new ResourcesEntity(UUID.randomUUID(), Resources.USERS, "New Resource Description");
     permissionsEntity.setResource(newResource);
     assertEquals(newResource, permissionsEntity.getResource());
   }

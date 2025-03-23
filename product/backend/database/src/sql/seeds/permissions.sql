@@ -14,7 +14,7 @@ SELECT
         FROM
             resources
         WHERE
-            resource = 'User'
+            resource = 'USERS'
     ),
     (
         SELECT
@@ -22,6 +22,6 @@ SELECT
         FROM
             actions
         WHERE
-            action = 'read'
+            action = 'READ'
     ),
     'Allows reading user information';
