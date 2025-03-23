@@ -16,6 +16,7 @@ public interface AdminRepository extends JpaRepository<AdminEntity, UUID> {
 
   /**
    * Function for creating an admin.
+   *
    * @param userId the id of the user to promote to an admin.
    * @param adminId the id of the admin performing this operation.
    */
