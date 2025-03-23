@@ -2,7 +2,7 @@
 CREATE TABLE IF NOT EXISTS admin_permissions (
     admin_id UUID,
     permission_id UUID,
-    grant_type VARCHAR(10) NOT NULL DEFAULT 'grant',
+    grant_type VARCHAR(10) NOT NULL DEFAULT 'GRANT',
     PRIMARY KEY (admin_id, permission_id),
     FOREIGN KEY (admin_id) REFERENCES admins (user_id),
     FOREIGN KEY (permission_id) REFERENCES permissions (permission_id),
