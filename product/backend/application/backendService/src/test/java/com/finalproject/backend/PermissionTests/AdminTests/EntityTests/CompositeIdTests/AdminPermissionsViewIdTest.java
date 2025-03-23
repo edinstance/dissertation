@@ -10,7 +10,39 @@ import static org.junit.jupiter.api.Assertions.*;
 public class AdminPermissionsViewIdTest {
 
   @Test
-  void testEqualsAndHashCode() {
+  void testSelfEquality() {
+    UUID adminId = UUID.randomUUID();
+    UUID permissionId = UUID.randomUUID();
+    UUID resourceId = UUID.randomUUID();
+    UUID actionId = UUID.randomUUID();
+
+    AdminPermissionId id = new AdminPermissionId();
+    id.setAdminId(adminId);
+    id.setPermissionId(permissionId);
+    id.setResourceId(resourceId);
+    id.setActionId(actionId);
+
+    assertEquals(id, id);
+  }
+
+  @Test
+  void testNullInequality() {
+    UUID adminId = UUID.randomUUID();
+    UUID permissionId = UUID.randomUUID();
+    UUID resourceId = UUID.randomUUID();
+    UUID actionId = UUID.randomUUID();
+
+    AdminPermissionId id = new AdminPermissionId();
+    id.setAdminId(adminId);
+    id.setPermissionId(permissionId);
+    id.setResourceId(resourceId);
+    id.setActionId(actionId);
+
+    assertNotEquals(null, id);
+  }
+
+  @Test
+  void testEqualObjects() {
     UUID adminId = UUID.randomUUID();
     UUID permissionId = UUID.randomUUID();
     UUID resourceId = UUID.randomUUID();
@@ -28,29 +60,98 @@ public class AdminPermissionsViewIdTest {
     id2.setResourceId(resourceId);
     id2.setActionId(actionId);
 
-    AdminPermissionId id3 = new AdminPermissionId();
-    id3.setAdminId(UUID.randomUUID());
-    id3.setPermissionId(permissionId);
-    id3.setResourceId(resourceId);
-    id3.setActionId(actionId);
-
-    AdminPermissionId id4 = new AdminPermissionId();
-    id4.setAdminId(adminId);
-    id4.setPermissionId(UUID.randomUUID());
-    id4.setResourceId(resourceId);
-    id4.setActionId(actionId);
-
-    assertEquals(id1, id1);
-    assertNotEquals(null, id1);
 
     assertEquals(id1, id2);
     assertEquals(id1.hashCode(), id2.hashCode());
+  }
 
-    assertNotEquals(id1, id3);
-    assertNotEquals(id1.hashCode(), id3.hashCode());
+  @Test
+  void testDifferentAdminId() {
+    UUID sharedPermissionId = UUID.randomUUID();
+    UUID sharedResourceId = UUID.randomUUID();
+    UUID sharedActionId = UUID.randomUUID();
 
-    assertNotEquals(id1, id4);
-    assertNotEquals(id1.hashCode(), id4.hashCode());
+    AdminPermissionId id1 = new AdminPermissionId();
+    id1.setAdminId(UUID.randomUUID());
+    id1.setPermissionId(sharedPermissionId);
+    id1.setResourceId(sharedResourceId);
+    id1.setActionId(sharedActionId);
+
+    AdminPermissionId id2 = new AdminPermissionId();
+    id2.setAdminId(UUID.randomUUID());
+    id2.setPermissionId(sharedPermissionId);
+    id2.setResourceId(sharedResourceId);
+    id2.setActionId(sharedActionId);
+
+    assertNotEquals(id1, id2);
+    assertNotEquals(id1.hashCode(), id2.hashCode());
+  }
+
+  @Test
+  void testDifferentPermissionId() {
+    UUID sharedAdminId = UUID.randomUUID();
+    UUID sharedResourceId = UUID.randomUUID();
+    UUID sharedActionId = UUID.randomUUID();
+
+    AdminPermissionId id1 = new AdminPermissionId();
+    id1.setAdminId(sharedAdminId);
+    id1.setPermissionId(UUID.randomUUID());
+    id1.setResourceId(sharedResourceId);
+    id1.setActionId(sharedActionId);
+
+    AdminPermissionId id2 = new AdminPermissionId();
+    id2.setAdminId(sharedAdminId);
+    id2.setPermissionId(UUID.randomUUID());
+    id2.setResourceId(sharedResourceId);
+    id2.setActionId(sharedActionId);
+
+    assertNotEquals(id1, id2);
+    assertNotEquals(id1.hashCode(), id2.hashCode());
+  }
+
+  @Test
+  void testDifferentResourceId() {
+    UUID sharedAdminId = UUID.randomUUID();
+    UUID sharedPermissionId = UUID.randomUUID();
+    UUID sharedActionId = UUID.randomUUID();
+
+    AdminPermissionId id1 = new AdminPermissionId();
+    id1.setAdminId(sharedAdminId);
+    id1.setPermissionId(sharedPermissionId);
+    id1.setResourceId(UUID.randomUUID());
+    id1.setActionId(sharedActionId);
+
+    AdminPermissionId id2 = new AdminPermissionId();
+    id2.setAdminId(sharedAdminId);
+    id2.setPermissionId(sharedPermissionId);
+    id2.setResourceId(UUID.randomUUID());
+    id2.setActionId(sharedActionId);
+
+
+    assertNotEquals(id1, id2);
+    assertNotEquals(id1.hashCode(), id2.hashCode());
+  }
+
+  @Test
+  void testDifferentActionId() {
+    UUID sharedAdminId = UUID.randomUUID();
+    UUID sharedPermissionId = UUID.randomUUID();
+    UUID sharedResourceId = UUID.randomUUID();
+
+    AdminPermissionId id1 = new AdminPermissionId();
+    id1.setAdminId(sharedAdminId);
+    id1.setPermissionId(sharedPermissionId);
+    id1.setResourceId(sharedResourceId);
+    id1.setActionId(UUID.randomUUID());
+
+    AdminPermissionId id2 = new AdminPermissionId();
+    id2.setAdminId(sharedAdminId);
+    id2.setPermissionId(sharedPermissionId);
+    id2.setResourceId(sharedResourceId);
+    id2.setActionId(UUID.randomUUID());
+
+    assertNotEquals(id1, id2);
+    assertNotEquals(id1.hashCode(), id2.hashCode());
   }
 
   @Test
