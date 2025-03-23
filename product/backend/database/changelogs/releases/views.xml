@@ -26,4 +26,12 @@
                         splitStatements="false"
                         stripComments="false" />
         </changeSet>
+
+        <changeSet id="consolidate_admin_permission_view" author="zlac370" runOnChange="false">
+                <sqlFile path="../../src/sql/views/consolidate_admin_permissions.sql"
+                        relativeToChangelogFile="true"
+                        splitStatements="false"
+                        stripComments="false" />
+        </changeSet>
+
 </databaseChangeLog>
