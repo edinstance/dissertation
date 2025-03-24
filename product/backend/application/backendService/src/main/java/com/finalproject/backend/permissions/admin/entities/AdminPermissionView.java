@@ -11,11 +11,10 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.Table;
+import java.util.UUID;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.Immutable;
-
-import java.util.UUID;
 
 /**
  * A read-only mapping of the admin_permissions_view.

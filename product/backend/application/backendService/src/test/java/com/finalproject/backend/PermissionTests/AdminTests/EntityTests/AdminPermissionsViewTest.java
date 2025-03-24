@@ -62,7 +62,7 @@ public class AdminPermissionsViewTest {
         AdminPermissionId adminId = new AdminPermissionId();
         adminId.setAdminId(id);
         view.setId(adminId);
-        
+
         assert view.getAssociatedUserId() == id;
     }
 
