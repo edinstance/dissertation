@@ -1,6 +1,8 @@
 package com.finalproject.backend.admin.services;
 
 import com.finalproject.backend.admin.dto.UserStats;
+import com.finalproject.backend.admin.entities.AdminEntity;
+import com.finalproject.backend.admin.repositories.AdminRepository;
 import com.finalproject.backend.common.config.logging.AppLogger;
 import com.finalproject.backend.common.exceptions.UnauthorisedException;
 import com.finalproject.backend.common.helpers.AuthHelpers;
@@ -33,6 +35,7 @@ public class AdminService {
    */
   private final AdminAuthorizer adminAuthorizer;
   private final AuthHelpers authHelpers;
+  private final AdminRepository adminRepository;
 
   /**
    * Constructs an Admin Service with the specified UserRepository.
@@ -42,10 +45,11 @@ public class AdminService {
    */
   @Autowired
   public AdminService(UserRepository inputUserRepository,
-                      AdminAuthorizer inputAdminAuthorizer, AuthHelpers authHelpers) {
+                      AdminAuthorizer inputAdminAuthorizer, AuthHelpers authHelpers, AdminRepository adminRepository) {
     this.userRepository = inputUserRepository;
     this.adminAuthorizer = inputAdminAuthorizer;
     this.authHelpers = authHelpers;
+    this.adminRepository = adminRepository;
   }
 
   /**
@@ -102,4 +106,19 @@ public class AdminService {
     return userRepository.findAll();
   }
 
+  public AdminEntity createAdmin(final UUID userId) {
+
+    UUID currentAdminId = authHelpers.getCurrentUserId();
+    if (!adminAuthorizer.authorize(
+            currentAdminId,
+            Resources.ADMINS,
+            Actions.CREATE,
+            GrantType.GRANT,
+            AdminViewTypes.ALL)) {
+      AppLogger.warn("Admin does not have permission to create new admins");
+      throw new UnauthorisedException("Admin does not have permission to create new admins");
+    }
+
+    return adminRepository.createAdmin(currentAdminId, userId);
+  }
 }

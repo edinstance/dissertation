@@ -23,7 +23,7 @@ public interface AdminRepository extends JpaRepository<AdminEntity, UUID> {
   @Modifying
   @Query(value = "PERFORM create_admin(:userId, :adminId)",
           nativeQuery = true)
-  void createAdmin(
+  AdminEntity createAdmin(
           @Param("userId") UUID userId,
           @Param("adminId") UUID adminId
   );
