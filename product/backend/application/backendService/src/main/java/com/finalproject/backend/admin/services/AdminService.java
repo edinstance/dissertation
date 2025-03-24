@@ -85,6 +85,17 @@ public class AdminService {
    * @return the list of users.
    */
   public List<UserEntity> getAllUsers() {
+    UUID currentUserId = authHelpers.getCurrentUserId();
+    if (!adminAuthorizer.authorize(
+            currentUserId,
+            Resources.USERS,
+            Actions.READ,
+            GrantType.GRANT,
+            AdminViewTypes.ALL)) {
+      AppLogger.warn("User does not have permission to view user stats");
+      throw new UnauthorisedException("User does not have permission to view user stats");
+    }
+
     return userRepository.findAll();
   }
 
