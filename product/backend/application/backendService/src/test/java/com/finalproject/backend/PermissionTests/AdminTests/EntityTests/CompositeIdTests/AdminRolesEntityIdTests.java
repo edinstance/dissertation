@@ -1,6 +1,6 @@
 package com.finalproject.backend.PermissionTests.AdminTests.EntityTests.CompositeIdTests;
 
-import com.finalproject.backend.permissions.admin.entities.ids.AdminRolesEntityId;
+import com.finalproject.backend.permissions.entities.admin.ids.AdminRolesEntityId;
 import org.junit.jupiter.api.Test;
 
 import java.util.UUID;

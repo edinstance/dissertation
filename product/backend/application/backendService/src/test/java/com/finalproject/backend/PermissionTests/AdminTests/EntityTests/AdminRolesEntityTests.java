@@ -1,8 +1,8 @@
 package com.finalproject.backend.PermissionTests.AdminTests.EntityTests;
 
 import com.finalproject.backend.admin.entities.AdminEntity;
-import com.finalproject.backend.permissions.admin.entities.AdminRolesEntity;
-import com.finalproject.backend.permissions.admin.entities.ids.AdminRolesEntityId;
+import com.finalproject.backend.permissions.entities.admin.AdminRolesEntity;
+import com.finalproject.backend.permissions.entities.admin.ids.AdminRolesEntityId;
 import com.finalproject.backend.permissions.entities.RoleEntity;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;

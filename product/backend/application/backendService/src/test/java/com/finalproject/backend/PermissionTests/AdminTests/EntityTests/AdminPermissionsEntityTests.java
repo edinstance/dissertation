@@ -1,8 +1,8 @@
 package com.finalproject.backend.PermissionTests.AdminTests.EntityTests;
 
 import com.finalproject.backend.admin.entities.AdminEntity;
-import com.finalproject.backend.permissions.admin.entities.AdminPermissionsEntity;
-import com.finalproject.backend.permissions.admin.entities.ids.AdminPermissionsEntityId;
+import com.finalproject.backend.permissions.entities.admin.AdminPermissionsEntity;
+import com.finalproject.backend.permissions.entities.admin.ids.AdminPermissionsEntityId;
 import com.finalproject.backend.permissions.entities.*;
 import com.finalproject.backend.permissions.types.Actions;
 import com.finalproject.backend.permissions.types.Resources;

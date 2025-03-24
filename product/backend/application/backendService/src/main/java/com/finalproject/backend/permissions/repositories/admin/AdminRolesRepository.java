@@ -1,7 +1,7 @@
-package com.finalproject.backend.permissions.admin.repositories;
+package com.finalproject.backend.permissions.repositories.admin;
 
-import com.finalproject.backend.permissions.admin.entities.AdminRolesEntity;
-import com.finalproject.backend.permissions.admin.entities.ids.AdminRolesEntityId;
+import com.finalproject.backend.permissions.entities.admin.AdminRolesEntity;
+import com.finalproject.backend.permissions.entities.admin.ids.AdminRolesEntityId;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**

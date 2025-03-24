@@ -1,4 +1,4 @@
-package com.finalproject.backend.permissions.admin.entities.ids;
+package com.finalproject.backend.permissions.entities.admin.ids;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
@@ -10,15 +10,15 @@ import lombok.Setter;
 import org.hibernate.Hibernate;
 
 /**
- * A composite id for the admin permissions entity.
+ * A composite id for the admin roles entity.
  */
 @Getter
 @Setter
 @Embeddable
-public class AdminPermissionsEntityId implements java.io.Serializable {
+public class AdminRolesEntityId implements java.io.Serializable {
 
   @Serial
-  private static final long serialVersionUID = -7478675555774598369L;
+  private static final long serialVersionUID = -7370097258518202924L;
 
   /**
    * The id of the admin.
@@ -27,10 +27,10 @@ public class AdminPermissionsEntityId implements java.io.Serializable {
   private UUID adminId;
 
   /**
-   * The id of the permission.
+   * The id of the role.
    */
-  @Column(name = "permission_id", nullable = false)
-  private UUID permissionId;
+  @Column(name = "role_id", nullable = false)
+  private UUID roleId;
 
   /**
    * A function to check if objects are the same.
@@ -46,8 +46,8 @@ public class AdminPermissionsEntityId implements java.io.Serializable {
     if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) {
       return false;
     }
-    AdminPermissionsEntityId entity = (AdminPermissionsEntityId) o;
-    return Objects.equals(this.permissionId, entity.permissionId)
+    AdminRolesEntityId entity = (AdminRolesEntityId) o;
+    return Objects.equals(this.roleId, entity.roleId)
             && Objects.equals(this.adminId, entity.adminId);
   }
 
@@ -58,7 +58,7 @@ public class AdminPermissionsEntityId implements java.io.Serializable {
    */
   @Override
   public int hashCode() {
-    return Objects.hash(permissionId, adminId);
+    return Objects.hash(roleId, adminId);
   }
 
 }

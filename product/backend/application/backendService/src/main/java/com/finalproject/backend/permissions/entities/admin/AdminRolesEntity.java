@@ -1,7 +1,7 @@
-package com.finalproject.backend.permissions.admin.entities;
+package com.finalproject.backend.permissions.entities.admin;
 
 import com.finalproject.backend.admin.entities.AdminEntity;
-import com.finalproject.backend.permissions.admin.entities.ids.AdminRolesEntityId;
+import com.finalproject.backend.permissions.entities.admin.ids.AdminRolesEntityId;
 import com.finalproject.backend.permissions.entities.RoleEntity;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
