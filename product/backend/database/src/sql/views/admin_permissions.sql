@@ -1,7 +1,7 @@
 -- This view consolidates the admin permissions
 CREATE OR REPLACE VIEW admin_permissions_view AS
 SELECT
-    ap.admin_id,
+    ap.admin_id as user_id,
     p.permission_id,
     r.resource_id,
     a.action_id,

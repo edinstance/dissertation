@@ -3,7 +3,7 @@ CREATE OR REPLACE FUNCTION get_admin_permissions(
     view_type admin_permission_view_type DEFAULT 'ALL'
 )
 RETURNS TABLE (
-    admin_id UUID,
+    user_id UUID,
     permission_id UUID,
     resource_id UUID,
     action_id UUID,
