@@ -1,5 +1,7 @@
 package com.finalproject.backend.AdminTests.ServiceTests;
 
+import com.finalproject.backend.admin.entities.AdminEntity;
+import com.finalproject.backend.admin.repositories.AdminRepository;
 import com.finalproject.backend.admin.services.AdminService;
 import com.finalproject.backend.common.exceptions.UnauthorisedException;
 import com.finalproject.backend.common.helpers.AuthHelpers;
@@ -8,8 +10,6 @@ import com.finalproject.backend.permissions.types.Actions;
 import com.finalproject.backend.permissions.types.AdminViewTypes;
 import com.finalproject.backend.permissions.types.GrantType;
 import com.finalproject.backend.permissions.types.Resources;
-import com.finalproject.backend.users.entities.UserEntity;
-import com.finalproject.backend.users.repositories.UserRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -20,15 +20,16 @@ import java.util.List;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
 
-
 @ExtendWith(MockitoExtension.class)
-public class GetAllUsersTests {
+public class GetAllAdminsTests {
 
 
   @Mock
-  private UserRepository userRepository;
+  private AdminRepository adminRepository;
 
   @Mock
   private AuthHelpers authHelpers;
@@ -45,19 +46,19 @@ public class GetAllUsersTests {
     when(authHelpers.getCurrentUserId()).thenReturn(UUID.randomUUID());
     when(adminAuthorizer.authorize(
             any(UUID.class),
-            eq(Resources.USERS),
+            eq(Resources.ADMINS),
             eq(Actions.READ),
             eq(GrantType.GRANT),
             eq(AdminViewTypes.ALL)
     )).thenReturn(true);
 
-    when(userRepository.findAll()).thenReturn(List.of());
+    when(adminRepository.findAll()).thenReturn(List.of());
 
-    List<UserEntity> result = adminService.getAllUsers();
+    List<AdminEntity> result = adminService.getAllAdmins();
 
     assertNotNull(result);
     assertTrue(result.isEmpty());
-    verify(userRepository, times(1)).findAll();
+    verify(adminRepository, times(1)).findAll();
   }
 
   @Test
@@ -66,20 +67,22 @@ public class GetAllUsersTests {
     when(authHelpers.getCurrentUserId()).thenReturn(UUID.randomUUID());
     when(adminAuthorizer.authorize(
             any(UUID.class),
-            eq(Resources.USERS),
+            eq(Resources.ADMINS),
             eq(Actions.READ),
             eq(GrantType.GRANT),
             eq(AdminViewTypes.ALL)
     )).thenReturn(true);
 
-    UserEntity userEntity = new UserEntity(UUID.randomUUID(), "email@test.com", "name");
-    when(userRepository.findAll()).thenReturn(List.of(userEntity));
+    UUID adminId = UUID.randomUUID();
+    AdminEntity adminEntity = new AdminEntity(adminId, false, "ACTIVE", adminId, adminId);
 
-    List<UserEntity> result = adminService.getAllUsers();
+    when(adminRepository.findAll()).thenReturn(List.of(adminEntity));
+
+    List<AdminEntity> result = adminService.getAllAdmins();
 
     assertNotNull(result);
-    assertTrue(result.contains(userEntity));
-    verify(userRepository, times(1)).findAll();
+    assertTrue(result.contains(adminEntity));
+    verify(adminRepository, times(1)).findAll();
   }
 
   @Test
@@ -87,16 +90,16 @@ public class GetAllUsersTests {
     when(authHelpers.getCurrentUserId()).thenReturn(UUID.randomUUID());
     when(adminAuthorizer.authorize(
             any(UUID.class),
-            eq(Resources.USERS),
+            eq(Resources.ADMINS),
             eq(Actions.READ),
             eq(GrantType.GRANT),
             eq(AdminViewTypes.ALL)
     )).thenReturn(false);
 
     UnauthorisedException exception = assertThrows(UnauthorisedException.class, () -> {
-      adminService.getAllUsers();
+      adminService.getAllAdmins();
     });
 
-    assert exception.getMessage().equals("Admin does not have permission to view user data");
+    assert exception.getMessage().equals("Admin does not have permission to view admin data");
   }
 }

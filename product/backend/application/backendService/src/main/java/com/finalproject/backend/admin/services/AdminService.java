@@ -100,11 +100,31 @@ public class AdminService {
             Actions.READ,
             GrantType.GRANT,
             AdminViewTypes.ALL)) {
-      AppLogger.warn("User does not have permission to view user stats");
-      throw new UnauthorisedException("User does not have permission to view user stats");
+      AppLogger.warn("Admin does not have permission to view user data");
+      throw new UnauthorisedException("Admin does not have permission to view user data");
     }
 
     return userRepository.findAll();
+  }
+
+  /**
+   * This method gets all the admins.
+   *
+   * @return a list of all the admins.
+   */
+  public List<AdminEntity> getAllAdmins(){
+    UUID currentUserId = authHelpers.getCurrentUserId();
+    if (!adminAuthorizer.authorize(
+            currentUserId,
+            Resources.ADMINS,
+            Actions.READ,
+            GrantType.GRANT,
+            AdminViewTypes.ALL)) {
+      AppLogger.warn("Admin does not have permission to view admin data");
+      throw new UnauthorisedException("Admin does not have permission to view admin data");
+    }
+
+    return adminRepository.findAll();
   }
 
   /**
