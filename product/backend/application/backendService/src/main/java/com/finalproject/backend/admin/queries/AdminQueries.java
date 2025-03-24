@@ -54,4 +54,14 @@ public class AdminQueries {
   public List<AdminEntity> getAllAdmins() {
     return adminService.getAllAdmins();
   }
+
+  /**
+   * A query to get the current admin.
+   *
+   * @return the current admin.
+   */
+  @DgsQuery
+  public AdminEntity getCurrentAdmin() {
+    return adminService.getCurrentAdmin();
+  }
 }

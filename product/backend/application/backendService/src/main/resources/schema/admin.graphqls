@@ -4,6 +4,7 @@ extend type Query {
     getUserStats: UserStats @admin
     getAllUsers: [User] @admin
     getAllAdmins: [Admin] @admin
+    getCurrentAdmin: Admin @admin
 }
 
 extend type Mutation {
