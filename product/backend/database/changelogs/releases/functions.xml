@@ -96,8 +96,8 @@
                         stripComments="false" />
         </changeSet>
 
-         <changeSet id="get_admin_permissions" author="zlac370" runOnChange="false">
-                <sqlFile path="../../src/sql/functions/get_admin_permissions.sql"
+         <changeSet id="get_all_admin_permissions" author="zlac370" runOnChange="false">
+                <sqlFile path="../../src/sql/functions/get_all_admin_permissions.sql"
                         relativeToChangelogFile="true"
                         splitStatements="false"
                         stripComments="false" />

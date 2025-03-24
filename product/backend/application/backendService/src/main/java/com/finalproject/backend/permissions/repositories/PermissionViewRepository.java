@@ -21,7 +21,7 @@ public interface PermissionViewRepository extends JpaRepository
    * @return all the admin permissions.
    */
   @Query(
-          value = "SELECT * FROM get_admin_permissions("
+          value = "SELECT * FROM get_all_admin_permissions("
                   + "CAST(:viewType AS admin_permission_view_type))",
           nativeQuery = true
   )

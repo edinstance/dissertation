@@ -1,5 +1,5 @@
 -- This function gets admin permissions with an option to choose the view
-CREATE OR REPLACE FUNCTION get_admin_permissions(
+CREATE OR REPLACE FUNCTION get_all_admin_permissions(
     view_type admin_permission_view_type DEFAULT 'ALL'
 )
 RETURNS TABLE (
