@@ -81,14 +81,14 @@ public class AdminAuthorizerTests {
     PermissionView PermissionView = new PermissionView(PermissionViewId, grantType, resources, actions);
 
     when(adminRepository.findById(adminId)).thenReturn(Optional.of(admin));
-    when(permissionViewRepository.getAllAdminPermissions((AdminViewTypes) viewTypes)).thenReturn(List.of(PermissionView));
+    when(permissionViewRepository.getAdminPermissionsById(adminId,(AdminViewTypes) viewTypes)).thenReturn(List.of(PermissionView));
     assertTrue(adminAuthorizer.authorize(adminId, resources, actions, viewTypes));
   }
 
   @Test
   public void testAdminHasNoPermissions() {
     when(adminRepository.findById(adminId)).thenReturn(Optional.of(admin));
-    when(permissionViewRepository.getAllAdminPermissions((AdminViewTypes) viewTypes)).thenReturn(List.of());
+    when(permissionViewRepository.getAdminPermissionsById(adminId, (AdminViewTypes) viewTypes)).thenReturn(List.of());
     assertFalse(adminAuthorizer.authorize(adminId, resources, actions, viewTypes));
   }
 
@@ -99,7 +99,7 @@ public class AdminAuthorizerTests {
     PermissionView PermissionView = new PermissionView(PermissionViewId, grantType, resources, actions);
 
     when(adminRepository.findById(adminId)).thenReturn(Optional.of(admin));
-    when(permissionViewRepository.getAllAdminPermissions((AdminViewTypes) viewTypes)).thenReturn(List.of(PermissionView));
+    when(permissionViewRepository.getAdminPermissionsById(adminId,(AdminViewTypes) viewTypes)).thenReturn(List.of(PermissionView));
     assertFalse(adminAuthorizer.authorize(adminId, resources, actions, viewTypes));
   }
 
@@ -110,7 +110,7 @@ public class AdminAuthorizerTests {
     PermissionView PermissionView = new PermissionView(PermissionViewId, grantType, Resources.USERS, actions);
 
     when(adminRepository.findById(adminId)).thenReturn(Optional.of(admin));
-    when(permissionViewRepository.getAllAdminPermissions((AdminViewTypes) viewTypes)).thenReturn(List.of(PermissionView));
+    when(permissionViewRepository.getAdminPermissionsById(adminId,(AdminViewTypes) viewTypes)).thenReturn(List.of(PermissionView));
     assertFalse(adminAuthorizer.authorize(adminId, resources, actions, viewTypes));
   }
 
@@ -121,10 +121,10 @@ public class AdminAuthorizerTests {
     PermissionView PermissionView = new PermissionView(PermissionViewId, grantType, resources, Actions.WRITE);
 
     when(adminRepository.findById(adminId)).thenReturn(Optional.of(admin));
-    when(permissionViewRepository.getAllAdminPermissions((AdminViewTypes) viewTypes)).thenReturn(List.of(PermissionView));
+    when(permissionViewRepository.getAdminPermissionsById(adminId,(AdminViewTypes) viewTypes)).thenReturn(List.of(PermissionView));
     assertFalse(adminAuthorizer.authorize(adminId, resources, actions, viewTypes));
   }
-
+  
   @Test
   public void testEffectiveGrantPermissions() {
     List<PermissionView> effectivePermissions = adminAuthorizer.getEffectivePermissions(allPermissionViews);

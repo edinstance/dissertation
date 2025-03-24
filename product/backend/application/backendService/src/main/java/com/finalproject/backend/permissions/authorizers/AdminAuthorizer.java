@@ -51,7 +51,6 @@ public class AdminAuthorizer implements PermissionAuthorizer {
    * @param adminId   the user id.
    * @param resource  the resource.
    * @param action    the action.
-   * @param grantType the grant type.
    * @param viewType  the view type.
    * @return if the user is authorized.
    */
@@ -71,7 +70,7 @@ public class AdminAuthorizer implements PermissionAuthorizer {
     }
 
     List<PermissionView> permissions =
-            permissionViewRepository.getAllAdminPermissions((AdminViewTypes) viewType);
+            permissionViewRepository.getAdminPermissionsById(adminId,(AdminViewTypes) viewType);
 
     List<PermissionView> effectivePermissions = getEffectivePermissions(permissions);
 
