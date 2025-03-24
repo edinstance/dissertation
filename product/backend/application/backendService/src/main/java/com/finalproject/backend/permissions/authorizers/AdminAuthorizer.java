@@ -19,7 +19,7 @@ import org.springframework.stereotype.Component;
  * This class is responsible for checking if an admin has permissions.
  */
 @Component
-public class AdminAuthorizer implements PermissionAuthorizer {
+public class AdminAuthorizer implements PermissionAuthorizer<AdminPermissionView> {
 
   /**
    * Repository for accessing admin permissions.

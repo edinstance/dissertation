@@ -14,6 +14,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -39,6 +40,9 @@ public class AdminAuthorizerTests {
   private Actions actions;
   private GrantType grantType;
   private ViewTypes viewTypes;
+  private AdminPermissionId adminPermissionId;
+  private AdminPermissionView adminPermissionView;
+  private List<AdminPermissionView> allAdminPermissionViews;
 
   @BeforeEach
   public void setUp() {
@@ -48,6 +52,13 @@ public class AdminAuthorizerTests {
     actions = Actions.READ;
     grantType = GrantType.GRANT;
     viewTypes = AdminViewTypes.PERMISSIONS;
+
+    adminPermissionId = new AdminPermissionId();
+    adminPermissionId.setAdminId(adminId);
+    adminPermissionView = new AdminPermissionView(adminPermissionId, GrantType.GRANT, resources, actions);
+
+    allAdminPermissionViews = new ArrayList<>();
+    allAdminPermissionViews.add(adminPermissionView);
   }
 
   @Test
@@ -63,20 +74,20 @@ public class AdminAuthorizerTests {
   }
 
   @Test
-  public void testAdminIsNull(){
+  public void testAdminIsNull() {
     when(adminRepository.findById(adminId)).thenReturn(Optional.empty());
     assertFalse(adminAuthorizer.authorize(adminId, resources, actions, grantType, viewTypes));
   }
 
   @Test
-  public void testSuperAdmin(){
+  public void testSuperAdmin() {
     admin.setSuperAdmin(true);
     when(adminRepository.findById(adminId)).thenReturn(Optional.of(admin));
     assertTrue(adminAuthorizer.authorize(adminId, resources, actions, grantType, viewTypes));
   }
 
   @Test
-  public void testAdminHasPermissions(){
+  public void testAdminHasPermissions() {
     AdminPermissionId adminPermissionId = new AdminPermissionId();
     adminPermissionId.setAdminId(adminId);
     AdminPermissionView adminPermissionView = new AdminPermissionView(adminPermissionId, grantType, resources, actions);
@@ -87,14 +98,14 @@ public class AdminAuthorizerTests {
   }
 
   @Test
-  public void testAdminHasNoPermissions(){
+  public void testAdminHasNoPermissions() {
     when(adminRepository.findById(adminId)).thenReturn(Optional.of(admin));
     when(adminPermissionViewRepository.getAllAdminPermissions((AdminViewTypes) viewTypes)).thenReturn(List.of());
     assertFalse(adminAuthorizer.authorize(adminId, resources, actions, grantType, viewTypes));
   }
 
   @Test
-  public void testAdminHasWrongPermissions(){
+  public void testAdminHasWrongPermissions() {
     AdminPermissionId adminPermissionId = new AdminPermissionId();
     adminPermissionId.setAdminId(UUID.randomUUID());
     AdminPermissionView adminPermissionView = new AdminPermissionView(adminPermissionId, grantType, resources, actions);
@@ -105,7 +116,7 @@ public class AdminAuthorizerTests {
   }
 
   @Test
-  public void testAdminDifferentResources(){
+  public void testAdminDifferentResources() {
     AdminPermissionId adminPermissionId = new AdminPermissionId();
     adminPermissionId.setAdminId(adminId);
     AdminPermissionView adminPermissionView = new AdminPermissionView(adminPermissionId, grantType, Resources.USERS, actions);
@@ -116,7 +127,7 @@ public class AdminAuthorizerTests {
   }
 
   @Test
-  public void testAdminDifferentActions(){
+  public void testAdminDifferentActions() {
     AdminPermissionId adminPermissionId = new AdminPermissionId();
     adminPermissionId.setAdminId(adminId);
     AdminPermissionView adminPermissionView = new AdminPermissionView(adminPermissionId, grantType, resources, Actions.WRITE);
@@ -127,14 +138,39 @@ public class AdminAuthorizerTests {
   }
 
   @Test
-  public void testAdminDifferentGrantType(){
-    AdminPermissionId adminPermissionId = new AdminPermissionId();
-    adminPermissionId.setAdminId(adminId);
-    AdminPermissionView adminPermissionView = new AdminPermissionView(adminPermissionId, GrantType.DENY, resources, actions);
-
+  public void testAdminDifferentGrantType() {
     when(adminRepository.findById(adminId)).thenReturn(Optional.of(admin));
-    when(adminPermissionViewRepository.getAllAdminPermissions((AdminViewTypes) viewTypes)).thenReturn(List.of(adminPermissionView));
+    when(adminPermissionViewRepository.getAllAdminPermissions((AdminViewTypes) viewTypes)).thenReturn(List.of(new AdminPermissionView(adminPermissionId, GrantType.DENY, resources, actions)));
     assertFalse(adminAuthorizer.authorize(adminId, resources, actions, grantType, viewTypes));
+  }
+
+  @Test
+  public void testEffectiveGrantPermissions() {
+    List<AdminPermissionView> effectivePermissions = adminAuthorizer.getEffectivePermissions(allAdminPermissionViews);
+    assertEquals(effectivePermissions.size(), allAdminPermissionViews.size());
+
+    assert effectivePermissions.contains(adminPermissionView);
+  }
+
+  @Test
+  public void testEffectiveGrantPermissionsWithDeny() {
+    AdminPermissionView newAdminView = new AdminPermissionView(adminPermissionId, GrantType.DENY, Resources.ADMIN_ROLES, actions);
+    allAdminPermissionViews.add(newAdminView);
+
+    List<AdminPermissionView> effectivePermissions = adminAuthorizer.getEffectivePermissions(allAdminPermissionViews);
+
+    assert !effectivePermissions.contains(newAdminView);
+    assert effectivePermissions.contains(adminPermissionView);
+  }
+
+  @Test
+  public void testEffectiveGrantPermissionsWithConflict() {
+    AdminPermissionView newAdminView = new AdminPermissionView(adminPermissionId, GrantType.DENY, resources, actions);
+    allAdminPermissionViews.add(newAdminView);
+
+    List<AdminPermissionView> effectivePermissions = adminAuthorizer.getEffectivePermissions(allAdminPermissionViews);
+
+    assert effectivePermissions.isEmpty();
   }
 
 }
