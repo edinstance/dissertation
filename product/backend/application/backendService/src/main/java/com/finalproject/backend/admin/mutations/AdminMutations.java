@@ -1,14 +1,13 @@
 package com.finalproject.backend.admin.mutations;
 
 import com.finalproject.backend.admin.entities.AdminEntity;
-import com.finalproject.backend.admin.repositories.AdminRepository;
 import com.finalproject.backend.admin.services.AdminService;
 import com.netflix.graphql.dgs.DgsComponent;
 import com.netflix.graphql.dgs.DgsMutation;
 import com.netflix.graphql.dgs.InputArgument;
+import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.UUID;
 
 /**
  * This class contains the admin mutations.
@@ -32,8 +31,14 @@ public class AdminMutations {
   }
 
 
+  /**
+   * A mutation to create an admin.
+   *
+   * @param userId the user to turn into an admin.
+   * @return the new admin entity.
+   */
   @DgsMutation
   public AdminEntity createAdmin(@InputArgument final String userId) {
-   return adminService.createAdmin(UUID.fromString(userId));
+    return adminService.createAdmin(UUID.fromString(userId));
   }
 }

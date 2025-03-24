@@ -45,7 +45,8 @@ public class AdminService {
    */
   @Autowired
   public AdminService(UserRepository inputUserRepository,
-                      AdminAuthorizer inputAdminAuthorizer, AuthHelpers authHelpers, AdminRepository adminRepository) {
+                      AdminAuthorizer inputAdminAuthorizer, AuthHelpers authHelpers,
+                      AdminRepository adminRepository) {
     this.userRepository = inputUserRepository;
     this.adminAuthorizer = inputAdminAuthorizer;
     this.authHelpers = authHelpers;
@@ -106,6 +107,12 @@ public class AdminService {
     return userRepository.findAll();
   }
 
+  /**
+   * A function to create a new admin.
+   *
+   * @param userId the id of the user to turn into an admin.
+   * @return the new admin.
+   */
   public AdminEntity createAdmin(final UUID userId) {
 
     UUID currentAdminId = authHelpers.getCurrentUserId();
