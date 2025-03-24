@@ -5,6 +5,19 @@ extend type Query {
     getAllUsers: [User] @admin
 }
 
+extend type Mutation {
+    createAdmin(userId: String): Admin
+}
+
+type Admin {
+    userId: String
+    isSuperAdmin: Boolean
+    status: String
+    createdBy: String
+    lastUpdatedBy: String
+    isDeleted: Boolean
+}
+
 
 type UserStats {
     total: Int

@@ -119,6 +119,7 @@ public class AdminService {
       throw new UnauthorisedException("Admin does not have permission to create new admins");
     }
 
+    AppLogger.info("Admin " + currentAdminId + " promoting user " + userId + " to admin");
     return adminRepository.createAdmin(currentAdminId, userId);
   }
 }
