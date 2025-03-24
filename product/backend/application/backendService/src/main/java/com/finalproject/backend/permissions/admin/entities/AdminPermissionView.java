@@ -51,9 +51,22 @@ public class AdminPermissionView {
   @Column(name = "action")
   private Actions action;
 
-  public AdminPermissionView() {}
+  /**
+   * Default constructor.
+   */
+  public AdminPermissionView() {
+  }
 
-  public AdminPermissionView(AdminPermissionId id, GrantType grantType, Resources resource, Actions action) {
+  /**
+   * Constructor with options.
+   *
+   * @param id        the composite primary key.
+   * @param grantType the grant type.
+   * @param resource  the resource.
+   * @param action    the action.
+   */
+  public AdminPermissionView(AdminPermissionId id,
+                             GrantType grantType, Resources resource, Actions action) {
     this.id = id;
     this.grantType = grantType;
     this.resource = resource;

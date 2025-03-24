@@ -15,26 +15,56 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+/**
+ * This class is responsible for checking if an admin has permissions.
+ */
 @Component
 public class AdminAuthorizer implements PermissionAuthorizer {
 
+  /**
+   * Repository for accessing admin permissions.
+   */
   private final AdminPermissionViewRepository adminPermissionViewRepository;
+
+  /**
+   * Repository for accessing admin data.
+   */
   private final AdminRepository adminRepository;
 
+  /**
+   * Constructor for the admin authorizer.
+   *
+   * @param adminRepository the repository for accessing admin data.
+   * @param adminPermissionViewRepository the repository for accessing admin permissions.
+   */
   @Autowired
-  public AdminAuthorizer(AdminRepository adminRepository, AdminPermissionViewRepository adminPermissionViewRepository) {
+  public AdminAuthorizer(AdminRepository adminRepository,
+                         AdminPermissionViewRepository adminPermissionViewRepository) {
     this.adminRepository = adminRepository;
     this.adminPermissionViewRepository = adminPermissionViewRepository;
   }
 
+  /**
+   * This method checks if an admin has permission to access a resource.
+   *
+   * @param adminId the user id.
+   * @param resource the resource.
+   * @param action the action.
+   * @param grantType the grant type.
+   * @param viewType the view type.
+   * @return if the user is authorized.
+   */
   @Override
   public boolean authorize(UUID adminId, Resources resource,
                                Actions action, GrantType grantType,
                                ViewTypes viewType) {
 
     if (!(viewType instanceof AdminViewTypes)) {
-      AppLogger.error("AdminPermissionChecker.hasPermission: Expected AdminPermissionViewTypes, but received: " + viewType);
-      throw new IllegalArgumentException("Expected an AdminPermissionViewTypes, got: " + viewType);
+      AppLogger.error("AdminPermissionChecker.hasPermission: "
+              + "Expected AdminPermissionViewTypes, but received: " + viewType);
+
+      throw new IllegalArgumentException("Expected an AdminPermissionViewTypes, got: "
+              + viewType);
     }
 
     AdminEntity admin = adminRepository.findById(adminId).orElse(null);
@@ -47,13 +77,14 @@ public class AdminAuthorizer implements PermissionAuthorizer {
       return true;
     }
 
-    List<AdminPermissionView> permissions = adminPermissionViewRepository.getAllAdminPermissions((AdminViewTypes) viewType);
+    List<AdminPermissionView> permissions =
+            adminPermissionViewRepository.getAllAdminPermissions((AdminViewTypes) viewType);
 
     for (AdminPermissionView permission : permissions) {
-      if (permission.getId().getAdminId().equals(adminId) &&
-              permission.getResource().equals(resource) &&
-              permission.getAction().equals(action) &&
-              permission.getGrantType().equals(grantType)) {
+      if (permission.getId().getAdminId().equals(adminId)
+              && permission.getResource().equals(resource)
+              && permission.getAction().equals(action)
+              && permission.getGrantType().equals(grantType)) {
         return true;
       }
     }

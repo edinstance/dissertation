@@ -1,18 +1,20 @@
 package com.finalproject.backend.admin.services;
 
 import com.finalproject.backend.admin.dto.UserStats;
-import com.finalproject.backend.common.Exceptions.UnauthorisedException;
 import com.finalproject.backend.common.config.logging.AppLogger;
+import com.finalproject.backend.common.exceptions.UnauthorisedException;
 import com.finalproject.backend.common.helpers.AuthHelpers;
 import com.finalproject.backend.permissions.authorizers.AdminAuthorizer;
-import com.finalproject.backend.permissions.types.*;
+import com.finalproject.backend.permissions.types.Actions;
+import com.finalproject.backend.permissions.types.AdminViewTypes;
+import com.finalproject.backend.permissions.types.GrantType;
+import com.finalproject.backend.permissions.types.Resources;
 import com.finalproject.backend.users.entities.UserEntity;
 import com.finalproject.backend.users.repositories.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.UUID;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 
 /**
@@ -39,7 +41,8 @@ public class AdminService {
    * @param inputAdminAuthorizer The authorizer to use.
    */
   @Autowired
-  public AdminService(UserRepository inputUserRepository, AdminAuthorizer inputAdminAuthorizer, AuthHelpers authHelpers) {
+  public AdminService(UserRepository inputUserRepository,
+                      AdminAuthorizer inputAdminAuthorizer, AuthHelpers authHelpers) {
     this.userRepository = inputUserRepository;
     this.adminAuthorizer = inputAdminAuthorizer;
     this.authHelpers = authHelpers;

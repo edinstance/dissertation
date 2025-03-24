@@ -1,14 +1,13 @@
 package com.finalproject.backend.permissions.admin.entities.ids;
 
 import jakarta.persistence.Embeddable;
-import lombok.Getter;
-import lombok.Setter;
-import org.hibernate.Hibernate;
-
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.Objects;
 import java.util.UUID;
+import lombok.Getter;
+import lombok.Setter;
+import org.hibernate.Hibernate;
 
 /**
  * A composite id for the admin permissions entity.
@@ -49,13 +48,17 @@ public class AdminPermissionId implements Serializable {
    */
   @Override
   public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+    if (this == o) {
+      return true;
+    }
+    if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) {
+      return false;
+    }
     AdminPermissionId that = (AdminPermissionId) o;
-    return Objects.equals(adminId, that.adminId) &&
-            Objects.equals(permissionId, that.permissionId) &&
-            Objects.equals(resourceId, that.resourceId) &&
-            Objects.equals(actionId, that.actionId);
+    return Objects.equals(adminId, that.adminId)
+            && Objects.equals(permissionId, that.permissionId)
+            && Objects.equals(resourceId, that.resourceId)
+            && Objects.equals(actionId, that.actionId);
   }
 
   /**

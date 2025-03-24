@@ -1,5 +1,8 @@
 package com.finalproject.backend.permissions.types;
 
+/**
+ * The resources.
+ */
 public enum Resources {
   ADMINS,
   USERS,

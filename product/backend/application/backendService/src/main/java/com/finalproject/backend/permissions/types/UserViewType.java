@@ -1,8 +1,16 @@
 package com.finalproject.backend.permissions.types;
 
-public enum UserViewType implements ViewTypes{
+/**
+ * The user view types.
+ */
+public enum UserViewType implements ViewTypes {
   USER;
 
+  /**
+   * Gets the view type name.
+   *
+   * @return the view type name.
+   */
   @Override
   public String getViewTypeName() {
     return this.name();
