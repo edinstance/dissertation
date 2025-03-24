@@ -3,7 +3,6 @@ package com.finalproject.backend.PermissionTests.UtilTests;
 import com.finalproject.backend.permissions.types.Actions;
 import com.finalproject.backend.permissions.types.Resources;
 import com.finalproject.backend.permissions.utils.PermissionKey;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -18,55 +17,71 @@ public class PermissionKeyTests {
   private static final Actions action = Actions.READ;
   private static PermissionKey key;
 
+  @BeforeAll
+  public static void setUp() {
+    key = new PermissionKey(associatedUserId, resource, action);
+  }
+
   @Test
   public void testConstructor() {
-    key = new PermissionKey(associatedUserId, resource, action);
     assertNotNull(key);
   }
 
-  @BeforeAll
-    public static void setUp(){
-        key = new PermissionKey(associatedUserId, resource, action);
-    }
-
   @Test
-  public void testHashCodeEquality(){
+  public void testHashCodeEquality() {
     int hash1 = key.hashCode();
     assertEquals(hash1, key.hashCode());
   }
 
   @Test
-  public void testEqualsItself(){
+  public void testEqualsItself() {
     assertEquals(key, key);
   }
 
   @Test
-  public void testDifferentObjects(){
+  public void testDifferentObjects() {
     assertFalse(key.equals("String"));
   }
 
   @Test
-  public void testEqualIds(){
+  public void testEqualKeys() {
+    PermissionKey key2 = new PermissionKey(associatedUserId, resource, action);
+    assertEquals(key, key2);
+  }
+
+  @Test
+  public void testEqualIds() {
     PermissionKey key2 = new PermissionKey(associatedUserId, Resources.PERMISSIONS, action);
     assertNotEquals(key, key2);
   }
 
   @Test
-  public void testEqualResources(){
+  public void testEqualResources() {
     PermissionKey key2 = new PermissionKey(UUID.randomUUID(), resource, action);
     assertNotEquals(key, key2);
   }
 
   @Test
-  public void testEqualActions(){
+  public void testEqualActions() {
     PermissionKey key2 = new PermissionKey(UUID.randomUUID(), Resources.PERMISSIONS, action);
     assertNotEquals(key, key2);
   }
 
   @Test
-  public void testNotEqual(){
+  public void testNotEqual() {
     PermissionKey key2 = new PermissionKey(UUID.randomUUID(), Resources.ADMINS, Actions.CREATE);
     assertNotEquals(key, key2);
   }
 
+  @Test
+  public void testNotEqualNull() {
+    PermissionKey key2 = null;
+    assertNotEquals(key2, key);
+  }
+
+  @Test
+  public void testNotEqualDifferentAction() {
+    PermissionKey key2 = new PermissionKey(associatedUserId, resource, Actions.CREATE);
+    assertNotEquals(key, key2);
+  }
 }
