@@ -13,9 +13,16 @@ RETURNS TABLE (
     action VARCHAR
 ) AS $$
 BEGIN
-    RETURN QUERY
-    SELECT *
-    FROM get_all_admin_permissions(view_type)
-    WHERE user_id = _user_id;
+   RETURN QUERY
+    SELECT
+        p.user_id,
+        p.permission_id,
+        p.resource_id,
+        p.action_id,
+        p.grant_type,
+        p.resource,
+        p.action
+    FROM get_all_admin_permissions(view_type) AS p  -- Alias the result set
+    WHERE p.user_id = _user_id;
 END;
 $$ LANGUAGE plpgsql;
