@@ -1,10 +1,12 @@
 package com.finalproject.backend.admin.queries;
 
 import com.finalproject.backend.admin.dto.UserStats;
+import com.finalproject.backend.admin.entities.AdminEntity;
 import com.finalproject.backend.admin.services.AdminService;
 import com.finalproject.backend.users.entities.UserEntity;
 import com.netflix.graphql.dgs.DgsComponent;
 import com.netflix.graphql.dgs.DgsQuery;
+
 import java.util.List;
 
 /**
@@ -42,5 +44,15 @@ public class AdminQueries {
   @DgsQuery
   public List<UserEntity> getAllUsers() {
     return adminService.getAllUsers();
+  }
+
+  /**
+   * A query to get a list of all the admins.
+   *
+   * @return the list of admins.
+   */
+  @DgsQuery
+  public List<AdminEntity> getAllAdmins() {
+    return adminService.getAllAdmins();
   }
 }
