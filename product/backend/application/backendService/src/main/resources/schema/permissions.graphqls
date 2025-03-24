@@ -1,0 +1,40 @@
+extend type Query {
+    getCurrentAdminPermissions: [PermissionView]
+    getAllAdminPermissions: [PermissionView]
+}
+
+type PermissionViewId {
+    userId: ID!
+    permissionId: ID!
+    resourceId: ID!
+    actionId: ID!
+}
+
+type PermissionView {
+    id: PermissionViewId!
+    grantType: GrantType!
+    resource: Resources!
+    action: Actions!
+}
+
+
+enum Resources {
+    ADMINS
+    USERS
+    ROLES
+    PERMISSIONS
+    ADMIN_PERMISSIONS
+    ADMIN_ROLES
+}
+
+enum Actions {
+    CREATE
+    READ
+    WRITE
+    DELETE
+}
+
+enum GrantType {
+    GRANT
+    DENY
+}
