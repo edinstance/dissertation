@@ -3,7 +3,6 @@ package com.finalproject.backend.AdminTests.QueryTests;
 import com.finalproject.backend.admin.entities.AdminEntity;
 import com.finalproject.backend.admin.queries.AdminQueries;
 import com.finalproject.backend.admin.services.AdminService;
-import com.finalproject.backend.users.entities.UserEntity;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -29,7 +28,7 @@ public class GetAllAdminsTests {
   @Test
   void testGetAllUsers() {
     UUID adminId = UUID.randomUUID();
-    AdminEntity adminEntity = new AdminEntity(adminId, false, "Active",adminId, adminId );
+    AdminEntity adminEntity = new AdminEntity(adminId, false, "Active", adminId, adminId);
 
     when(adminService.getAllAdmins()).thenReturn(List.of(adminEntity));
 

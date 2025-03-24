@@ -112,7 +112,7 @@ public class AdminService {
    *
    * @return a list of all the admins.
    */
-  public List<AdminEntity> getAllAdmins(){
+  public List<AdminEntity> getAllAdmins() {
     UUID currentUserId = authHelpers.getCurrentUserId();
     if (!adminAuthorizer.authorize(
             currentUserId,

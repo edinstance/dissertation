@@ -6,7 +6,6 @@ import com.finalproject.backend.admin.services.AdminService;
 import com.finalproject.backend.users.entities.UserEntity;
 import com.netflix.graphql.dgs.DgsComponent;
 import com.netflix.graphql.dgs.DgsQuery;
-
 import java.util.List;
 
 /**
