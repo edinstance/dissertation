@@ -9,7 +9,6 @@ import com.finalproject.backend.common.helpers.AuthHelpers;
 import com.finalproject.backend.permissions.authorizers.AdminAuthorizer;
 import com.finalproject.backend.permissions.types.Actions;
 import com.finalproject.backend.permissions.types.AdminViewTypes;
-import com.finalproject.backend.permissions.types.GrantType;
 import com.finalproject.backend.permissions.types.Resources;
 import com.finalproject.backend.users.entities.UserEntity;
 import com.finalproject.backend.users.repositories.UserRepository;
@@ -40,7 +39,7 @@ public class AdminService {
   /**
    * Constructs an Admin Service with the specified UserRepository.
    *
-   * @param inputUserRepository The repository for accessing user information.
+   * @param inputUserRepository  The repository for accessing user information.
    * @param inputAdminAuthorizer The authorizer to use.
    */
   @Autowired
@@ -51,6 +50,15 @@ public class AdminService {
     this.adminAuthorizer = inputAdminAuthorizer;
     this.authHelpers = authHelpers;
     this.adminRepository = adminRepository;
+  }
+
+  /**
+   * A function to get the current admin.
+   *
+   * @return the current admin.
+   */
+  public AdminEntity getCurrentAdmin() {
+    return adminRepository.findById(authHelpers.getCurrentUserId()).orElse(null);
   }
 
   /**
