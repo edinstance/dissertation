@@ -80,7 +80,9 @@ public class AdminAuthorizer implements PermissionAuthorizer<AdminPermissionView
     List<AdminPermissionView> permissions =
             adminPermissionViewRepository.getAllAdminPermissions((AdminViewTypes) viewType);
 
-    for (AdminPermissionView permission : permissions) {
+    List<AdminPermissionView> effectivePermissions = getEffectivePermissions(permissions);
+
+    for (AdminPermissionView permission : effectivePermissions) {
       if (permission.getId().getAdminId().equals(adminId)
               && permission.getResource().equals(resource)
               && permission.getAction().equals(action)
