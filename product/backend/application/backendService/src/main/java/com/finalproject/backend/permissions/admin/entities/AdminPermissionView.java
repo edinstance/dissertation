@@ -3,6 +3,7 @@ package com.finalproject.backend.permissions.admin.entities;
 import com.finalproject.backend.permissions.admin.entities.ids.AdminPermissionId;
 import com.finalproject.backend.permissions.types.Actions;
 import com.finalproject.backend.permissions.types.GrantType;
+import com.finalproject.backend.permissions.types.PermissionView;
 import com.finalproject.backend.permissions.types.Resources;
 import jakarta.persistence.Column;
 import jakarta.persistence.EmbeddedId;
@@ -14,6 +15,8 @@ import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.Immutable;
 
+import java.util.UUID;
+
 /**
  * A read-only mapping of the admin_permissions_view.
  */
@@ -22,7 +25,7 @@ import org.hibernate.annotations.Immutable;
 @Entity
 @Immutable
 @Table(name = "admin_permissions_view")
-public class AdminPermissionView {
+public class AdminPermissionView implements PermissionView {
 
   /**
    * The composite primary key containing adminId, permissionId, resourceId, and actionId.
@@ -50,6 +53,16 @@ public class AdminPermissionView {
   @Enumerated(EnumType.STRING)
   @Column(name = "action")
   private Actions action;
+
+  /**
+   * This method gets the id of the view.
+   *
+   * @return the admin id.
+   */
+  @Override
+  public UUID getAssociatedUserId() {
+    return id.getAdminId();
+  }
 
   /**
    * Default constructor.
