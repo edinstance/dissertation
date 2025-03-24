@@ -40,7 +40,7 @@ public class PermissionsService {
    * @return all the admin permissions.
    */
   public List<PermissionView> getAllAdminPermissions() {
-    return permissionsViewRepository.getAllAdminPermissions(AdminViewTypes.ALL);
+    return permissionsViewRepository.getAllAdminPermissions(AdminViewTypes.ALL.getViewTypeName());
   }
 
   /**
@@ -48,8 +48,8 @@ public class PermissionsService {
    *
    * @return the admins permissions.
    */
-  public List<PermissionView> getAdminPermissionsById() {
+  public List<PermissionView> getCurrentAdminPermissions() {
     return permissionsViewRepository.getAdminPermissionsById(authHelpers.getCurrentUserId(),
-            AdminViewTypes.ALL);
+            AdminViewTypes.ALL.getViewTypeName());
   }
 }

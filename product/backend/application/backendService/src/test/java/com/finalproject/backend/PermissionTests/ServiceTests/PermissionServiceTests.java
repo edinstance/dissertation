@@ -33,7 +33,7 @@ public class PermissionServiceTests {
 
   @Test
   public void testGetAllAdminPermissionsEmpty() {
-    when(permissionViewRepository.getAllAdminPermissions(AdminViewTypes.ALL)).thenReturn(List.of());
+    when(permissionViewRepository.getAllAdminPermissions(AdminViewTypes.ALL.getViewTypeName())).thenReturn(List.of());
 
     List<PermissionView> allAdminPermissions = permissionsService.getAllAdminPermissions();
 
@@ -42,7 +42,7 @@ public class PermissionServiceTests {
 
   @Test
   public void testGetAllAdminPermissions() {
-    when(permissionViewRepository.getAllAdminPermissions(AdminViewTypes.ALL)).thenReturn(List.of(new PermissionView()));
+    when(permissionViewRepository.getAllAdminPermissions(AdminViewTypes.ALL.getViewTypeName())).thenReturn(List.of(new PermissionView()));
 
     List<PermissionView> allAdminPermissions = permissionsService.getAllAdminPermissions();
 
@@ -52,9 +52,9 @@ public class PermissionServiceTests {
   @Test
   public void testGetAdminPermissionsByIdEmpty() {
     when(authHelpers.getCurrentUserId()).thenReturn(adminId);
-    when(permissionViewRepository.getAdminPermissionsById(adminId, AdminViewTypes.ALL)).thenReturn(List.of());
+    when(permissionViewRepository.getAdminPermissionsById(adminId, AdminViewTypes.ALL.getViewTypeName())).thenReturn(List.of());
 
-    List<PermissionView> allAdminPermissions = permissionsService.getAdminPermissionsById();
+    List<PermissionView> allAdminPermissions = permissionsService.getCurrentAdminPermissions();
 
     assertTrue(allAdminPermissions.isEmpty());
   }
@@ -62,9 +62,9 @@ public class PermissionServiceTests {
   @Test
   public void testGetAdminPermissionsById() {
     when(authHelpers.getCurrentUserId()).thenReturn(adminId);
-    when(permissionViewRepository.getAdminPermissionsById(adminId,AdminViewTypes.ALL)).thenReturn(List.of(new PermissionView()));
+    when(permissionViewRepository.getAdminPermissionsById(adminId,AdminViewTypes.ALL.getViewTypeName())).thenReturn(List.of(new PermissionView()));
 
-    List<PermissionView> allAdminPermissions = permissionsService.getAdminPermissionsById();
+    List<PermissionView> allAdminPermissions = permissionsService.getCurrentAdminPermissions();
 
     assertFalse(allAdminPermissions.isEmpty());
   }
