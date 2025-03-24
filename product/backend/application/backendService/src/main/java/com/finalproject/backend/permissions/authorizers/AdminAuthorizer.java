@@ -2,19 +2,16 @@ package com.finalproject.backend.permissions.authorizers;
 
 import com.finalproject.backend.admin.entities.AdminEntity;
 import com.finalproject.backend.admin.repositories.AdminRepository;
-import com.finalproject.backend.common.config.logging.AppLogger;
 import com.finalproject.backend.permissions.entities.PermissionView;
 import com.finalproject.backend.permissions.repositories.PermissionViewRepository;
 import com.finalproject.backend.permissions.types.Actions;
 import com.finalproject.backend.permissions.types.AdminViewTypes;
-import com.finalproject.backend.permissions.types.GrantType;
 import com.finalproject.backend.permissions.types.Resources;
 import com.finalproject.backend.permissions.types.ViewTypes;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
 import java.util.List;
 import java.util.UUID;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 /**
  * This class is responsible for checking if an admin has permissions.
@@ -48,10 +45,10 @@ public class AdminAuthorizer implements PermissionAuthorizer {
   /**
    * This method checks if an admin has permission to access a resource.
    *
-   * @param adminId   the user id.
-   * @param resource  the resource.
-   * @param action    the action.
-   * @param viewType  the view type.
+   * @param adminId  the user id.
+   * @param resource the resource.
+   * @param action   the action.
+   * @param viewType the view type.
    * @return if the user is authorized.
    */
   @Override
@@ -70,7 +67,7 @@ public class AdminAuthorizer implements PermissionAuthorizer {
     }
 
     List<PermissionView> permissions =
-            permissionViewRepository.getAdminPermissionsById(adminId,(AdminViewTypes) viewType);
+            permissionViewRepository.getAdminPermissionsById(adminId, (AdminViewTypes) viewType);
 
     List<PermissionView> effectivePermissions = getEffectivePermissions(permissions);
 
