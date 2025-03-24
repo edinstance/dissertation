@@ -65,7 +65,6 @@ public class AdminService {
             currentUserId,
             Resources.USERS,
             Actions.READ,
-            GrantType.GRANT,
             AdminViewTypes.ALL)) {
       AppLogger.warn("User does not have permission to view user stats");
       throw new UnauthorisedException("User does not have permission to view user stats");
@@ -98,7 +97,6 @@ public class AdminService {
             currentUserId,
             Resources.USERS,
             Actions.READ,
-            GrantType.GRANT,
             AdminViewTypes.ALL)) {
       AppLogger.warn("Admin does not have permission to view user data");
       throw new UnauthorisedException("Admin does not have permission to view user data");
@@ -118,7 +116,6 @@ public class AdminService {
             currentUserId,
             Resources.ADMINS,
             Actions.READ,
-            GrantType.GRANT,
             AdminViewTypes.ALL)) {
       AppLogger.warn("Admin does not have permission to view admin data");
       throw new UnauthorisedException("Admin does not have permission to view admin data");
@@ -140,7 +137,6 @@ public class AdminService {
             currentAdminId,
             Resources.ADMINS,
             Actions.CREATE,
-            GrantType.GRANT,
             AdminViewTypes.ALL)) {
       AppLogger.warn("Admin does not have permission to create new admins");
       throw new UnauthorisedException("Admin does not have permission to create new admins");

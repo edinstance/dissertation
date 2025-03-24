@@ -1,9 +1,8 @@
-package com.finalproject.backend.permissions.admin.entities;
+package com.finalproject.backend.permissions.entities;
 
-import com.finalproject.backend.permissions.admin.entities.ids.AdminPermissionId;
+import com.finalproject.backend.permissions.entities.ids.PermissionViewId;
 import com.finalproject.backend.permissions.types.Actions;
 import com.finalproject.backend.permissions.types.GrantType;
-import com.finalproject.backend.permissions.types.PermissionView;
 import com.finalproject.backend.permissions.types.Resources;
 import jakarta.persistence.Column;
 import jakarta.persistence.EmbeddedId;
@@ -11,10 +10,11 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.Table;
-import java.util.UUID;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.Immutable;
+
+import java.util.UUID;
 
 /**
  * A read-only mapping of the admin_permissions_view.
@@ -23,14 +23,14 @@ import org.hibernate.annotations.Immutable;
 @Setter
 @Entity
 @Immutable
-@Table(name = "admin_permissions_view")
-public class AdminPermissionView implements PermissionView {
+@Table(name = "permissions_view")
+public class PermissionView {
 
   /**
-   * The composite primary key containing adminId, permissionId, resourceId, and actionId.
+   * The composite primary key containing userId, permissionId, resourceId, and actionId.
    */
   @EmbeddedId
-  private AdminPermissionId id;
+  private PermissionViewId id;
 
   /**
    * The grant type of the permission.
@@ -54,19 +54,18 @@ public class AdminPermissionView implements PermissionView {
   private Actions action;
 
   /**
-   * This method gets the id of the view.
+   * This method gets the userId from the composite key.
    *
    * @return the admin id.
    */
-  @Override
   public UUID getAssociatedUserId() {
-    return id.getAdminId();
+    return id.getUserId();
   }
 
   /**
    * Default constructor.
    */
-  public AdminPermissionView() {
+  public PermissionView() {
   }
 
   /**
@@ -77,8 +76,8 @@ public class AdminPermissionView implements PermissionView {
    * @param resource  the resource.
    * @param action    the action.
    */
-  public AdminPermissionView(AdminPermissionId id,
-                             GrantType grantType, Resources resource, Actions action) {
+  public PermissionView(PermissionViewId id,
+                        GrantType grantType, Resources resource, Actions action) {
     this.id = id;
     this.grantType = grantType;
     this.resource = resource;

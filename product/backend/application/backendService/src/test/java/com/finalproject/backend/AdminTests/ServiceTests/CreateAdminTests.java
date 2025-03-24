@@ -52,7 +52,6 @@ public class CreateAdminTests {
             any(UUID.class),
             eq(Resources.ADMINS),
             eq(Actions.CREATE),
-            eq(GrantType.GRANT),
             eq(AdminViewTypes.ALL)
     )).thenReturn(true);
 
@@ -73,7 +72,6 @@ public class CreateAdminTests {
             any(UUID.class),
             eq(Resources.ADMINS),
             eq(Actions.CREATE),
-            eq(GrantType.GRANT),
             eq(AdminViewTypes.ALL)
     )).thenReturn(false);
 

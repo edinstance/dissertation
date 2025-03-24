@@ -1,23 +1,23 @@
-package com.finalproject.backend.PermissionTests.AdminTests.EntityTests.CompositeIdTests;
+package com.finalproject.backend.PermissionTests.EntityTests.CompositeIdTests;
 
-import com.finalproject.backend.permissions.admin.entities.ids.AdminPermissionId;
+import com.finalproject.backend.permissions.entities.ids.PermissionViewId;
 import org.junit.jupiter.api.Test;
 
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class AdminPermissionsViewIdTest {
+public class PermissionsViewIdTest {
 
   @Test
   void testSelfEquality() {
-    UUID adminId = UUID.randomUUID();
+    UUID userId = UUID.randomUUID();
     UUID permissionId = UUID.randomUUID();
     UUID resourceId = UUID.randomUUID();
     UUID actionId = UUID.randomUUID();
 
-    AdminPermissionId id = new AdminPermissionId();
-    id.setAdminId(adminId);
+    PermissionViewId id = new PermissionViewId();
+    id.setUserId(userId);
     id.setPermissionId(permissionId);
     id.setResourceId(resourceId);
     id.setActionId(actionId);
@@ -27,13 +27,13 @@ public class AdminPermissionsViewIdTest {
 
   @Test
   void testNullInequality() {
-    UUID adminId = UUID.randomUUID();
+    UUID userId = UUID.randomUUID();
     UUID permissionId = UUID.randomUUID();
     UUID resourceId = UUID.randomUUID();
     UUID actionId = UUID.randomUUID();
 
-    AdminPermissionId id = new AdminPermissionId();
-    id.setAdminId(adminId);
+    PermissionViewId id = new PermissionViewId();
+    id.setUserId(userId);
     id.setPermissionId(permissionId);
     id.setResourceId(resourceId);
     id.setActionId(actionId);
@@ -43,19 +43,19 @@ public class AdminPermissionsViewIdTest {
 
   @Test
   void testEqualObjects() {
-    UUID adminId = UUID.randomUUID();
+    UUID userId = UUID.randomUUID();
     UUID permissionId = UUID.randomUUID();
     UUID resourceId = UUID.randomUUID();
     UUID actionId = UUID.randomUUID();
 
-    AdminPermissionId id1 = new AdminPermissionId();
-    id1.setAdminId(adminId);
+    PermissionViewId id1 = new PermissionViewId();
+    id1.setUserId(userId);
     id1.setPermissionId(permissionId);
     id1.setResourceId(resourceId);
     id1.setActionId(actionId);
 
-    AdminPermissionId id2 = new AdminPermissionId();
-    id2.setAdminId(adminId);
+    PermissionViewId id2 = new PermissionViewId();
+    id2.setUserId(userId);
     id2.setPermissionId(permissionId);
     id2.setResourceId(resourceId);
     id2.setActionId(actionId);
@@ -66,19 +66,19 @@ public class AdminPermissionsViewIdTest {
   }
 
   @Test
-  void testDifferentAdminId() {
+  void testDifferentUserId() {
     UUID sharedPermissionId = UUID.randomUUID();
     UUID sharedResourceId = UUID.randomUUID();
     UUID sharedActionId = UUID.randomUUID();
 
-    AdminPermissionId id1 = new AdminPermissionId();
-    id1.setAdminId(UUID.randomUUID());
+    PermissionViewId id1 = new PermissionViewId();
+    id1.setUserId(UUID.randomUUID());
     id1.setPermissionId(sharedPermissionId);
     id1.setResourceId(sharedResourceId);
     id1.setActionId(sharedActionId);
 
-    AdminPermissionId id2 = new AdminPermissionId();
-    id2.setAdminId(UUID.randomUUID());
+    PermissionViewId id2 = new PermissionViewId();
+    id2.setUserId(UUID.randomUUID());
     id2.setPermissionId(sharedPermissionId);
     id2.setResourceId(sharedResourceId);
     id2.setActionId(sharedActionId);
@@ -89,18 +89,18 @@ public class AdminPermissionsViewIdTest {
 
   @Test
   void testDifferentPermissionId() {
-    UUID sharedAdminId = UUID.randomUUID();
+    UUID sharedUserId = UUID.randomUUID();
     UUID sharedResourceId = UUID.randomUUID();
     UUID sharedActionId = UUID.randomUUID();
 
-    AdminPermissionId id1 = new AdminPermissionId();
-    id1.setAdminId(sharedAdminId);
+    PermissionViewId id1 = new PermissionViewId();
+    id1.setUserId(sharedUserId);
     id1.setPermissionId(UUID.randomUUID());
     id1.setResourceId(sharedResourceId);
     id1.setActionId(sharedActionId);
 
-    AdminPermissionId id2 = new AdminPermissionId();
-    id2.setAdminId(sharedAdminId);
+    PermissionViewId id2 = new PermissionViewId();
+    id2.setUserId(sharedUserId);
     id2.setPermissionId(UUID.randomUUID());
     id2.setResourceId(sharedResourceId);
     id2.setActionId(sharedActionId);
@@ -111,18 +111,18 @@ public class AdminPermissionsViewIdTest {
 
   @Test
   void testDifferentResourceId() {
-    UUID sharedAdminId = UUID.randomUUID();
+    UUID sharedUserId = UUID.randomUUID();
     UUID sharedPermissionId = UUID.randomUUID();
     UUID sharedActionId = UUID.randomUUID();
 
-    AdminPermissionId id1 = new AdminPermissionId();
-    id1.setAdminId(sharedAdminId);
+    PermissionViewId id1 = new PermissionViewId();
+    id1.setUserId(sharedUserId);
     id1.setPermissionId(sharedPermissionId);
     id1.setResourceId(UUID.randomUUID());
     id1.setActionId(sharedActionId);
 
-    AdminPermissionId id2 = new AdminPermissionId();
-    id2.setAdminId(sharedAdminId);
+    PermissionViewId id2 = new PermissionViewId();
+    id2.setUserId(sharedUserId);
     id2.setPermissionId(sharedPermissionId);
     id2.setResourceId(UUID.randomUUID());
     id2.setActionId(sharedActionId);
@@ -134,18 +134,18 @@ public class AdminPermissionsViewIdTest {
 
   @Test
   void testDifferentActionId() {
-    UUID sharedAdminId = UUID.randomUUID();
+    UUID sharedUserId = UUID.randomUUID();
     UUID sharedPermissionId = UUID.randomUUID();
     UUID sharedResourceId = UUID.randomUUID();
 
-    AdminPermissionId id1 = new AdminPermissionId();
-    id1.setAdminId(sharedAdminId);
+    PermissionViewId id1 = new PermissionViewId();
+    id1.setUserId(sharedUserId);
     id1.setPermissionId(sharedPermissionId);
     id1.setResourceId(sharedResourceId);
     id1.setActionId(UUID.randomUUID());
 
-    AdminPermissionId id2 = new AdminPermissionId();
-    id2.setAdminId(sharedAdminId);
+    PermissionViewId id2 = new PermissionViewId();
+    id2.setUserId(sharedUserId);
     id2.setPermissionId(sharedPermissionId);
     id2.setResourceId(sharedResourceId);
     id2.setActionId(UUID.randomUUID());
@@ -156,19 +156,19 @@ public class AdminPermissionsViewIdTest {
 
   @Test
   void testGettersAndSetters() {
-    AdminPermissionId id1 = new AdminPermissionId();
+    PermissionViewId id1 = new PermissionViewId();
 
-    UUID newAdminId = UUID.randomUUID();
+    UUID newUserId = UUID.randomUUID();
     UUID newPermissionId = UUID.randomUUID();
     UUID newResourceId = UUID.randomUUID();
     UUID newActionId = UUID.randomUUID();
 
-    id1.setAdminId(newAdminId);
+    id1.setUserId(newUserId);
     id1.setPermissionId(newPermissionId);
     id1.setResourceId(newResourceId);
     id1.setActionId(newActionId);
 
-    assertEquals(newAdminId, id1.getAdminId());
+    assertEquals(newUserId, id1.getUserId());
     assertEquals(newPermissionId, id1.getPermissionId());
     assertEquals(newResourceId, id1.getResourceId());
     assertEquals(newActionId, id1.getActionId());
@@ -176,13 +176,13 @@ public class AdminPermissionsViewIdTest {
 
   @Test
   void testNullComparison() {
-    UUID adminId = UUID.randomUUID();
+    UUID userId = UUID.randomUUID();
     UUID permissionId = UUID.randomUUID();
     UUID resourceId = UUID.randomUUID();
     UUID actionId = UUID.randomUUID();
 
-    AdminPermissionId id1 = new AdminPermissionId();
-    id1.setAdminId(adminId);
+    PermissionViewId id1 = new PermissionViewId();
+    id1.setUserId(userId);
     id1.setPermissionId(permissionId);
     id1.setResourceId(resourceId);
     id1.setActionId(actionId);
@@ -192,13 +192,13 @@ public class AdminPermissionsViewIdTest {
 
   @Test
   void testDifferentClassComparison() {
-    UUID adminId = UUID.randomUUID();
+    UUID userId = UUID.randomUUID();
     UUID permissionId = UUID.randomUUID();
     UUID resourceId = UUID.randomUUID();
     UUID actionId = UUID.randomUUID();
 
-    AdminPermissionId id1 = new AdminPermissionId();
-    id1.setAdminId(adminId);
+    PermissionViewId id1 = new PermissionViewId();
+    id1.setUserId(userId);
     id1.setPermissionId(permissionId);
     id1.setResourceId(resourceId);
     id1.setActionId(actionId);

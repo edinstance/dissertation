@@ -48,7 +48,6 @@ public class GetAllAdminsTests {
             any(UUID.class),
             eq(Resources.ADMINS),
             eq(Actions.READ),
-            eq(GrantType.GRANT),
             eq(AdminViewTypes.ALL)
     )).thenReturn(true);
 
@@ -69,7 +68,6 @@ public class GetAllAdminsTests {
             any(UUID.class),
             eq(Resources.ADMINS),
             eq(Actions.READ),
-            eq(GrantType.GRANT),
             eq(AdminViewTypes.ALL)
     )).thenReturn(true);
 
@@ -92,7 +90,6 @@ public class GetAllAdminsTests {
             any(UUID.class),
             eq(Resources.ADMINS),
             eq(Actions.READ),
-            eq(GrantType.GRANT),
             eq(AdminViewTypes.ALL)
     )).thenReturn(false);
 

@@ -1,7 +1,7 @@
-package com.finalproject.backend.permissions.admin.repositories;
+package com.finalproject.backend.permissions.repositories;
 
-import com.finalproject.backend.permissions.admin.entities.AdminPermissionView;
-import com.finalproject.backend.permissions.admin.entities.ids.AdminPermissionId;
+import com.finalproject.backend.permissions.entities.PermissionView;
+import com.finalproject.backend.permissions.entities.ids.PermissionViewId;
 import com.finalproject.backend.permissions.types.AdminViewTypes;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -11,8 +11,8 @@ import org.springframework.data.repository.query.Param;
 /**
  * This repository is responsible for managing the admin permissions.
  */
-public interface AdminPermissionViewRepository extends JpaRepository
-        <AdminPermissionView, AdminPermissionId> {
+public interface PermissionViewRepository extends JpaRepository
+        <PermissionView, PermissionViewId> {
 
   /**
    * This method gets all the admin permissions.
@@ -25,6 +25,6 @@ public interface AdminPermissionViewRepository extends JpaRepository
                   + "CAST(:viewType AS admin_permission_view_type))",
           nativeQuery = true
   )
-  List<AdminPermissionView> getAllAdminPermissions(@Param("viewType")
+  List<PermissionView> getAllAdminPermissions(@Param("viewType")
                                                    AdminViewTypes viewType);
 }

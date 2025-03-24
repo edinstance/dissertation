@@ -1,8 +1,8 @@
 package com.finalproject.backend.permissions.authorizers;
 
+import com.finalproject.backend.permissions.entities.PermissionView;
 import com.finalproject.backend.permissions.types.Actions;
 import com.finalproject.backend.permissions.types.GrantType;
-import com.finalproject.backend.permissions.types.PermissionView;
 import com.finalproject.backend.permissions.types.Resources;
 import com.finalproject.backend.permissions.types.ViewTypes;
 import com.finalproject.backend.permissions.utils.PermissionKey;
@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 /**
  * This interface is responsible for checking if a user has permissions.
  */
-public interface PermissionAuthorizer<T extends PermissionView> {
+public interface PermissionAuthorizer {
 
   /**
    * Checks if a user has permission to access a resource.
@@ -22,12 +22,11 @@ public interface PermissionAuthorizer<T extends PermissionView> {
    * @param userId the user id.
    * @param resource the resource.
    * @param action the action.
-   * @param grantType the grant type.
    * @param viewType the view type.
    * @return {@code true} if the user has permission, {@code false} otherwise.
    */
   boolean authorize(UUID userId, Resources resource, Actions action,
-                    GrantType grantType, ViewTypes viewType);
+                    ViewTypes viewType);
 
 
   /**
@@ -37,7 +36,7 @@ public interface PermissionAuthorizer<T extends PermissionView> {
    * @param permissions the list of permissions.
    * @return the new list of effective permissions.
    */
-  default List<T> getEffectivePermissions(List<T> permissions) {
+  default List<PermissionView> getEffectivePermissions(List<PermissionView> permissions) {
     // First, collect the keys for all DENY permissions.
     Set<PermissionKey> deniedPermissions = permissions.stream()
             .filter(p -> p.getGrantType().equals(GrantType.DENY))

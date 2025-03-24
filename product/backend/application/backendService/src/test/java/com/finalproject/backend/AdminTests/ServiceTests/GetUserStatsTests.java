@@ -7,7 +7,6 @@ import com.finalproject.backend.common.helpers.AuthHelpers;
 import com.finalproject.backend.permissions.authorizers.AdminAuthorizer;
 import com.finalproject.backend.permissions.types.Actions;
 import com.finalproject.backend.permissions.types.AdminViewTypes;
-import com.finalproject.backend.permissions.types.GrantType;
 import com.finalproject.backend.permissions.types.Resources;
 import com.finalproject.backend.users.repositories.UserRepository;
 import org.junit.jupiter.api.Test;
@@ -48,7 +47,6 @@ public class GetUserStatsTests {
             any(UUID.class),
             eq(Resources.USERS),
             eq(Actions.READ),
-            eq(GrantType.GRANT),
             eq(AdminViewTypes.ALL)
     )).thenReturn(true);
 
@@ -72,7 +70,6 @@ public class GetUserStatsTests {
             any(UUID.class),
             eq(Resources.USERS),
             eq(Actions.READ),
-            eq(GrantType.GRANT),
             eq(AdminViewTypes.ALL)
     )).thenReturn(true);
 
@@ -92,7 +89,6 @@ public class GetUserStatsTests {
             any(UUID.class),
             eq(Resources.USERS),
             eq(Actions.READ),
-            eq(GrantType.GRANT),
             eq(AdminViewTypes.ALL)
     )).thenReturn(true);
 
@@ -112,7 +108,6 @@ public class GetUserStatsTests {
             any(UUID.class),
             eq(Resources.USERS),
             eq(Actions.READ),
-            eq(GrantType.GRANT),
             eq(AdminViewTypes.ALL)
     )).thenReturn(false);
 

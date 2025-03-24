@@ -1,7 +1,7 @@
-package com.finalproject.backend.PermissionTests.AdminTests.EntityTests;
+package com.finalproject.backend.PermissionTests.EntityTests;
 
-import com.finalproject.backend.permissions.admin.entities.AdminPermissionView;
-import com.finalproject.backend.permissions.admin.entities.ids.AdminPermissionId;
+import com.finalproject.backend.permissions.entities.PermissionView;
+import com.finalproject.backend.permissions.entities.ids.PermissionViewId;
 import com.finalproject.backend.permissions.types.Actions;
 import com.finalproject.backend.permissions.types.GrantType;
 import com.finalproject.backend.permissions.types.Resources;
@@ -11,17 +11,17 @@ import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-public class AdminPermissionsViewTest {
+public class PermissionsViewTest {
 
   @Test
   public void testDefaultConstructor() {
-    AdminPermissionView view = new AdminPermissionView();
+    PermissionView view = new PermissionView();
     assertNotNull(view);
   }
 
   @Test
   public void testConstructor() {
-    AdminPermissionView view = new AdminPermissionView(new AdminPermissionId(),
+    PermissionView view = new PermissionView(new PermissionViewId(),
             GrantType.GRANT, Resources.ADMINS, Actions.READ);
     assertNotNull(view);
 
@@ -32,7 +32,7 @@ public class AdminPermissionsViewTest {
 
   @Test
   public void testGrantTypeMethods() {
-    AdminPermissionView view = new AdminPermissionView();
+    PermissionView view = new PermissionView();
     view.setGrantType(GrantType.DENY);
 
     assert view.getGrantType() == GrantType.DENY;
@@ -40,7 +40,7 @@ public class AdminPermissionsViewTest {
 
   @Test
   public void testResourceMethods() {
-    AdminPermissionView view = new AdminPermissionView();
+    PermissionView view = new PermissionView();
     view.setResource(Resources.USERS);
 
     assert view.getResource() == Resources.USERS;
@@ -48,7 +48,7 @@ public class AdminPermissionsViewTest {
 
   @Test
     public void testActionMethods() {
-        AdminPermissionView view = new AdminPermissionView();
+    PermissionView view = new PermissionView();
         view.setAction(Actions.READ);
 
         assert view.getAction() == Actions.READ;
@@ -56,11 +56,11 @@ public class AdminPermissionsViewTest {
 
     @Test
     public void testAssociatedUserIdMethods() {
-        AdminPermissionView view = new AdminPermissionView();
+      PermissionView view = new PermissionView();
 
         UUID id = UUID.randomUUID();
-        AdminPermissionId adminId = new AdminPermissionId();
-        adminId.setAdminId(id);
+        PermissionViewId adminId = new PermissionViewId();
+        adminId.setUserId(id);
         view.setId(adminId);
 
         assert view.getAssociatedUserId() == id;

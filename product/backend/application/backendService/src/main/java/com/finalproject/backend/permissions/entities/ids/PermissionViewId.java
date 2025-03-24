@@ -1,4 +1,4 @@
-package com.finalproject.backend.permissions.admin.entities.ids;
+package com.finalproject.backend.permissions.entities.ids;
 
 import jakarta.persistence.Embeddable;
 import java.io.Serial;
@@ -10,20 +10,20 @@ import lombok.Setter;
 import org.hibernate.Hibernate;
 
 /**
- * A composite id for the admin permissions entity.
+ * A composite id for the permissions' entity.
  */
 @Getter
 @Setter
 @Embeddable
-public class AdminPermissionId implements Serializable {
+public class PermissionViewId implements Serializable {
 
   @Serial
   private static final long serialVersionUID = -4085129020358584838L;
 
   /**
-   * The id of the admin.
+   * The id of the user.
    */
-  private UUID adminId;
+  private UUID userId;
 
   /**
    * The id of the permission.
@@ -54,8 +54,8 @@ public class AdminPermissionId implements Serializable {
     if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) {
       return false;
     }
-    AdminPermissionId that = (AdminPermissionId) o;
-    return Objects.equals(adminId, that.adminId)
+    PermissionViewId that = (PermissionViewId) o;
+    return Objects.equals(userId, that.userId)
             && Objects.equals(permissionId, that.permissionId)
             && Objects.equals(resourceId, that.resourceId)
             && Objects.equals(actionId, that.actionId);
@@ -68,6 +68,6 @@ public class AdminPermissionId implements Serializable {
    */
   @Override
   public int hashCode() {
-    return Objects.hash(adminId, permissionId, resourceId, actionId);
+    return Objects.hash(userId, permissionId, resourceId, actionId);
   }
 }

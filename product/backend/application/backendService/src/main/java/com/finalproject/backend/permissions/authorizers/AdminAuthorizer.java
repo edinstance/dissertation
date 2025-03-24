@@ -3,28 +3,29 @@ package com.finalproject.backend.permissions.authorizers;
 import com.finalproject.backend.admin.entities.AdminEntity;
 import com.finalproject.backend.admin.repositories.AdminRepository;
 import com.finalproject.backend.common.config.logging.AppLogger;
-import com.finalproject.backend.permissions.admin.entities.AdminPermissionView;
-import com.finalproject.backend.permissions.admin.repositories.AdminPermissionViewRepository;
+import com.finalproject.backend.permissions.entities.PermissionView;
+import com.finalproject.backend.permissions.repositories.PermissionViewRepository;
 import com.finalproject.backend.permissions.types.Actions;
 import com.finalproject.backend.permissions.types.AdminViewTypes;
 import com.finalproject.backend.permissions.types.GrantType;
 import com.finalproject.backend.permissions.types.Resources;
 import com.finalproject.backend.permissions.types.ViewTypes;
-import java.util.List;
-import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
+import java.util.UUID;
 
 /**
  * This class is responsible for checking if an admin has permissions.
  */
 @Component
-public class AdminAuthorizer implements PermissionAuthorizer<AdminPermissionView> {
+public class AdminAuthorizer implements PermissionAuthorizer {
 
   /**
    * Repository for accessing admin permissions.
    */
-  private final AdminPermissionViewRepository adminPermissionViewRepository;
+  private final PermissionViewRepository permissionViewRepository;
 
   /**
    * Repository for accessing admin data.
@@ -34,38 +35,30 @@ public class AdminAuthorizer implements PermissionAuthorizer<AdminPermissionView
   /**
    * Constructor for the admin authorizer.
    *
-   * @param adminRepository the repository for accessing admin data.
-   * @param adminPermissionViewRepository the repository for accessing admin permissions.
+   * @param adminRepository          the repository for accessing admin data.
+   * @param permissionViewRepository the repository for accessing permissions.
    */
   @Autowired
   public AdminAuthorizer(AdminRepository adminRepository,
-                         AdminPermissionViewRepository adminPermissionViewRepository) {
+                         PermissionViewRepository permissionViewRepository) {
     this.adminRepository = adminRepository;
-    this.adminPermissionViewRepository = adminPermissionViewRepository;
+    this.permissionViewRepository = permissionViewRepository;
   }
 
   /**
    * This method checks if an admin has permission to access a resource.
    *
-   * @param adminId the user id.
-   * @param resource the resource.
-   * @param action the action.
+   * @param adminId   the user id.
+   * @param resource  the resource.
+   * @param action    the action.
    * @param grantType the grant type.
-   * @param viewType the view type.
+   * @param viewType  the view type.
    * @return if the user is authorized.
    */
   @Override
   public boolean authorize(UUID adminId, Resources resource,
-                               Actions action, GrantType grantType,
-                               ViewTypes viewType) {
-
-    if (!(viewType instanceof AdminViewTypes)) {
-      AppLogger.error("AdminPermissionChecker.hasPermission: "
-              + "Expected AdminPermissionViewTypes, but received: " + viewType);
-
-      throw new IllegalArgumentException("Expected an AdminPermissionViewTypes, got: "
-              + viewType);
-    }
+                           Actions action,
+                           ViewTypes viewType) {
 
     AdminEntity admin = adminRepository.findById(adminId).orElse(null);
 
@@ -77,16 +70,15 @@ public class AdminAuthorizer implements PermissionAuthorizer<AdminPermissionView
       return true;
     }
 
-    List<AdminPermissionView> permissions =
-            adminPermissionViewRepository.getAllAdminPermissions((AdminViewTypes) viewType);
+    List<PermissionView> permissions =
+            permissionViewRepository.getAllAdminPermissions((AdminViewTypes) viewType);
 
-    List<AdminPermissionView> effectivePermissions = getEffectivePermissions(permissions);
+    List<PermissionView> effectivePermissions = getEffectivePermissions(permissions);
 
-    for (AdminPermissionView permission : effectivePermissions) {
-      if (permission.getId().getAdminId().equals(adminId)
+    for (PermissionView permission : effectivePermissions) {
+      if (permission.getId().getUserId().equals(adminId)
               && permission.getResource().equals(resource)
-              && permission.getAction().equals(action)
-              && permission.getGrantType().equals(grantType)) {
+              && permission.getAction().equals(action)) {
         return true;
       }
     }
