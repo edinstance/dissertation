@@ -1,8 +1,8 @@
 package com.finalproject.backend.permissions.entities.admin;
 
 import com.finalproject.backend.admin.entities.AdminEntity;
-import com.finalproject.backend.permissions.entities.admin.ids.AdminRolesEntityId;
 import com.finalproject.backend.permissions.entities.RoleEntity;
+import com.finalproject.backend.permissions.entities.admin.ids.AdminRolesEntityId;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -44,13 +44,14 @@ public class AdminRolesEntity {
   /**
    * Default constructor.
    */
-  public AdminRolesEntity() {}
+  public AdminRolesEntity() {
+  }
 
   /**
    * Constructor with an admin and a role.
    *
    * @param admin the admin.
-   * @param role the role for the admin.
+   * @param role  the role for the admin.
    */
   public AdminRolesEntity(AdminEntity admin, RoleEntity role) {
     this.admin = admin;

@@ -1,8 +1,8 @@
 package com.finalproject.backend.permissions.entities.admin;
 
 import com.finalproject.backend.admin.entities.AdminEntity;
-import com.finalproject.backend.permissions.entities.admin.ids.AdminPermissionsEntityId;
 import com.finalproject.backend.permissions.entities.PermissionsEntity;
+import com.finalproject.backend.permissions.entities.admin.ids.AdminPermissionsEntityId;
 import jakarta.persistence.Column;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
@@ -55,14 +55,15 @@ public class AdminPermissionsEntity {
   /**
    * Default constructor.
    */
-  public AdminPermissionsEntity() {}
+  public AdminPermissionsEntity() {
+  }
 
   /**
    * The constructor with the information.
    *
-   * @param admin the admin for the entity.
+   * @param admin      the admin for the entity.
    * @param permission the permission for the entity.
-   * @param grantType the grant type of the permission.
+   * @param grantType  the grant type of the permission.
    */
   public AdminPermissionsEntity(AdminEntity admin, PermissionsEntity permission, String grantType) {
     this.admin = admin;
