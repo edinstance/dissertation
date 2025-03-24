@@ -1,12 +1,18 @@
 package com.finalproject.backend.admin.services;
 
 import com.finalproject.backend.admin.dto.UserStats;
+import com.finalproject.backend.common.Exceptions.UnauthorisedException;
 import com.finalproject.backend.common.config.logging.AppLogger;
+import com.finalproject.backend.common.helpers.AuthHelpers;
+import com.finalproject.backend.permissions.authorizers.AdminAuthorizer;
+import com.finalproject.backend.permissions.types.*;
 import com.finalproject.backend.users.entities.UserEntity;
 import com.finalproject.backend.users.repositories.UserRepository;
-import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.UUID;
 
 
 /**
@@ -21,13 +27,22 @@ public class AdminService {
   private final UserRepository userRepository;
 
   /**
+   * Authorizer for admin permissions.
+   */
+  private final AdminAuthorizer adminAuthorizer;
+  private final AuthHelpers authHelpers;
+
+  /**
    * Constructs an Admin Service with the specified UserRepository.
    *
    * @param inputUserRepository The repository for accessing user information.
+   * @param inputAdminAuthorizer The authorizer to use.
    */
   @Autowired
-  public AdminService(UserRepository inputUserRepository) {
+  public AdminService(UserRepository inputUserRepository, AdminAuthorizer inputAdminAuthorizer, AuthHelpers authHelpers) {
     this.userRepository = inputUserRepository;
+    this.adminAuthorizer = inputAdminAuthorizer;
+    this.authHelpers = authHelpers;
   }
 
   /**
@@ -36,6 +51,18 @@ public class AdminService {
    * @return the user statistics.
    */
   public UserStats getUserStats() {
+
+    UUID currentUserId = authHelpers.getCurrentUserId();
+    if (!adminAuthorizer.authorize(
+            currentUserId,
+            Resources.USERS,
+            Actions.READ,
+            GrantType.GRANT,
+            AdminViewTypes.ALL)) {
+      AppLogger.warn("User does not have permission to view user stats");
+      throw new UnauthorisedException("User does not have permission to view user stats");
+    }
+
     List<Object[]> results = userRepository.getAdminUserStats();
 
     if (results != null && !results.isEmpty()) {
