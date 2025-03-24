@@ -22,7 +22,7 @@ BEGIN
         p.grant_type,
         p.resource,
         p.action
-    FROM get_all_admin_permissions(view_type) AS p  -- Alias the result set
+    FROM get_all_admin_permissions(view_type) AS p
     WHERE p.user_id = _user_id;
 END;
 $$ LANGUAGE plpgsql;
