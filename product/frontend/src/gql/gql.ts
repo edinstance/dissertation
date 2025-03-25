@@ -18,6 +18,8 @@ const documents = {
     types.GetUserStatsDocument,
   "\n  query getAllUsers {\n    getAllUsers {\n      id\n      email\n      name\n      status\n    }\n  }\n":
     types.GetAllUsersDocument,
+  "\n  query getCurrentAdmin {\n    getCurrentAdmin {\n      userId\n      isSuperAdmin\n      status\n      createdBy\n      lastUpdatedBy\n      isDeleted\n    }\n  }\n":
+    types.GetCurrentAdminDocument,
   "\n  query SearchItems(\n    $searchText: String\n    $pagination: PaginationInput\n    $sorting: SortInput\n  ) {\n    searchForItems(\n      searchText: $searchText\n      pagination: $pagination\n      sorting: $sorting\n    ) {\n      items {\n        id\n        name\n        description\n        isActive\n        endingTime\n        price\n        stock\n        category\n        images\n        seller {\n          id\n          name\n          email\n        }\n      }\n      pagination {\n        total\n        page\n        size\n      }\n      sorting {\n        sortBy\n        sortDirection\n      }\n    }\n  }\n":
     types.SearchItemsDocument,
   "\n  query getShopItems($pagination: PaginationInput, $sorting: SortInput) {\n    getShopItems(pagination: $pagination, sorting: $sorting) {\n      items {\n        id\n        name\n        description\n        isActive\n        endingTime\n        price\n        stock\n        category\n        images\n        seller {\n          id\n          name\n          email\n        }\n      }\n      pagination {\n        total\n        page\n        size\n      }\n      sorting {\n        sortBy\n        sortDirection\n      }\n    }\n  }\n":
@@ -28,6 +30,8 @@ const documents = {
     types.GetItemsByUserDocument,
   "\n  mutation SaveItem($itemInput: ItemInput!) {\n    saveItem(itemInput: $itemInput) {\n      id\n      name\n      description\n      isActive\n      endingTime\n      price\n      stock\n      category\n      images\n      seller {\n        id\n        name\n        email\n      }\n    }\n  }\n":
     types.SaveItemDocument,
+  "\n  query getCurrentAdminPermissions {\n    getCurrentAdminPermissions {\n      grantType\n      resource\n      action\n    }\n  }\n":
+    types.GetCurrentAdminPermissionsDocument,
   "\n  mutation ReportBug($title: String!, $description: String!) {\n    reportBug(title: $title, description: $description) {\n      success\n      message\n    }\n  }\n":
     types.ReportBugDocument,
   "\n  mutation CreateUser($input: UserInput!) {\n    createUser(userInput: $input) {\n      id\n    }\n  }\n":
@@ -70,6 +74,12 @@ export function graphql(
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(
+  source: "\n  query getCurrentAdmin {\n    getCurrentAdmin {\n      userId\n      isSuperAdmin\n      status\n      createdBy\n      lastUpdatedBy\n      isDeleted\n    }\n  }\n",
+): (typeof documents)["\n  query getCurrentAdmin {\n    getCurrentAdmin {\n      userId\n      isSuperAdmin\n      status\n      createdBy\n      lastUpdatedBy\n      isDeleted\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(
   source: "\n  query SearchItems(\n    $searchText: String\n    $pagination: PaginationInput\n    $sorting: SortInput\n  ) {\n    searchForItems(\n      searchText: $searchText\n      pagination: $pagination\n      sorting: $sorting\n    ) {\n      items {\n        id\n        name\n        description\n        isActive\n        endingTime\n        price\n        stock\n        category\n        images\n        seller {\n          id\n          name\n          email\n        }\n      }\n      pagination {\n        total\n        page\n        size\n      }\n      sorting {\n        sortBy\n        sortDirection\n      }\n    }\n  }\n",
 ): (typeof documents)["\n  query SearchItems(\n    $searchText: String\n    $pagination: PaginationInput\n    $sorting: SortInput\n  ) {\n    searchForItems(\n      searchText: $searchText\n      pagination: $pagination\n      sorting: $sorting\n    ) {\n      items {\n        id\n        name\n        description\n        isActive\n        endingTime\n        price\n        stock\n        category\n        images\n        seller {\n          id\n          name\n          email\n        }\n      }\n      pagination {\n        total\n        page\n        size\n      }\n      sorting {\n        sortBy\n        sortDirection\n      }\n    }\n  }\n"];
 /**
@@ -96,6 +106,12 @@ export function graphql(
 export function graphql(
   source: "\n  mutation SaveItem($itemInput: ItemInput!) {\n    saveItem(itemInput: $itemInput) {\n      id\n      name\n      description\n      isActive\n      endingTime\n      price\n      stock\n      category\n      images\n      seller {\n        id\n        name\n        email\n      }\n    }\n  }\n",
 ): (typeof documents)["\n  mutation SaveItem($itemInput: ItemInput!) {\n    saveItem(itemInput: $itemInput) {\n      id\n      name\n      description\n      isActive\n      endingTime\n      price\n      stock\n      category\n      images\n      seller {\n        id\n        name\n        email\n      }\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(
+  source: "\n  query getCurrentAdminPermissions {\n    getCurrentAdminPermissions {\n      grantType\n      resource\n      action\n    }\n  }\n",
+): (typeof documents)["\n  query getCurrentAdminPermissions {\n    getCurrentAdminPermissions {\n      grantType\n      resource\n      action\n    }\n  }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
