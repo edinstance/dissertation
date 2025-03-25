@@ -21,7 +21,6 @@ export const GET_ALL_USERS = graphql(`
   }
 `);
 
-
 export const GET_CURRENT_ADMIN = graphql(`
   query getCurrentAdmin {
     getCurrentAdmin {

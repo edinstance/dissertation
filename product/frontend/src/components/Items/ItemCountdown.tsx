@@ -1,12 +1,12 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 interface ItemCountdownProps {
   endingTime: string;
 }
 
 function ItemCountdown({ endingTime }: ItemCountdownProps) {
-  const calculateTimeLeft = () => {
+  const calculateTimeLeft = useCallback(() => {
     const secondsLeft = Math.max(
       0,
       Math.floor((new Date(endingTime).getTime() - Date.now()) / 1000),
@@ -27,7 +27,7 @@ function ItemCountdown({ endingTime }: ItemCountdownProps) {
       return `${minutes} minute${minutes > 1 ? "s" : ""} remaining`;
     }
     return `${seconds} second${seconds > 1 ? "s" : ""} remaining`;
-  };
+  }, [endingTime]);
 
   const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
 
@@ -37,7 +37,7 @@ function ItemCountdown({ endingTime }: ItemCountdownProps) {
     }, 1000);
 
     return () => clearInterval(intervalId);
-  }, [endingTime]);
+  }, [endingTime, calculateTimeLeft]);
 
   return <span>{timeLeft}</span>;
 }

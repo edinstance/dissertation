@@ -93,7 +93,6 @@ export const authConfig = {
             response.AuthenticationResult?.AccessToken as string,
             "access",
           );
-       
 
           const user = {
             id: userDetails.sub,

@@ -119,7 +119,7 @@ function Pagination({
       <button
         onClick={() => handlePageChange(displayPage - 1)}
         disabled={page === 0}
-        className="h-8 w-8 text-gray-900 dark:text-gray-100 dark:disabled:text-gray-600 disabled:text-gray-400"
+        className="h-8 w-8 text-gray-900 disabled:text-gray-400 dark:text-gray-100 dark:disabled:text-gray-600"
       >
         <ChevronLeftIcon />
       </button>
@@ -129,7 +129,7 @@ function Pagination({
       <button
         onClick={() => handlePageChange(displayPage + 1)}
         disabled={page === total - 1}
-        className="h-8 w-8 text-gray-900 dark:text-gray-100 dark:disabled:text-gray-600 disabled:text-gray-400"
+        className="h-8 w-8 text-gray-900 disabled:text-gray-400 dark:text-gray-100 dark:disabled:text-gray-600"
       >
         <ChevronRightIcon />
       </button>

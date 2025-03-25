@@ -1,5 +1,3 @@
-import { create } from "zustand";
-import { createJSONStorage, persist, devtools } from "zustand/middleware";
 import {
   Actions,
   Admin,
@@ -8,6 +6,8 @@ import {
   PermissionViewId,
   Resources,
 } from "@/gql/graphql";
+import { create } from "zustand";
+import { createJSONStorage, devtools, persist } from "zustand/middleware";
 
 interface AdminPermissionsStore {
   currentAdmin: Admin | null;
@@ -25,6 +25,7 @@ interface AdminPermissionsStore {
 }
 
 const useAdminPermissionsStore = create<AdminPermissionsStore>()(
+  devtools(
     persist(
       (set, get) => ({
         currentAdmin: null,
@@ -52,7 +53,7 @@ const useAdminPermissionsStore = create<AdminPermissionsStore>()(
                   p.id.permissionId === permissionId.permissionId &&
                   p.id.resourceId === permissionId.resourceId &&
                   p.id.actionId === permissionId.actionId
-                )
+                ),
             ),
           })),
 
@@ -61,13 +62,13 @@ const useAdminPermissionsStore = create<AdminPermissionsStore>()(
           if (currentAdmin?.isSuperAdmin) return true;
 
           const relevantPermissions = adminPermissions.filter(
-            (p) => p.resource === resource && p.action === action
+            (p) => p.resource === resource && p.action === action,
           );
 
           if (relevantPermissions.length === 0) return false;
 
           return relevantPermissions.some(
-            (p) => p.grantType === GrantType.Grant
+            (p) => p.grantType === GrantType.Grant,
           );
         },
 
@@ -83,8 +84,10 @@ const useAdminPermissionsStore = create<AdminPermissionsStore>()(
           currentAdmin: state.currentAdmin,
           adminPermissions: state.adminPermissions,
         }),
-      }
-  )
+      },
+    ),
+    { name: "AdminPermissionsStore" },
+  ),
 );
 
 export default useAdminPermissionsStore;

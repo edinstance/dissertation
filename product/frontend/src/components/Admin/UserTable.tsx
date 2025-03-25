@@ -1,11 +1,11 @@
 "use client";
+import { User } from "@/gql/graphql";
 import { GET_ALL_USERS } from "@/lib/graphql/admin";
 import { useQuery } from "@apollo/client";
 import { ColumnDef } from "@tanstack/react-table";
 import { useEffect, useState } from "react";
 import LoadingSpinner from "../ui/LoadingSpinner";
 import { Table } from "../ui/Table";
-import { User } from "@/gql/graphql";
 
 function UserTable() {
   const { loading, data } = useQuery(GET_ALL_USERS);

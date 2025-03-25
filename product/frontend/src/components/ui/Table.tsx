@@ -55,7 +55,7 @@ export function Table<T extends object>({ data, columns }: Props<T>) {
                   <th
                     key={header.id}
                     colSpan={header.colSpan}
-                    className="whitespace-nowrap bg-blue-300 dark:bg-blue-800 px-4 py-2 text-left"
+                    className="whitespace-nowrap bg-blue-300 px-4 py-2 text-left dark:bg-blue-800"
                   >
                     <div
                       {...{
