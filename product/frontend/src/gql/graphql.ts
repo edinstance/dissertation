@@ -719,6 +719,7 @@ export type GetCurrentAdminPermissionsQuery = {
     grantType: GrantType;
     resource: Resources;
     action: Actions;
+    id: { __typename?: "PermissionViewId"; permissionId: string };
   } | null> | null;
 };
 
@@ -1484,6 +1485,19 @@ export const GetCurrentAdminPermissionsDocument = {
             selectionSet: {
               kind: "SelectionSet",
               selections: [
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "id" },
+                  selectionSet: {
+                    kind: "SelectionSet",
+                    selections: [
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "permissionId" },
+                      },
+                    ],
+                  },
+                },
                 { kind: "Field", name: { kind: "Name", value: "grantType" } },
                 { kind: "Field", name: { kind: "Name", value: "resource" } },
                 { kind: "Field", name: { kind: "Name", value: "action" } },
