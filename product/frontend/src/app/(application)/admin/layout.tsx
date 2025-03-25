@@ -1,3 +1,4 @@
+import AdminWrapper from "@/components/Admin/AdminWrapper";
 import { auth } from "@/server/auth";
 import { redirect } from "next/navigation";
 
@@ -8,12 +9,9 @@ export default async function AdminLayout({
 }) {
   const session = await auth();
 
-  console.log(session);
-
   if (!session || !session?.user?.groups?.includes("SubShopAdmin")) {
     redirect("/not-found");
   }
 
-
-  return children ;
+  return <AdminWrapper>{children}</AdminWrapper>;
 }
