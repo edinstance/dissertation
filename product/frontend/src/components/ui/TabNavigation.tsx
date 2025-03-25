@@ -5,21 +5,19 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 /**
- * UserNavigation component for rendering navigation links for user account management.
+ * TabNavigation component for rendering navigation links.
  *
- * This component displays a list of navigation links related to user account features.
+ * This component displays a list of navigation links.
  * It highlights the active link with an animated underline using Framer Motion.
  *
- * @returns The rendered UserNavigation component.
+ * @returns The rendered TabNavigation component.
  */
-export default function UserNavigation() {
+export default function TabNavigation({
+  links,
+}: {
+  links: { label: string; link: string }[];
+}) {
   const pathname = usePathname();
-
-  const links = [
-    { label: "Account", link: "/account" },
-    { label: "Details", link: "/account/details" },
-    { label: "Billing", link: "/account/billing" },
-  ];
 
   return (
     <nav className="relative">
