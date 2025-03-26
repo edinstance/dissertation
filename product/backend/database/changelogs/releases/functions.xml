@@ -89,13 +89,6 @@
                         stripComments="false" />
         </changeSet>
 
-        <changeSet id="create_admin" author="zlac370" runOnChange="false">
-                <sqlFile path="../../src/sql/functions/create_admin.sql"
-                        relativeToChangelogFile="true"
-                        splitStatements="false"
-                        stripComments="false" />
-        </changeSet>
-
         <changeSet id="get_all_admin_permissions" author="zlac370" runOnChange="false">
                 <sqlFile path="../../src/sql/functions/get_all_admin_permissions.sql"
                         relativeToChangelogFile="true"

@@ -18,10 +18,11 @@ BEGIN
     IF default_role_id IS NULL THEN
         RAISE EXCEPTION 'Default Admin role does not exist.';
     END IF;
-   
+
     INSERT INTO users (user_id, email, name)
-    VALUES (gen_random_uuid(), 'admin@example.com', 'Test Admin')
-    RETURNING user_id INTO admin_user_id;
+    VALUES (gen_random_uuid(), 'admin@example.com', 'Test Admin');
+
+    SELECT user_id INTO admin_user_id FROM users WHERE email = 'admin@example.com';
 
     INSERT INTO admins (
         user_id,
@@ -40,10 +41,13 @@ BEGIN
     );
 
     INSERT INTO users (user_id, email, name)
-    VALUES (gen_random_uuid(), 'newUser@example.com', 'Test User')
-    RETURNING users.user_id INTO new_user_id;
+    VALUES (gen_random_uuid(), 'newUser@example.com', 'Test User');
 
-    SELECT * INTO created_admin FROM create_admin(new_user_id, admin_user_id);
+    SELECT user_id INTO new_user_id FROM users WHERE email = 'newUser@example.com';
+
+    CALL create_admin(new_user_id, admin_user_id);
+
+    SELECT * INTO created_admin FROM admins WHERE user_id = new_user_id;
 
     IF created_admin.user_id != new_user_id THEN
         RAISE EXCEPTION 'User ID mismatch: Expected %, got %', new_user_id, created_admin.user_id;
@@ -60,7 +64,7 @@ BEGIN
 
     -- Check if all the guards are working
     BEGIN
-        PERFORM create_admin(gen_random_uuid(), admin_user_id);
+        CALL create_admin(gen_random_uuid(), admin_user_id);
         RAISE EXCEPTION 'Admin created with invalid user ID';
     EXCEPTION
         WHEN OTHERS THEN
@@ -74,7 +78,7 @@ BEGIN
     RETURNING user_id INTO deleted_user_id;
 
     BEGIN
-        PERFORM create_admin(deleted_user_id, admin_user_id);
+        CALL create_admin(deleted_user_id, admin_user_id);
         RAISE EXCEPTION 'Admin created with deleted user';
     EXCEPTION
         WHEN OTHERS THEN
@@ -85,7 +89,7 @@ BEGIN
 
 
     BEGIN
-        PERFORM create_admin(new_user_id, gen_random_uuid());
+        CALL create_admin(new_user_id, gen_random_uuid());
         RAISE EXCEPTION 'Admin does not exist';
     EXCEPTION
         WHEN OTHERS THEN
@@ -99,13 +103,13 @@ BEGIN
     RETURNING users.user_id INTO new_user_id;
 
     UPDATE admins
-    SET 
+    SET
         status = 'DEACTIVATED'
-    WHERE 
+    WHERE
         user_id = admin_user_id;
 
     BEGIN
-        PERFORM create_admin(new_user_id, admin_user_id);
+        CALL create_admin(new_user_id, admin_user_id);
         RAISE EXCEPTION 'Admin is deactivated';
     EXCEPTION
         WHEN OTHERS THEN
@@ -115,13 +119,13 @@ BEGIN
     END;
 
     UPDATE users
-    SET 
+    SET
         is_deleted = TRUE
-    WHERE 
+    WHERE
         user_id = admin_user_id;
 
     BEGIN
-        PERFORM create_admin(new_user_id, admin_user_id);
+        CALL create_admin(new_user_id, admin_user_id);
         RAISE EXCEPTION 'Admin is deleted';
     EXCEPTION
         WHEN OTHERS THEN
