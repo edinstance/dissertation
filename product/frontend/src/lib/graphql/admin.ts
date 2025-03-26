@@ -33,3 +33,11 @@ export const GET_CURRENT_ADMIN = graphql(`
     }
   }
 `);
+
+export const GET_ADMIN_IDS = graphql(`
+  query getAllAdmins {
+    getAllAdmins {
+      userId
+    }
+  }
+`);

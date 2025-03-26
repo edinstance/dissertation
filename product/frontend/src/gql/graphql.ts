@@ -546,6 +546,16 @@ export type GetCurrentAdminQuery = {
   } | null;
 };
 
+export type GetAllAdminsQueryVariables = Exact<{ [key: string]: never }>;
+
+export type GetAllAdminsQuery = {
+  __typename?: "Query";
+  getAllAdmins?: Array<{
+    __typename?: "Admin";
+    userId?: string | null;
+  } | null> | null;
+};
+
 export type SearchItemsQueryVariables = Exact<{
   searchText?: InputMaybe<Scalars["String"]["input"]>;
   pagination?: InputMaybe<PaginationInput>;
@@ -902,6 +912,31 @@ export const GetCurrentAdminDocument = {
   GetCurrentAdminQuery,
   GetCurrentAdminQueryVariables
 >;
+export const GetAllAdminsDocument = {
+  kind: "Document",
+  definitions: [
+    {
+      kind: "OperationDefinition",
+      operation: "query",
+      name: { kind: "Name", value: "getAllAdmins" },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "getAllAdmins" },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                { kind: "Field", name: { kind: "Name", value: "userId" } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<GetAllAdminsQuery, GetAllAdminsQueryVariables>;
 export const SearchItemsDocument = {
   kind: "Document",
   definitions: [
