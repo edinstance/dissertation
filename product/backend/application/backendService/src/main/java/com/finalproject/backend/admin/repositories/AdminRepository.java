@@ -28,4 +28,19 @@ public interface AdminRepository extends JpaRepository<AdminEntity, UUID> {
           @Param("userId") UUID userId,
           @Param("adminId") UUID adminId
   );
+
+  /**
+   * Function for making an admin a super admin.
+   *
+   * @param userId the id of the admin to promote to a super admin.
+   * @param adminId the id of the admin performing this operation.
+   */
+  @Modifying
+  @Query(value = "CALL make_admin_super_admin(:userId, :adminId)",
+          nativeQuery = true)
+  @Transactional
+  void makeAdminSuperAdmin(
+          @Param("userId") UUID userId,
+          @Param("adminId") UUID adminId
+  );
 }

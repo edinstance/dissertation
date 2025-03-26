@@ -1,14 +1,13 @@
 package com.finalproject.backend.AdminTests.ServiceTests;
 
+
 import com.finalproject.backend.admin.entities.AdminEntity;
 import com.finalproject.backend.admin.repositories.AdminRepository;
 import com.finalproject.backend.admin.services.AdminService;
 import com.finalproject.backend.common.exceptions.UnauthorisedException;
 import com.finalproject.backend.common.helpers.AuthHelpers;
 import com.finalproject.backend.permissions.authorizers.AdminAuthorizer;
-import com.finalproject.backend.permissions.types.Actions;
-import com.finalproject.backend.permissions.types.AdminViewTypes;
-import com.finalproject.backend.permissions.types.Resources;
+import java.util.Optional;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -19,13 +18,11 @@ import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-public class CreateAdminTests {
+public class PromoteAdminToSuperAdminTests {
 
   @Mock
   private AdminRepository adminRepository;
@@ -41,41 +38,35 @@ public class CreateAdminTests {
 
 
   @Test
-  public void testCreateAdmin() {
+  public void promoteAdmin() {
     UUID adminId = UUID.randomUUID();
     UUID userId = UUID.randomUUID();
 
-    when(authHelpers.getCurrentUserId()).thenReturn(adminId);
-    when(adminAuthorizer.authorize(
-            any(UUID.class),
-            eq(Resources.ADMINS),
-            eq(Actions.CREATE),
-            eq(AdminViewTypes.ALL)
-    )).thenReturn(true);
+    AdminEntity adminEntity = new AdminEntity(adminId, true, "ACTIVE", adminId, adminId);
 
-    Boolean result = adminService.createAdmin(userId);
+    when(authHelpers.getCurrentUserId()).thenReturn(adminId);
+    when(adminRepository.findById(adminId)).thenReturn(Optional.of(adminEntity));
+
+    Boolean result = adminService.promoteAdminToSuperUser(userId);
     assertTrue(result);
-    verify(adminRepository).createAdmin(userId, adminId);
+    verify(adminRepository).makeAdminSuperAdmin(userId, adminId);
   }
 
   @Test
-  public void testCreateAdminNoPermissions() {
+  public void testPromoteAdminNoPermissions() {
     UUID adminId = UUID.randomUUID();
     UUID userId = UUID.randomUUID();
 
+    AdminEntity adminEntity = new AdminEntity(adminId, false, "ACTIVE", adminId, adminId);
+
     when(authHelpers.getCurrentUserId()).thenReturn(adminId);
-    when(adminAuthorizer.authorize(
-            any(UUID.class),
-            eq(Resources.ADMINS),
-            eq(Actions.CREATE),
-            eq(AdminViewTypes.ALL)
-    )).thenReturn(false);
+    when(adminRepository.findById(adminId)).thenReturn(Optional.of(adminEntity));
 
     UnauthorisedException exception = assertThrows(
             UnauthorisedException.class, () -> {
-      adminService.createAdmin(userId);
-    });
+              adminService.promoteAdminToSuperUser(userId);
+            });
 
-    assert exception.getMessage().equals("Admin does not have permission to create new admins");
+    assert exception.getMessage().equals("Admin does not have permission to create super admins");
   }
 }

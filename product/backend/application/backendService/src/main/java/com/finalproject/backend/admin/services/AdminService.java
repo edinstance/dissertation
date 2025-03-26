@@ -154,4 +154,17 @@ public class AdminService {
     adminRepository.createAdmin(userId, currentAdminId);
     return true;
   }
+
+  public Boolean promoteAdminToSuperUser(final UUID userId) {
+
+    UUID currentAdminId = authHelpers.getCurrentUserId();
+    if (!getCurrentAdmin().isSuperAdmin()) {
+      AppLogger.warn("Admin does not have permission to create super admins");
+      throw new UnauthorisedException("Admin does not have permission to create super admins");
+    }
+
+    AppLogger.info("Admin " + currentAdminId + " promoting user " + userId + " to super admin");
+    adminRepository.makeAdminSuperAdmin(userId, currentAdminId);
+    return true;
+  }
 }

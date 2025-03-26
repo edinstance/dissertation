@@ -2,6 +2,7 @@ package com.finalproject.backend.UserTests.ServiceTests;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.finalproject.backend.common.helpers.AuthHelpers;
+import com.finalproject.backend.permissions.authorizers.AdminAuthorizer;
 import com.finalproject.backend.users.entities.UserEntity;
 import com.finalproject.backend.users.repositories.UserRepository;
 import com.finalproject.backend.users.services.UserService;
@@ -37,6 +38,9 @@ public class UserServiceTests {
 
   @Mock
   private AuthHelpers authHelpers;
+
+  @Mock
+  private AdminAuthorizer adminAuthorizer;
 
   @InjectMocks
   private UserService userService;
