@@ -5,6 +5,7 @@ import useAdminPermissionsStore from "@/stores/AdminStore";
 import { useQuery } from "@apollo/client";
 import { ColumnDef } from "@tanstack/react-table";
 import { useEffect, useState } from "react";
+import DropDown from "../ui/DropDown";
 import LoadingSpinner from "../ui/LoadingSpinner";
 import { Table } from "../ui/Table";
 
@@ -53,6 +54,12 @@ function UserTable() {
     });
   }
 
+  columns.push({
+    header: "Actions",
+    accessorKey: "actions",
+    cell: () => <UserActions />,
+  });
+
   if (loading) {
     return <LoadingSpinner />;
   }
@@ -61,3 +68,22 @@ function UserTable() {
 }
 
 export default UserTable;
+
+function UserActions() {
+  const { hasPermission } = useAdminPermissionsStore();
+
+  let options = [];
+  if (hasPermission(Resources.Admins, Actions.Create)) {
+    options.push({ label: "Make Admin", onClick: () => {} });
+  }
+  if (hasPermission(Resources.Users, Actions.Write)) {
+    options.push({ label: "Deactivate User", onClick: () => {} });
+  }
+  return (
+    <DropDown
+      title="Actions"
+      options={options}
+      disabled={options.length == 0}
+    />
+  );
+}
