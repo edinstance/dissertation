@@ -1,8 +1,9 @@
 "use client";
 import { Actions, Resources, User } from "@/gql/graphql";
 import { GET_ADMIN_IDS, GET_ALL_USERS } from "@/lib/graphql/admin";
+import { DEACTIVATE_USER_MUTATION } from "@/lib/graphql/users";
 import useAdminPermissionsStore from "@/stores/AdminStore";
-import { useQuery } from "@apollo/client";
+import { useMutation, useQuery } from "@apollo/client";
 import { ColumnDef } from "@tanstack/react-table";
 import { useEffect, useState } from "react";
 import DropDown from "../ui/DropDown";
@@ -57,7 +58,7 @@ function UserTable() {
   columns.push({
     header: "Actions",
     accessorKey: "actions",
-    cell: () => <UserActions />,
+    cell: ({ row }) => <UserActions user={row.original} />,
   });
 
   if (loading) {
@@ -69,15 +70,23 @@ function UserTable() {
 
 export default UserTable;
 
-function UserActions() {
+function UserActions({ user }: { user: User }) {
   const { hasPermission } = useAdminPermissionsStore();
+  const [deactivateUserMutation] = useMutation(DEACTIVATE_USER_MUTATION, {
+    refetchQueries: [{ query: GET_ALL_USERS }],
+  });
 
   let options = [];
   if (hasPermission(Resources.Admins, Actions.Create)) {
     options.push({ label: "Make Admin", onClick: () => {} });
   }
   if (hasPermission(Resources.Users, Actions.Write)) {
-    options.push({ label: "Deactivate User", onClick: () => {} });
+    options.push({
+      label: "Deactivate User",
+      onClick: () => {
+        deactivateUserMutation({ variables: { id: user.id } });
+      },
+    });
   }
   return (
     <DropDown

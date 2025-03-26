@@ -327,6 +327,7 @@ export type Mutation = {
   __typename?: "Mutation";
   createAdmin?: Maybe<Admin>;
   createUser?: Maybe<User>;
+  deactivateUser?: Maybe<MutationResponse>;
   deleteUser?: Maybe<MutationResponse>;
   reportBug?: Maybe<MutationResponse>;
   saveItem?: Maybe<Item>;
@@ -339,6 +340,10 @@ export type MutationCreateAdminArgs = {
 
 export type MutationCreateUserArgs = {
   userInput?: InputMaybe<UserInput>;
+};
+
+export type MutationDeactivateUserArgs = {
+  id: Scalars["String"]["input"];
 };
 
 export type MutationReportBugArgs = {
@@ -806,6 +811,19 @@ export type DeleteUserMutationVariables = Exact<{ [key: string]: never }>;
 export type DeleteUserMutation = {
   __typename?: "Mutation";
   deleteUser?: {
+    __typename?: "MutationResponse";
+    success?: boolean | null;
+    message?: string | null;
+  } | null;
+};
+
+export type DeactivateUserMutationVariables = Exact<{
+  id: Scalars["String"]["input"];
+}>;
+
+export type DeactivateUserMutation = {
+  __typename?: "Mutation";
+  deactivateUser?: {
     __typename?: "MutationResponse";
     success?: boolean | null;
     message?: string | null;
@@ -1866,3 +1884,55 @@ export const DeleteUserDocument = {
     },
   ],
 } as unknown as DocumentNode<DeleteUserMutation, DeleteUserMutationVariables>;
+export const DeactivateUserDocument = {
+  kind: "Document",
+  definitions: [
+    {
+      kind: "OperationDefinition",
+      operation: "mutation",
+      name: { kind: "Name", value: "DeactivateUser" },
+      variableDefinitions: [
+        {
+          kind: "VariableDefinition",
+          variable: { kind: "Variable", name: { kind: "Name", value: "id" } },
+          type: {
+            kind: "NonNullType",
+            type: {
+              kind: "NamedType",
+              name: { kind: "Name", value: "String" },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "deactivateUser" },
+            arguments: [
+              {
+                kind: "Argument",
+                name: { kind: "Name", value: "id" },
+                value: {
+                  kind: "Variable",
+                  name: { kind: "Name", value: "id" },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                { kind: "Field", name: { kind: "Name", value: "success" } },
+                { kind: "Field", name: { kind: "Name", value: "message" } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  DeactivateUserMutation,
+  DeactivateUserMutationVariables
+>;
