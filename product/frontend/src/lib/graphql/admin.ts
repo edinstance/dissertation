@@ -41,3 +41,12 @@ export const GET_ADMIN_IDS = graphql(`
     }
   }
 `);
+
+export const CREATE_ADMIN_MUTATION = graphql(`
+  mutation CreateAdmin($userId: String!) {
+    createAdmin(userId: $userId) {
+      success
+      message
+    }
+  }
+`);

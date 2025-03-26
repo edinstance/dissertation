@@ -1,6 +1,11 @@
 "use client";
+import { addUserToAdminGroup } from "@/actions/add-user-to-admin-group";
 import { Actions, Resources, User } from "@/gql/graphql";
-import { GET_ADMIN_IDS, GET_ALL_USERS } from "@/lib/graphql/admin";
+import {
+  CREATE_ADMIN_MUTATION,
+  GET_ADMIN_IDS,
+  GET_ALL_USERS,
+} from "@/lib/graphql/admin";
 import { DEACTIVATE_USER_MUTATION } from "@/lib/graphql/users";
 import useAdminPermissionsStore from "@/stores/AdminStore";
 import { useMutation, useQuery } from "@apollo/client";
@@ -12,7 +17,9 @@ import { Table } from "../ui/Table";
 
 function UserTable() {
   const { loading, data } = useQuery(GET_ALL_USERS);
+  const { data: adminDataResult } = useQuery(GET_ADMIN_IDS);
   const [users, setUsers] = useState<User[]>([]);
+  const [adminIds, setAdminIds] = useState<string[]>([]);
 
   const { hasPermission } = useAdminPermissionsStore();
 
@@ -21,6 +28,16 @@ function UserTable() {
       setUsers(data.getAllUsers.filter((user): user is User => user !== null));
     }
   }, [data]);
+
+  useEffect(() => {
+    if (adminDataResult && adminDataResult.getAllAdmins) {
+      const ids = adminDataResult.getAllAdmins
+        .filter((admin) => admin && admin.userId)
+        .map((admin) => admin && admin.userId)
+        .filter((id): id is string => id !== null && id !== undefined);
+      setAdminIds(ids);
+    }
+  }, [adminDataResult]);
 
   const columns: ColumnDef<User>[] = [
     {
@@ -42,23 +59,30 @@ function UserTable() {
   ];
 
   if (hasPermission(Resources.Admins, Actions.Read)) {
-    const { data: adminDataResult } = useQuery(GET_ADMIN_IDS);
-    const adminData = adminDataResult?.getAllAdmins;
-
     columns.push({
       header: "Admin",
-      accessorKey: "admin",
-      cell: ({ row }) =>
-        adminData?.some((admin) => admin && admin.userId === row.original.id)
-          ? "Yes"
-          : "No",
+      accessorKey: "isAdmin",
+      sortingFn: (rowA, rowB) => {
+        const isAdminA = adminIds.includes(rowA.original.id);
+        const isAdminB = adminIds.includes(rowB.original.id);
+        return isAdminA === isAdminB ? 0 : isAdminA ? -1 : 1;
+      },
+      cell: ({ row }) => {
+        const isAdmin = adminIds.includes(row.original.id);
+        return isAdmin ? "Yes" : "No";
+      },
     });
   }
 
   columns.push({
     header: "Actions",
     accessorKey: "actions",
-    cell: ({ row }) => <UserActions user={row.original} />,
+    cell: ({ row }) => (
+      <UserActions
+        user={row.original}
+        isAdmin={adminIds.includes(row.original.id)}
+      />
+    ),
   });
 
   if (loading) {
@@ -70,16 +94,28 @@ function UserTable() {
 
 export default UserTable;
 
-function UserActions({ user }: { user: User }) {
+function UserActions({ user, isAdmin }: { user: User; isAdmin: boolean }) {
   const { hasPermission } = useAdminPermissionsStore();
+
   const [deactivateUserMutation] = useMutation(DEACTIVATE_USER_MUTATION, {
-    refetchQueries: [{ query: GET_ALL_USERS }],
+    refetchQueries: [{ query: GET_ALL_USERS }, { query: GET_ADMIN_IDS }],
+  });
+
+  const [createAdmin] = useMutation(CREATE_ADMIN_MUTATION, {
+    refetchQueries: [{ query: GET_ALL_USERS }, { query: GET_ADMIN_IDS }],
   });
 
   let options = [];
-  if (hasPermission(Resources.Admins, Actions.Create)) {
-    options.push({ label: "Make Admin", onClick: () => {} });
+  if (!isAdmin && hasPermission(Resources.Admins, Actions.Create)) {
+    options.push({
+      label: "Make Admin",
+      onClick: () => {
+        addUserToAdminGroup({ id: user.id });
+        createAdmin({ variables: { userId: user.id } });
+      },
+    });
   }
+
   if (hasPermission(Resources.Users, Actions.Write)) {
     options.push({
       label: "Deactivate User",
@@ -88,6 +124,7 @@ function UserActions({ user }: { user: User }) {
       },
     });
   }
+
   return (
     <DropDown
       title="Actions"

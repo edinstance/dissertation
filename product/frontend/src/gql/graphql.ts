@@ -325,7 +325,7 @@ export enum ItemSortOptions {
 
 export type Mutation = {
   __typename?: "Mutation";
-  createAdmin?: Maybe<Admin>;
+  createAdmin?: Maybe<MutationResponse>;
   createUser?: Maybe<User>;
   deactivateUser?: Maybe<MutationResponse>;
   deleteUser?: Maybe<MutationResponse>;
@@ -559,6 +559,19 @@ export type GetAllAdminsQuery = {
     __typename?: "Admin";
     userId?: string | null;
   } | null> | null;
+};
+
+export type CreateAdminMutationVariables = Exact<{
+  userId: Scalars["String"]["input"];
+}>;
+
+export type CreateAdminMutation = {
+  __typename?: "Mutation";
+  createAdmin?: {
+    __typename?: "MutationResponse";
+    success?: boolean | null;
+    message?: string | null;
+  } | null;
 };
 
 export type SearchItemsQueryVariables = Exact<{
@@ -955,6 +968,58 @@ export const GetAllAdminsDocument = {
     },
   ],
 } as unknown as DocumentNode<GetAllAdminsQuery, GetAllAdminsQueryVariables>;
+export const CreateAdminDocument = {
+  kind: "Document",
+  definitions: [
+    {
+      kind: "OperationDefinition",
+      operation: "mutation",
+      name: { kind: "Name", value: "CreateAdmin" },
+      variableDefinitions: [
+        {
+          kind: "VariableDefinition",
+          variable: {
+            kind: "Variable",
+            name: { kind: "Name", value: "userId" },
+          },
+          type: {
+            kind: "NonNullType",
+            type: {
+              kind: "NamedType",
+              name: { kind: "Name", value: "String" },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "createAdmin" },
+            arguments: [
+              {
+                kind: "Argument",
+                name: { kind: "Name", value: "userId" },
+                value: {
+                  kind: "Variable",
+                  name: { kind: "Name", value: "userId" },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                { kind: "Field", name: { kind: "Name", value: "success" } },
+                { kind: "Field", name: { kind: "Name", value: "message" } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<CreateAdminMutation, CreateAdminMutationVariables>;
 export const SearchItemsDocument = {
   kind: "Document",
   definitions: [
