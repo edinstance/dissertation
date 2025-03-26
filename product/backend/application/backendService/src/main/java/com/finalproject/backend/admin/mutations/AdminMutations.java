@@ -43,4 +43,18 @@ public class AdminMutations {
 
     return new MutationResponse(true, "Admin created successfully");
   }
+
+  /**
+   * A mutation to promote an admin to a super admin.
+   *
+   * @param userId the admin id to turn into a super admin .
+   * @return a mutation response based on the outcome.
+   */
+  @DgsMutation
+  public MutationResponse promoteAdminToSuperAdmin(@InputArgument final String userId) {
+    adminService.promoteAdminToSuperUser(UUID.fromString(userId));
+
+    return new MutationResponse(true, "Admin promoted successfully");
+  }
+
 }
