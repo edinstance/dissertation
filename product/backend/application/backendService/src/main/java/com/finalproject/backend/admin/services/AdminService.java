@@ -138,7 +138,7 @@ public class AdminService {
    * @param userId the id of the user to turn into an admin.
    * @return the new admin.
    */
-  public AdminEntity createAdmin(final UUID userId) {
+  public Boolean createAdmin(final UUID userId) {
 
     UUID currentAdminId = authHelpers.getCurrentUserId();
     if (!adminAuthorizer.authorize(
@@ -151,6 +151,7 @@ public class AdminService {
     }
 
     AppLogger.info("Admin " + currentAdminId + " promoting user " + userId + " to admin");
-    return adminRepository.createAdmin(currentAdminId, userId);
+    adminRepository.createAdmin(userId, currentAdminId);
+    return true;
   }
 }

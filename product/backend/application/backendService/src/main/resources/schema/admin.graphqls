@@ -8,7 +8,7 @@ extend type Query {
 }
 
 extend type Mutation {
-    createAdmin(userId: String): Admin @admin
+    createAdmin(userId: String): MutationResponse @admin
 }
 
 type Admin {

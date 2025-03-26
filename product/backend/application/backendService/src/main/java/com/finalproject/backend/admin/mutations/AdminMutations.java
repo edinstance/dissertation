@@ -1,7 +1,7 @@
 package com.finalproject.backend.admin.mutations;
 
-import com.finalproject.backend.admin.entities.AdminEntity;
 import com.finalproject.backend.admin.services.AdminService;
+import com.finalproject.backend.common.dto.MutationResponse;
 import com.netflix.graphql.dgs.DgsComponent;
 import com.netflix.graphql.dgs.DgsMutation;
 import com.netflix.graphql.dgs.InputArgument;
@@ -35,10 +35,12 @@ public class AdminMutations {
    * A mutation to create an admin.
    *
    * @param userId the user to turn into an admin.
-   * @return the new admin entity.
+   * @return a mutation response based on the outcome.
    */
   @DgsMutation
-  public AdminEntity createAdmin(@InputArgument final String userId) {
-    return adminService.createAdmin(UUID.fromString(userId));
+  public MutationResponse createAdmin(@InputArgument final String userId) {
+    adminService.createAdmin(UUID.fromString(userId));
+
+    return new MutationResponse(true, "Admin created successfully");
   }
 }

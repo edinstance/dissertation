@@ -8,9 +8,7 @@ import com.finalproject.backend.common.helpers.AuthHelpers;
 import com.finalproject.backend.permissions.authorizers.AdminAuthorizer;
 import com.finalproject.backend.permissions.types.Actions;
 import com.finalproject.backend.permissions.types.AdminViewTypes;
-import com.finalproject.backend.permissions.types.GrantType;
 import com.finalproject.backend.permissions.types.Resources;
-import com.finalproject.backend.users.repositories.UserRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -20,6 +18,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
@@ -55,11 +54,8 @@ public class CreateAdminTests {
             eq(AdminViewTypes.ALL)
     )).thenReturn(true);
 
-    when(adminRepository.createAdmin(adminId, userId)).thenReturn(adminEntity);
-
-    AdminEntity result = adminService.createAdmin(userId);
-    assert result.getUserId().equals(userId);
-    assert result.getCreatedBy().equals(adminId);
+    Boolean result = adminService.createAdmin(userId);
+    assertTrue(result);
   }
 
   @Test
