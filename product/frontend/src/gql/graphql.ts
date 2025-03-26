@@ -806,6 +806,7 @@ export type GetUserQuery = {
     id: string;
     email: string;
     name?: string | null;
+    status?: string | null;
     details?: {
       __typename?: "UserDetails";
       id: string;
@@ -1881,6 +1882,7 @@ export const GetUserDocument = {
                 { kind: "Field", name: { kind: "Name", value: "id" } },
                 { kind: "Field", name: { kind: "Name", value: "email" } },
                 { kind: "Field", name: { kind: "Name", value: "name" } },
+                { kind: "Field", name: { kind: "Name", value: "status" } },
                 {
                   kind: "Field",
                   name: { kind: "Name", value: "details" },

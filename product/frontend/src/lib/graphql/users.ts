@@ -31,6 +31,7 @@ export const GET_USER = graphql(`
       id
       email
       name
+      status
       details {
         id
         contactNumber
