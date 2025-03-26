@@ -8,7 +8,7 @@ export default function Admin() {
   const session = useSession();
 
   return (
-    <div className="rounded-lg bg-gray-100 p-6 shadow-md">
+    <div className="rounded-lg bg-gray-100 p-6 text-black shadow-md dark:bg-gray-800 dark:text-white">
       <h2 className="mb-4 text-xl">Admin Information</h2>
       <div className="mb-4">
         <p className="text-lg">
