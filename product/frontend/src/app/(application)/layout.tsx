@@ -1,6 +1,8 @@
 import { ApolloWrapper } from "@/components/apollo";
 import { Sidebar } from "@/components/ui/Sidebar";
+import { GET_USER } from "@/lib/graphql/users";
 import { auth } from "@/server/auth";
+import { GraphQLClient } from "graphql-request";
 import { redirect } from "next/navigation";
 
 const BACKEND_GRAPHQL_ENDPOINT = process.env.BACKEND_GRAPHQL_ENDPOINT ?? "";
@@ -23,6 +25,33 @@ export default async function RootLayout({
 
   if (!session) {
     redirect("/not-found");
+  }
+
+  const client = new GraphQLClient(process.env.BACKEND_GRAPHQL_ENDPOINT!, {
+    headers: {
+      Authorization: `Bearer ${session?.accessToken}`,
+    },
+  });
+
+  let userStatus = null;
+
+  // Fetch user status safely
+  try {
+    const client = new GraphQLClient(BACKEND_GRAPHQL_ENDPOINT, {
+      headers: {
+        Authorization: `Bearer ${session?.accessToken}`,
+      },
+    });
+
+    const data = await client.request(GET_USER);
+    userStatus = data?.getUser?.status;
+  } catch (error) {
+    console.error("Failed to fetch user", error);
+    redirect("/not-found");
+  }
+
+  if (userStatus === "DEACTIVATED") {
+    redirect("/deactivated");
   }
 
   return (
