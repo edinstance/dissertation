@@ -3,6 +3,7 @@ extend type Mutation {
     createUser(userInput: UserInput): User
     saveUserDetails(id: String!, detailsInput: UserDetailsInput): User
     deleteUser: MutationResponse
+    deactivateUser(id: String!): User
 }
 
 extend type Query {

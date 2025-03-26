@@ -172,4 +172,11 @@ public class UserServiceTests {
     assertFalse(userService.deleteUser());
   }
 
+  @Test
+  public void testDeactivateUser() {
+    userService.deactivateUser(userId);
+
+    verify(userRepository).deactivateUser(userId);
+  }
+
 }

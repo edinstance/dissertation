@@ -25,6 +25,17 @@ public interface UserRepository extends JpaRepository<UserEntity, UUID> {
   @Transactional
   void deleteUser(@Param("userId") UUID userId);
 
+  /**
+   * This query deactivates a user.
+   *
+   * @param userId the userId of the user to deactivate.
+   */
+  @Modifying
+  @Query(value = "UPDATE users SET status = 'DEACTIVATED' WHERE user_id = :userId",
+          nativeQuery = true)
+  @Transactional
+  void deactivateUser(@Param("userId") UUID userId);
+
 
   /**
    * This query gets the stats about users.

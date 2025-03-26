@@ -121,7 +121,6 @@ public class UserService {
 
   /**
    * This deletes a user by their id.
-   *
    */
   public Boolean deleteUser() {
     try (Jedis jedis = jedisPool.getResource()) {
@@ -136,6 +135,14 @@ public class UserService {
       AppLogger.error("Error while deleting user", e);
       return false;
     }
+  }
+
+  /**
+   * This deactivates a user by their id.
+   */
+  public void deactivateUser(final UUID userId) {
+    userRepository.deactivateUser(userId);
+    AppLogger.info("User with id " + userId + " deactivated");
   }
 }
 
