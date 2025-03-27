@@ -32,7 +32,7 @@ export default function TabNavigation({
   }, [getLinks, links]);
 
   return (
-    <nav className="relative bg-gray-200 dark:bg-gray-800 p-4 rounded-lg">
+    <nav className="relative rounded-lg bg-gray-200 p-4 dark:bg-gray-800">
       <LayoutGroup>
         <ul className="flex space-x-4">
           {navigationLinks &&

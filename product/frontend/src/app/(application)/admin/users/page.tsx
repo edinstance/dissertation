@@ -2,7 +2,7 @@
 import UserTable from "@/components/Admin/UserTable";
 import LoadingSpinner from "@/components/ui/LoadingSpinner";
 import { Actions, Resources } from "@/gql/graphql";
-import { GET_ADMIN_IDS, GET_USER_STATS } from "@/lib/graphql/admin";
+import { GET_USER_STATS } from "@/lib/graphql/admin";
 import useAdminPermissionsStore from "@/stores/AdminStore";
 import { useQuery } from "@apollo/client";
 

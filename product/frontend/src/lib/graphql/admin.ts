@@ -27,17 +27,27 @@ export const GET_CURRENT_ADMIN = graphql(`
       userId
       isSuperAdmin
       status
-      createdBy
-      lastUpdatedBy
       isDeleted
     }
   }
 `);
 
 export const GET_ADMIN_IDS = graphql(`
+  query getAllAdminIds {
+    getAllAdmins {
+      userId
+    }
+  }
+`);
+
+export const GET_ALL_ADMINS = graphql(`
   query getAllAdmins {
     getAllAdmins {
       userId
+      email
+      isSuperAdmin
+      status
+      isDeleted
     }
   }
 `);
@@ -45,6 +55,15 @@ export const GET_ADMIN_IDS = graphql(`
 export const CREATE_ADMIN_MUTATION = graphql(`
   mutation CreateAdmin($userId: String!) {
     createAdmin(userId: $userId) {
+      success
+      message
+    }
+  }
+`);
+
+export const DEACTIVATE_ADMIN_MUTATION = graphql(`
+  mutation DeactivateAdmin($userId: String!) {
+    deactivateAdmin(userId: $userId) {
       success
       message
     }

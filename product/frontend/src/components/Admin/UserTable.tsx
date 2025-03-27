@@ -94,7 +94,13 @@ function UserTable() {
 
 export default UserTable;
 
-function UserActions({ user, isAdmin }: { user: User; isAdmin: boolean }) {
+function UserActions({
+  user,
+  isAdmin: isUserAdmin,
+}: {
+  user: User;
+  isAdmin: boolean;
+}) {
   const { hasPermission } = useAdminPermissionsStore();
 
   const [deactivateUserMutation] = useMutation(DEACTIVATE_USER_MUTATION, {
@@ -105,8 +111,8 @@ function UserActions({ user, isAdmin }: { user: User; isAdmin: boolean }) {
     refetchQueries: [{ query: GET_ALL_USERS }, { query: GET_ADMIN_IDS }],
   });
 
-  let options = [];
-  if (!isAdmin && hasPermission(Resources.Admins, Actions.Create)) {
+  const options = [];
+  if (!isUserAdmin && hasPermission(Resources.Admins, Actions.Create)) {
     options.push({
       label: "Make Admin",
       onClick: () => {

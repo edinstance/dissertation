@@ -1,8 +1,9 @@
+import AdminTable from "@/components/Admin/AdminTable";
+
 export default function Admins() {
-    return (
-      <div>
-        <h1>Admins</h1>
-      </div>
-    );
-  }
-  
+  return (
+    <div>
+      <AdminTable />
+    </div>
+  );
+}

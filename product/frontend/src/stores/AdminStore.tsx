@@ -21,7 +21,7 @@ interface AdminPermissionsStore {
   removeAdminPermission: (permissionId: PermissionViewId) => void;
 
   hasPermission: (resource: Resources, action: Actions) => boolean;
-  isSuperAdmin: () => boolean;
+  isCurrentAdminSuperAdmin: () => boolean;
 }
 
 const useAdminPermissionsStore = create<AdminPermissionsStore>()(
@@ -72,7 +72,7 @@ const useAdminPermissionsStore = create<AdminPermissionsStore>()(
           );
         },
 
-        isSuperAdmin: () => {
+        isCurrentAdminSuperAdmin: () => {
           const { currentAdmin } = get();
           return !!currentAdmin?.isSuperAdmin;
         },

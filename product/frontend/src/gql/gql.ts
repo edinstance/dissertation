@@ -18,12 +18,16 @@ const documents = {
     types.GetUserStatsDocument,
   "\n  query getAllUsers {\n    getAllUsers {\n      id\n      email\n      name\n      status\n    }\n  }\n":
     types.GetAllUsersDocument,
-  "\n  query getCurrentAdmin {\n    getCurrentAdmin {\n      userId\n      isSuperAdmin\n      status\n      createdBy\n      lastUpdatedBy\n      isDeleted\n    }\n  }\n":
+  "\n  query getCurrentAdmin {\n    getCurrentAdmin {\n      userId\n      isSuperAdmin\n      status\n      isDeleted\n    }\n  }\n":
     types.GetCurrentAdminDocument,
-  "\n  query getAllAdmins {\n    getAllAdmins {\n      userId\n    }\n  }\n":
+  "\n  query getAllAdminIds {\n    getAllAdmins {\n      userId\n    }\n  }\n":
+    types.GetAllAdminIdsDocument,
+  "\n  query getAllAdmins {\n    getAllAdmins {\n      userId\n      email\n      isSuperAdmin\n      status\n      isDeleted\n    }\n  }\n":
     types.GetAllAdminsDocument,
   "\n  mutation CreateAdmin($userId: String!) {\n    createAdmin(userId: $userId) {\n      success\n      message\n    }\n  }\n":
     types.CreateAdminDocument,
+  "\n  mutation DeactivateAdmin($userId: String!) {\n    deactivateAdmin(userId: $userId) {\n      success\n      message\n    }\n  }\n":
+    types.DeactivateAdminDocument,
   "\n  query SearchItems(\n    $searchText: String\n    $pagination: PaginationInput\n    $sorting: SortInput\n  ) {\n    searchForItems(\n      searchText: $searchText\n      pagination: $pagination\n      sorting: $sorting\n    ) {\n      items {\n        id\n        name\n        description\n        isActive\n        endingTime\n        price\n        stock\n        category\n        images\n        seller {\n          id\n          name\n          email\n        }\n      }\n      pagination {\n        total\n        page\n        size\n      }\n      sorting {\n        sortBy\n        sortDirection\n      }\n    }\n  }\n":
     types.SearchItemsDocument,
   "\n  query getShopItems($pagination: PaginationInput, $sorting: SortInput) {\n    getShopItems(pagination: $pagination, sorting: $sorting) {\n      items {\n        id\n        name\n        description\n        isActive\n        endingTime\n        price\n        stock\n        category\n        images\n        seller {\n          id\n          name\n          email\n        }\n      }\n      pagination {\n        total\n        page\n        size\n      }\n      sorting {\n        sortBy\n        sortDirection\n      }\n    }\n  }\n":
@@ -80,20 +84,32 @@ export function graphql(
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(
-  source: "\n  query getCurrentAdmin {\n    getCurrentAdmin {\n      userId\n      isSuperAdmin\n      status\n      createdBy\n      lastUpdatedBy\n      isDeleted\n    }\n  }\n",
-): (typeof documents)["\n  query getCurrentAdmin {\n    getCurrentAdmin {\n      userId\n      isSuperAdmin\n      status\n      createdBy\n      lastUpdatedBy\n      isDeleted\n    }\n  }\n"];
+  source: "\n  query getCurrentAdmin {\n    getCurrentAdmin {\n      userId\n      isSuperAdmin\n      status\n      isDeleted\n    }\n  }\n",
+): (typeof documents)["\n  query getCurrentAdmin {\n    getCurrentAdmin {\n      userId\n      isSuperAdmin\n      status\n      isDeleted\n    }\n  }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(
-  source: "\n  query getAllAdmins {\n    getAllAdmins {\n      userId\n    }\n  }\n",
-): (typeof documents)["\n  query getAllAdmins {\n    getAllAdmins {\n      userId\n    }\n  }\n"];
+  source: "\n  query getAllAdminIds {\n    getAllAdmins {\n      userId\n    }\n  }\n",
+): (typeof documents)["\n  query getAllAdminIds {\n    getAllAdmins {\n      userId\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(
+  source: "\n  query getAllAdmins {\n    getAllAdmins {\n      userId\n      email\n      isSuperAdmin\n      status\n      isDeleted\n    }\n  }\n",
+): (typeof documents)["\n  query getAllAdmins {\n    getAllAdmins {\n      userId\n      email\n      isSuperAdmin\n      status\n      isDeleted\n    }\n  }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(
   source: "\n  mutation CreateAdmin($userId: String!) {\n    createAdmin(userId: $userId) {\n      success\n      message\n    }\n  }\n",
 ): (typeof documents)["\n  mutation CreateAdmin($userId: String!) {\n    createAdmin(userId: $userId) {\n      success\n      message\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(
+  source: "\n  mutation DeactivateAdmin($userId: String!) {\n    deactivateAdmin(userId: $userId) {\n      success\n      message\n    }\n  }\n",
+): (typeof documents)["\n  mutation DeactivateAdmin($userId: String!) {\n    deactivateAdmin(userId: $userId) {\n      success\n      message\n    }\n  }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

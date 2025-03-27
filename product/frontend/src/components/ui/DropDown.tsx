@@ -35,7 +35,7 @@ export function DropDown({
         transition
         className="absolute right-0 z-10 mt-2 w-32 min-w-fit origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black/5 dark:bg-black"
       >
-        <div className="py-1 flex flex-col">
+        <div className="flex flex-col py-1">
           {options.map((option) => (
             <MenuItem
               key={option.label}

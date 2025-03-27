@@ -27,12 +27,6 @@ export default async function RootLayout({
     redirect("/not-found");
   }
 
-  const client = new GraphQLClient(process.env.BACKEND_GRAPHQL_ENDPOINT!, {
-    headers: {
-      Authorization: `Bearer ${session?.accessToken}`,
-    },
-  });
-
   let userStatus = null;
 
   // Fetch user status safely

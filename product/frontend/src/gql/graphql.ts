@@ -39,12 +39,11 @@ export enum Actions {
 
 export type Admin = {
   __typename?: "Admin";
-  createdBy?: Maybe<Scalars["String"]["output"]>;
+  email?: Maybe<Scalars["String"]["output"]>;
   isDeleted?: Maybe<Scalars["Boolean"]["output"]>;
   isSuperAdmin?: Maybe<Scalars["Boolean"]["output"]>;
-  lastUpdatedBy?: Maybe<Scalars["String"]["output"]>;
   status?: Maybe<Scalars["String"]["output"]>;
-  userId?: Maybe<Scalars["String"]["output"]>;
+  userId: Scalars["String"]["output"];
 };
 
 export enum ErrorDetail {
@@ -327,8 +326,10 @@ export type Mutation = {
   __typename?: "Mutation";
   createAdmin?: Maybe<MutationResponse>;
   createUser?: Maybe<User>;
+  deactivateAdmin?: Maybe<MutationResponse>;
   deactivateUser?: Maybe<MutationResponse>;
   deleteUser?: Maybe<MutationResponse>;
+  promoteAdminToSuperAdmin?: Maybe<MutationResponse>;
   reportBug?: Maybe<MutationResponse>;
   saveItem?: Maybe<Item>;
   saveUserDetails?: Maybe<User>;
@@ -342,8 +343,16 @@ export type MutationCreateUserArgs = {
   userInput?: InputMaybe<UserInput>;
 };
 
+export type MutationDeactivateAdminArgs = {
+  userId?: InputMaybe<Scalars["String"]["input"]>;
+};
+
 export type MutationDeactivateUserArgs = {
   id: Scalars["String"]["input"];
+};
+
+export type MutationPromoteAdminToSuperAdminArgs = {
+  userId?: InputMaybe<Scalars["String"]["input"]>;
 };
 
 export type MutationReportBugArgs = {
@@ -542,13 +551,18 @@ export type GetCurrentAdminQuery = {
   __typename?: "Query";
   getCurrentAdmin?: {
     __typename?: "Admin";
-    userId?: string | null;
+    userId: string;
     isSuperAdmin?: boolean | null;
     status?: string | null;
-    createdBy?: string | null;
-    lastUpdatedBy?: string | null;
     isDeleted?: boolean | null;
   } | null;
+};
+
+export type GetAllAdminIdsQueryVariables = Exact<{ [key: string]: never }>;
+
+export type GetAllAdminIdsQuery = {
+  __typename?: "Query";
+  getAllAdmins?: Array<{ __typename?: "Admin"; userId: string } | null> | null;
 };
 
 export type GetAllAdminsQueryVariables = Exact<{ [key: string]: never }>;
@@ -557,7 +571,11 @@ export type GetAllAdminsQuery = {
   __typename?: "Query";
   getAllAdmins?: Array<{
     __typename?: "Admin";
-    userId?: string | null;
+    userId: string;
+    email?: string | null;
+    isSuperAdmin?: boolean | null;
+    status?: string | null;
+    isDeleted?: boolean | null;
   } | null> | null;
 };
 
@@ -568,6 +586,19 @@ export type CreateAdminMutationVariables = Exact<{
 export type CreateAdminMutation = {
   __typename?: "Mutation";
   createAdmin?: {
+    __typename?: "MutationResponse";
+    success?: boolean | null;
+    message?: string | null;
+  } | null;
+};
+
+export type DeactivateAdminMutationVariables = Exact<{
+  userId: Scalars["String"]["input"];
+}>;
+
+export type DeactivateAdminMutation = {
+  __typename?: "Mutation";
+  deactivateAdmin?: {
     __typename?: "MutationResponse";
     success?: boolean | null;
     message?: string | null;
@@ -927,11 +958,6 @@ export const GetCurrentAdminDocument = {
                   name: { kind: "Name", value: "isSuperAdmin" },
                 },
                 { kind: "Field", name: { kind: "Name", value: "status" } },
-                { kind: "Field", name: { kind: "Name", value: "createdBy" } },
-                {
-                  kind: "Field",
-                  name: { kind: "Name", value: "lastUpdatedBy" },
-                },
                 { kind: "Field", name: { kind: "Name", value: "isDeleted" } },
               ],
             },
@@ -944,6 +970,31 @@ export const GetCurrentAdminDocument = {
   GetCurrentAdminQuery,
   GetCurrentAdminQueryVariables
 >;
+export const GetAllAdminIdsDocument = {
+  kind: "Document",
+  definitions: [
+    {
+      kind: "OperationDefinition",
+      operation: "query",
+      name: { kind: "Name", value: "getAllAdminIds" },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "getAllAdmins" },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                { kind: "Field", name: { kind: "Name", value: "userId" } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<GetAllAdminIdsQuery, GetAllAdminIdsQueryVariables>;
 export const GetAllAdminsDocument = {
   kind: "Document",
   definitions: [
@@ -961,6 +1012,13 @@ export const GetAllAdminsDocument = {
               kind: "SelectionSet",
               selections: [
                 { kind: "Field", name: { kind: "Name", value: "userId" } },
+                { kind: "Field", name: { kind: "Name", value: "email" } },
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "isSuperAdmin" },
+                },
+                { kind: "Field", name: { kind: "Name", value: "status" } },
+                { kind: "Field", name: { kind: "Name", value: "isDeleted" } },
               ],
             },
           },
@@ -1021,6 +1079,61 @@ export const CreateAdminDocument = {
     },
   ],
 } as unknown as DocumentNode<CreateAdminMutation, CreateAdminMutationVariables>;
+export const DeactivateAdminDocument = {
+  kind: "Document",
+  definitions: [
+    {
+      kind: "OperationDefinition",
+      operation: "mutation",
+      name: { kind: "Name", value: "DeactivateAdmin" },
+      variableDefinitions: [
+        {
+          kind: "VariableDefinition",
+          variable: {
+            kind: "Variable",
+            name: { kind: "Name", value: "userId" },
+          },
+          type: {
+            kind: "NonNullType",
+            type: {
+              kind: "NamedType",
+              name: { kind: "Name", value: "String" },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "deactivateAdmin" },
+            arguments: [
+              {
+                kind: "Argument",
+                name: { kind: "Name", value: "userId" },
+                value: {
+                  kind: "Variable",
+                  name: { kind: "Name", value: "userId" },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                { kind: "Field", name: { kind: "Name", value: "success" } },
+                { kind: "Field", name: { kind: "Name", value: "message" } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  DeactivateAdminMutation,
+  DeactivateAdminMutationVariables
+>;
 export const SearchItemsDocument = {
   kind: "Document",
   definitions: [
