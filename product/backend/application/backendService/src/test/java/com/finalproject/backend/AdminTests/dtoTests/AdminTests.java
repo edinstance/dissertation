@@ -29,7 +29,7 @@ public class AdminTests {
     assertFalse(admin.isSuperAdmin());
     assertEquals("ACTIVE", admin.getStatus());
     assertFalse(admin.getIsDeleted());
-    assertEquals("test@test.com", admin.getUserEmail());
+    assertEquals("test@test.com", admin.getEmail());
   }
 
   @BeforeAll
@@ -64,7 +64,7 @@ public class AdminTests {
 
   @Test
   public void testEmailMethods() {
-    admin.setUserEmail("test@test.com");
-    assertEquals("test@test.com", admin.getUserEmail());
+    admin.setEmail("test@test.com");
+    assertEquals("test@test.com", admin.getEmail());
   }
 }

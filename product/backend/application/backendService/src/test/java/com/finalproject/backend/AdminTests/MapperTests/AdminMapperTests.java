@@ -31,7 +31,7 @@ public class AdminMapperTests {
     assertEquals(adminEntity.isSuperAdmin(), result.isSuperAdmin());
     assertEquals(adminEntity.getStatus(), result.getStatus());
     assertEquals(adminEntity.getIsDeleted(), result.getIsDeleted());
-    assertEquals(adminEntity.getUser().getEmail(), result.getUserEmail());
+    assertEquals(adminEntity.getUser().getEmail(), result.getEmail());
   }
 
   @Test
@@ -43,7 +43,7 @@ public class AdminMapperTests {
   public void testMapNullUser() {
     adminEntity.setUser(null);
     Admin result = AdminMapper.mapAdminEntityToAdmin(adminEntity);
-    assertNull(result.getUserEmail());
+    assertNull(result.getEmail());
   }
 
   @Test
@@ -55,7 +55,7 @@ public class AdminMapperTests {
     assertEquals(adminEntity.isSuperAdmin(), result.isSuperAdmin());
     assertEquals(adminEntity.getStatus(), result.getStatus());
     assertEquals(adminEntity.getIsDeleted(), result.getIsDeleted());
-    assertEquals(adminEntity.getUser().getEmail(), result.getUserEmail());
+    assertEquals(adminEntity.getUser().getEmail(), result.getEmail());
   }
 
   @Test

@@ -1,7 +1,8 @@
 package com.finalproject.backend.admin.services;
 
+import com.finalproject.backend.admin.dto.Admin;
 import com.finalproject.backend.admin.dto.UserStats;
-import com.finalproject.backend.admin.entities.AdminEntity;
+import com.finalproject.backend.admin.mappers.AdminMapper;
 import com.finalproject.backend.admin.repositories.AdminRepository;
 import com.finalproject.backend.common.config.logging.AppLogger;
 import com.finalproject.backend.common.exceptions.UnauthorisedException;
@@ -57,8 +58,8 @@ public class AdminService {
    *
    * @return the current admin.
    */
-  public AdminEntity getCurrentAdmin() {
-    return adminRepository.findById(authHelpers.getCurrentUserId()).orElse(null);
+  public Admin getCurrentAdmin() {
+    return AdminMapper.mapAdminEntityToAdmin(adminRepository.findById(authHelpers.getCurrentUserId()).orElse(null));
   }
 
   /**
@@ -118,7 +119,7 @@ public class AdminService {
    *
    * @return a list of all the admins.
    */
-  public List<AdminEntity> getAllAdmins() {
+  public List<Admin> getAllAdmins() {
     UUID currentUserId = authHelpers.getCurrentUserId();
     if (!adminAuthorizer.authorize(
             currentUserId,
@@ -129,7 +130,7 @@ public class AdminService {
       throw new UnauthorisedException("Admin does not have permission to view admin data");
     }
 
-    return adminRepository.findAll();
+    return AdminMapper.mapAdminEntityListToAdmins(adminRepository.findAll());
   }
 
   /**

@@ -1,9 +1,11 @@
 package com.finalproject.backend.AdminTests.ServiceTests;
 
+import com.finalproject.backend.admin.dto.Admin;
 import com.finalproject.backend.admin.entities.AdminEntity;
 import com.finalproject.backend.admin.repositories.AdminRepository;
 import com.finalproject.backend.admin.services.AdminService;
 import com.finalproject.backend.common.helpers.AuthHelpers;
+import com.finalproject.backend.users.entities.UserEntity;
 import java.util.Optional;
 import java.util.UUID;
 import org.junit.jupiter.api.Test;
@@ -29,16 +31,22 @@ public class GetCurrentAdminTests {
   private AdminService adminService;
 
   UUID adminId = UUID.randomUUID();
-  AdminEntity admin = new AdminEntity(adminId, false, "ACTIVE", adminId, adminId);
-
+  AdminEntity adminEntity = new AdminEntity(adminId, false, "ACTIVE", adminId, adminId);
+  Admin admin = new Admin(adminId, false, "ACTIVE", false, "Admin@test.com");
 
   @Test
   public void testGetCurrentAdmin() {
     when(authHelpers.getCurrentUserId()).thenReturn(adminId);
-    when(adminRepository.findById(adminId)).thenReturn(Optional.of(admin));
+    when(adminRepository.findById(adminId)).thenReturn(Optional.of(adminEntity));
 
-    AdminEntity currentAdmin = adminService.getCurrentAdmin();
-    assertEquals(admin, currentAdmin);
+    adminEntity.setUser(new UserEntity(adminId, "Admin@test.com", "Name"));
+
+    Admin currentAdmin = adminService.getCurrentAdmin();
+    assertEquals(admin.getUserId(), currentAdmin.getUserId());
+    assertEquals(admin.getEmail(), currentAdmin.getEmail());
+    assertEquals(admin.getStatus(), currentAdmin.getStatus());
+    assertEquals(admin.isSuperAdmin(), currentAdmin.isSuperAdmin());
+    assertEquals(admin.getIsDeleted(), currentAdmin.getIsDeleted());
   }
 
   @Test
@@ -46,7 +54,7 @@ public class GetCurrentAdminTests {
     when(authHelpers.getCurrentUserId()).thenReturn(adminId);
     when(adminRepository.findById(adminId)).thenReturn(Optional.empty());
 
-    AdminEntity currentAdmin = adminService.getCurrentAdmin();
+    Admin currentAdmin = adminService.getCurrentAdmin();
     assertNull(currentAdmin);
   }
 

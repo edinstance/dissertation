@@ -1,5 +1,6 @@
 package com.finalproject.backend.AdminTests.ServiceTests;
 
+import com.finalproject.backend.admin.dto.Admin;
 import com.finalproject.backend.admin.entities.AdminEntity;
 import com.finalproject.backend.admin.repositories.AdminRepository;
 import com.finalproject.backend.admin.services.AdminService;
@@ -8,8 +9,8 @@ import com.finalproject.backend.common.helpers.AuthHelpers;
 import com.finalproject.backend.permissions.authorizers.AdminAuthorizer;
 import com.finalproject.backend.permissions.types.Actions;
 import com.finalproject.backend.permissions.types.AdminViewTypes;
-import com.finalproject.backend.permissions.types.GrantType;
 import com.finalproject.backend.permissions.types.Resources;
+import com.finalproject.backend.users.entities.UserEntity;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -53,7 +54,7 @@ public class GetAllAdminsTests {
 
     when(adminRepository.findAll()).thenReturn(List.of());
 
-    List<AdminEntity> result = adminService.getAllAdmins();
+    List<Admin> result = adminService.getAllAdmins();
 
     assertNotNull(result);
     assertTrue(result.isEmpty());
@@ -73,13 +74,24 @@ public class GetAllAdminsTests {
 
     UUID adminId = UUID.randomUUID();
     AdminEntity adminEntity = new AdminEntity(adminId, false, "ACTIVE", adminId, adminId);
+    adminEntity.setUser(new UserEntity(adminId, "Admin@test.com", "name"));
+    Admin admin = new Admin(adminId, false, "ACTIVE", false, "Admin@test.com");
 
     when(adminRepository.findAll()).thenReturn(List.of(adminEntity));
 
-    List<AdminEntity> result = adminService.getAllAdmins();
+    List<Admin> result = adminService.getAllAdmins();
 
     assertNotNull(result);
-    assertTrue(result.contains(adminEntity));
+    assertFalse(result.isEmpty());
+    assertEquals(1, result.size());
+
+    Admin resultAdmin = result.getFirst();
+    assertEquals(admin.getUserId(), resultAdmin.getUserId());
+    assertEquals(admin.isSuperAdmin(), resultAdmin.isSuperAdmin());
+    assertEquals(admin.getStatus(), resultAdmin.getStatus());
+    assertEquals(admin.getIsDeleted(), resultAdmin.getIsDeleted());
+    assertEquals(admin.getEmail(), resultAdmin.getEmail());
+
     verify(adminRepository, times(1)).findAll();
   }
 

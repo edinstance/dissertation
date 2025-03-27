@@ -1,7 +1,7 @@
 package com.finalproject.backend.admin.queries;
 
+import com.finalproject.backend.admin.dto.Admin;
 import com.finalproject.backend.admin.dto.UserStats;
-import com.finalproject.backend.admin.entities.AdminEntity;
 import com.finalproject.backend.admin.services.AdminService;
 import com.finalproject.backend.users.entities.UserEntity;
 import com.netflix.graphql.dgs.DgsComponent;
@@ -51,7 +51,7 @@ public class AdminQueries {
    * @return the list of admins.
    */
   @DgsQuery
-  public List<AdminEntity> getAllAdmins() {
+  public List<Admin> getAllAdmins() {
     return adminService.getAllAdmins();
   }
 
@@ -61,7 +61,7 @@ public class AdminQueries {
    * @return the current admin.
    */
   @DgsQuery
-  public AdminEntity getCurrentAdmin() {
+  public Admin getCurrentAdmin() {
     return adminService.getCurrentAdmin();
   }
 }

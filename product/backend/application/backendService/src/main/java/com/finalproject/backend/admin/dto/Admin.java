@@ -34,7 +34,7 @@ public class Admin {
   /**
    * This is the email of the admin.
    */
-  private String userEmail;
+  private String email;
 
   /**
    * Default constructor.
@@ -49,16 +49,16 @@ public class Admin {
    * @param isSuperAdmin If the admin is a super admin.
    * @param status       The status of the admin.
    * @param isDeleted    If the admin is deleted.
-   * @param userEmail    The email of the admin.
+   * @param email        The email of the admin.
    */
   public Admin(UUID userId, boolean isSuperAdmin,
                String status, Boolean isDeleted,
-               String userEmail) {
+               String email) {
     this.userId = userId;
     this.isSuperAdmin = isSuperAdmin;
     this.status = status;
     this.isDeleted = isDeleted;
-    this.userEmail = userEmail;
+    this.email = email;
   }
 
 }

@@ -1,5 +1,6 @@
 package com.finalproject.backend.AdminTests.QueryTests;
 
+import com.finalproject.backend.admin.dto.Admin;
 import com.finalproject.backend.admin.entities.AdminEntity;
 import com.finalproject.backend.admin.queries.AdminQueries;
 import com.finalproject.backend.admin.services.AdminService;
@@ -23,15 +24,15 @@ public class GetCurrentAdminTests {
     private AdminQueries adminQueries;
 
   private final UUID adminId = UUID.randomUUID();
-  private final AdminEntity adminEntity = new AdminEntity(adminId, false, "ACTIVE", adminId, adminId);
+  private final Admin admin = new Admin(adminId, false, "ACTIVE", false, "admin@test.com");
 
     @Test
     void testGetCurrentAdmin() {
-      when(adminService.getCurrentAdmin()).thenReturn(adminEntity);
+      when(adminService.getCurrentAdmin()).thenReturn(admin);
 
-      AdminEntity admin = adminQueries.getCurrentAdmin();
+      Admin result = adminQueries.getCurrentAdmin();
 
       assertNotNull(admin);
-      assert adminEntity.equals(admin);
+      assert result.equals(admin);
     }
 }

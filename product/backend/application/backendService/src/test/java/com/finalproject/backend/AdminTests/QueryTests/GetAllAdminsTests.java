@@ -1,5 +1,6 @@
 package com.finalproject.backend.AdminTests.QueryTests;
 
+import com.finalproject.backend.admin.dto.Admin;
 import com.finalproject.backend.admin.entities.AdminEntity;
 import com.finalproject.backend.admin.queries.AdminQueries;
 import com.finalproject.backend.admin.services.AdminService;
@@ -28,14 +29,14 @@ public class GetAllAdminsTests {
   @Test
   void testGetAllUsers() {
     UUID adminId = UUID.randomUUID();
-    AdminEntity adminEntity = new AdminEntity(adminId, false, "Active", adminId, adminId);
+    Admin admin = new Admin(adminId, false, "Active", false, "Admin@test.com");
 
-    when(adminService.getAllAdmins()).thenReturn(List.of(adminEntity));
+    when(adminService.getAllAdmins()).thenReturn(List.of(admin));
 
-    List<AdminEntity> admins = adminQueries.getAllAdmins();
+    List<Admin> admins = adminQueries.getAllAdmins();
 
     assertNotNull(admins);
     assert admins.size() == 1;
-    assert admins.contains(adminEntity);
+    assert admins.contains(admin);
   }
 }
