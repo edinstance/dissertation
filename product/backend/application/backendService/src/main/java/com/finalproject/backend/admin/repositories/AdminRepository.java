@@ -43,4 +43,19 @@ public interface AdminRepository extends JpaRepository<AdminEntity, UUID> {
           @Param("userId") UUID userId,
           @Param("adminId") UUID adminId
   );
+
+  /**
+   * Function for deactivating an admin.
+   *
+   * @param userId the id of the admin to deactivate.
+   * @param adminId the id of the admin performing this operation.
+   */
+  @Modifying
+  @Query(value = "CALL deactivate_admin(:userId, :adminId)",
+          nativeQuery = true)
+  @Transactional
+  void deactivateAdmin(
+          @Param("userId") UUID userId,
+          @Param("adminId") UUID adminId
+  );
 }

@@ -176,4 +176,27 @@ public class AdminService {
     adminRepository.makeAdminSuperAdmin(userId, currentAdminId);
     return true;
   }
+
+  /**
+   * This function deactivates an admin.
+   *
+   * @param userId the id of the admin to deactivate.
+   * @return true if the promotion was successful.
+   */
+  public Boolean deactivateAdmin(final UUID userId) {
+
+    UUID currentAdminId = authHelpers.getCurrentUserId();
+    if (!adminAuthorizer.authorize(
+            currentAdminId,
+            Resources.ADMINS,
+            Actions.DELETE,
+            AdminViewTypes.ALL)) {
+      AppLogger.warn("Admin does not have permission to deactivate admins");
+      throw new UnauthorisedException("Admin does not have permission to deactivate admins");
+    }
+
+    AppLogger.info("Admin " + currentAdminId + " deactivating user " + userId);
+    adminRepository.deactivateAdmin(userId, currentAdminId);
+    return true;
+  }
 }
