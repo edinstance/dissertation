@@ -68,7 +68,7 @@ public class AdminMutations {
   public MutationResponse deactivateAdmin(@InputArgument final String userId) {
     Boolean result = adminService.deactivateAdmin(UUID.fromString(userId));
 
-    if(result){
+    if (result) {
       return new MutationResponse(true, "Admin deactivated successfully");
     }
     AppLogger.error("Admin deactivation failed for admin with id: " + userId);
