@@ -1,6 +1,7 @@
 extend type Query {
     getCurrentAdminPermissions: [PermissionView] @admin
     getAllAdminPermissions: [PermissionView] @admin
+    getAdminPermissionsByAdminId(adminId: ID!): [PermissionView] @admin
 }
 
 type PermissionViewId {

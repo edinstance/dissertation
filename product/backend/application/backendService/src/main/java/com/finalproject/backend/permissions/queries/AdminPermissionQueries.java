@@ -4,6 +4,7 @@ import com.finalproject.backend.permissions.entities.PermissionView;
 import com.finalproject.backend.permissions.services.PermissionsService;
 import com.netflix.graphql.dgs.DgsComponent;
 import com.netflix.graphql.dgs.DgsQuery;
+import com.netflix.graphql.dgs.InputArgument;
 import java.util.List;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,10 +53,10 @@ public class AdminPermissionQueries {
   /**
    * This query gets the admin permissions for a specified admin.
    *
-   * @param userId The id of the admin.
+   * @param adminId The id of the admin.
    */
     @DgsQuery
-    public List<PermissionView> getAdminPermissions(String userId) {
-        return permissionsService.getAdminPermissionsById(UUID.fromString(userId));
+    public List<PermissionView> getAdminPermissionsByAdminId(@InputArgument String adminId) {
+        return permissionsService.getAdminPermissionsById(UUID.fromString(adminId));
     }
 }

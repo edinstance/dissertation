@@ -4,6 +4,7 @@ import com.finalproject.backend.permissions.entities.PermissionView;
 import com.finalproject.backend.permissions.queries.AdminPermissionQueries;
 import com.finalproject.backend.permissions.services.PermissionsService;
 import java.util.List;
+import java.util.UUID;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -33,6 +34,15 @@ public class AdminQueryTests {
   public void testGetCurrentAdminPermissions() {
     when(permissionsService.getCurrentAdminPermissions()).thenReturn(List.of(new PermissionView()));
     List<PermissionView> results = adminPermissionQueries.getCurrentAdminPermissions();
+
+    assert results.size() == 1;
+  }
+
+  @Test
+  public void testGetAdminPermissionsByAdminId() {
+    UUID adminId = UUID.randomUUID();
+    when(permissionsService.getAdminPermissionsById(adminId)).thenReturn(List.of(new PermissionView()));
+    List<PermissionView> results = adminPermissionQueries.getAdminPermissionsByAdminId(adminId.toString());
 
     assert results.size() == 1;
   }
