@@ -96,7 +96,9 @@ public class PermissionsService {
     );
 
     if (!authorized) {
-      throw new UnauthorisedException("Admin is not authorized to view different admin permissions");
+      throw new UnauthorisedException(
+              "Admin is not authorized to view different admin permissions"
+      );
     }
 
     return permissionsViewRepository.getAdminPermissionsById(userId,

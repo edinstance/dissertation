@@ -55,8 +55,8 @@ public class AdminPermissionQueries {
    *
    * @param adminId The id of the admin.
    */
-    @DgsQuery
-    public List<PermissionView> getAdminPermissionsByAdminId(@InputArgument String adminId) {
-        return permissionsService.getAdminPermissionsById(UUID.fromString(adminId));
-    }
+  @DgsQuery
+  public List<PermissionView> getAdminPermissionsByAdminId(@InputArgument String adminId) {
+    return permissionsService.getAdminPermissionsById(UUID.fromString(adminId));
+  }
 }
