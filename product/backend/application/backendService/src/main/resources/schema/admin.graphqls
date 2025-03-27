@@ -14,7 +14,7 @@ extend type Mutation {
 }
 
 type Admin {
-    userId: String
+    userId: String!
     email: String
     isSuperAdmin: Boolean
     status: String
