@@ -59,7 +59,9 @@ public class AdminService {
    * @return the current admin.
    */
   public Admin getCurrentAdmin() {
-    return AdminMapper.mapAdminEntityToAdmin(adminRepository.findById(authHelpers.getCurrentUserId()).orElse(null));
+    return AdminMapper.mapAdminEntityToAdmin(
+            adminRepository.findById(authHelpers.getCurrentUserId())
+                    .orElse(null));
   }
 
   /**
@@ -156,6 +158,12 @@ public class AdminService {
     return true;
   }
 
+  /**
+   * This function promotes an admin to a super admin.
+   *
+   * @param userId the id of the admin to promote.
+   * @return true if the promotion was successful.
+   */
   public Boolean promoteAdminToSuperUser(final UUID userId) {
 
     UUID currentAdminId = authHelpers.getCurrentUserId();

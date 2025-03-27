@@ -53,7 +53,8 @@ public class UserService {
    */
   @Autowired
   public UserService(final UserRepository inputUserRepository,
-                     final JedisPool inputJedisPool, final AuthHelpers inputAuthHelpers, AdminAuthorizer adminAuthorizer) {
+                     final JedisPool inputJedisPool, final AuthHelpers inputAuthHelpers,
+                     AdminAuthorizer adminAuthorizer) {
     this.userRepository = inputUserRepository;
     this.jedisPool = inputJedisPool;
     this.authHelpers = inputAuthHelpers;
@@ -147,7 +148,8 @@ public class UserService {
    * This deactivates a user by their id.
    */
   public void deactivateUser(final UUID userId) {
-    adminAuthorizer.authorize(authHelpers.getCurrentUserId(), Resources.USERS, Actions.WRITE, AdminViewTypes.ALL);
+    adminAuthorizer.authorize(authHelpers.getCurrentUserId(),
+            Resources.USERS, Actions.WRITE, AdminViewTypes.ALL);
     userRepository.deactivateUser(userId);
     AppLogger.info("User with id " + userId + " deactivated");
   }

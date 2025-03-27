@@ -62,7 +62,8 @@ public class AdminEntity {
    * The associated user entity.
    */
   @OneToOne
-  @JoinColumn(name = "user_id", referencedColumnName = "user_id", insertable = false, updatable = false)
+  @JoinColumn(name = "user_id", referencedColumnName = "user_id",
+          insertable = false, updatable = false)
   private UserEntity user;
 
 
