@@ -74,7 +74,7 @@ public class PermissionServiceTests {
   }
 
   @Test
-  public void testGetAdminPermissionsByIdEmpty() {
+  public void testGetCurrentAdminPermissionsByIdEmpty() {
     when(authHelpers.getCurrentUserId()).thenReturn(adminId);
     when(permissionViewRepository.getAdminPermissionsById(adminId, AdminViewTypes.ALL.getViewTypeName())).thenReturn(List.of());
 
@@ -84,13 +84,46 @@ public class PermissionServiceTests {
   }
 
   @Test
-  public void testGetAdminPermissionsById() {
+  public void testGetCurrentAdminPermissionsById() {
     when(authHelpers.getCurrentUserId()).thenReturn(adminId);
     when(permissionViewRepository.getAdminPermissionsById(adminId, AdminViewTypes.ALL.getViewTypeName())).thenReturn(List.of(new PermissionView()));
 
     List<PermissionView> allAdminPermissions = permissionsService.getCurrentAdminPermissions();
 
     assertFalse(allAdminPermissions.isEmpty());
+  }
+
+  @Test
+  public void testGetAdminPermissionsByIdEmpty() {
+    when(authHelpers.getCurrentUserId()).thenReturn(adminId);
+    when(permissionViewRepository.getAdminPermissionsById(adminId, AdminViewTypes.ALL.getViewTypeName())).thenReturn(List.of());
+    when(adminAuthorizer.authorize(eq(adminId), eq(Resources.ADMIN_PERMISSIONS), eq(Actions.READ), eq(AdminViewTypes.ALL))).thenReturn(true);
+
+    List<PermissionView> allAdminPermissions = permissionsService.getAdminPermissionsById(adminId);
+
+    assertTrue(allAdminPermissions.isEmpty());
+  }
+
+  @Test
+  public void testGetAdminPermissionsById() {
+    when(authHelpers.getCurrentUserId()).thenReturn(adminId);
+    when(permissionViewRepository.getAdminPermissionsById(adminId, AdminViewTypes.ALL.getViewTypeName())).thenReturn(List.of(new PermissionView()));
+    when(adminAuthorizer.authorize(eq(adminId), eq(Resources.ADMIN_PERMISSIONS), eq(Actions.READ), eq(AdminViewTypes.ALL))).thenReturn(true);
+
+    List<PermissionView> allAdminPermissions = permissionsService.getAdminPermissionsById(adminId);
+
+    assertFalse(allAdminPermissions.isEmpty());
+  }
+
+  @Test
+  public void testGetAdminPermissionsByIdUnauthorized() {
+    when(authHelpers.getCurrentUserId()).thenReturn(adminId);
+    when(adminAuthorizer.authorize(eq(adminId), eq(Resources.ADMIN_PERMISSIONS), eq(Actions.READ), eq(AdminViewTypes.ALL))).thenReturn(false);
+
+    UnauthorisedException exception = assertThrows(UnauthorisedException.class, () -> permissionsService.getAdminPermissionsById(adminId));
+
+    assertTrue(exception.getMessage().contains("Admin is not authorized to view different admin permissions"));
+
   }
 
 }

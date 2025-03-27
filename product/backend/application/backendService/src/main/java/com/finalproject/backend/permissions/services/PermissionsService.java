@@ -9,6 +9,7 @@ import com.finalproject.backend.permissions.types.Actions;
 import com.finalproject.backend.permissions.types.AdminViewTypes;
 import com.finalproject.backend.permissions.types.Resources;
 import java.util.List;
+import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -72,12 +73,33 @@ public class PermissionsService {
   }
 
   /**
-   * This method gets the admin permissions for a specific admin.
+   * This method gets the admin permissions for the current admin.
    *
    * @return the admins permissions.
    */
   public List<PermissionView> getCurrentAdminPermissions() {
     return permissionsViewRepository.getAdminPermissionsById(authHelpers.getCurrentUserId(),
+            AdminViewTypes.ALL.getViewTypeName());
+  }
+
+  /**
+   * This method gets the admin permissions for a specific admin.
+   *
+   * @return the admins permissions.
+   */
+  public List<PermissionView> getAdminPermissionsById(final UUID userId) {
+    boolean authorized = adminAuthorizer.authorize(
+            authHelpers.getCurrentUserId(),
+            Resources.ADMIN_PERMISSIONS,
+            Actions.READ,
+            AdminViewTypes.ALL
+    );
+
+    if (!authorized) {
+      throw new UnauthorisedException("Admin is not authorized to view different admin permissions");
+    }
+
+    return permissionsViewRepository.getAdminPermissionsById(userId,
             AdminViewTypes.ALL.getViewTypeName());
   }
 }
