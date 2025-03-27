@@ -1,6 +1,7 @@
 package com.finalproject.backend.AdminTests.EntityTests;
 
 import com.finalproject.backend.admin.entities.AdminEntity;
+import com.finalproject.backend.users.entities.UserEntity;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -72,6 +73,13 @@ public class AdminEntityTests {
   public void testIsDeletedMethods() {
     adminEntity.setIsDeleted(true);
     assertTrue(adminEntity.getIsDeleted());
+  }
+
+  @Test
+  public void testUserMethods(){
+    UserEntity user = new UserEntity();
+    adminEntity.setUser(user);
+    assertEquals(user, adminEntity.getUser());
   }
 
 }

@@ -1,13 +1,15 @@
 package com.finalproject.backend.admin.entities;
 
+import com.finalproject.backend.users.entities.UserEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import java.util.UUID;
 import lombok.Getter;
 import lombok.Setter;
-
 
 
 /**
@@ -57,6 +59,14 @@ public class AdminEntity {
   private Boolean isDeleted = false;
 
   /**
+   * The associated user entity.
+   */
+  @OneToOne
+  @JoinColumn(name = "user_id", referencedColumnName = "user_id", insertable = false, updatable = false)
+  private UserEntity user;
+
+
+  /**
    * Default constructor.
    */
   public AdminEntity() {
@@ -67,10 +77,10 @@ public class AdminEntity {
   /**
    * Constructor with admin information.
    *
-   * @param userId the id of the admin.
-   * @param isSuperAdmin if the admin is a super admin.
-   * @param status the status of the admin.
-   * @param createdBy who created the admin.
+   * @param userId        the id of the admin.
+   * @param isSuperAdmin  if the admin is a super admin.
+   * @param status        the status of the admin.
+   * @param createdBy     who created the admin.
    * @param lastUpdatedBy who last updated the admin
    */
   public AdminEntity(UUID userId,
