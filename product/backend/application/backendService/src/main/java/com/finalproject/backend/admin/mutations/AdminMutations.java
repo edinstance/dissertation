@@ -53,9 +53,13 @@ public class AdminMutations {
    */
   @DgsMutation
   public MutationResponse promoteAdminToSuperAdmin(@InputArgument final String userId) {
-    adminService.promoteAdminToSuperUser(UUID.fromString(userId));
+    Boolean result = adminService.promoteAdminToSuperUser(UUID.fromString(userId));
 
-    return new MutationResponse(true, "Admin promoted successfully");
+    if (result) {
+      return new MutationResponse(true, "Admin promoted successfully");
+    }
+    AppLogger.error("Admin promotion failed for admin with id: " + userId);
+    return new MutationResponse(false, "Error promoting admin");
   }
 
   /**

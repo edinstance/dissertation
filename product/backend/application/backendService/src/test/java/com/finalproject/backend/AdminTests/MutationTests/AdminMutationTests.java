@@ -34,8 +34,10 @@ public class AdminMutationTests {
   }
 
   @Test
-  public void promoteAdminToSuperAdminTest() {
+  public void promoteAdminToSuperAdminSuccessTest() {
     UUID userId = UUID.randomUUID();
+
+    when(adminService.promoteAdminToSuperUser(userId)).thenReturn(true);
 
     MutationResponse result = adminMutations.promoteAdminToSuperAdmin(userId.toString());
 
@@ -44,7 +46,19 @@ public class AdminMutationTests {
   }
 
   @Test
-  public void deactivateUserSuccess() {
+  public void promoteAdminToSuperAdminFailureTest() {
+    UUID userId = UUID.randomUUID();
+
+    when(adminService.promoteAdminToSuperUser(userId)).thenReturn(false);
+
+    MutationResponse result = adminMutations.promoteAdminToSuperAdmin(userId.toString());
+
+    assertFalse(result.isSuccess());
+    assert result.getMessage().equals("Error promoting admin");
+  }
+
+  @Test
+  public void deactivateUserSuccessTest() {
     UUID userId = UUID.randomUUID();
 
     when(adminService.deactivateAdmin(userId)).thenReturn(true);
@@ -56,7 +70,7 @@ public class AdminMutationTests {
   }
 
   @Test
-  public void deactivateUserFailure() {
+  public void deactivateUserFailureTest() {
     UUID userId = UUID.randomUUID();
 
     when(adminService.deactivateAdmin(userId)).thenReturn(false);
