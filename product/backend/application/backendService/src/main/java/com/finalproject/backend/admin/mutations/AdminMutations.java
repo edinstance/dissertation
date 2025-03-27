@@ -1,6 +1,7 @@
 package com.finalproject.backend.admin.mutations;
 
 import com.finalproject.backend.admin.services.AdminService;
+import com.finalproject.backend.common.config.logging.AppLogger;
 import com.finalproject.backend.common.dto.MutationResponse;
 import com.netflix.graphql.dgs.DgsComponent;
 import com.netflix.graphql.dgs.DgsMutation;
@@ -57,4 +58,20 @@ public class AdminMutations {
     return new MutationResponse(true, "Admin promoted successfully");
   }
 
+  /**
+   * A mutation to deactivate an admin.
+   *
+   * @param userId the admin id of the admin to deactivate.
+   * @return a mutation response based on the outcome.
+   */
+  @DgsMutation
+  public MutationResponse deactivateAdmin(@InputArgument final String userId) {
+    Boolean result = adminService.deactivateAdmin(UUID.fromString(userId));
+
+    if(result){
+      return new MutationResponse(true, "Admin deactivated successfully");
+    }
+    AppLogger.error("Admin deactivation failed for admin with id: " + userId);
+    return new MutationResponse(false, "Error deactivating admin");
+  }
 }

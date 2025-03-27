@@ -10,7 +10,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 public class AdminMutationTests {
@@ -39,5 +41,29 @@ public class AdminMutationTests {
 
     assertTrue(result.isSuccess());
     assert result.getMessage().equals("Admin promoted successfully");
+  }
+
+  @Test
+  public void deactivateUserSuccess() {
+    UUID userId = UUID.randomUUID();
+
+    when(adminService.deactivateAdmin(userId)).thenReturn(true);
+
+    MutationResponse result = adminMutations.deactivateAdmin(userId.toString());
+
+    assertTrue(result.isSuccess());
+    assert result.getMessage().equals("Admin deactivated successfully");
+  }
+
+  @Test
+  public void deactivateUserFailure() {
+    UUID userId = UUID.randomUUID();
+
+    when(adminService.deactivateAdmin(userId)).thenReturn(false);
+
+    MutationResponse result = adminMutations.deactivateAdmin(userId.toString());
+
+    assertFalse(result.isSuccess());
+    assert result.getMessage().equals("Error deactivating admin");
   }
 }
