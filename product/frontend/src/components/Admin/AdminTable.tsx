@@ -77,24 +77,26 @@ function AdminActions({ admin }: { admin: Admin }) {
   });
 
   const options = [];
-  if (hasPermission(Resources.Admins, Actions.Delete)) {
-    options.push({
-      label: "Deactivate Admin",
-      onClick: () => {
-        deactivateAdmin({
-          variables: {
-            userId: admin.userId,
-          },
-        });
-      },
-    });
-  }
 
   if (hasPermission(Resources.AdminPermissions, Actions.Read)) {
     options.push({
       label: "View Permissions",
       onClick: () => {
         redirect(`/admin/permissions/${admin.userId}`);
+      },
+    });
+  }
+
+  if (hasPermission(Resources.Admins, Actions.Delete)) {
+    options.push({
+      label: "Deactivate Admin",
+      destructive: true,
+      onClick: () => {
+        deactivateAdmin({
+          variables: {
+            userId: admin.userId,
+          },
+        });
       },
     });
   }

@@ -4,6 +4,7 @@ import { ChevronDownIcon } from "@heroicons/react/24/outline";
 export interface DropdownOption {
   label: string;
   onClick?: () => void;
+  destructive?: boolean;
   className?: string;
 }
 
@@ -14,7 +15,7 @@ export function DropDown({
 }: {
   title: string;
   options: DropdownOption[];
-  disabled?: boolean;
+  disabled?: boolean | false;
 }) {
   return (
     <Menu as="div" className="relative inline-block text-left">
@@ -41,7 +42,7 @@ export function DropDown({
               key={option.label}
               as="button"
               onClick={option.onClick}
-              className="w-full rounded-md px-4 py-2 text-left text-sm text-black hover:bg-gray-100 hover:text-gray-900 dark:text-white dark:hover:bg-gray-500 dark:hover:text-gray-100"
+              className={`w-full rounded-md px-4 py-2 text-left text-sm text-black hover:bg-gray-100 hover:text-gray-900 dark:text-white dark:hover:bg-gray-500 dark:hover:text-gray-100 ${option.destructive ? "text-red-600 hover:text-red-600 dark:text-red-600 dark:hover:text-red-600" : ""} `}
             >
               {option.label}
             </MenuItem>
