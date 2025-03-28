@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 import DropDown from "../ui/DropDown";
 import LoadingSpinner from "../ui/LoadingSpinner";
 import { Table } from "../ui/Table";
+import { redirect } from "next/navigation";
 
 function AdminTable() {
   const { data, loading } = useQuery(GET_ALL_ADMINS);
@@ -85,6 +86,15 @@ function AdminActions({ admin }: { admin: Admin }) {
             userId: admin.userId,
           },
         });
+      },
+    });
+  }
+
+  if(hasPermission(Resources.AdminPermissions, Actions.Read)) {
+    options.push({
+      label: "View Permissions",
+      onClick: () => {
+        redirect(`/admin/permissions/${admin.userId}`);
       },
     });
   }

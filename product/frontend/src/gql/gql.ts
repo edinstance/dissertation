@@ -38,8 +38,10 @@ const documents = {
     types.GetItemsByUserDocument,
   "\n  mutation SaveItem($itemInput: ItemInput!) {\n    saveItem(itemInput: $itemInput) {\n      id\n      name\n      description\n      isActive\n      endingTime\n      price\n      stock\n      category\n      images\n      seller {\n        id\n        name\n        email\n      }\n    }\n  }\n":
     types.SaveItemDocument,
-  "\n  query getCurrentAdminPermissions {\n    getCurrentAdminPermissions {\n      id {\n        permissionId\n      }\n      grantType\n      resource\n      action\n    }\n  }\n":
+  "\n  query getCurrentAdminPermissions {\n    getCurrentAdminPermissions {\n      id {\n        permissionId\n      }\n      resource\n      action\n    }\n  }\n":
     types.GetCurrentAdminPermissionsDocument,
+  "\n  query getAdminPermissionsByAdminId($adminId: String!) {\n    getAdminPermissionsByAdminId(adminId: $adminId) {\n      id\n      description\n      resource {\n        id\n        resource\n        description\n      }\n      action {\n        actionId\n        action\n        description\n      }\n    }\n  }\n":
+    types.GetAdminPermissionsByAdminIdDocument,
   "\n  mutation ReportBug($title: String!, $description: String!) {\n    reportBug(title: $title, description: $description) {\n      success\n      message\n    }\n  }\n":
     types.ReportBugDocument,
   "\n  mutation CreateUser($input: UserInput!) {\n    createUser(userInput: $input) {\n      id\n    }\n  }\n":
@@ -144,8 +146,14 @@ export function graphql(
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(
-  source: "\n  query getCurrentAdminPermissions {\n    getCurrentAdminPermissions {\n      id {\n        permissionId\n      }\n      grantType\n      resource\n      action\n    }\n  }\n",
-): (typeof documents)["\n  query getCurrentAdminPermissions {\n    getCurrentAdminPermissions {\n      id {\n        permissionId\n      }\n      grantType\n      resource\n      action\n    }\n  }\n"];
+  source: "\n  query getCurrentAdminPermissions {\n    getCurrentAdminPermissions {\n      id {\n        permissionId\n      }\n      resource\n      action\n    }\n  }\n",
+): (typeof documents)["\n  query getCurrentAdminPermissions {\n    getCurrentAdminPermissions {\n      id {\n        permissionId\n      }\n      resource\n      action\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(
+  source: "\n  query getAdminPermissionsByAdminId($adminId: String!) {\n    getAdminPermissionsByAdminId(adminId: $adminId) {\n      id\n      description\n      resource {\n        id\n        resource\n        description\n      }\n      action {\n        actionId\n        action\n        description\n      }\n    }\n  }\n",
+): (typeof documents)["\n  query getAdminPermissionsByAdminId($adminId: String!) {\n    getAdminPermissionsByAdminId(adminId: $adminId) {\n      id\n      description\n      resource {\n        id\n        resource\n        description\n      }\n      action {\n        actionId\n        action\n        description\n      }\n    }\n  }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

@@ -30,6 +30,13 @@ export type Scalars = {
   _FieldSet: { input: any; output: any };
 };
 
+export type Action = {
+  __typename?: "Action";
+  action?: Maybe<Actions>;
+  actionId: Scalars["String"]["output"];
+  description?: Maybe<Scalars["String"]["output"]>;
+};
+
 export enum Actions {
   Create = "CREATE",
   Delete = "DELETE",
@@ -336,7 +343,7 @@ export type Mutation = {
 };
 
 export type MutationCreateAdminArgs = {
-  userId?: InputMaybe<Scalars["String"]["input"]>;
+  userId: Scalars["String"]["input"];
 };
 
 export type MutationCreateUserArgs = {
@@ -344,7 +351,7 @@ export type MutationCreateUserArgs = {
 };
 
 export type MutationDeactivateAdminArgs = {
-  userId?: InputMaybe<Scalars["String"]["input"]>;
+  userId: Scalars["String"]["input"];
 };
 
 export type MutationDeactivateUserArgs = {
@@ -352,7 +359,7 @@ export type MutationDeactivateUserArgs = {
 };
 
 export type MutationPromoteAdminToSuperAdminArgs = {
-  userId?: InputMaybe<Scalars["String"]["input"]>;
+  userId: Scalars["String"]["input"];
 };
 
 export type MutationReportBugArgs = {
@@ -387,6 +394,14 @@ export type PaginationInput = {
   size?: InputMaybe<Scalars["Int"]["input"]>;
 };
 
+export type Permission = {
+  __typename?: "Permission";
+  action?: Maybe<Action>;
+  description?: Maybe<Scalars["String"]["output"]>;
+  id: Scalars["String"]["output"];
+  resource?: Maybe<Resource>;
+};
+
 export type PermissionView = {
   __typename?: "PermissionView";
   action: Actions;
@@ -397,15 +412,16 @@ export type PermissionView = {
 
 export type PermissionViewId = {
   __typename?: "PermissionViewId";
-  actionId: Scalars["ID"]["output"];
-  permissionId: Scalars["ID"]["output"];
-  resourceId: Scalars["ID"]["output"];
-  userId: Scalars["ID"]["output"];
+  actionId: Scalars["String"]["output"];
+  permissionId: Scalars["String"]["output"];
+  resourceId: Scalars["String"]["output"];
+  userId: Scalars["String"]["output"];
 };
 
 export type Query = {
   __typename?: "Query";
   _service: _Service;
+  getAdminPermissionsByAdminId?: Maybe<Array<Maybe<Permission>>>;
   getAllAdminPermissions?: Maybe<Array<Maybe<PermissionView>>>;
   getAllAdmins?: Maybe<Array<Maybe<Admin>>>;
   getAllUsers?: Maybe<Array<Maybe<User>>>;
@@ -417,6 +433,10 @@ export type Query = {
   getUser?: Maybe<User>;
   getUserStats?: Maybe<UserStats>;
   searchForItems?: Maybe<SearchedItemsResponse>;
+};
+
+export type QueryGetAdminPermissionsByAdminIdArgs = {
+  adminId: Scalars["String"]["input"];
 };
 
 export type QueryGetItemByIdArgs = {
@@ -438,6 +458,13 @@ export type QuerySearchForItemsArgs = {
   pagination?: InputMaybe<PaginationInput>;
   searchText?: InputMaybe<Scalars["String"]["input"]>;
   sorting?: InputMaybe<SortInput>;
+};
+
+export type Resource = {
+  __typename?: "Resource";
+  description?: Maybe<Scalars["String"]["output"]>;
+  id: Scalars["String"]["output"];
+  resource?: Maybe<Resources>;
 };
 
 export enum Resources {
@@ -775,10 +802,34 @@ export type GetCurrentAdminPermissionsQuery = {
   __typename?: "Query";
   getCurrentAdminPermissions?: Array<{
     __typename?: "PermissionView";
-    grantType: GrantType;
     resource: Resources;
     action: Actions;
     id: { __typename?: "PermissionViewId"; permissionId: string };
+  } | null> | null;
+};
+
+export type GetAdminPermissionsByAdminIdQueryVariables = Exact<{
+  adminId: Scalars["String"]["input"];
+}>;
+
+export type GetAdminPermissionsByAdminIdQuery = {
+  __typename?: "Query";
+  getAdminPermissionsByAdminId?: Array<{
+    __typename?: "Permission";
+    id: string;
+    description?: string | null;
+    resource?: {
+      __typename?: "Resource";
+      id: string;
+      resource?: Resources | null;
+      description?: string | null;
+    } | null;
+    action?: {
+      __typename?: "Action";
+      actionId: string;
+      action?: Actions | null;
+      description?: string | null;
+    } | null;
   } | null> | null;
 };
 
@@ -1730,7 +1781,6 @@ export const GetCurrentAdminPermissionsDocument = {
                     ],
                   },
                 },
-                { kind: "Field", name: { kind: "Name", value: "grantType" } },
                 { kind: "Field", name: { kind: "Name", value: "resource" } },
                 { kind: "Field", name: { kind: "Name", value: "action" } },
               ],
@@ -1743,6 +1793,100 @@ export const GetCurrentAdminPermissionsDocument = {
 } as unknown as DocumentNode<
   GetCurrentAdminPermissionsQuery,
   GetCurrentAdminPermissionsQueryVariables
+>;
+export const GetAdminPermissionsByAdminIdDocument = {
+  kind: "Document",
+  definitions: [
+    {
+      kind: "OperationDefinition",
+      operation: "query",
+      name: { kind: "Name", value: "getAdminPermissionsByAdminId" },
+      variableDefinitions: [
+        {
+          kind: "VariableDefinition",
+          variable: {
+            kind: "Variable",
+            name: { kind: "Name", value: "adminId" },
+          },
+          type: {
+            kind: "NonNullType",
+            type: {
+              kind: "NamedType",
+              name: { kind: "Name", value: "String" },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "getAdminPermissionsByAdminId" },
+            arguments: [
+              {
+                kind: "Argument",
+                name: { kind: "Name", value: "adminId" },
+                value: {
+                  kind: "Variable",
+                  name: { kind: "Name", value: "adminId" },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                { kind: "Field", name: { kind: "Name", value: "id" } },
+                { kind: "Field", name: { kind: "Name", value: "description" } },
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "resource" },
+                  selectionSet: {
+                    kind: "SelectionSet",
+                    selections: [
+                      { kind: "Field", name: { kind: "Name", value: "id" } },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "resource" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "description" },
+                      },
+                    ],
+                  },
+                },
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "action" },
+                  selectionSet: {
+                    kind: "SelectionSet",
+                    selections: [
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "actionId" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "action" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "description" },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  GetAdminPermissionsByAdminIdQuery,
+  GetAdminPermissionsByAdminIdQueryVariables
 >;
 export const ReportBugDocument = {
   kind: "Document",
