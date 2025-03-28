@@ -48,4 +48,11 @@
                         stripComments="false" />
         </changeSet>
 
+        <changeSet id="revoke_permissions_from_admin" author="zlac370" runOnChange="false">
+                <sqlFile path="../../src/sql/procedures/revoke_admin_permissions.sql"
+                        relativeToChangelogFile="true"
+                        splitStatements="false"
+                        stripComments="false" />
+        </changeSet>
+
 </databaseChangeLog>
