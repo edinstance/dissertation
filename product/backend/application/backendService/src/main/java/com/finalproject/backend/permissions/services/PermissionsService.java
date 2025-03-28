@@ -1,15 +1,21 @@
 package com.finalproject.backend.permissions.services;
 
+import com.finalproject.backend.common.config.logging.AppLogger;
 import com.finalproject.backend.common.exceptions.UnauthorisedException;
 import com.finalproject.backend.common.helpers.AuthHelpers;
 import com.finalproject.backend.permissions.authorizers.AdminAuthorizer;
 import com.finalproject.backend.permissions.entities.PermissionView;
+import com.finalproject.backend.permissions.entities.PermissionsEntity;
 import com.finalproject.backend.permissions.repositories.PermissionViewRepository;
+import com.finalproject.backend.permissions.repositories.PermissionsRepository;
 import com.finalproject.backend.permissions.types.Actions;
 import com.finalproject.backend.permissions.types.AdminViewTypes;
 import com.finalproject.backend.permissions.types.Resources;
 import java.util.List;
+import java.util.Objects;
+import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,6 +30,11 @@ public class PermissionsService {
    * Repository for accessing views of the permissions.
    */
   private final PermissionViewRepository permissionsViewRepository;
+
+  /**
+   * Repository for managing permissions entities.
+   */
+  private final PermissionsRepository permissionsRepository;
 
   /**
    * The helper for authentication.
@@ -44,10 +55,12 @@ public class PermissionsService {
    */
   @Autowired
   public PermissionsService(PermissionViewRepository permissionsViewRepository,
-                            AuthHelpers authHelpers, AdminAuthorizer adminAuthorizer) {
+                            AuthHelpers authHelpers, AdminAuthorizer adminAuthorizer,
+                            PermissionsRepository permissionsRepository) {
     this.permissionsViewRepository = permissionsViewRepository;
     this.authHelpers = authHelpers;
     this.adminAuthorizer = adminAuthorizer;
+    this.permissionsRepository = permissionsRepository;
   }
 
   /**
@@ -87,7 +100,8 @@ public class PermissionsService {
    *
    * @return the admins permissions.
    */
-  public List<PermissionView> getAdminPermissionsById(final UUID userId) {
+  public List<PermissionsEntity> getAdminPermissionsById(final UUID userId) {
+    AppLogger.error("Error");
     boolean authorized = adminAuthorizer.authorize(
             authHelpers.getCurrentUserId(),
             Resources.ADMIN_PERMISSIONS,
@@ -101,7 +115,27 @@ public class PermissionsService {
       );
     }
 
-    return permissionsViewRepository.getAdminPermissionsById(userId,
-            AdminViewTypes.ALL.getViewTypeName());
+    List<PermissionView> permissionViews = permissionsViewRepository.getAdminPermissionsById(
+            userId,
+            AdminViewTypes.ALL.getViewTypeName()
+    );
+
+    if (permissionViews == null || permissionViews.isEmpty()) {
+      return List.of();
+    }
+
+
+    Set<UUID> permissionIds = permissionViews.stream()
+            .map(view -> view.getId().getPermissionId())
+            .filter(Objects::nonNull)
+            .collect(Collectors.toSet());
+
+    if (permissionIds.isEmpty()) {
+      return List.of();
+    }
+
+    AppLogger.error("Permission ids: " + permissionIds);
+
+    return permissionsRepository.findAllById(permissionIds);
   }
 }

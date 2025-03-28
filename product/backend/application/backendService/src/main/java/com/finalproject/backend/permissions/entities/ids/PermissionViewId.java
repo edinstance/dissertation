@@ -41,6 +41,27 @@ public class PermissionViewId implements Serializable {
   private UUID actionId;
 
   /**
+   * Default constructor.
+   */
+  public PermissionViewId() {
+  }
+
+  /**
+   * Constructs a PermissionViewId with the specified userId, permissionId, resourceId, and actionId.
+   *
+   * @param userId       The id of the user.
+   * @param permissionId The id of the permission.
+   * @param resourceId   The id of the resource.
+   * @param actionId     The id of the action.
+   */
+  public PermissionViewId(UUID userId, UUID permissionId, UUID resourceId, UUID actionId) {
+    this.userId = userId;
+    this.permissionId = permissionId;
+    this.resourceId = resourceId;
+    this.actionId = actionId;
+  }
+
+  /**
    * Indicates whether some other object is "equal to" this one.
    *
    * @param o the object to compare with.

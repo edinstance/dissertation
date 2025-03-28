@@ -1,14 +1,21 @@
 extend type Query {
     getCurrentAdminPermissions: [PermissionView] @admin
     getAllAdminPermissions: [PermissionView] @admin
-    getAdminPermissionsByAdminId(adminId: ID!): [PermissionView] @admin
+    getAdminPermissionsByAdminId(adminId: String!): [Permission]
+}
+
+type Permission {
+    id: String!
+    description: String
+    resource: Resource
+    action: Action
 }
 
 type PermissionViewId {
-    userId: ID!
-    permissionId: ID!
-    resourceId: ID!
-    actionId: ID!
+    userId: String!
+    permissionId: String!
+    resourceId: String!
+    actionId: String!
 }
 
 type PermissionView {
@@ -18,6 +25,17 @@ type PermissionView {
     action: Actions!
 }
 
+type Resource {
+    id: String!
+    Resource: Resources
+    description: String
+}
+
+type Action {
+    actionId: String!
+    Action: Actions
+    description: String
+}
 
 enum Resources {
     ADMINS

@@ -1,12 +1,15 @@
 package com.finalproject.backend.permissions.queries;
 
+import com.finalproject.backend.common.config.logging.AppLogger;
 import com.finalproject.backend.permissions.entities.PermissionView;
+import com.finalproject.backend.permissions.entities.PermissionsEntity;
 import com.finalproject.backend.permissions.services.PermissionsService;
 import com.netflix.graphql.dgs.DgsComponent;
 import com.netflix.graphql.dgs.DgsQuery;
 import com.netflix.graphql.dgs.InputArgument;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
@@ -56,7 +59,7 @@ public class AdminPermissionQueries {
    * @param adminId The id of the admin.
    */
   @DgsQuery
-  public List<PermissionView> getAdminPermissionsByAdminId(@InputArgument String adminId) {
+  public List<PermissionsEntity> getAdminPermissionsByAdminId(@InputArgument String adminId) {
     return permissionsService.getAdminPermissionsById(UUID.fromString(adminId));
   }
 }

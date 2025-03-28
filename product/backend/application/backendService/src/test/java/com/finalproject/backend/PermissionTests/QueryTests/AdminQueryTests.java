@@ -1,6 +1,7 @@
 package com.finalproject.backend.PermissionTests.QueryTests;
 
 import com.finalproject.backend.permissions.entities.PermissionView;
+import com.finalproject.backend.permissions.entities.PermissionsEntity;
 import com.finalproject.backend.permissions.queries.AdminPermissionQueries;
 import com.finalproject.backend.permissions.services.PermissionsService;
 import java.util.List;
@@ -41,8 +42,8 @@ public class AdminQueryTests {
   @Test
   public void testGetAdminPermissionsByAdminId() {
     UUID adminId = UUID.randomUUID();
-    when(permissionsService.getAdminPermissionsById(adminId)).thenReturn(List.of(new PermissionView()));
-    List<PermissionView> results = adminPermissionQueries.getAdminPermissionsByAdminId(adminId.toString());
+    when(permissionsService.getAdminPermissionsById(adminId)).thenReturn(List.of(new PermissionsEntity()));
+    List<PermissionsEntity> results = adminPermissionQueries.getAdminPermissionsByAdminId(adminId.toString());
 
     assert results.size() == 1;
   }
