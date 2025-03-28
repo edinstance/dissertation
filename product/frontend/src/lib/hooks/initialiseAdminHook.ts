@@ -3,7 +3,7 @@ import { PermissionView } from "@/gql/graphql";
 import useAdminPermissionsStore from "@/stores/AdminStore";
 import { useQuery } from "@apollo/client";
 import { GET_CURRENT_ADMIN } from "../graphql/admin";
-import { GET_CURRENT_ADMIN_PERMISSIONS } from "../graphql/permissions";
+import { GET_CURRENT_ADMIN_PERMISSIONS } from "../graphql/admin-permissions";
 
 export const useAdminInitialization = () => {
   const { setCurrentAdmin, setAdminPermissions, clearCurrentAdmin } =
@@ -21,8 +21,6 @@ export const useAdminInitialization = () => {
           userId: data.getCurrentAdmin.userId,
           isSuperAdmin: data.getCurrentAdmin.isSuperAdmin,
           status: data.getCurrentAdmin.status,
-          createdBy: data.getCurrentAdmin.createdBy,
-          lastUpdatedBy: data.getCurrentAdmin.lastUpdatedBy,
           isDeleted: data.getCurrentAdmin.isDeleted,
         });
       } else {
