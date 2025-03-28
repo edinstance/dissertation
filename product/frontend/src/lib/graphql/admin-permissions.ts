@@ -30,3 +30,15 @@ export const GET_ADMIN_PERMISSIONS_BY_ADMIN_ID = graphql(`
     }
   }
 `);
+
+export const REVOKE_PERMISSION_FROM_ADMIN = graphql(`
+  mutation revokeAdminPermission(
+    $adminId: String!
+    $permissionId: String!
+  ) {
+    revokeAdminPermission(adminId: $adminId, permissionId: $permissionId) {
+      success
+      message
+    }
+  }
+`);

@@ -338,6 +338,7 @@ export type Mutation = {
   deleteUser?: Maybe<MutationResponse>;
   promoteAdminToSuperAdmin?: Maybe<MutationResponse>;
   reportBug?: Maybe<MutationResponse>;
+  revokeAdminPermission?: Maybe<MutationResponse>;
   saveItem?: Maybe<Item>;
   saveUserDetails?: Maybe<User>;
 };
@@ -365,6 +366,11 @@ export type MutationPromoteAdminToSuperAdminArgs = {
 export type MutationReportBugArgs = {
   description: Scalars["String"]["input"];
   title: Scalars["String"]["input"];
+};
+
+export type MutationRevokeAdminPermissionArgs = {
+  adminId: Scalars["String"]["input"];
+  permissionId: Scalars["String"]["input"];
 };
 
 export type MutationSaveItemArgs = {
@@ -545,6 +551,59 @@ export type UserStats = {
 export type _Service = {
   __typename?: "_Service";
   sdl: Scalars["String"]["output"];
+};
+
+export type GetCurrentAdminPermissionsQueryVariables = Exact<{
+  [key: string]: never;
+}>;
+
+export type GetCurrentAdminPermissionsQuery = {
+  __typename?: "Query";
+  getCurrentAdminPermissions?: Array<{
+    __typename?: "PermissionView";
+    resource: Resources;
+    action: Actions;
+    id: { __typename?: "PermissionViewId"; permissionId: string };
+  } | null> | null;
+};
+
+export type GetAdminPermissionsByAdminIdQueryVariables = Exact<{
+  adminId: Scalars["String"]["input"];
+}>;
+
+export type GetAdminPermissionsByAdminIdQuery = {
+  __typename?: "Query";
+  getAdminPermissionsByAdminId?: Array<{
+    __typename?: "Permission";
+    id: string;
+    description?: string | null;
+    resource?: {
+      __typename?: "Resource";
+      id: string;
+      resource?: Resources | null;
+      description?: string | null;
+    } | null;
+    action?: {
+      __typename?: "Action";
+      actionId: string;
+      action?: Actions | null;
+      description?: string | null;
+    } | null;
+  } | null> | null;
+};
+
+export type RevokeAdminPermissionMutationVariables = Exact<{
+  adminId: Scalars["String"]["input"];
+  permissionId: Scalars["String"]["input"];
+}>;
+
+export type RevokeAdminPermissionMutation = {
+  __typename?: "Mutation";
+  revokeAdminPermission?: {
+    __typename?: "MutationResponse";
+    success?: boolean | null;
+    message?: string | null;
+  } | null;
 };
 
 export type GetUserStatsQueryVariables = Exact<{ [key: string]: never }>;
@@ -794,45 +853,6 @@ export type SaveItemMutation = {
   } | null;
 };
 
-export type GetCurrentAdminPermissionsQueryVariables = Exact<{
-  [key: string]: never;
-}>;
-
-export type GetCurrentAdminPermissionsQuery = {
-  __typename?: "Query";
-  getCurrentAdminPermissions?: Array<{
-    __typename?: "PermissionView";
-    resource: Resources;
-    action: Actions;
-    id: { __typename?: "PermissionViewId"; permissionId: string };
-  } | null> | null;
-};
-
-export type GetAdminPermissionsByAdminIdQueryVariables = Exact<{
-  adminId: Scalars["String"]["input"];
-}>;
-
-export type GetAdminPermissionsByAdminIdQuery = {
-  __typename?: "Query";
-  getAdminPermissionsByAdminId?: Array<{
-    __typename?: "Permission";
-    id: string;
-    description?: string | null;
-    resource?: {
-      __typename?: "Resource";
-      id: string;
-      resource?: Resources | null;
-      description?: string | null;
-    } | null;
-    action?: {
-      __typename?: "Action";
-      actionId: string;
-      action?: Actions | null;
-      description?: string | null;
-    } | null;
-  } | null> | null;
-};
-
 export type ReportBugMutationVariables = Exact<{
   title: Scalars["String"]["input"];
   description: Scalars["String"]["input"];
@@ -926,6 +946,219 @@ export type DeactivateUserMutation = {
   } | null;
 };
 
+export const GetCurrentAdminPermissionsDocument = {
+  kind: "Document",
+  definitions: [
+    {
+      kind: "OperationDefinition",
+      operation: "query",
+      name: { kind: "Name", value: "getCurrentAdminPermissions" },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "getCurrentAdminPermissions" },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "id" },
+                  selectionSet: {
+                    kind: "SelectionSet",
+                    selections: [
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "permissionId" },
+                      },
+                    ],
+                  },
+                },
+                { kind: "Field", name: { kind: "Name", value: "resource" } },
+                { kind: "Field", name: { kind: "Name", value: "action" } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  GetCurrentAdminPermissionsQuery,
+  GetCurrentAdminPermissionsQueryVariables
+>;
+export const GetAdminPermissionsByAdminIdDocument = {
+  kind: "Document",
+  definitions: [
+    {
+      kind: "OperationDefinition",
+      operation: "query",
+      name: { kind: "Name", value: "getAdminPermissionsByAdminId" },
+      variableDefinitions: [
+        {
+          kind: "VariableDefinition",
+          variable: {
+            kind: "Variable",
+            name: { kind: "Name", value: "adminId" },
+          },
+          type: {
+            kind: "NonNullType",
+            type: {
+              kind: "NamedType",
+              name: { kind: "Name", value: "String" },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "getAdminPermissionsByAdminId" },
+            arguments: [
+              {
+                kind: "Argument",
+                name: { kind: "Name", value: "adminId" },
+                value: {
+                  kind: "Variable",
+                  name: { kind: "Name", value: "adminId" },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                { kind: "Field", name: { kind: "Name", value: "id" } },
+                { kind: "Field", name: { kind: "Name", value: "description" } },
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "resource" },
+                  selectionSet: {
+                    kind: "SelectionSet",
+                    selections: [
+                      { kind: "Field", name: { kind: "Name", value: "id" } },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "resource" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "description" },
+                      },
+                    ],
+                  },
+                },
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "action" },
+                  selectionSet: {
+                    kind: "SelectionSet",
+                    selections: [
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "actionId" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "action" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "description" },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  GetAdminPermissionsByAdminIdQuery,
+  GetAdminPermissionsByAdminIdQueryVariables
+>;
+export const RevokeAdminPermissionDocument = {
+  kind: "Document",
+  definitions: [
+    {
+      kind: "OperationDefinition",
+      operation: "mutation",
+      name: { kind: "Name", value: "revokeAdminPermission" },
+      variableDefinitions: [
+        {
+          kind: "VariableDefinition",
+          variable: {
+            kind: "Variable",
+            name: { kind: "Name", value: "adminId" },
+          },
+          type: {
+            kind: "NonNullType",
+            type: {
+              kind: "NamedType",
+              name: { kind: "Name", value: "String" },
+            },
+          },
+        },
+        {
+          kind: "VariableDefinition",
+          variable: {
+            kind: "Variable",
+            name: { kind: "Name", value: "permissionId" },
+          },
+          type: {
+            kind: "NonNullType",
+            type: {
+              kind: "NamedType",
+              name: { kind: "Name", value: "String" },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "revokeAdminPermission" },
+            arguments: [
+              {
+                kind: "Argument",
+                name: { kind: "Name", value: "adminId" },
+                value: {
+                  kind: "Variable",
+                  name: { kind: "Name", value: "adminId" },
+                },
+              },
+              {
+                kind: "Argument",
+                name: { kind: "Name", value: "permissionId" },
+                value: {
+                  kind: "Variable",
+                  name: { kind: "Name", value: "permissionId" },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                { kind: "Field", name: { kind: "Name", value: "success" } },
+                { kind: "Field", name: { kind: "Name", value: "message" } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  RevokeAdminPermissionMutation,
+  RevokeAdminPermissionMutationVariables
+>;
 export const GetUserStatsDocument = {
   kind: "Document",
   definitions: [
@@ -1752,142 +1985,6 @@ export const SaveItemDocument = {
     },
   ],
 } as unknown as DocumentNode<SaveItemMutation, SaveItemMutationVariables>;
-export const GetCurrentAdminPermissionsDocument = {
-  kind: "Document",
-  definitions: [
-    {
-      kind: "OperationDefinition",
-      operation: "query",
-      name: { kind: "Name", value: "getCurrentAdminPermissions" },
-      selectionSet: {
-        kind: "SelectionSet",
-        selections: [
-          {
-            kind: "Field",
-            name: { kind: "Name", value: "getCurrentAdminPermissions" },
-            selectionSet: {
-              kind: "SelectionSet",
-              selections: [
-                {
-                  kind: "Field",
-                  name: { kind: "Name", value: "id" },
-                  selectionSet: {
-                    kind: "SelectionSet",
-                    selections: [
-                      {
-                        kind: "Field",
-                        name: { kind: "Name", value: "permissionId" },
-                      },
-                    ],
-                  },
-                },
-                { kind: "Field", name: { kind: "Name", value: "resource" } },
-                { kind: "Field", name: { kind: "Name", value: "action" } },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode<
-  GetCurrentAdminPermissionsQuery,
-  GetCurrentAdminPermissionsQueryVariables
->;
-export const GetAdminPermissionsByAdminIdDocument = {
-  kind: "Document",
-  definitions: [
-    {
-      kind: "OperationDefinition",
-      operation: "query",
-      name: { kind: "Name", value: "getAdminPermissionsByAdminId" },
-      variableDefinitions: [
-        {
-          kind: "VariableDefinition",
-          variable: {
-            kind: "Variable",
-            name: { kind: "Name", value: "adminId" },
-          },
-          type: {
-            kind: "NonNullType",
-            type: {
-              kind: "NamedType",
-              name: { kind: "Name", value: "String" },
-            },
-          },
-        },
-      ],
-      selectionSet: {
-        kind: "SelectionSet",
-        selections: [
-          {
-            kind: "Field",
-            name: { kind: "Name", value: "getAdminPermissionsByAdminId" },
-            arguments: [
-              {
-                kind: "Argument",
-                name: { kind: "Name", value: "adminId" },
-                value: {
-                  kind: "Variable",
-                  name: { kind: "Name", value: "adminId" },
-                },
-              },
-            ],
-            selectionSet: {
-              kind: "SelectionSet",
-              selections: [
-                { kind: "Field", name: { kind: "Name", value: "id" } },
-                { kind: "Field", name: { kind: "Name", value: "description" } },
-                {
-                  kind: "Field",
-                  name: { kind: "Name", value: "resource" },
-                  selectionSet: {
-                    kind: "SelectionSet",
-                    selections: [
-                      { kind: "Field", name: { kind: "Name", value: "id" } },
-                      {
-                        kind: "Field",
-                        name: { kind: "Name", value: "resource" },
-                      },
-                      {
-                        kind: "Field",
-                        name: { kind: "Name", value: "description" },
-                      },
-                    ],
-                  },
-                },
-                {
-                  kind: "Field",
-                  name: { kind: "Name", value: "action" },
-                  selectionSet: {
-                    kind: "SelectionSet",
-                    selections: [
-                      {
-                        kind: "Field",
-                        name: { kind: "Name", value: "actionId" },
-                      },
-                      {
-                        kind: "Field",
-                        name: { kind: "Name", value: "action" },
-                      },
-                      {
-                        kind: "Field",
-                        name: { kind: "Name", value: "description" },
-                      },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode<
-  GetAdminPermissionsByAdminIdQuery,
-  GetAdminPermissionsByAdminIdQueryVariables
->;
 export const ReportBugDocument = {
   kind: "Document",
   definitions: [
