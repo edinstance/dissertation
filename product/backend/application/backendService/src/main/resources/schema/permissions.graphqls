@@ -27,13 +27,13 @@ type PermissionView {
 
 type Resource {
     id: String!
-    Resource: Resources
+    resource: Resources
     description: String
 }
 
 type Action {
     actionId: String!
-    Action: Actions
+    action: Actions
     description: String
 }
 
