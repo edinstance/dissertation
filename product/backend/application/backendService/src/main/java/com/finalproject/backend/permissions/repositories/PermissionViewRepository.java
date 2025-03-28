@@ -2,7 +2,6 @@ package com.finalproject.backend.permissions.repositories;
 
 import com.finalproject.backend.permissions.entities.PermissionView;
 import com.finalproject.backend.permissions.entities.ids.PermissionViewId;
-import com.finalproject.backend.permissions.types.AdminViewTypes;
 import java.util.List;
 import java.util.UUID;
 import org.springframework.data.jpa.repository.JpaRepository;

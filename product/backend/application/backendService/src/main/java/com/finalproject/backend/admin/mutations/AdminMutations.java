@@ -53,7 +53,7 @@ public class AdminMutations {
    */
   @DgsMutation
   public MutationResponse promoteAdminToSuperAdmin(@InputArgument final String userId) {
-    Boolean result = adminService.promoteAdminToSuperUser(UUID.fromString(userId));
+    boolean result = adminService.promoteAdminToSuperUser(UUID.fromString(userId));
 
     if (result) {
       return new MutationResponse(true, "Admin promoted successfully");

@@ -8,7 +8,8 @@ import com.finalproject.backend.permissions.entities.PermissionsEntity;
 import com.finalproject.backend.permissions.entities.ids.PermissionViewId;
 import com.finalproject.backend.permissions.repositories.PermissionViewRepository;
 import com.finalproject.backend.permissions.repositories.PermissionsRepository;
-import com.finalproject.backend.permissions.services.PermissionsService;
+import com.finalproject.backend.permissions.repositories.admin.AdminPermissionsRepository;
+import com.finalproject.backend.permissions.services.AdminPermissionsService;
 import com.finalproject.backend.permissions.types.Actions;
 import com.finalproject.backend.permissions.types.AdminViewTypes;
 import com.finalproject.backend.permissions.types.GrantType;
@@ -26,13 +27,12 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-public class PermissionServiceTests {
+public class AdminPermissionServiceTests {
 
   @Mock
   private AuthHelpers authHelpers;
@@ -41,13 +41,16 @@ public class PermissionServiceTests {
   private PermissionViewRepository permissionViewRepository;
 
   @Mock
+  private AdminPermissionsRepository adminPermissionsRepository;
+
+  @Mock
   private PermissionsRepository permissionsRepository;
 
   @Mock
   private AdminAuthorizer adminAuthorizer;
 
   @InjectMocks
-  private PermissionsService permissionsService;
+  private AdminPermissionsService adminPermissionsService;
 
   private final UUID adminId = UUID.randomUUID();
   private final PermissionViewId permissionViewId = new PermissionViewId(adminId, UUID.randomUUID(), UUID.randomUUID(), UUID.randomUUID());
@@ -59,7 +62,7 @@ public class PermissionServiceTests {
     when(authHelpers.getCurrentUserId()).thenReturn(adminId);
     when(adminAuthorizer.authorize(eq(adminId), eq(Resources.ADMIN_PERMISSIONS), eq(Actions.READ), eq(AdminViewTypes.ALL))).thenReturn(true);
 
-    List<PermissionView> allAdminPermissions = permissionsService.getAllAdminPermissions();
+    List<PermissionView> allAdminPermissions = adminPermissionsService.getAllAdminPermissions();
 
     assertTrue(allAdminPermissions.isEmpty());
   }
@@ -70,7 +73,7 @@ public class PermissionServiceTests {
     when(authHelpers.getCurrentUserId()).thenReturn(adminId);
     when(adminAuthorizer.authorize(eq(adminId), eq(Resources.ADMIN_PERMISSIONS), eq(Actions.READ), eq(AdminViewTypes.ALL))).thenReturn(true);
 
-    List<PermissionView> allAdminPermissions = permissionsService.getAllAdminPermissions();
+    List<PermissionView> allAdminPermissions = adminPermissionsService.getAllAdminPermissions();
 
     assertFalse(allAdminPermissions.isEmpty());
   }
@@ -80,7 +83,7 @@ public class PermissionServiceTests {
     when(authHelpers.getCurrentUserId()).thenReturn(adminId);
     when(adminAuthorizer.authorize(eq(adminId), eq(Resources.ADMIN_PERMISSIONS), eq(Actions.READ), eq(AdminViewTypes.ALL))).thenReturn(false);
 
-    UnauthorisedException exception = assertThrows(UnauthorisedException.class, () -> permissionsService.getAllAdminPermissions());
+    UnauthorisedException exception = assertThrows(UnauthorisedException.class, () -> adminPermissionsService.getAllAdminPermissions());
 
     assertTrue(exception.getMessage().contains("Admin is not authorized to view all admin permissions"));
   }
@@ -90,7 +93,7 @@ public class PermissionServiceTests {
     when(authHelpers.getCurrentUserId()).thenReturn(adminId);
     when(permissionViewRepository.getAdminPermissionsById(adminId, AdminViewTypes.ALL.getViewTypeName())).thenReturn(List.of());
 
-    List<PermissionView> allAdminPermissions = permissionsService.getCurrentAdminPermissions();
+    List<PermissionView> allAdminPermissions = adminPermissionsService.getCurrentAdminPermissions();
 
     assertTrue(allAdminPermissions.isEmpty());
   }
@@ -100,7 +103,7 @@ public class PermissionServiceTests {
     when(authHelpers.getCurrentUserId()).thenReturn(adminId);
     when(permissionViewRepository.getAdminPermissionsById(adminId, AdminViewTypes.ALL.getViewTypeName())).thenReturn(List.of(new PermissionView()));
 
-    List<PermissionView> allAdminPermissions = permissionsService.getCurrentAdminPermissions();
+    List<PermissionView> allAdminPermissions = adminPermissionsService.getCurrentAdminPermissions();
 
     assertFalse(allAdminPermissions.isEmpty());
   }
@@ -111,7 +114,7 @@ public class PermissionServiceTests {
     when(permissionViewRepository.getAdminPermissionsById(adminId, AdminViewTypes.ALL.getViewTypeName())).thenReturn(List.of());
     when(adminAuthorizer.authorize(eq(adminId), eq(Resources.ADMIN_PERMISSIONS), eq(Actions.READ), eq(AdminViewTypes.ALL))).thenReturn(true);
 
-    List<PermissionsEntity> allAdminPermissions = permissionsService.getAdminPermissionsById(adminId);
+    List<PermissionsEntity> allAdminPermissions = adminPermissionsService.getAdminPermissionsById(adminId);
 
     assertTrue(allAdminPermissions.isEmpty());
   }
@@ -124,7 +127,7 @@ public class PermissionServiceTests {
             .thenReturn(List.of(new PermissionsEntity()));
     when(adminAuthorizer.authorize(eq(adminId), eq(Resources.ADMIN_PERMISSIONS), eq(Actions.READ), eq(AdminViewTypes.ALL))).thenReturn(true);
 
-    List<PermissionsEntity> allAdminPermissions = permissionsService.getAdminPermissionsById(adminId);
+    List<PermissionsEntity> allAdminPermissions = adminPermissionsService.getAdminPermissionsById(adminId);
 
     assertFalse(allAdminPermissions.isEmpty());
   }
@@ -135,7 +138,7 @@ public class PermissionServiceTests {
     when(permissionViewRepository.getAdminPermissionsById(adminId, AdminViewTypes.ALL.getViewTypeName())).thenReturn(null);
     when(adminAuthorizer.authorize(eq(adminId), eq(Resources.ADMIN_PERMISSIONS), eq(Actions.READ), eq(AdminViewTypes.ALL))).thenReturn(true);
 
-    List<PermissionsEntity> allAdminPermissions = permissionsService.getAdminPermissionsById(adminId);
+    List<PermissionsEntity> allAdminPermissions = adminPermissionsService.getAdminPermissionsById(adminId);
 
     assertTrue(allAdminPermissions.isEmpty());
   }
@@ -159,7 +162,7 @@ public class PermissionServiceTests {
             eq(AdminViewTypes.ALL.getViewTypeName())
     )).thenReturn(List.of(newView));
 
-    List<PermissionsEntity> result = permissionsService.getAdminPermissionsById(adminId);
+    List<PermissionsEntity> result = adminPermissionsService.getAdminPermissionsById(adminId);
 
     assertTrue(result.isEmpty());
   }
@@ -169,9 +172,34 @@ public class PermissionServiceTests {
     when(authHelpers.getCurrentUserId()).thenReturn(adminId);
     when(adminAuthorizer.authorize(eq(adminId), eq(Resources.ADMIN_PERMISSIONS), eq(Actions.READ), eq(AdminViewTypes.ALL))).thenReturn(false);
 
-    UnauthorisedException exception = assertThrows(UnauthorisedException.class, () -> permissionsService.getAdminPermissionsById(adminId));
+    UnauthorisedException exception = assertThrows(UnauthorisedException.class, () -> adminPermissionsService.getAdminPermissionsById(adminId));
 
     assertTrue(exception.getMessage().contains("Admin is not authorized to view different admin permissions"));
+  }
+
+  @Test
+  public void testRevokeAdminPermissionsUnauthorized() {
+    when(authHelpers.getCurrentUserId()).thenReturn(adminId);
+    when(adminAuthorizer.authorize(eq(adminId), eq(Resources.ADMIN_PERMISSIONS), eq(Actions.DELETE), eq(AdminViewTypes.ALL))).thenReturn(false);
+
+    UnauthorisedException exception = assertThrows(UnauthorisedException.class, () -> adminPermissionsService.revokeAdminPermission(adminId, UUID.randomUUID()));
+
+    assertTrue(exception.getMessage().contains("Admin is not authorized to revoke admin permissions"));
+  }
+
+  @Test
+  public void testRevokeAdminPermissions() {
+
+    UUID permissionId = UUID.randomUUID();
+    UUID adminPerformingRevokeId = UUID.randomUUID();
+    when(authHelpers.getCurrentUserId()).thenReturn(adminPerformingRevokeId);
+
+    when(adminAuthorizer.authorize(eq(adminPerformingRevokeId), eq(Resources.ADMIN_PERMISSIONS), eq(Actions.DELETE), eq(AdminViewTypes.ALL))).thenReturn(true);
+
+    boolean result = adminPermissionsService.revokeAdminPermission(adminId, permissionId);
+
+    assertTrue(result);
+    verify(adminPermissionsRepository, times(1)).revokePermissionFromAdmin(adminId, adminPerformingRevokeId, permissionId);
   }
 
 }

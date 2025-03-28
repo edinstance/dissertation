@@ -1,6 +1,5 @@
 package com.finalproject.backend.permissions.services;
 
-import com.finalproject.backend.common.config.logging.AppLogger;
 import com.finalproject.backend.common.exceptions.UnauthorisedException;
 import com.finalproject.backend.common.helpers.AuthHelpers;
 import com.finalproject.backend.permissions.authorizers.AdminAuthorizer;
@@ -8,6 +7,7 @@ import com.finalproject.backend.permissions.entities.PermissionView;
 import com.finalproject.backend.permissions.entities.PermissionsEntity;
 import com.finalproject.backend.permissions.repositories.PermissionViewRepository;
 import com.finalproject.backend.permissions.repositories.PermissionsRepository;
+import com.finalproject.backend.permissions.repositories.admin.AdminPermissionsRepository;
 import com.finalproject.backend.permissions.types.Actions;
 import com.finalproject.backend.permissions.types.AdminViewTypes;
 import com.finalproject.backend.permissions.types.Resources;
@@ -23,13 +23,18 @@ import org.springframework.stereotype.Service;
  * This service manages the permissions.
  */
 @Service
-public class PermissionsService {
+public class AdminPermissionsService {
 
 
   /**
    * Repository for accessing views of the permissions.
    */
   private final PermissionViewRepository permissionsViewRepository;
+
+  /**
+   * Repository for accessing admin permissions entities.
+   */
+  private final AdminPermissionsRepository adminPermissionsRepository;
 
   /**
    * Repository for managing permissions entities.
@@ -49,15 +54,18 @@ public class PermissionsService {
   /**
    * Constructs a PermissionsService with the specified PermissionViewRepository.
    *
-   * @param permissionsViewRepository The repository for accessing views of the permissions.
-   * @param authHelpers               The helper for authentication.
-   * @param adminAuthorizer           The authorizer for admin permissions.
+   * @param permissionsViewRepository  The repository for accessing views of the permissions.
+   * @param adminPermissionsRepository The repository for accessing admin permissions entities.
+   * @param authHelpers                The helper for authentication.
+   * @param adminAuthorizer            The authorizer for admin permissions.
    */
   @Autowired
-  public PermissionsService(PermissionViewRepository permissionsViewRepository,
-                            AuthHelpers authHelpers, AdminAuthorizer adminAuthorizer,
-                            PermissionsRepository permissionsRepository) {
+  public AdminPermissionsService(PermissionViewRepository permissionsViewRepository,
+                                 AdminPermissionsRepository adminPermissionsRepository,
+                                 AuthHelpers authHelpers, AdminAuthorizer adminAuthorizer,
+                                 PermissionsRepository permissionsRepository) {
     this.permissionsViewRepository = permissionsViewRepository;
+    this.adminPermissionsRepository = adminPermissionsRepository;
     this.authHelpers = authHelpers;
     this.adminAuthorizer = adminAuthorizer;
     this.permissionsRepository = permissionsRepository;
@@ -101,7 +109,6 @@ public class PermissionsService {
    * @return the admins permissions.
    */
   public List<PermissionsEntity> getAdminPermissionsById(final UUID userId) {
-    AppLogger.error("Error");
     boolean authorized = adminAuthorizer.authorize(
             authHelpers.getCurrentUserId(),
             Resources.ADMIN_PERMISSIONS,
@@ -134,8 +141,30 @@ public class PermissionsService {
       return List.of();
     }
 
-    AppLogger.error("Permission ids: " + permissionIds);
-
     return permissionsRepository.findAllById(permissionIds);
+  }
+
+  public boolean revokeAdminPermission(final UUID adminId,
+                                       final UUID permissionId) {
+    boolean authorized = adminAuthorizer.authorize(
+            authHelpers.getCurrentUserId(),
+            Resources.ADMIN_PERMISSIONS,
+            Actions.DELETE,
+            AdminViewTypes.ALL
+    );
+
+    if (!authorized) {
+      throw new UnauthorisedException(
+              "Admin is not authorized to revoke admin permissions"
+      );
+    }
+
+    adminPermissionsRepository.revokePermissionFromAdmin(
+            adminId,
+            authHelpers.getCurrentUserId(),
+            permissionId
+    );
+
+    return true;
   }
 }

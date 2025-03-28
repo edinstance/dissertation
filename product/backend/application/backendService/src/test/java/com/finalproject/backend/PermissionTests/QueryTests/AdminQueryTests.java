@@ -3,7 +3,7 @@ package com.finalproject.backend.PermissionTests.QueryTests;
 import com.finalproject.backend.permissions.entities.PermissionView;
 import com.finalproject.backend.permissions.entities.PermissionsEntity;
 import com.finalproject.backend.permissions.queries.AdminPermissionQueries;
-import com.finalproject.backend.permissions.services.PermissionsService;
+import com.finalproject.backend.permissions.services.AdminPermissionsService;
 import java.util.List;
 import java.util.UUID;
 import org.junit.jupiter.api.Test;
@@ -18,14 +18,14 @@ import static org.mockito.Mockito.when;
 public class AdminQueryTests {
 
   @Mock
-  private PermissionsService permissionsService;
+  private AdminPermissionsService adminPermissionsService;
 
   @InjectMocks
     private AdminPermissionQueries adminPermissionQueries;
 
   @Test
   public void testGetAllAdminPermissions() {
-    when(permissionsService.getAllAdminPermissions()).thenReturn(List.of(new PermissionView()));
+    when(adminPermissionsService.getAllAdminPermissions()).thenReturn(List.of(new PermissionView()));
     List<PermissionView> results = adminPermissionQueries.getAllAdminPermissions();
 
     assert results.size() == 1;
@@ -33,7 +33,7 @@ public class AdminQueryTests {
 
   @Test
   public void testGetCurrentAdminPermissions() {
-    when(permissionsService.getCurrentAdminPermissions()).thenReturn(List.of(new PermissionView()));
+    when(adminPermissionsService.getCurrentAdminPermissions()).thenReturn(List.of(new PermissionView()));
     List<PermissionView> results = adminPermissionQueries.getCurrentAdminPermissions();
 
     assert results.size() == 1;
@@ -42,7 +42,7 @@ public class AdminQueryTests {
   @Test
   public void testGetAdminPermissionsByAdminId() {
     UUID adminId = UUID.randomUUID();
-    when(permissionsService.getAdminPermissionsById(adminId)).thenReturn(List.of(new PermissionsEntity()));
+    when(adminPermissionsService.getAdminPermissionsById(adminId)).thenReturn(List.of(new PermissionsEntity()));
     List<PermissionsEntity> results = adminPermissionQueries.getAdminPermissionsByAdminId(adminId.toString());
 
     assert results.size() == 1;

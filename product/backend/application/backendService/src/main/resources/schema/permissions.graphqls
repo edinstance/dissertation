@@ -4,6 +4,10 @@ extend type Query {
     getAdminPermissionsByAdminId(adminId: String!): [Permission]
 }
 
+extend type Mutation {
+    revokeAdminPermission(adminId: String!, permissionId: String!): MutationResponse @admin
+}
+
 type Permission {
     id: String!
     description: String

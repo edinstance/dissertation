@@ -47,7 +47,8 @@ public class PermissionViewId implements Serializable {
   }
 
   /**
-   * Constructs a PermissionViewId with the specified userId, permissionId, resourceId, and actionId.
+   * Constructs a PermissionViewId with the specified userId,
+   * permissionId, resourceId, and actionId.
    *
    * @param userId       The id of the user.
    * @param permissionId The id of the permission.
