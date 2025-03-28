@@ -4,11 +4,11 @@ import { DEACTIVATE_ADMIN_MUTATION, GET_ALL_ADMINS } from "@/lib/graphql/admin";
 import useAdminPermissionsStore from "@/stores/AdminStore";
 import { useMutation, useQuery } from "@apollo/client";
 import { ColumnDef } from "@tanstack/react-table";
+import { redirect } from "next/navigation";
 import { useEffect, useState } from "react";
 import DropDown from "../ui/DropDown";
 import LoadingSpinner from "../ui/LoadingSpinner";
 import { Table } from "../ui/Table";
-import { redirect } from "next/navigation";
 
 function AdminTable() {
   const { data, loading } = useQuery(GET_ALL_ADMINS);
@@ -90,7 +90,7 @@ function AdminActions({ admin }: { admin: Admin }) {
     });
   }
 
-  if(hasPermission(Resources.AdminPermissions, Actions.Read)) {
+  if (hasPermission(Resources.AdminPermissions, Actions.Read)) {
     options.push({
       label: "View Permissions",
       onClick: () => {
