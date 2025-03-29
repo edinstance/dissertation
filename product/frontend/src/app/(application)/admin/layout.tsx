@@ -14,6 +14,7 @@ export default async function AdminLayout({
   if (!session || !session?.user?.groups?.includes("SubShopAdmin")) {
     redirect("/not-found");
   }
+  console.log("AdminLayout session", session);
 
   return (
     <AdminWrapper>

@@ -45,8 +45,20 @@ function AdminPermissionsPage({
 
   return (
     <div className="rounded-lg bg-gray-100 p-6 text-black shadow-md dark:bg-gray-800 dark:text-white">
-      <h2 className="mb-4 text-xl">Admin Permissions</h2>
+      <div className="flex flex-row items-center justify-between space-y-4">
+        <h2 className="text-xl">Admin Permissions</h2>
+        <div className="flex flex-row items-center space-x-4"> 
+          <Button href="/admin/admins" className="mt-0">
+            Add permission
+          </Button>
+          <Button href="/admin/admins" variant="outline" className="mt-0">
+            Return
+          </Button>
+        </div>
+      </div>
       <p className="mb-4 text-lg">Admin ID: {adminId}</p>
+      <div></div>
+
       <ul className="space-y-4 rounded-lg bg-gray-100 p-6 pt-4 text-lg">
         {adminPermissions && adminPermissions.length > 0 && (
           <div>
