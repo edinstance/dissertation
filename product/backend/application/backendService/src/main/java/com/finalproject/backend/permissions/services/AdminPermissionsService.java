@@ -144,6 +144,13 @@ public class AdminPermissionsService {
     return permissionsRepository.findAllById(permissionIds);
   }
 
+  /**
+   * This method revokes a permission to an admin.
+   *
+   * @param adminId      the id of the admin.
+   * @param permissionId the id of the permission.
+   * @return true if the permission was revoked, false otherwise.
+   */
   public boolean revokeAdminPermission(final UUID adminId,
                                        final UUID permissionId) {
     boolean authorized = adminAuthorizer.authorize(
@@ -163,6 +170,40 @@ public class AdminPermissionsService {
             adminId,
             authHelpers.getCurrentUserId(),
             permissionId
+    );
+
+    return true;
+  }
+
+  /**
+   * This method grants a permission to an admin.
+   *
+   * @param adminId  the id of the admin.
+   * @param action   the action to grant.
+   * @param resource the resource to grant.
+   * @return true if the permission was granted, false otherwise.
+   */
+  public boolean grantAdminPermissions(final UUID adminId,
+                                       final Actions action,
+                                       final Resources resource) {
+    boolean authorized = adminAuthorizer.authorize(
+            authHelpers.getCurrentUserId(),
+            Resources.ADMIN_PERMISSIONS,
+            Actions.DELETE,
+            AdminViewTypes.ALL
+    );
+
+    if (!authorized) {
+      throw new UnauthorisedException(
+              "Admin is not authorized to grant admin permissions"
+      );
+    }
+
+    adminPermissionsRepository.grantAdminPermission(
+            adminId,
+            authHelpers.getCurrentUserId(),
+            action.name(),
+            resource.name()
     );
 
     return true;

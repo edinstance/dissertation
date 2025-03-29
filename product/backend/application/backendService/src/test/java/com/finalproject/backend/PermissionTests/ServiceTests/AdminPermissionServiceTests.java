@@ -202,4 +202,29 @@ public class AdminPermissionServiceTests {
     verify(adminPermissionsRepository, times(1)).revokePermissionFromAdmin(adminId, adminPerformingRevokeId, permissionId);
   }
 
+  @Test
+  public void testGrantAdminPermissionsUnauthorized() {
+    when(authHelpers.getCurrentUserId()).thenReturn(adminId);
+    when(adminAuthorizer.authorize(eq(adminId), eq(Resources.ADMIN_PERMISSIONS), eq(Actions.DELETE), eq(AdminViewTypes.ALL))).thenReturn(false);
+
+    UnauthorisedException exception = assertThrows(UnauthorisedException.class, () -> adminPermissionsService.grantAdminPermissions(adminId, Actions.READ, Resources.ADMIN_PERMISSIONS));
+
+    assertTrue(exception.getMessage().contains("Admin is not authorized to grant admin permissions"));
+  }
+
+  @Test
+  public void testGrantAdminPermissions() {
+
+    UUID permissionId = UUID.randomUUID();
+    UUID adminPerformingGrantId = UUID.randomUUID();
+    when(authHelpers.getCurrentUserId()).thenReturn(adminPerformingGrantId);
+
+    when(adminAuthorizer.authorize(eq(adminPerformingGrantId), eq(Resources.ADMIN_PERMISSIONS), eq(Actions.DELETE), eq(AdminViewTypes.ALL))).thenReturn(true);
+
+    boolean result = adminPermissionsService.grantAdminPermissions(adminId, Actions.READ, Resources.ADMIN_PERMISSIONS);
+
+    assertTrue(result);
+    verify(adminPermissionsRepository, times(1)).grantAdminPermission(adminId, adminPerformingGrantId, Actions.READ.name(), Resources.ADMIN_PERMISSIONS.name());
+  }
+
 }
