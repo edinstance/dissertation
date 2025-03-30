@@ -5,11 +5,19 @@ import { Actions, Resources } from "@/gql/graphql";
 import { GET_USER_STATS } from "@/lib/graphql/admin";
 import useAdminPermissionsStore from "@/stores/AdminStore";
 import { useQuery } from "@apollo/client";
+import { notFound } from "next/navigation";
+import { useEffect } from "react";
 
 export default function AdminUsers() {
   const { data, loading } = useQuery(GET_USER_STATS);
 
   const { hasPermission } = useAdminPermissionsStore();
+
+  useEffect(() => {
+    if (!hasPermission(Resources.Users, Actions.Read)) {
+      notFound();
+    }
+  }, [hasPermission]);
 
   const userStats = data?.getUserStats;
 

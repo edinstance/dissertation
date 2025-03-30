@@ -11,8 +11,10 @@ import {
   GRANT_ADMIN_PERMISSION,
   REVOKE_PERMISSION_FROM_ADMIN,
 } from "@/lib/graphql/admin-permissions";
+import useAdminPermissionsStore from "@/stores/AdminStore";
 import { useMutation, useQuery } from "@apollo/client";
-import { use, useMemo, useState } from "react";
+import { notFound } from "next/navigation";
+import { use, useEffect, useMemo, useState } from "react";
 
 function AdminPermissionsPage({
   params,
@@ -21,6 +23,13 @@ function AdminPermissionsPage({
 }) {
   const resolvedParams = use(params);
   const { adminId } = resolvedParams;
+  const { hasPermission } = useAdminPermissionsStore();
+
+  useEffect(() => {
+    if (!hasPermission(Resources.AdminPermissions, Actions.Read)) {
+      notFound();
+    }
+  }, [hasPermission]);
 
   const { data: adminPermissionsData, loading } = useQuery(
     GET_ADMIN_PERMISSIONS_BY_ADMIN_ID,
