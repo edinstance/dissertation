@@ -13,4 +13,10 @@ export const ADMIN_NAVIGATION_LINKS = [
     resource: Resources.Admins,
     action: Actions.Read,
   },
+  {
+    label: "Permissions",
+    link: "/admin/permissions",
+    resource: Resources.Permissions,
+    action: Actions.Read,
+  },
 ];
