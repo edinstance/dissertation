@@ -3,13 +3,13 @@ package com.finalproject.backend.PermissionTests.ServiceTests;
 import com.finalproject.backend.common.exceptions.UnauthorisedException;
 import com.finalproject.backend.common.helpers.AuthHelpers;
 import com.finalproject.backend.permissions.authorizers.AdminAuthorizer;
-import com.finalproject.backend.permissions.repositories.PermissionViewRepository;
+import com.finalproject.backend.permissions.entities.PermissionsEntity;
 import com.finalproject.backend.permissions.repositories.PermissionsRepository;
-import com.finalproject.backend.permissions.repositories.admin.AdminPermissionsRepository;
 import com.finalproject.backend.permissions.services.PermissionsService;
 import com.finalproject.backend.permissions.types.Actions;
 import com.finalproject.backend.permissions.types.AdminViewTypes;
 import com.finalproject.backend.permissions.types.Resources;
+import java.util.List;
 import java.util.UUID;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -17,6 +17,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.eq;
@@ -81,4 +82,29 @@ public class PermissionServiceTests {
     );
   }
 
+  @Test
+  public void testGetAllPermissionsUnauthorized() {
+    when(authHelpers.getCurrentUserId()).thenReturn(adminId);
+    when(adminAuthorizer.authorize(eq(adminId), eq(Resources.PERMISSIONS), eq(Actions.READ), eq(AdminViewTypes.ALL))).thenReturn(false);
+
+    UnauthorisedException exception = assertThrows(UnauthorisedException.class,
+            () -> permissionsService.getAllPermissions());
+
+    assertTrue(exception.getMessage().contains("Admin is not authorized to read permissions"));
+  }
+
+  @Test
+  public void testGetAllPermissions() {
+    PermissionsEntity permissionsEntity = new PermissionsEntity();
+
+    when(authHelpers.getCurrentUserId()).thenReturn(adminId);
+    when(adminAuthorizer.authorize(eq(adminId), eq(Resources.PERMISSIONS), eq(Actions.READ), eq(AdminViewTypes.ALL))).thenReturn(true);
+    when(permissionsRepository.findAll()).thenReturn(List.of(permissionsEntity));
+
+    List<PermissionsEntity> result = permissionsService.getAllPermissions();
+
+    assertEquals(1, result.size());
+    verify(permissionsRepository, times(1)).findAll();
+
+  }
 }

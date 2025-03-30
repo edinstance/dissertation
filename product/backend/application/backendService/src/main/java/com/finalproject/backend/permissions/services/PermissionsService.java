@@ -3,10 +3,12 @@ package com.finalproject.backend.permissions.services;
 import com.finalproject.backend.common.exceptions.UnauthorisedException;
 import com.finalproject.backend.common.helpers.AuthHelpers;
 import com.finalproject.backend.permissions.authorizers.AdminAuthorizer;
+import com.finalproject.backend.permissions.entities.PermissionsEntity;
 import com.finalproject.backend.permissions.repositories.PermissionsRepository;
 import com.finalproject.backend.permissions.types.Actions;
 import com.finalproject.backend.permissions.types.AdminViewTypes;
 import com.finalproject.backend.permissions.types.Resources;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -48,6 +50,28 @@ public class PermissionsService {
     this.adminAuthorizer = adminAuthorizer;
   }
 
+
+  /**
+   * This method retrieves all permissions.
+   *
+   * @return a list of all permissions.
+   */
+  public List<PermissionsEntity> getAllPermissions() {
+    boolean authorized = adminAuthorizer.authorize(
+            authHelpers.getCurrentUserId(),
+            Resources.PERMISSIONS,
+            Actions.READ,
+            AdminViewTypes.ALL
+    );
+
+    if (!authorized) {
+      throw new UnauthorisedException(
+              "Admin is not authorized to read permissions"
+      );
+    }
+
+    return permissionsRepository.findAll();
+  }
 
   /**
    * This method creates a new permission and the resource and

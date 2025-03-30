@@ -17,7 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class AdminPermissionQueries {
 
   /**
-   * The service for managing permissions.
+   * The service for managing admin permissions.
    */
   private final AdminPermissionsService adminPermissionsService;
 

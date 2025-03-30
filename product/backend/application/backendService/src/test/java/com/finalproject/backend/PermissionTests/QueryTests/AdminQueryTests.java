@@ -21,7 +21,7 @@ public class AdminQueryTests {
   private AdminPermissionsService adminPermissionsService;
 
   @InjectMocks
-    private AdminPermissionQueries adminPermissionQueries;
+  private AdminPermissionQueries adminPermissionQueries;
 
   @Test
   public void testGetAllAdminPermissions() {

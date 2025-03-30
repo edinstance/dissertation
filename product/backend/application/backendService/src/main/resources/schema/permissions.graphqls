@@ -1,7 +1,8 @@
 extend type Query {
     getCurrentAdminPermissions: [PermissionView] @admin
     getAllAdminPermissions: [PermissionView] @admin
-    getAdminPermissionsByAdminId(adminId: String!): [Permission]
+    getAdminPermissionsByAdminId(adminId: String!): [Permission] @admin
+    getAllPermissions: [Permission] @admin
 }
 
 extend type Mutation {
