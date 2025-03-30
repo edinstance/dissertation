@@ -187,7 +187,7 @@ public class AdminPermissionsService {
     boolean authorized = adminAuthorizer.authorize(
             authHelpers.getCurrentUserId(),
             Resources.ADMIN_PERMISSIONS,
-            Actions.DELETE,
+            Actions.CREATE,
             AdminViewTypes.ALL
     );
 

@@ -206,7 +206,7 @@ public class AdminPermissionServiceTests {
   @Test
   public void testGrantAdminPermissionsUnauthorized() {
     when(authHelpers.getCurrentUserId()).thenReturn(adminId);
-    when(adminAuthorizer.authorize(eq(adminId), eq(Resources.ADMIN_PERMISSIONS), eq(Actions.DELETE), eq(AdminViewTypes.ALL))).thenReturn(false);
+    when(adminAuthorizer.authorize(eq(adminId), eq(Resources.ADMIN_PERMISSIONS), eq(Actions.CREATE), eq(AdminViewTypes.ALL))).thenReturn(false);
 
     UnauthorisedException exception = assertThrows(UnauthorisedException.class, () -> adminPermissionsService.grantAdminPermissions(adminId, permissionId));
 
@@ -220,7 +220,7 @@ public class AdminPermissionServiceTests {
     UUID adminPerformingGrantId = UUID.randomUUID();
     when(authHelpers.getCurrentUserId()).thenReturn(adminPerformingGrantId);
 
-    when(adminAuthorizer.authorize(eq(adminPerformingGrantId), eq(Resources.ADMIN_PERMISSIONS), eq(Actions.DELETE), eq(AdminViewTypes.ALL))).thenReturn(true);
+    when(adminAuthorizer.authorize(eq(adminPerformingGrantId), eq(Resources.ADMIN_PERMISSIONS), eq(Actions.CREATE), eq(AdminViewTypes.ALL))).thenReturn(true);
 
     boolean result = adminPermissionsService.grantAdminPermissions(adminId, permissionId);
 

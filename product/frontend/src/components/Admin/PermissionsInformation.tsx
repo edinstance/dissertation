@@ -44,7 +44,7 @@ function PermissionsInformation() {
           Create Permission
         </Button>
       </div>
-      <div className="flex flex-col items-center justify-center space-y-4">
+      <div className="flex max-h-screen flex-col items-center justify-center space-y-4 overflow-y-scroll">
         {permissions.map((permission) => (
           <Disclosure
             title={permission?.description ?? "Permission"}

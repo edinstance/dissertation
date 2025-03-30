@@ -59,9 +59,34 @@ export const GET_ALL_PERMISSIONS = graphql(`
   }
 `);
 
+export const GET_ALL_PERMISSIONS_NO_DESCRIPTIONS = graphql(`
+  query getAllPermissionsNoDescriptions {
+    getAllPermissions {
+      id
+      resource {
+        id
+        resource
+      }
+      action {
+        actionId
+        action
+      }
+    }
+  }
+`);
+
 export const CREATE_PERMISSION = graphql(`
   mutation createPermission($input: CreatePermissionInput!) {
     createPermission(input: $input) {
+      success
+      message
+    }
+  }
+`);
+
+export const GRANT_ADMIN_PERMISSION = graphql(`
+  mutation grantAdminPermission($adminId: String!, $permissionId: String!) {
+    grantAdminPermission(adminId: $adminId, permissionId: $permissionId) {
       success
       message
     }

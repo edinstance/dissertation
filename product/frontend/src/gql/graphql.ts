@@ -753,6 +753,28 @@ export type GetAllPermissionsQuery = {
   } | null> | null;
 };
 
+export type GetAllPermissionsNoDescriptionsQueryVariables = Exact<{
+  [key: string]: never;
+}>;
+
+export type GetAllPermissionsNoDescriptionsQuery = {
+  __typename?: "Query";
+  getAllPermissions?: Array<{
+    __typename?: "Permission";
+    id: string;
+    resource?: {
+      __typename?: "Resource";
+      id: string;
+      resource?: Resources | null;
+    } | null;
+    action?: {
+      __typename?: "Action";
+      actionId: string;
+      action?: Actions | null;
+    } | null;
+  } | null> | null;
+};
+
 export type CreatePermissionMutationVariables = Exact<{
   input: CreatePermissionInput;
 }>;
@@ -760,6 +782,20 @@ export type CreatePermissionMutationVariables = Exact<{
 export type CreatePermissionMutation = {
   __typename?: "Mutation";
   createPermission?: {
+    __typename?: "MutationResponse";
+    success?: boolean | null;
+    message?: string | null;
+  } | null;
+};
+
+export type GrantAdminPermissionMutationVariables = Exact<{
+  adminId: Scalars["String"]["input"];
+  permissionId: Scalars["String"]["input"];
+}>;
+
+export type GrantAdminPermissionMutation = {
+  __typename?: "Mutation";
+  grantAdminPermission?: {
     __typename?: "MutationResponse";
     success?: boolean | null;
     message?: string | null;
@@ -1426,6 +1462,65 @@ export const GetAllPermissionsDocument = {
   GetAllPermissionsQuery,
   GetAllPermissionsQueryVariables
 >;
+export const GetAllPermissionsNoDescriptionsDocument = {
+  kind: "Document",
+  definitions: [
+    {
+      kind: "OperationDefinition",
+      operation: "query",
+      name: { kind: "Name", value: "getAllPermissionsNoDescriptions" },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "getAllPermissions" },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                { kind: "Field", name: { kind: "Name", value: "id" } },
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "resource" },
+                  selectionSet: {
+                    kind: "SelectionSet",
+                    selections: [
+                      { kind: "Field", name: { kind: "Name", value: "id" } },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "resource" },
+                      },
+                    ],
+                  },
+                },
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "action" },
+                  selectionSet: {
+                    kind: "SelectionSet",
+                    selections: [
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "actionId" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "action" },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  GetAllPermissionsNoDescriptionsQuery,
+  GetAllPermissionsNoDescriptionsQueryVariables
+>;
 export const CreatePermissionDocument = {
   kind: "Document",
   definitions: [
@@ -1480,6 +1575,83 @@ export const CreatePermissionDocument = {
 } as unknown as DocumentNode<
   CreatePermissionMutation,
   CreatePermissionMutationVariables
+>;
+export const GrantAdminPermissionDocument = {
+  kind: "Document",
+  definitions: [
+    {
+      kind: "OperationDefinition",
+      operation: "mutation",
+      name: { kind: "Name", value: "grantAdminPermission" },
+      variableDefinitions: [
+        {
+          kind: "VariableDefinition",
+          variable: {
+            kind: "Variable",
+            name: { kind: "Name", value: "adminId" },
+          },
+          type: {
+            kind: "NonNullType",
+            type: {
+              kind: "NamedType",
+              name: { kind: "Name", value: "String" },
+            },
+          },
+        },
+        {
+          kind: "VariableDefinition",
+          variable: {
+            kind: "Variable",
+            name: { kind: "Name", value: "permissionId" },
+          },
+          type: {
+            kind: "NonNullType",
+            type: {
+              kind: "NamedType",
+              name: { kind: "Name", value: "String" },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "grantAdminPermission" },
+            arguments: [
+              {
+                kind: "Argument",
+                name: { kind: "Name", value: "adminId" },
+                value: {
+                  kind: "Variable",
+                  name: { kind: "Name", value: "adminId" },
+                },
+              },
+              {
+                kind: "Argument",
+                name: { kind: "Name", value: "permissionId" },
+                value: {
+                  kind: "Variable",
+                  name: { kind: "Name", value: "permissionId" },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                { kind: "Field", name: { kind: "Name", value: "success" } },
+                { kind: "Field", name: { kind: "Name", value: "message" } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  GrantAdminPermissionMutation,
+  GrantAdminPermissionMutationVariables
 >;
 export const GetUserStatsDocument = {
   kind: "Document",
