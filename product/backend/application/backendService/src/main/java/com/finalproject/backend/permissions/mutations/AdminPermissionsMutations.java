@@ -59,20 +59,18 @@ public class AdminPermissionsMutations {
    */
   @DgsMutation
   public MutationResponse grantAdminPermission(@InputArgument final String adminId,
-                                               @InputArgument final Actions action,
-                                               @InputArgument final Resources resource) {
+                                               @InputArgument final String permissionId) {
 
     boolean result = adminPermissionsService.grantAdminPermissions(
             UUID.fromString(adminId),
-            action,
-            resource);
+            UUID.fromString(permissionId));
 
     if (result) {
       return new MutationResponse(true, "Admin permission granted successfully");
     }
 
     AppLogger.error("Admin permission granting failed for admin with id: " + adminId
-            + " for action: " + action + " on resource: " + resource);
+            + " for permission with id: " + permissionId);
 
     return new MutationResponse(false, "Error granting admin permission");
   }

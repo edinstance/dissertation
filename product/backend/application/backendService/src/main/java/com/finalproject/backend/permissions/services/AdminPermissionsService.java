@@ -179,13 +179,11 @@ public class AdminPermissionsService {
    * This method grants a permission to an admin.
    *
    * @param adminId  the id of the admin.
-   * @param action   the action to grant.
-   * @param resource the resource to grant.
+   * @param permissionId the id of the permission.
    * @return true if the permission was granted, false otherwise.
    */
   public boolean grantAdminPermissions(final UUID adminId,
-                                       final Actions action,
-                                       final Resources resource) {
+                                       final UUID permissionId) {
     boolean authorized = adminAuthorizer.authorize(
             authHelpers.getCurrentUserId(),
             Resources.ADMIN_PERMISSIONS,
@@ -202,8 +200,7 @@ public class AdminPermissionsService {
     adminPermissionsRepository.grantAdminPermission(
             adminId,
             authHelpers.getCurrentUserId(),
-            action.name(),
-            resource.name()
+            permissionId
     );
 
     return true;

@@ -51,9 +51,9 @@ public class MutationTests {
 
   @Test
   public void testGrantAdminPermission() {
-    when(adminPermissionsService.grantAdminPermissions(adminId, Actions.READ, Resources.ADMIN_PERMISSIONS)).thenReturn(true);
+    when(adminPermissionsService.grantAdminPermissions(adminId, permissionId)).thenReturn(true);
 
-    MutationResponse result = adminPermissionsMutations.grantAdminPermission(adminId.toString(), Actions.READ, Resources.ADMIN_PERMISSIONS);
+    MutationResponse result = adminPermissionsMutations.grantAdminPermission(adminId.toString(), permissionId.toString());
 
     assertTrue(result.isSuccess());
     assertEquals("Admin permission granted successfully", result.getMessage());
@@ -61,9 +61,9 @@ public class MutationTests {
 
   @Test
   public void testGrantAdminPermissionFailure() {
-    when(adminPermissionsService.grantAdminPermissions(adminId, Actions.READ, Resources.ADMIN_PERMISSIONS)).thenReturn(false);
+    when(adminPermissionsService.grantAdminPermissions(adminId, permissionId)).thenReturn(false);
 
-    MutationResponse result = adminPermissionsMutations.grantAdminPermission(adminId.toString(), Actions.READ, Resources.ADMIN_PERMISSIONS);
+    MutationResponse result = adminPermissionsMutations.grantAdminPermission(adminId.toString(), permissionId.toString());
 
     assertFalse(result.isSuccess());
     assertEquals("Error granting admin permission", result.getMessage());

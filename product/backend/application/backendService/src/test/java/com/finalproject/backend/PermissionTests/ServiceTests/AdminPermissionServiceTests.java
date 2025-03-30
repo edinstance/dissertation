@@ -53,6 +53,7 @@ public class AdminPermissionServiceTests {
   private AdminPermissionsService adminPermissionsService;
 
   private final UUID adminId = UUID.randomUUID();
+    private final UUID permissionId = UUID.randomUUID();
   private final PermissionViewId permissionViewId = new PermissionViewId(adminId, UUID.randomUUID(), UUID.randomUUID(), UUID.randomUUID());
   private final PermissionView permissionView = new PermissionView(permissionViewId, GrantType.GRANT, Resources.ADMIN_PERMISSIONS, Actions.READ);
 
@@ -207,7 +208,7 @@ public class AdminPermissionServiceTests {
     when(authHelpers.getCurrentUserId()).thenReturn(adminId);
     when(adminAuthorizer.authorize(eq(adminId), eq(Resources.ADMIN_PERMISSIONS), eq(Actions.DELETE), eq(AdminViewTypes.ALL))).thenReturn(false);
 
-    UnauthorisedException exception = assertThrows(UnauthorisedException.class, () -> adminPermissionsService.grantAdminPermissions(adminId, Actions.READ, Resources.ADMIN_PERMISSIONS));
+    UnauthorisedException exception = assertThrows(UnauthorisedException.class, () -> adminPermissionsService.grantAdminPermissions(adminId, permissionId));
 
     assertTrue(exception.getMessage().contains("Admin is not authorized to grant admin permissions"));
   }
@@ -221,10 +222,10 @@ public class AdminPermissionServiceTests {
 
     when(adminAuthorizer.authorize(eq(adminPerformingGrantId), eq(Resources.ADMIN_PERMISSIONS), eq(Actions.DELETE), eq(AdminViewTypes.ALL))).thenReturn(true);
 
-    boolean result = adminPermissionsService.grantAdminPermissions(adminId, Actions.READ, Resources.ADMIN_PERMISSIONS);
+    boolean result = adminPermissionsService.grantAdminPermissions(adminId, permissionId);
 
     assertTrue(result);
-    verify(adminPermissionsRepository, times(1)).grantAdminPermission(adminId, adminPerformingGrantId, Actions.READ.name(), Resources.ADMIN_PERMISSIONS.name());
+    verify(adminPermissionsRepository, times(1)).grantAdminPermission(adminId, adminPerformingGrantId, permissionId);
   }
 
 }

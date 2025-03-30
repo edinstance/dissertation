@@ -37,17 +37,15 @@ public interface AdminPermissionsRepository extends JpaRepository
    *
    * @param userId   the id of the admin that the permission will be granted to.
    * @param adminId  the id of the admin performing this operation.
-   * @param action   the action to perform.
-   * @param resource the resource to perform the action on.
+   * @param permissionId the id of the permission to grant.
    */
   @Modifying
-  @Query(value = "CALL grant_admin_permission(:adminId, :performingAdminId, :action, :resource)",
+  @Query(value = "CALL grant_admin_permission(:adminId, :performingAdminId, :permissionId)",
           nativeQuery = true)
   @Transactional
   void grantAdminPermission(
           @Param("adminId") UUID userId,
           @Param("performingAdminId") UUID adminId,
-          @Param("action") String action,
-          @Param("resource") String resource
+          @Param("permissionId") UUID permissionId
   );
 }
