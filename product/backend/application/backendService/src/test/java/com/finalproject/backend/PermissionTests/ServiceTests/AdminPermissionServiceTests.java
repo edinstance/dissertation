@@ -53,7 +53,7 @@ public class AdminPermissionServiceTests {
   private AdminPermissionsService adminPermissionsService;
 
   private final UUID adminId = UUID.randomUUID();
-    private final UUID permissionId = UUID.randomUUID();
+  private final UUID permissionId = UUID.randomUUID();
   private final PermissionViewId permissionViewId = new PermissionViewId(adminId, UUID.randomUUID(), UUID.randomUUID(), UUID.randomUUID());
   private final PermissionView permissionView = new PermissionView(permissionViewId, GrantType.GRANT, Resources.ADMIN_PERMISSIONS, Actions.READ);
 

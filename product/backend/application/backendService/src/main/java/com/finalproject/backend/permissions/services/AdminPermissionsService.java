@@ -178,7 +178,7 @@ public class AdminPermissionsService {
   /**
    * This method grants a permission to an admin.
    *
-   * @param adminId  the id of the admin.
+   * @param adminId      the id of the admin.
    * @param permissionId the id of the permission.
    * @return true if the permission was granted, false otherwise.
    */

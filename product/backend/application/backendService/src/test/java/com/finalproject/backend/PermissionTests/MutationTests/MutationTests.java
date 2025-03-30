@@ -1,11 +1,11 @@
 package com.finalproject.backend.PermissionTests.MutationTests;
 
 import com.finalproject.backend.common.dto.MutationResponse;
-import com.finalproject.backend.permissions.mutations.AdminPermissionsMutations;
-import com.finalproject.backend.permissions.services.AdminPermissionsService;
+import com.finalproject.backend.permissions.dto.CreatePermissionInput;
+import com.finalproject.backend.permissions.mutations.PermissionsMutations;
+import com.finalproject.backend.permissions.services.PermissionsService;
 import com.finalproject.backend.permissions.types.Actions;
 import com.finalproject.backend.permissions.types.Resources;
-import java.util.UUID;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -21,51 +21,44 @@ import static org.mockito.Mockito.when;
 public class MutationTests {
 
   @Mock
-  private AdminPermissionsService adminPermissionsService;
+  private PermissionsService permissionsService;
 
   @InjectMocks
-  private AdminPermissionsMutations adminPermissionsMutations;
+  private PermissionsMutations permissionsMutations;
 
-  public final UUID adminId = UUID.randomUUID();
-  public final UUID permissionId = UUID.randomUUID();
+  private CreatePermissionInput createPermissionInput = new CreatePermissionInput(
+          "Test Permission",
+          Actions.READ,
+          "Test Action Description",
+          Resources.USERS,
+          "Test Resource Description"
+  );
 
   @Test
-  public void testRevokeAdminPermission() {
-    when(adminPermissionsService.revokeAdminPermission(adminId, permissionId)).thenReturn(true);
+  public void testCreatePermission() {
+    when(permissionsService.createPermission("Test Permission",
+            Actions.READ,
+            "Test Action Description",
+            Resources.USERS,
+            "Test Resource Description")).thenReturn(true);
 
-    MutationResponse result = adminPermissionsMutations.revokeAdminPermission(adminId.toString(), permissionId.toString());
+            MutationResponse result = permissionsMutations.createPermission(createPermissionInput);
 
     assertTrue(result.isSuccess());
-    assertEquals("Admin permission revoked successfully", result.getMessage());
+    assertEquals("Permission created successfully", result.getMessage());
   }
 
   @Test
-  public void testRevokeAdminPermissionFailure() {
-    when(adminPermissionsService.revokeAdminPermission(adminId, permissionId)).thenReturn(false);
+  public void testCreatePermissionFailure() {
+    when(permissionsService.createPermission("Test Permission",
+            Actions.READ,
+            "Test Action Description",
+            Resources.USERS,
+            "Test Resource Description")).thenReturn(false);
 
-    MutationResponse result = adminPermissionsMutations.revokeAdminPermission(adminId.toString(), permissionId.toString());
+    MutationResponse result = permissionsMutations.createPermission(createPermissionInput);
 
     assertFalse(result.isSuccess());
-    assertEquals("Error revoking admin permission", result.getMessage());
-  }
-
-  @Test
-  public void testGrantAdminPermission() {
-    when(adminPermissionsService.grantAdminPermissions(adminId, permissionId)).thenReturn(true);
-
-    MutationResponse result = adminPermissionsMutations.grantAdminPermission(adminId.toString(), permissionId.toString());
-
-    assertTrue(result.isSuccess());
-    assertEquals("Admin permission granted successfully", result.getMessage());
-  }
-
-  @Test
-  public void testGrantAdminPermissionFailure() {
-    when(adminPermissionsService.grantAdminPermissions(adminId, permissionId)).thenReturn(false);
-
-    MutationResponse result = adminPermissionsMutations.grantAdminPermission(adminId.toString(), permissionId.toString());
-
-    assertFalse(result.isSuccess());
-    assertEquals("Error granting admin permission", result.getMessage());
+    assertEquals("Error creating permission", result.getMessage());
   }
 }

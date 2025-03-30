@@ -3,8 +3,6 @@ package com.finalproject.backend.permissions.mutations;
 import com.finalproject.backend.common.config.logging.AppLogger;
 import com.finalproject.backend.common.dto.MutationResponse;
 import com.finalproject.backend.permissions.services.AdminPermissionsService;
-import com.finalproject.backend.permissions.types.Actions;
-import com.finalproject.backend.permissions.types.Resources;
 import com.netflix.graphql.dgs.DgsComponent;
 import com.netflix.graphql.dgs.DgsMutation;
 import com.netflix.graphql.dgs.InputArgument;
