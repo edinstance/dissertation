@@ -1,7 +1,7 @@
 package com.finalproject.backend.UserTests.QueryTests;
 
-import com.finalproject.backend.users.entities.UserEntity;
 import com.finalproject.backend.common.helpers.AuthHelpers;
+import com.finalproject.backend.users.entities.UserEntity;
 import com.finalproject.backend.users.queries.UserQueries;
 import com.finalproject.backend.users.services.UserService;
 import org.junit.jupiter.api.BeforeEach;

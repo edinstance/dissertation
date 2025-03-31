@@ -1,11 +1,11 @@
 package com.finalproject.backend.ItemsTests.MapperTests;
 
+import com.finalproject.backend.common.helpers.AuthHelpers;
 import com.finalproject.backend.items.dto.ItemInput;
 import com.finalproject.backend.items.entities.ItemEntity;
-import com.finalproject.backend.users.entities.UserEntity;
-import com.finalproject.backend.common.helpers.AuthHelpers;
-import com.finalproject.backend.users.helpers.UserHelpers;
 import com.finalproject.backend.items.mappers.ItemMapper;
+import com.finalproject.backend.users.entities.UserEntity;
+import com.finalproject.backend.users.helpers.UserHelpers;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

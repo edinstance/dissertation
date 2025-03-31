@@ -1,6 +1,19 @@
+
+extend type Mutation {
+    saveItem(itemInput: ItemInput): Item
+}
+
+extend type Query {
+    searchForItems(searchText: String, sorting: SortInput, pagination: PaginationInput): SearchedItemsResponse
+    getItemById(id: String!): Item
+    getItemsByUser(id: String!, isActive: Boolean, pagination: PaginationInput): SearchedItemsResponse
+    getShopItems(pagination: PaginationInput, sorting: SortInput): SearchedItemsResponse
+}
+
 type SearchedItemsResponse {
     items: [Item]
     pagination: Pagination
+    sorting: Sorting
 }
 
 input ItemInput {
@@ -26,4 +39,10 @@ type Item {
     category: String
     images: [String]
     seller: User
+}
+
+enum ItemSortOptions {
+    PRICE
+    ENDING_TIME
+    STOCK
 }

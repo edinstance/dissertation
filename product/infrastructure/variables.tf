@@ -22,6 +22,12 @@ variable "domain" {
   type        = string
 }
 
+# Local development variables
+variable "dynamodb_local_endpoint" {
+  description = "The endpoint for the local DynamoDB instance"
+  type        = string
+}
+
 # ECS
 variable "frontend_image_tag" {
   description = "The tag of the frontend Docker image to deploy"

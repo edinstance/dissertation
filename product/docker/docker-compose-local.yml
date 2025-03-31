@@ -70,6 +70,14 @@ services:
     depends_on:
       - "postgres"
 
+  dynamodb:
+    container_name: final-project-dynamodb-local
+    image: "amazon/dynamodb-local:latest"
+    ports:
+      - "8000:8000"
+    command: "-jar DynamoDBLocal.jar -sharedDb -inMemory"
+
+
   redis:
     container_name: final-project-redis-local
     image: redis

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.2.xsd">
+
+    <!-- Release changelogs -->
+    <changeSet id="seed_actions" author="zlac370" runOnChange="false">
+        <sqlFile path="../../src/sql/seeds/actions.sql"
+            relativeToChangelogFile="true"
+            splitStatements="false"
+            stripComments="false" />
+    </changeSet>
+
+    <changeSet id="seed_resources" author="zlac370" runOnChange="false">
+        <sqlFile path="../../src/sql/seeds/resources.sql"
+            relativeToChangelogFile="true"
+            splitStatements="false"
+            stripComments="false" />
+    </changeSet>
+
+    <changeSet id="seed_permissions" author="zlac370" runOnChange="false">
+        <sqlFile path="../../src/sql/seeds/permissions.sql"
+            relativeToChangelogFile="true"
+            splitStatements="false"
+            stripComments="false" />
+    </changeSet>
+
+    <changeSet id="seed_roles" author="zlac370" runOnChange="false">
+        <sqlFile path="../../src/sql/seeds/roles.sql"
+            relativeToChangelogFile="true"
+            splitStatements="false"
+            stripComments="false" />
+    </changeSet>
+
+    <changeSet id="seed_role_permissions" author="zlac370" runOnChange="false">
+        <sqlFile path="../../src/sql/seeds/role_permissions.sql"
+            relativeToChangelogFile="true"
+            splitStatements="false"
+            stripComments="false" />
+    </changeSet>
+
+</databaseChangeLog>

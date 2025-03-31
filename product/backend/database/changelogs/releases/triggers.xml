@@ -27,4 +27,53 @@
                         stripComments="false" />
         </changeSet>
 
+         <changeSet id="admins_update_date_trigger" author="zlac370" runOnChange="false">
+                <sqlFile path="../../src/sql/triggers/admins_triggers.sql"
+                        relativeToChangelogFile="true"
+                        splitStatements="false"
+                        stripComments="false" />
+        </changeSet>
+
+        <changeSet id="actions_update_date_trigger" author="zlac370" runOnChange="false">
+                <sqlFile path="../../src/sql/triggers/actions_triggers.sql"
+                        relativeToChangelogFile="true"
+                        splitStatements="false"
+                        stripComments="false" />
+        </changeSet>
+
+        <changeSet id="resources_update_date_trigger" author="zlac370" runOnChange="false">
+                <sqlFile path="../../src/sql/triggers/resources_triggers.sql"
+                        relativeToChangelogFile="true"
+                        splitStatements="false"
+                        stripComments="false" />
+        </changeSet>
+
+        <changeSet id="permissions_update_date_trigger" author="zlac370" runOnChange="false">
+                <sqlFile path="../../src/sql/triggers/permissions_triggers.sql"
+                        relativeToChangelogFile="true"
+                        splitStatements="false"
+                        stripComments="false" />
+        </changeSet>
+
+        <changeSet id="admin_permissions_update_date_trigger" author="zlac370" runOnChange="false">
+                <sqlFile path="../../src/sql/triggers/admin_permissions_triggers.sql"
+                        relativeToChangelogFile="true"
+                        splitStatements="false"
+                        stripComments="false" />
+        </changeSet>
+
+        <changeSet id="role_update_date_trigger" author="zlac370" runOnChange="false">
+                <sqlFile path="../../src/sql/triggers/roles_triggers.sql"
+                        relativeToChangelogFile="true"
+                        splitStatements="false"
+                        stripComments="false" />
+        </changeSet>
+
+        <changeSet id="roles_permissions_update_date_trigger" author="zlac370" runOnChange="false">
+                <sqlFile path="../../src/sql/triggers/role_permissions_triggers.sql"
+                        relativeToChangelogFile="true"
+                        splitStatements="false"
+                        stripComments="false" />
+        </changeSet>
+
 </databaseChangeLog>

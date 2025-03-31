@@ -1,21 +1,19 @@
 type Mutation {
-    createUser(userInput: UserInput): User
-    saveUserDetails(id: String!, detailsInput: UserDetailsInput): User
-    saveItem(itemInput: ItemInput): Item
-    deleteUser: MutationResponse
-    reportBug(title: String!, description: String!): MutationResponse
+    
 }
 
 type Query {
-    getUser: User
-    searchForItems(searchText: String, pagination: PaginationInput): SearchedItemsResponse
-    getItemById(id: String!): Item
-    getItemsByUser(id: String!, isActive: Boolean, pagination: PaginationInput): SearchedItemsResponse
+
 }
 
 input PaginationInput {
     page: Int
     size: Int
+}
+
+input SortInput {
+    sortBy: String
+    sortDirection: SortDirection
 }
 
 type Pagination {
@@ -27,4 +25,14 @@ type Pagination {
 type MutationResponse {
     success: Boolean
     message: String
+}
+
+type Sorting {
+    sortBy: String
+    sortDirection: SortDirection
+}
+
+enum SortDirection {
+    ASC
+    DESC
 }

@@ -1,8 +1,9 @@
 package com.finalproject.backend.UserTests.ServiceTests;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.finalproject.backend.users.entities.UserEntity;
 import com.finalproject.backend.common.helpers.AuthHelpers;
+import com.finalproject.backend.permissions.authorizers.AdminAuthorizer;
+import com.finalproject.backend.users.entities.UserEntity;
 import com.finalproject.backend.users.repositories.UserRepository;
 import com.finalproject.backend.users.services.UserService;
 import org.junit.jupiter.api.BeforeEach;
@@ -37,6 +38,9 @@ public class UserServiceTests {
 
   @Mock
   private AuthHelpers authHelpers;
+
+  @Mock
+  private AdminAuthorizer adminAuthorizer;
 
   @InjectMocks
   private UserService userService;
@@ -170,6 +174,13 @@ public class UserServiceTests {
 
     doThrow(new RuntimeException()).when(userRepository).deleteUser(userId);
     assertFalse(userService.deleteUser());
+  }
+
+  @Test
+  public void testDeactivateUser() {
+    userService.deactivateUser(userId);
+
+    verify(userRepository).deactivateUser(userId);
   }
 
 }

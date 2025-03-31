@@ -31,6 +31,7 @@ export const GET_USER = graphql(`
       id
       email
       name
+      status
       details {
         id
         contactNumber
@@ -47,6 +48,15 @@ export const GET_USER = graphql(`
 export const DELETE_USER_MUTATION = graphql(`
   mutation DeleteUser {
     deleteUser {
+      success
+      message
+    }
+  }
+`);
+
+export const DEACTIVATE_USER_MUTATION = graphql(`
+  mutation DeactivateUser($id: String!) {
+    deactivateUser(id: $id) {
       success
       message
     }

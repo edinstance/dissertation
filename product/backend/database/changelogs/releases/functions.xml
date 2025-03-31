@@ -54,4 +54,53 @@
                         stripComments="false" />
         </changeSet>
 
+        <changeSet id="get_shop_items" author="zlac370" runOnChange="false">
+                <sqlFile path="../../src/sql/functions/get_shop_items.sql"
+                        relativeToChangelogFile="true"
+                        splitStatements="false"
+                        stripComments="false" />
+        </changeSet>
+
+        <changeSet id="get_total_users" author="zlac370" runOnChange="false">
+                <sqlFile path="../../src/sql/functions/get_total_users.sql"
+                        relativeToChangelogFile="true"
+                        splitStatements="false"
+                        stripComments="false" />
+        </changeSet>
+
+        <changeSet id="get_new_user_total" author="zlac370" runOnChange="false">
+                <sqlFile path="../../src/sql/functions/get_new_user_total.sql"
+                        relativeToChangelogFile="true"
+                        splitStatements="false"
+                        stripComments="false" />
+        </changeSet>
+
+        <changeSet id="get_deleted_user_total" author="zlac370" runOnChange="false">
+                <sqlFile path="../../src/sql/functions/get_deleted_user_total.sql"
+                        relativeToChangelogFile="true"
+                        splitStatements="false"
+                        stripComments="false" />
+        </changeSet>
+
+        <changeSet id="get_admin_user_stats" author="zlac370" runOnChange="false">
+                <sqlFile path="../../src/sql/functions/get_admin_user_stats.sql"
+                        relativeToChangelogFile="true"
+                        splitStatements="false"
+                        stripComments="false" />
+        </changeSet>
+
+        <changeSet id="get_all_admin_permissions" author="zlac370" runOnChange="false">
+                <sqlFile path="../../src/sql/functions/get_all_admin_permissions.sql"
+                        relativeToChangelogFile="true"
+                        splitStatements="false"
+                        stripComments="false" />
+        </changeSet>
+
+        <changeSet id="get_admin_permissions_by_id" author="zlac370" runOnChange="false">
+                <sqlFile path="../../src/sql/functions/get_admin_permissions_by_id.sql"
+                        relativeToChangelogFile="true"
+                        splitStatements="false"
+                        stripComments="false" />
+        </changeSet>
+
 </databaseChangeLog>

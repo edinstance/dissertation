@@ -4,6 +4,10 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.finalproject.backend.common.config.logging.AppLogger;
 import com.finalproject.backend.common.helpers.AuthHelpers;
+import com.finalproject.backend.permissions.authorizers.AdminAuthorizer;
+import com.finalproject.backend.permissions.types.Actions;
+import com.finalproject.backend.permissions.types.AdminViewTypes;
+import com.finalproject.backend.permissions.types.Resources;
 import com.finalproject.backend.users.entities.UserEntity;
 import com.finalproject.backend.users.repositories.UserRepository;
 import java.util.Optional;
@@ -39,6 +43,7 @@ public class UserService {
    * The auth helpers to use.
    */
   private final AuthHelpers authHelpers;
+  private final AdminAuthorizer adminAuthorizer;
 
   /**
    * Constructs a UserService with the specified UserRepository.
@@ -48,10 +53,12 @@ public class UserService {
    */
   @Autowired
   public UserService(final UserRepository inputUserRepository,
-                     final JedisPool inputJedisPool, final AuthHelpers inputAuthHelpers) {
+                     final JedisPool inputJedisPool, final AuthHelpers inputAuthHelpers,
+                     AdminAuthorizer adminAuthorizer) {
     this.userRepository = inputUserRepository;
     this.jedisPool = inputJedisPool;
     this.authHelpers = inputAuthHelpers;
+    this.adminAuthorizer = adminAuthorizer;
   }
 
   /**
@@ -121,7 +128,6 @@ public class UserService {
 
   /**
    * This deletes a user by their id.
-   *
    */
   public Boolean deleteUser() {
     try (Jedis jedis = jedisPool.getResource()) {
@@ -136,6 +142,16 @@ public class UserService {
       AppLogger.error("Error while deleting user", e);
       return false;
     }
+  }
+
+  /**
+   * This deactivates a user by their id.
+   */
+  public void deactivateUser(final UUID userId) {
+    adminAuthorizer.authorize(authHelpers.getCurrentUserId(),
+            Resources.USERS, Actions.WRITE, AdminViewTypes.ALL);
+    userRepository.deactivateUser(userId);
+    AppLogger.info("User with id " + userId + " deactivated");
   }
 }
 

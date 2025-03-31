@@ -102,6 +102,30 @@ resource "aws_iam_policy" "ecs_ses_policy" {
   })
 }
 
+resource "aws_iam_policy" "ecs_dynamodb_admin_logs_policy" {
+  name        = "${var.environment}-ECSDynamoDBAdminLogsAccessPolicy"
+  description = "Policy to allow ECS tasks to read/write Admin Access Logs DynamoDB table"
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Sid    = "AllowDynamoDBReadWriteAdminLogs"
+        Effect = "Allow"
+        Action = [
+          "dynamodb:PutItem",
+          "dynamodb:UpdateItem",
+          "dynamodb:DeleteItem",
+          "dynamodb:BatchWriteItem",
+          "dynamodb:DescribeTable"
+        ]
+        Resource = "${var.admin_access_logs_table_arn}"
+      },
+
+    ]
+  })
+}
+
 # Attach Managed Policy
 resource "aws_iam_role_policy_attachment" "ecs_task_execution_managed_policy_attach" {
   policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy"
@@ -123,5 +147,11 @@ resource "aws_iam_role_policy_attachment" "ecs_cognito_policy_attach" {
 # Attach the SES Access Policy to the ECS Task Role
 resource "aws_iam_role_policy_attachment" "ecs_ses_policy_attach" {
   policy_arn = aws_iam_policy.ecs_ses_policy.arn
+  role       = aws_iam_role.ecs_task_role.name
+}
+
+# Attach the DynamoDB Access Policy to the ECS Task Role
+resource "aws_iam_role_policy_attachment" "ecs_dynamodb_admin_logs_policy_attach" {
+  policy_arn = aws_iam_policy.ecs_dynamodb_admin_logs_policy.arn
   role       = aws_iam_role.ecs_task_role.name
 }

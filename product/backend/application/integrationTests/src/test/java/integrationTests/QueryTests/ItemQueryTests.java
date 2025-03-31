@@ -1,14 +1,10 @@
 package integrationTests.QueryTests;
 
-import groovy.util.logging.Slf4j;
 import integrationTests.Cognito.CognitoUtilities;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import io.restassured.response.Response;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -17,10 +13,10 @@ import java.util.Objects;
 
 import static io.restassured.RestAssured.given;
 import static org.junit.jupiter.api.Assertions.*;
-@Slf4j
+
+
 public class ItemQueryTests {
 
-  private static final Logger log = LoggerFactory.getLogger(ItemQueryTests.class);
   private final SimpleDateFormat dateFormat =
           new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
   private final String formattedDate = dateFormat.format(new Date());
@@ -268,7 +264,6 @@ public class ItemQueryTests {
   public void theServerReturnsTheUsersItems() {
     List<Map<String, Object>> items = result.getBody().jsonPath()
             .getList("data.getItemsByUser.items");
-    log.info(String.valueOf(items));
 
     assertNotNull(items);
     assertFalse(items.isEmpty());

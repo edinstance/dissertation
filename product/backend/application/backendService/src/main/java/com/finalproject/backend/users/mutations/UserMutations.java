@@ -10,6 +10,7 @@ import com.finalproject.backend.users.services.UserService;
 import com.netflix.graphql.dgs.DgsComponent;
 import com.netflix.graphql.dgs.DgsMutation;
 import com.netflix.graphql.dgs.InputArgument;
+import java.util.UUID;
 
 
 /**
@@ -60,7 +61,7 @@ public class UserMutations {
    */
   @DgsMutation
   public MutationResponse deleteUser() {
-    Boolean result =  userService.deleteUser();
+    Boolean result = userService.deleteUser();
 
     if (result) {
       return new MutationResponse(true, "User deleted successfully");
@@ -68,4 +69,17 @@ public class UserMutations {
       return new MutationResponse(false, "User deletion failed");
     }
   }
+
+  /**
+   * GraphQL mutation to delete a user.
+   *
+   * @return a response about the success of the mutation.
+   */
+  @DgsMutation
+  public MutationResponse deactivateUser(@InputArgument String id) {
+    userService.deactivateUser(UUID.fromString(id));
+
+    return new MutationResponse(true, "User deactivated successfully");
+  }
+
 }

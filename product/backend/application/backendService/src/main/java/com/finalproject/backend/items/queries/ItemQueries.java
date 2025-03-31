@@ -2,6 +2,8 @@ package com.finalproject.backend.items.queries;
 
 import com.finalproject.backend.common.config.logging.AppLogger;
 import com.finalproject.backend.common.dto.PaginationInput;
+import com.finalproject.backend.common.dto.SortInput;
+import com.finalproject.backend.common.types.SortDirection;
 import com.finalproject.backend.items.dto.SearchedItemsResponse;
 import com.finalproject.backend.items.entities.ItemEntity;
 import com.finalproject.backend.items.services.ItemService;
@@ -51,6 +53,7 @@ public class ItemQueries {
   @DgsQuery
   public SearchedItemsResponse searchForItems(
           @InputArgument String searchText,
+          @InputArgument SortInput sorting,
           @InputArgument PaginationInput pagination) {
 
     if (pagination == null) {
@@ -61,7 +64,12 @@ public class ItemQueries {
       }
     }
 
-    return itemService.searchForItemsByName(searchText, pagination);
+    if (sorting == null) {
+      sorting = new SortInput("ending_time", SortDirection.ASC);
+    }
+
+
+    return itemService.searchForItemsByName(searchText, pagination, sorting);
 
   }
 
@@ -92,5 +100,33 @@ public class ItemQueries {
     }
 
     return itemService.getItemsByUser(UUID.fromString(id), isActive, pagination);
+  }
+
+  /**
+   * This query gets the shop items.
+   *
+   * @param pagination The pagination information.
+   * @param sorting The sorting information.
+   * @return The items for the shop.
+   */
+  @DgsQuery
+  public SearchedItemsResponse getShopItems(
+          @InputArgument PaginationInput pagination,
+          @InputArgument SortInput sorting
+  ) {
+
+    if (pagination == null) {
+      pagination = new PaginationInput(0, 10);
+    } else {
+      if (pagination.getSize() == 0) {
+        pagination.setSize(10);
+      }
+    }
+
+    if (sorting == null) {
+      sorting = new SortInput("ending_time", SortDirection.ASC);
+    }
+
+    return itemService.getShopItems(pagination, sorting);
   }
 }

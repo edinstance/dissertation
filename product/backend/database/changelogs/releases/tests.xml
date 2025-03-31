@@ -55,7 +55,7 @@
             stripComments="false" />
     </changeSet>
 
-     <changeSet id="user_email_constraints" author="zlac370" runOnChange="false">
+    <changeSet id="user_email_constraints" author="zlac370" runOnChange="false">
         <sqlFile path="../../src/sql/tests/email_constraint.sql"
             relativeToChangelogFile="true"
             splitStatements="false"
@@ -82,5 +82,64 @@
             splitStatements="false"
             stripComments="false" />
     </changeSet>
+
+    <changeSet id="sort_order_direction" author="zlac370" runOnChange="false">
+        <sqlFile path="../../src/sql/tests/sort_order_direction.sql"
+            relativeToChangelogFile="true"
+            splitStatements="false"
+            stripComments="false" />
+    </changeSet>
+
+    <changeSet id="get_shop_items" author="zlac370" runOnChange="false">
+        <sqlFile path="../../src/sql/tests/get_shop_items.sql"
+            relativeToChangelogFile="true"
+            splitStatements="false"
+            stripComments="false" />
+    </changeSet>
+
+    <changeSet id="get_shop_items_pages" author="zlac370" runOnChange="false">
+        <sqlFile path="../../src/sql/tests/get_shop_items_pages.sql"
+            relativeToChangelogFile="true"
+            splitStatements="false"
+            stripComments="false" />
+    </changeSet>
+
+    <changeSet id="search_for_items_sorting_and_pagination" author="zlac370" runOnChange="false">
+        <sqlFile path="../../src/sql/tests/search_for_items_sorting_and_pagination.sql"
+            relativeToChangelogFile="true"
+            splitStatements="false"
+            stripComments="false" />
+    </changeSet>
+
+    <changeSet id="get_total_users" author="zlac370" runOnChange="false">
+        <sqlFile path="../../src/sql/tests/get_total_users.sql"
+            relativeToChangelogFile="true"
+            splitStatements="false"
+            stripComments="false" />
+    </changeSet>
+
+    <changeSet id="get_new_user_total" author="zlac370" runOnChange="false">
+        <sqlFile path="../../src/sql/tests/get_new_user_total.sql"
+            relativeToChangelogFile="true"
+            splitStatements="false"
+            stripComments="false" />
+    </changeSet>
+
+    <changeSet id="get_deleted_users" author="zlac370" runOnChange="false">
+        <sqlFile path="../../src/sql/tests/get_deleted_users.sql"
+            relativeToChangelogFile="true"
+            splitStatements="false"
+            stripComments="false" />
+    </changeSet>
+
+    <changeSet id="get_admin_user_stats" author="zlac370" runOnChange="false">
+        <sqlFile path="../../src/sql/tests/get_admin_user_stats.sql"
+            relativeToChangelogFile="true"
+            splitStatements="false"
+            stripComments="false" />
+    </changeSet>
+
+    <include file="tests/seeds.xml" relativeToChangelogFile="true" />
+    <include file="tests/admins.xml" relativeToChangelogFile="true" />
 
 </databaseChangeLog>

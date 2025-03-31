@@ -19,7 +19,7 @@ public class PaginationTests {
 
   @Test
   public void testPaginationPageSizeConstructor() {
-    pagination = new Pagination(1,1);
+    pagination = new Pagination(1, 1);
 
     assertNotNull(pagination);
     assert pagination.getSize() == 1;
@@ -28,7 +28,7 @@ public class PaginationTests {
 
   @Test
   public void testPaginationConstructor() {
-    pagination = new Pagination(1,1, 1);
+    pagination = new Pagination(1, 1, 1);
 
     assertNotNull(pagination);
     assert pagination.getSize() == 1;
@@ -38,7 +38,7 @@ public class PaginationTests {
 
   @BeforeEach
   void setUp() {
-    pagination = new Pagination(1,1,1);
+    pagination = new Pagination(1, 1, 1);
   }
 
   @Test

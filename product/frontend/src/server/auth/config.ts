@@ -88,12 +88,17 @@ export const authConfig = {
             response.AuthenticationResult?.IdToken as string,
             "id",
           );
-          console.log(response);
+
+          const accessDetails = await verifyAWSToken(
+            response.AuthenticationResult?.AccessToken as string,
+            "access",
+          );
 
           const user = {
             id: userDetails.sub,
             email: credentials.email as string,
             name: userDetails.name as string,
+            groups: accessDetails["cognito:groups"] || [],
             cognitoTokens: {
               accessToken: response.AuthenticationResult?.AccessToken,
               refreshToken: response.AuthenticationResult?.RefreshToken,
@@ -125,6 +130,7 @@ export const authConfig = {
     async jwt({ token, user }: { token: JWT; user?: User }) {
       if (user) {
         token.id = user.id;
+        token.groups = user.groups;
         token.accessToken = user.cognitoTokens?.accessToken;
         token.refreshToken = user.cognitoTokens?.refreshToken;
         token.idToken = user.cognitoTokens?.idToken;
@@ -161,6 +167,7 @@ export const authConfig = {
       // Add accessToken to the session
       if (token) {
         session.user.id = token.id as string;
+        session.user.groups = token.groups as string[];
         session.accessToken = token.accessToken as string;
       }
       return session;

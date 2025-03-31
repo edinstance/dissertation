@@ -80,4 +80,13 @@ public class UserMutationTests {
     assert response.getMessage().equals("User deletion failed");
     verify(userService).deleteUser();
   }
+
+  @Test
+    public void testDeactivateUser() {
+        UUID userId = UUID.randomUUID();
+
+        userMutations.deactivateUser(userId.toString());
+
+        verify(userService).deactivateUser(userId);
+    }
 }

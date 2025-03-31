@@ -7,6 +7,7 @@
 
     <!-- Release changelogs -->
     <include file="releases/tables.xml" relativeToChangelogFile="true" />
+    <include file="releases/types.xml" relativeToChangelogFile="true" />
     <include file="releases/functions.xml" relativeToChangelogFile="true" />
     <include file="releases/triggers.xml" relativeToChangelogFile="true" />
     <include file="releases/updates.xml" relativeToChangelogFile="true" />
@@ -16,4 +17,7 @@
     <include file="releases/schemas.xml" relativeToChangelogFile="true" />
     <include file="releases/tests.xml" relativeToChangelogFile="true" />
     <include file="releases/constraints.xml" relativeToChangelogFile="true" />
+    <include file="releases/helpers.xml" relativeToChangelogFile="true" />
+    <include file="releases/indexes.xml" relativeToChangelogFile="true" />
+    <include file="releases/seeds.xml" relativeToChangelogFile="true" />
 </databaseChangeLog>
