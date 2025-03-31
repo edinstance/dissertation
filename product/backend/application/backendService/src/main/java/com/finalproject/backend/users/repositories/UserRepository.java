@@ -1,7 +1,6 @@
 package com.finalproject.backend.users.repositories;
 
 import com.finalproject.backend.users.entities.UserEntity;
-
 import java.util.List;
 import java.util.UUID;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -25,6 +24,17 @@ public interface UserRepository extends JpaRepository<UserEntity, UUID> {
           nativeQuery = true)
   @Transactional
   void deleteUser(@Param("userId") UUID userId);
+
+  /**
+   * This query deactivates a user.
+   *
+   * @param userId the userId of the user to deactivate.
+   */
+  @Modifying
+  @Query(value = "UPDATE users SET status = 'DEACTIVATED' WHERE user_id = :userId",
+          nativeQuery = true)
+  @Transactional
+  void deactivateUser(@Param("userId") UUID userId);
 
 
   /**

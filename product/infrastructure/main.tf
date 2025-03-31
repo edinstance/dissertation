@@ -10,8 +10,30 @@ terraform {
 }
 
 provider "aws" {
-  region  = "eu-west-2"
-  profile = "default"
+  region = "eu-west-2"
+
+  # Use profile for cloud, dummy keys for local
+  profile                     = terraform.workspace == "local" ? null : "default"
+  access_key                  = terraform.workspace == "local" ? "dummykey" : null
+  secret_key                  = terraform.workspace == "local" ? "dummysecret" : null
+  skip_credentials_validation = terraform.workspace == "local" ? true : null
+  skip_metadata_api_check     = terraform.workspace == "local" ? true : null
+  skip_requesting_account_id  = terraform.workspace == "local" ? true : null
+
+  dynamic "endpoints" {
+    # Only add this block if workspace is "local"
+    for_each = terraform.workspace == "local" ? toset(["dynamodb"]) : toset([])
+    content {
+      dynamodb = var.dynamodb_local_endpoint
+    }
+  }
+
+  default_tags {
+    tags = {
+      Environment = terraform.workspace
+      Project     = "SubShop"
+    }
+  }
 }
 
 data "aws_region" "current" {}
@@ -114,15 +136,29 @@ module "route53" {
 
 }
 
-module "database" {
-  source = "./modules/database"
+# Databases
+module "rds" {
+  source = "./modules/rds"
 
   environment        = var.environment
   availability_zones = var.availability_zones
   private_subnet_ids = module.networking.private_subnet_ids
   db_sg_id           = module.networking.db_sg_id
-  redis_sg_id        = module.networking.redis_sg_id
+}
 
+module "elasticache" {
+  source = "./modules/elasticache"
+
+  environment        = var.environment
+  availability_zones = var.availability_zones
+  private_subnet_ids = module.networking.private_subnet_ids
+  redis_sg_id        = module.networking.redis_sg_id
+}
+
+module "dynamodb" {
+  source = "./modules/dynamodb"
+
+  environment = var.environment
 }
 
 # IAM
@@ -160,10 +196,10 @@ module "ssm" {
   # Backend
   spring_active_profile = var.spring_active_profile
   cognito_jwt_url       = "https://cognito-idp.${data.aws_region.current.name}.amazonaws.com/${module.cognito.cognito_user_pool_id}"
-  database_url          = "jdbc:postgresql://${module.database.database_url}/"
+  database_url          = "jdbc:postgresql://${module.rds.database_url}/"
   postgres_user         = var.postgres_user
   postgres_password     = var.postgres_password
-  redis_host            = module.database.redis_host
+  redis_host            = module.elasticache.redis_host
   redis_port            = "6789"
   jira_access_token     = var.jira_access_token
   jira_email            = var.jira_email

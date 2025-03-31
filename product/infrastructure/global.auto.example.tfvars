@@ -1,0 +1,2 @@
+environment = "dev"
+domain      = "example.com"

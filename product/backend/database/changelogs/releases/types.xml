@@ -13,4 +13,11 @@
                         stripComments="false" />
         </changeSet>
 
+        <changeSet id="admin_permission_view" author="zlac370" runOnChange="false">
+                <sqlFile path="../../src/sql/types/admin_permission_view.sql"
+                        relativeToChangelogFile="true"
+                        splitStatements="false"
+                        stripComments="false" />
+        </changeSet>
+
 </databaseChangeLog>

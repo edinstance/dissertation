@@ -1,0 +1,74 @@
+extend type Query {
+    getCurrentAdminPermissions: [PermissionView] @admin
+    getAllAdminPermissions: [PermissionView] @admin
+    getAdminPermissionsByAdminId(adminId: String!): [Permission] @admin
+    getAllPermissions: [Permission] @admin
+}
+
+extend type Mutation {
+    revokeAdminPermission(adminId: String!, permissionId: String!): MutationResponse @admin
+    grantAdminPermission(adminId: String!, permissionId: String!): MutationResponse @admin
+    createPermission(input: CreatePermissionInput!): MutationResponse @admin
+}
+
+input CreatePermissionInput{
+    permissionDescription: String!
+    action: Actions!
+    actionDescription: String
+    resource: Resources!
+    resourceDescription: String
+}
+
+type Permission {
+    id: String!
+    description: String
+    resource: Resource
+    action: Action
+}
+
+type PermissionViewId {
+    userId: String!
+    permissionId: String!
+    resourceId: String!
+    actionId: String!
+}
+
+type PermissionView {
+    id: PermissionViewId!
+    grantType: GrantType!
+    resource: Resources!
+    action: Actions!
+}
+
+type Resource {
+    id: String!
+    resource: Resources
+    description: String
+}
+
+type Action {
+    actionId: String!
+    action: Actions
+    description: String
+}
+
+enum Resources {
+    ADMINS
+    USERS
+    ROLES
+    PERMISSIONS
+    ADMIN_PERMISSIONS
+    ADMIN_ROLES
+}
+
+enum Actions {
+    CREATE
+    READ
+    WRITE
+    DELETE
+}
+
+enum GrantType {
+    GRANT
+    DENY
+}

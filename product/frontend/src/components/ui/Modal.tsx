@@ -30,7 +30,7 @@ export default function Modal({
     >
       <div className="fixed inset-0 backdrop-blur-sm" />
       <div className="fixed inset-0 flex w-screen items-center justify-center p-4">
-        <DialogPanel className="max-w-lg space-y-4 rounded-lg bg-zinc-200 p-12 shadow-lg dark:bg-zinc-800">
+        <DialogPanel className="max-h-[calc(100vh-4rem)] max-w-lg space-y-4 overflow-y-auto rounded-lg bg-zinc-200 p-12 shadow-lg dark:bg-zinc-800">
           {children}
         </DialogPanel>
       </div>

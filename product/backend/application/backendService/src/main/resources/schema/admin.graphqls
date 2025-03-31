@@ -2,6 +2,23 @@ directive @admin on FIELD_DEFINITION
 
 extend type Query {
     getUserStats: UserStats @admin
+    getAllUsers: [User] @admin
+    getAllAdmins: [Admin] @admin
+    getCurrentAdmin: Admin @admin
+}
+
+extend type Mutation {
+    createAdmin(userId: String!): MutationResponse @admin
+    promoteAdminToSuperAdmin(userId: String!): MutationResponse @admin
+    deactivateAdmin(userId: String!): MutationResponse @admin
+}
+
+type Admin {
+    userId: String!
+    email: String
+    isSuperAdmin: Boolean
+    status: String
+    isDeleted: Boolean
 }
 
 

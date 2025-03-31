@@ -14,8 +14,40 @@ import * as types from "./graphql";
  * Learn more about it here: https://the-guild.dev/graphql/codegen/plugins/presets/preset-client#reducing-bundle-size
  */
 const documents = {
+  "\n  query getCurrentAdminPermissions {\n    getCurrentAdminPermissions {\n      id {\n        permissionId\n      }\n      resource\n      action\n    }\n  }\n":
+    types.GetCurrentAdminPermissionsDocument,
+  "\n  query getAdminPermissionsByAdminId($adminId: String!) {\n    getAdminPermissionsByAdminId(adminId: $adminId) {\n      id\n      description\n      resource {\n        id\n        resource\n        description\n      }\n      action {\n        actionId\n        action\n        description\n      }\n    }\n  }\n":
+    types.GetAdminPermissionsByAdminIdDocument,
+  "\n  mutation revokeAdminPermission($adminId: String!, $permissionId: String!) {\n    revokeAdminPermission(adminId: $adminId, permissionId: $permissionId) {\n      success\n      message\n    }\n  }\n":
+    types.RevokeAdminPermissionDocument,
+  "\n  query getAllPermissions {\n    getAllPermissions {\n      id\n      description\n      resource {\n        id\n        resource\n        description\n      }\n      action {\n        actionId\n        action\n        description\n      }\n    }\n  }\n":
+    types.GetAllPermissionsDocument,
+  "\n  query getAllPermissionsNoDescriptions {\n    getAllPermissions {\n      id\n      resource {\n        id\n        resource\n      }\n      action {\n        actionId\n        action\n      }\n    }\n  }\n":
+    types.GetAllPermissionsNoDescriptionsDocument,
+  "\n  mutation createPermission($input: CreatePermissionInput!) {\n    createPermission(input: $input) {\n      success\n      message\n    }\n  }\n":
+    types.CreatePermissionDocument,
+  "\n  mutation grantAdminPermission($adminId: String!, $permissionId: String!) {\n    grantAdminPermission(adminId: $adminId, permissionId: $permissionId) {\n      success\n      message\n    }\n  }\n":
+    types.GrantAdminPermissionDocument,
   "\n  query getUserStats {\n    getUserStats {\n      total\n      newUserTotal\n      deletedUserTotal\n    }\n  }\n":
     types.GetUserStatsDocument,
+  "\n  query getAllUsers {\n    getAllUsers {\n      id\n      email\n      name\n      status\n    }\n  }\n":
+    types.GetAllUsersDocument,
+  "\n  query getCurrentAdmin {\n    getCurrentAdmin {\n      userId\n      isSuperAdmin\n      status\n      isDeleted\n    }\n  }\n":
+    types.GetCurrentAdminDocument,
+  "\n  query getAllAdminIds {\n    getAllAdmins {\n      userId\n    }\n  }\n":
+    types.GetAllAdminIdsDocument,
+  "\n  query getAllAdmins {\n    getAllAdmins {\n      userId\n      email\n      isSuperAdmin\n      status\n      isDeleted\n    }\n  }\n":
+    types.GetAllAdminsDocument,
+  "\n  mutation CreateAdmin($userId: String!) {\n    createAdmin(userId: $userId) {\n      success\n      message\n    }\n  }\n":
+    types.CreateAdminDocument,
+  "\n  mutation DeactivateAdmin($userId: String!) {\n    deactivateAdmin(userId: $userId) {\n      success\n      message\n    }\n  }\n":
+    types.DeactivateAdminDocument,
+  '\n  query GetGrantTypeEnumValues {\n    GrantType: __type(name: "GrantType") {\n      name\n      enumValues(includeDeprecated: false) {\n        name\n      }\n    }\n  }\n':
+    types.GetGrantTypeEnumValuesDocument,
+  '\n  query GetActionsEnumValues {\n    Actions: __type(name: "Actions") {\n      name\n      enumValues(includeDeprecated: false) {\n        name\n      }\n    }\n  }\n':
+    types.GetActionsEnumValuesDocument,
+  '\n  query GetResoucesEnumValues {\n    Resources: __type(name: "Resources") {\n      name\n      enumValues(includeDeprecated: false) {\n        name\n      }\n    }\n  }\n':
+    types.GetResoucesEnumValuesDocument,
   "\n  query SearchItems(\n    $searchText: String\n    $pagination: PaginationInput\n    $sorting: SortInput\n  ) {\n    searchForItems(\n      searchText: $searchText\n      pagination: $pagination\n      sorting: $sorting\n    ) {\n      items {\n        id\n        name\n        description\n        isActive\n        endingTime\n        price\n        stock\n        category\n        images\n        seller {\n          id\n          name\n          email\n        }\n      }\n      pagination {\n        total\n        page\n        size\n      }\n      sorting {\n        sortBy\n        sortDirection\n      }\n    }\n  }\n":
     types.SearchItemsDocument,
   "\n  query getShopItems($pagination: PaginationInput, $sorting: SortInput) {\n    getShopItems(pagination: $pagination, sorting: $sorting) {\n      items {\n        id\n        name\n        description\n        isActive\n        endingTime\n        price\n        stock\n        category\n        images\n        seller {\n          id\n          name\n          email\n        }\n      }\n      pagination {\n        total\n        page\n        size\n      }\n      sorting {\n        sortBy\n        sortDirection\n      }\n    }\n  }\n":
@@ -32,10 +64,12 @@ const documents = {
     types.CreateUserDocument,
   "\n  mutation SaveUserDetails($id: String!, $detailsInput: UserDetailsInput!) {\n    saveUserDetails(id: $id, detailsInput: $detailsInput) {\n      id\n      details {\n        id\n        contactNumber\n        houseName\n        addressStreet\n        addressCity\n        addressCounty\n        addressPostcode\n      }\n    }\n  }\n":
     types.SaveUserDetailsDocument,
-  "\n  query getUser {\n    getUser {\n      id\n      email\n      name\n      details {\n        id\n        contactNumber\n        houseName\n        addressStreet\n        addressCity\n        addressCounty\n        addressPostcode\n      }\n    }\n  }\n":
+  "\n  query getUser {\n    getUser {\n      id\n      email\n      name\n      status\n      details {\n        id\n        contactNumber\n        houseName\n        addressStreet\n        addressCity\n        addressCounty\n        addressPostcode\n      }\n    }\n  }\n":
     types.GetUserDocument,
   "\n  mutation DeleteUser {\n    deleteUser {\n      success\n      message\n    }\n  }\n":
     types.DeleteUserDocument,
+  "\n  mutation DeactivateUser($id: String!) {\n    deactivateUser(id: $id) {\n      success\n      message\n    }\n  }\n":
+    types.DeactivateUserDocument,
 };
 
 /**
@@ -56,8 +90,104 @@ export function graphql(source: string): unknown;
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(
+  source: "\n  query getCurrentAdminPermissions {\n    getCurrentAdminPermissions {\n      id {\n        permissionId\n      }\n      resource\n      action\n    }\n  }\n",
+): (typeof documents)["\n  query getCurrentAdminPermissions {\n    getCurrentAdminPermissions {\n      id {\n        permissionId\n      }\n      resource\n      action\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(
+  source: "\n  query getAdminPermissionsByAdminId($adminId: String!) {\n    getAdminPermissionsByAdminId(adminId: $adminId) {\n      id\n      description\n      resource {\n        id\n        resource\n        description\n      }\n      action {\n        actionId\n        action\n        description\n      }\n    }\n  }\n",
+): (typeof documents)["\n  query getAdminPermissionsByAdminId($adminId: String!) {\n    getAdminPermissionsByAdminId(adminId: $adminId) {\n      id\n      description\n      resource {\n        id\n        resource\n        description\n      }\n      action {\n        actionId\n        action\n        description\n      }\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(
+  source: "\n  mutation revokeAdminPermission($adminId: String!, $permissionId: String!) {\n    revokeAdminPermission(adminId: $adminId, permissionId: $permissionId) {\n      success\n      message\n    }\n  }\n",
+): (typeof documents)["\n  mutation revokeAdminPermission($adminId: String!, $permissionId: String!) {\n    revokeAdminPermission(adminId: $adminId, permissionId: $permissionId) {\n      success\n      message\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(
+  source: "\n  query getAllPermissions {\n    getAllPermissions {\n      id\n      description\n      resource {\n        id\n        resource\n        description\n      }\n      action {\n        actionId\n        action\n        description\n      }\n    }\n  }\n",
+): (typeof documents)["\n  query getAllPermissions {\n    getAllPermissions {\n      id\n      description\n      resource {\n        id\n        resource\n        description\n      }\n      action {\n        actionId\n        action\n        description\n      }\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(
+  source: "\n  query getAllPermissionsNoDescriptions {\n    getAllPermissions {\n      id\n      resource {\n        id\n        resource\n      }\n      action {\n        actionId\n        action\n      }\n    }\n  }\n",
+): (typeof documents)["\n  query getAllPermissionsNoDescriptions {\n    getAllPermissions {\n      id\n      resource {\n        id\n        resource\n      }\n      action {\n        actionId\n        action\n      }\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(
+  source: "\n  mutation createPermission($input: CreatePermissionInput!) {\n    createPermission(input: $input) {\n      success\n      message\n    }\n  }\n",
+): (typeof documents)["\n  mutation createPermission($input: CreatePermissionInput!) {\n    createPermission(input: $input) {\n      success\n      message\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(
+  source: "\n  mutation grantAdminPermission($adminId: String!, $permissionId: String!) {\n    grantAdminPermission(adminId: $adminId, permissionId: $permissionId) {\n      success\n      message\n    }\n  }\n",
+): (typeof documents)["\n  mutation grantAdminPermission($adminId: String!, $permissionId: String!) {\n    grantAdminPermission(adminId: $adminId, permissionId: $permissionId) {\n      success\n      message\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(
   source: "\n  query getUserStats {\n    getUserStats {\n      total\n      newUserTotal\n      deletedUserTotal\n    }\n  }\n",
 ): (typeof documents)["\n  query getUserStats {\n    getUserStats {\n      total\n      newUserTotal\n      deletedUserTotal\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(
+  source: "\n  query getAllUsers {\n    getAllUsers {\n      id\n      email\n      name\n      status\n    }\n  }\n",
+): (typeof documents)["\n  query getAllUsers {\n    getAllUsers {\n      id\n      email\n      name\n      status\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(
+  source: "\n  query getCurrentAdmin {\n    getCurrentAdmin {\n      userId\n      isSuperAdmin\n      status\n      isDeleted\n    }\n  }\n",
+): (typeof documents)["\n  query getCurrentAdmin {\n    getCurrentAdmin {\n      userId\n      isSuperAdmin\n      status\n      isDeleted\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(
+  source: "\n  query getAllAdminIds {\n    getAllAdmins {\n      userId\n    }\n  }\n",
+): (typeof documents)["\n  query getAllAdminIds {\n    getAllAdmins {\n      userId\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(
+  source: "\n  query getAllAdmins {\n    getAllAdmins {\n      userId\n      email\n      isSuperAdmin\n      status\n      isDeleted\n    }\n  }\n",
+): (typeof documents)["\n  query getAllAdmins {\n    getAllAdmins {\n      userId\n      email\n      isSuperAdmin\n      status\n      isDeleted\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(
+  source: "\n  mutation CreateAdmin($userId: String!) {\n    createAdmin(userId: $userId) {\n      success\n      message\n    }\n  }\n",
+): (typeof documents)["\n  mutation CreateAdmin($userId: String!) {\n    createAdmin(userId: $userId) {\n      success\n      message\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(
+  source: "\n  mutation DeactivateAdmin($userId: String!) {\n    deactivateAdmin(userId: $userId) {\n      success\n      message\n    }\n  }\n",
+): (typeof documents)["\n  mutation DeactivateAdmin($userId: String!) {\n    deactivateAdmin(userId: $userId) {\n      success\n      message\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(
+  source: '\n  query GetGrantTypeEnumValues {\n    GrantType: __type(name: "GrantType") {\n      name\n      enumValues(includeDeprecated: false) {\n        name\n      }\n    }\n  }\n',
+): (typeof documents)['\n  query GetGrantTypeEnumValues {\n    GrantType: __type(name: "GrantType") {\n      name\n      enumValues(includeDeprecated: false) {\n        name\n      }\n    }\n  }\n'];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(
+  source: '\n  query GetActionsEnumValues {\n    Actions: __type(name: "Actions") {\n      name\n      enumValues(includeDeprecated: false) {\n        name\n      }\n    }\n  }\n',
+): (typeof documents)['\n  query GetActionsEnumValues {\n    Actions: __type(name: "Actions") {\n      name\n      enumValues(includeDeprecated: false) {\n        name\n      }\n    }\n  }\n'];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(
+  source: '\n  query GetResoucesEnumValues {\n    Resources: __type(name: "Resources") {\n      name\n      enumValues(includeDeprecated: false) {\n        name\n      }\n    }\n  }\n',
+): (typeof documents)['\n  query GetResoucesEnumValues {\n    Resources: __type(name: "Resources") {\n      name\n      enumValues(includeDeprecated: false) {\n        name\n      }\n    }\n  }\n'];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
@@ -110,14 +240,20 @@ export function graphql(
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(
-  source: "\n  query getUser {\n    getUser {\n      id\n      email\n      name\n      details {\n        id\n        contactNumber\n        houseName\n        addressStreet\n        addressCity\n        addressCounty\n        addressPostcode\n      }\n    }\n  }\n",
-): (typeof documents)["\n  query getUser {\n    getUser {\n      id\n      email\n      name\n      details {\n        id\n        contactNumber\n        houseName\n        addressStreet\n        addressCity\n        addressCounty\n        addressPostcode\n      }\n    }\n  }\n"];
+  source: "\n  query getUser {\n    getUser {\n      id\n      email\n      name\n      status\n      details {\n        id\n        contactNumber\n        houseName\n        addressStreet\n        addressCity\n        addressCounty\n        addressPostcode\n      }\n    }\n  }\n",
+): (typeof documents)["\n  query getUser {\n    getUser {\n      id\n      email\n      name\n      status\n      details {\n        id\n        contactNumber\n        houseName\n        addressStreet\n        addressCity\n        addressCounty\n        addressPostcode\n      }\n    }\n  }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(
   source: "\n  mutation DeleteUser {\n    deleteUser {\n      success\n      message\n    }\n  }\n",
 ): (typeof documents)["\n  mutation DeleteUser {\n    deleteUser {\n      success\n      message\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(
+  source: "\n  mutation DeactivateUser($id: String!) {\n    deactivateUser(id: $id) {\n      success\n      message\n    }\n  }\n",
+): (typeof documents)["\n  mutation DeactivateUser($id: String!) {\n    deactivateUser(id: $id) {\n      success\n      message\n    }\n  }\n"];
 
 export function graphql(source: string) {
   return (documents as any)[source] ?? {};

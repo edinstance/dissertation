@@ -20,4 +20,54 @@
                         stripComments="false" />
         </changeSet>
 
+        <changeSet id="delete_admin" author="zlac370" runOnChange="false">
+                <sqlFile path="../../src/sql/procedures/delete_admin.sql"
+                        relativeToChangelogFile="true"
+                        splitStatements="false"
+                        stripComments="false" />
+        </changeSet>
+
+        <changeSet id="deactivate_admin" author="zlac370" runOnChange="false">
+                <sqlFile path="../../src/sql/procedures/deactivate_admin.sql"
+                        relativeToChangelogFile="true"
+                        splitStatements="false"
+                        stripComments="false" />
+        </changeSet>
+
+        <changeSet id="create_admin" author="zlac370" runOnChange="false">
+                <sqlFile path="../../src/sql/procedures/create_admin.sql"
+                        relativeToChangelogFile="true"
+                        splitStatements="false"
+                        stripComments="false" />
+        </changeSet>
+
+        <changeSet id="make_admin_super_admin" author="zlac370" runOnChange="false">
+                <sqlFile path="../../src/sql/procedures/make_admin_super_admin.sql"
+                        relativeToChangelogFile="true"
+                        splitStatements="false"
+                        stripComments="false" />
+        </changeSet>
+
+        <changeSet id="revoke_permissions_from_admin" author="zlac370" runOnChange="false">
+                <sqlFile path="../../src/sql/procedures/revoke_admin_permissions.sql"
+                        relativeToChangelogFile="true"
+                        splitStatements="false"
+                        stripComments="false" />
+        </changeSet>
+
+        <changeSet id="grant_admin_permissions" author="zlac370" runOnChange="false">
+                <sqlFile path="../../src/sql/procedures/grant_admin_permissions.sql"
+                        relativeToChangelogFile="true"
+                        splitStatements="false"
+                        stripComments="false" />
+        </changeSet>
+
+        <changeSet id="create_permission" author="zlac370" runOnChange="false">
+                <sqlFile path="../../src/sql/procedures/create_permission.sql"
+                        relativeToChangelogFile="true"
+                        splitStatements="false"
+                        stripComments="false" />
+        </changeSet>
+
+
 </databaseChangeLog>

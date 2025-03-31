@@ -2,6 +2,12 @@ package com.finalproject.backend.AdminTests.ServiceTests;
 
 import com.finalproject.backend.admin.dto.UserStats;
 import com.finalproject.backend.admin.services.AdminService;
+import com.finalproject.backend.common.exceptions.UnauthorisedException;
+import com.finalproject.backend.common.helpers.AuthHelpers;
+import com.finalproject.backend.permissions.authorizers.AdminAuthorizer;
+import com.finalproject.backend.permissions.types.Actions;
+import com.finalproject.backend.permissions.types.AdminViewTypes;
+import com.finalproject.backend.permissions.types.Resources;
 import com.finalproject.backend.users.repositories.UserRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -11,8 +17,12 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -21,13 +31,27 @@ public class GetUserStatsTests {
   @Mock
   private UserRepository userRepository;
 
+  @Mock
+  private AuthHelpers authHelpers;
+
+  @Mock
+  private AdminAuthorizer adminAuthorizer;
+
   @InjectMocks
   private AdminService adminService;
 
   @Test
   public void getUserStatsWithData() {
+    when(authHelpers.getCurrentUserId()).thenReturn(UUID.randomUUID());
+    when(adminAuthorizer.authorize(
+            any(UUID.class),
+            eq(Resources.USERS),
+            eq(Actions.READ),
+            eq(AdminViewTypes.ALL)
+    )).thenReturn(true);
+
     List<Object[]> mockResults = new ArrayList<>();
-    Object[] row = { 10L, 5L, 2L };
+    Object[] row = {10L, 5L, 2L};
     mockResults.add(row);
 
     when(userRepository.getAdminUserStats()).thenReturn(mockResults);
@@ -41,6 +65,14 @@ public class GetUserStatsTests {
 
   @Test
   public void getUserStatsEmptyData() {
+    when(authHelpers.getCurrentUserId()).thenReturn(UUID.randomUUID());
+    when(adminAuthorizer.authorize(
+            any(UUID.class),
+            eq(Resources.USERS),
+            eq(Actions.READ),
+            eq(AdminViewTypes.ALL)
+    )).thenReturn(true);
+
     when(userRepository.getAdminUserStats()).thenReturn(new ArrayList<>());
 
     UserStats userStats = adminService.getUserStats();
@@ -52,6 +84,14 @@ public class GetUserStatsTests {
 
   @Test
   public void getUserStatsNullResults() {
+    when(authHelpers.getCurrentUserId()).thenReturn(UUID.randomUUID());
+    when(adminAuthorizer.authorize(
+            any(UUID.class),
+            eq(Resources.USERS),
+            eq(Actions.READ),
+            eq(AdminViewTypes.ALL)
+    )).thenReturn(true);
+
     when(userRepository.getAdminUserStats()).thenReturn(null);
 
     UserStats userStats = adminService.getUserStats();
@@ -59,5 +99,22 @@ public class GetUserStatsTests {
     assertEquals(0, userStats.getTotal());
     assertEquals(0, userStats.getNewUserTotal());
     assertEquals(0, userStats.getDeletedUserTotal());
+  }
+
+  @Test
+  public void getUserStatsNoPermission() {
+    when(authHelpers.getCurrentUserId()).thenReturn(UUID.randomUUID());
+    when(adminAuthorizer.authorize(
+            any(UUID.class),
+            eq(Resources.USERS),
+            eq(Actions.READ),
+            eq(AdminViewTypes.ALL)
+    )).thenReturn(false);
+
+    UnauthorisedException exception = assertThrows(UnauthorisedException.class, () -> {
+      adminService.getUserStats();
+    });
+
+    assert exception.getMessage().equals("User does not have permission to view user stats");
   }
 }

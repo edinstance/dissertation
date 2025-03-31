@@ -1,7 +1,6 @@
 package com.finalproject.backend.common.helpers;
 
 import com.finalproject.backend.common.config.logging.AppLogger;
-
 import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
@@ -44,7 +43,9 @@ public class AuthHelpers {
    */
   public List<String> getCurrentUserGroups() {
     try {
-      AppLogger.info("Getting current user groups", SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+      AppLogger.info("Getting current user groups",
+              SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+
       Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
       if (principal instanceof Jwt jwt) {
         return jwt.getClaimAsStringList("cognito:groups");

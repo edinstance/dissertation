@@ -7,5 +7,6 @@
 
         <!-- Release changelogs -->
         <include file="helpers/pagination.xml" relativeToChangelogFile="true" />
+        <include file="helpers/admin.xml" relativeToChangelogFile="true" />
 
 </databaseChangeLog>

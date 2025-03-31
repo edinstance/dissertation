@@ -1,0 +1,1 @@
+CREATE TYPE admin_permission_view_type AS ENUM ('ALL', 'ROLES', 'PERMISSIONS');
