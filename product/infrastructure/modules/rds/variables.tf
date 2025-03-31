@@ -24,8 +24,3 @@ variable "db_sg_id" {
   description = "The ID of the database security group"
   type        = string
 }
-
-variable "redis_sg_id" {
-  description = "The ID of the Redis security group"
-  type        = string
-}

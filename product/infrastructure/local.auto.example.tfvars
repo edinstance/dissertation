@@ -1,0 +1,1 @@
+dynamodynamodb_local_endpoint = ""
