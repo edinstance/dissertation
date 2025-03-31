@@ -12,3 +12,8 @@ variable "cognito_user_pool_arn" {
   description = "The arn of the Cognito user pool"
   type        = string
 }
+
+variable "admin_access_logs_table_arn" {
+  description = "The ARN of the DynamoDB table for admin access logs"
+  type        = string
+}

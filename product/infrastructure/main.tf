@@ -167,6 +167,7 @@ module "iam" {
 
   environment           = var.environment
   cognito_user_pool_arn = module.cognito.cognito_user_pool_arn
+  admin_access_logs_table_arn  = module.dynamodb.admin_access_logs_table_arn
 }
 
 # SSM
