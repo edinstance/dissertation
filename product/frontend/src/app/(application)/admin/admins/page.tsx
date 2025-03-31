@@ -7,7 +7,7 @@ import { useEffect } from "react";
 
 export default function Admins() {
   const { hasPermission } = useAdminPermissionsStore();
-  
+
   useEffect(() => {
     if (!hasPermission(Resources.Permissions, Actions.Read)) {
       notFound();
