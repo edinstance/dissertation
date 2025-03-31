@@ -1,14 +1,14 @@
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 import { ChevronDownIcon } from "@heroicons/react/24/outline";
 
-export interface DropdownOption {
+interface DropdownOption {
   label: string;
   onClick?: () => void;
   destructive?: boolean;
   className?: string;
 }
 
-export function DropDown({
+function DropDown({
   title,
   options,
   disabled,
