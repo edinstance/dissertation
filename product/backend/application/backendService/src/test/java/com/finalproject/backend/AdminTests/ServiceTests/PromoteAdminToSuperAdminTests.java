@@ -46,11 +46,11 @@ public class PromoteAdminToSuperAdminTests {
   private AdminService adminService;
 
 
+  private final UUID adminId = UUID.randomUUID();
+  private final UUID userId = UUID.randomUUID();
+
   @Test
   public void promoteAdmin() {
-    UUID adminId = UUID.randomUUID();
-    UUID userId = UUID.randomUUID();
-
     AdminEntity adminEntity = new AdminEntity(adminId, true, "ACTIVE", adminId, adminId);
 
     when(authHelpers.getCurrentUserId()).thenReturn(adminId);
@@ -60,13 +60,11 @@ public class PromoteAdminToSuperAdminTests {
     Boolean result = adminService.promoteAdminToSuperUser(userId);
     assertTrue(result);
     verify(adminRepository).makeAdminSuperAdmin(userId, adminId);
+    verify(jedis).del("admin:" + userId);
   }
 
   @Test
   public void testPromoteAdminNoPermissions() {
-    UUID adminId = UUID.randomUUID();
-    UUID userId = UUID.randomUUID();
-
     AdminEntity adminEntity = new AdminEntity(adminId, false, "ACTIVE", adminId, adminId);
 
     when(authHelpers.getCurrentUserId()).thenReturn(adminId);

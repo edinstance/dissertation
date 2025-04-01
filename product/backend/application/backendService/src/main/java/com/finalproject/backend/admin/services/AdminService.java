@@ -244,6 +244,11 @@ public class AdminService {
 
     AppLogger.info("Admin " + currentAdminId + " promoting user " + userId + " to super admin");
     adminRepository.makeAdminSuperAdmin(userId, currentAdminId);
+
+    try(Jedis jedis = jedisPool.getResource()) {
+      jedis.del("admin:" + userId);
+    }
+
     return true;
   }
 
@@ -267,6 +272,11 @@ public class AdminService {
 
     AppLogger.info("Admin " + currentAdminId + " deactivating user " + userId);
     adminRepository.deactivateAdmin(userId, currentAdminId);
+
+    try(Jedis jedis = jedisPool.getResource()) {
+      jedis.del("admin:" + userId);
+    }
+
     return true;
   }
 }
