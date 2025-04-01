@@ -1,7 +1,9 @@
 package com.finalproject.backend.admin.services;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.finalproject.backend.admin.dto.Admin;
 import com.finalproject.backend.admin.dto.UserStats;
+import com.finalproject.backend.admin.entities.AdminEntity;
 import com.finalproject.backend.admin.mappers.AdminMapper;
 import com.finalproject.backend.admin.repositories.AdminRepository;
 import com.finalproject.backend.common.config.logging.AppLogger;
@@ -17,6 +19,8 @@ import java.util.List;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import redis.clients.jedis.Jedis;
+import redis.clients.jedis.JedisPool;
 
 
 /**
@@ -34,23 +38,46 @@ public class AdminService {
    * Authorizer for admin permissions.
    */
   private final AdminAuthorizer adminAuthorizer;
+
+  /**
+   * The auth helpers to use.
+   */
   private final AuthHelpers authHelpers;
+
+  /**
+   * Repository for accessing admin data.
+   */
   private final AdminRepository adminRepository;
+
+  /**
+   * Pool for accessing redis.
+   */
+  private final JedisPool jedisPool;
+
+  /**
+   * Object mapper for mapping to json.
+   */
+  private final ObjectMapper objectMapper = new ObjectMapper();
+
 
   /**
    * Constructs an Admin Service with the specified UserRepository.
    *
    * @param inputUserRepository  The repository for accessing user information.
    * @param inputAdminAuthorizer The authorizer to use.
+   * @param authHelpers          The auth helpers to use.
+   * @param adminRepository      The repository for accessing admin information.
+   * @param jedisPool            The pool for accessing redis.
    */
   @Autowired
   public AdminService(UserRepository inputUserRepository,
                       AdminAuthorizer inputAdminAuthorizer, AuthHelpers authHelpers,
-                      AdminRepository adminRepository) {
+                      AdminRepository adminRepository, JedisPool jedisPool) {
     this.userRepository = inputUserRepository;
     this.adminAuthorizer = inputAdminAuthorizer;
     this.authHelpers = authHelpers;
     this.adminRepository = adminRepository;
+    this.jedisPool = jedisPool;
   }
 
   /**
@@ -59,9 +86,36 @@ public class AdminService {
    * @return the current admin.
    */
   public Admin getCurrentAdmin() {
-    return AdminMapper.mapAdminEntityToAdmin(
-            adminRepository.findById(authHelpers.getCurrentUserId())
-                    .orElse(null));
+    UUID currentUserId = authHelpers.getCurrentUserId();
+
+    if (currentUserId == null) {
+      AppLogger.info("No user id found");
+      return null;
+    }
+    String cacheKey = "admin:" + currentUserId;
+
+    try (Jedis jedis = jedisPool.getResource()) {
+
+      String cachedAdmin = jedis.get(cacheKey);
+
+      if (cachedAdmin != null) {
+        return objectMapper.readValue(cachedAdmin, Admin.class);
+      }
+
+      AdminEntity adminEntity = adminRepository.findById(currentUserId).orElse(null);
+
+      if (adminEntity != null) {
+        Admin admin = AdminMapper.mapAdminEntityToAdmin(adminEntity);
+
+        jedis.setex(cacheKey, 600, objectMapper.writeValueAsString(admin));
+
+        return admin;
+      }
+      return null;
+    } catch (Exception e) {
+      AppLogger.error("Error getting current admin", e);
+      return null;
+    }
   }
 
   /**

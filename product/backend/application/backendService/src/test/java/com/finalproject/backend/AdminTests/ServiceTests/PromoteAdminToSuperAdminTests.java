@@ -15,6 +15,8 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.UUID;
+import redis.clients.jedis.Jedis;
+import redis.clients.jedis.JedisPool;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -31,7 +33,10 @@ public class PromoteAdminToSuperAdminTests {
   private AuthHelpers authHelpers;
 
   @Mock
-  private AdminAuthorizer adminAuthorizer;
+  private JedisPool jedisPool;
+
+  @Mock
+  private Jedis jedis;
 
   @InjectMocks
   private AdminService adminService;
@@ -46,6 +51,7 @@ public class PromoteAdminToSuperAdminTests {
 
     when(authHelpers.getCurrentUserId()).thenReturn(adminId);
     when(adminRepository.findById(adminId)).thenReturn(Optional.of(adminEntity));
+    when(jedisPool.getResource()).thenReturn(jedis);
 
     Boolean result = adminService.promoteAdminToSuperUser(userId);
     assertTrue(result);
@@ -61,6 +67,7 @@ public class PromoteAdminToSuperAdminTests {
 
     when(authHelpers.getCurrentUserId()).thenReturn(adminId);
     when(adminRepository.findById(adminId)).thenReturn(Optional.of(adminEntity));
+    when(jedisPool.getResource()).thenReturn(jedis);
 
     UnauthorisedException exception = assertThrows(
             UnauthorisedException.class, () -> {
