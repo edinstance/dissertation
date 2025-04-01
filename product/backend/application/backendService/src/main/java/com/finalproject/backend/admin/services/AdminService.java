@@ -1,5 +1,6 @@
 package com.finalproject.backend.admin.services;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.finalproject.backend.admin.dto.Admin;
 import com.finalproject.backend.admin.dto.UserStats;
@@ -57,7 +58,7 @@ public class AdminService {
   /**
    * Object mapper for mapping to json.
    */
-  private final ObjectMapper objectMapper = new ObjectMapper();
+  private final ObjectMapper objectMapper;
 
 
   /**
@@ -72,12 +73,14 @@ public class AdminService {
   @Autowired
   public AdminService(UserRepository inputUserRepository,
                       AdminAuthorizer inputAdminAuthorizer, AuthHelpers authHelpers,
-                      AdminRepository adminRepository, JedisPool jedisPool) {
+                      AdminRepository adminRepository, JedisPool jedisPool,
+                      ObjectMapper objectMapper) {
     this.userRepository = inputUserRepository;
     this.adminAuthorizer = inputAdminAuthorizer;
     this.authHelpers = authHelpers;
     this.adminRepository = adminRepository;
     this.jedisPool = jedisPool;
+    this.objectMapper = objectMapper;
   }
 
   /**
@@ -209,6 +212,19 @@ public class AdminService {
 
     AppLogger.info("Admin " + currentAdminId + " promoting user " + userId + " to admin");
     adminRepository.createAdmin(userId, currentAdminId);
+
+    try (Jedis jedis = jedisPool.getResource()) {
+      adminRepository.findById(currentAdminId).ifPresent(admin -> {
+        try {
+          String cacheKey = "admin:" + currentAdminId;
+          jedis.setex(cacheKey, 3600, objectMapper.writeValueAsString(admin));
+        } catch (JsonProcessingException e) {
+          AppLogger.error("Error writing admin to cache", e);
+        }
+      });
+    } catch (Exception e) {
+      AppLogger.error("Error with admin cache", e);
+    }
     return true;
   }
 

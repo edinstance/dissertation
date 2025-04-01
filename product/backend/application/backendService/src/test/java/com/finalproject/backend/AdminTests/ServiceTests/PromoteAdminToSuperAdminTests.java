@@ -1,6 +1,7 @@
 package com.finalproject.backend.AdminTests.ServiceTests;
 
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.finalproject.backend.admin.entities.AdminEntity;
 import com.finalproject.backend.admin.repositories.AdminRepository;
 import com.finalproject.backend.admin.services.AdminService;
@@ -37,6 +38,9 @@ public class PromoteAdminToSuperAdminTests {
 
   @Mock
   private Jedis jedis;
+
+  @Mock
+  private ObjectMapper objectMapper;
 
   @InjectMocks
   private AdminService adminService;

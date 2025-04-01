@@ -20,6 +20,7 @@ import redis.clients.jedis.JedisPool;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -35,7 +36,8 @@ public class GetCurrentAdminTests {
   @Mock
   private Jedis jedis;
 
-  private final ObjectMapper objectMapper = new ObjectMapper();
+  @Mock
+  private ObjectMapper mockObjectMapper;
 
   @Mock
   private AuthHelpers authHelpers;
@@ -43,6 +45,7 @@ public class GetCurrentAdminTests {
   @InjectMocks
   private AdminService adminService;
 
+  private final ObjectMapper objectMapper = new ObjectMapper();
   UUID adminId = UUID.randomUUID();
   AdminEntity adminEntity = new AdminEntity(adminId, false, "ACTIVE", adminId, adminId);
   Admin admin = new Admin(adminId, false, "ACTIVE", false, "Admin@test.com");
@@ -62,7 +65,7 @@ public class GetCurrentAdminTests {
     assertEquals(admin.isSuperAdmin(), currentAdmin.isSuperAdmin());
     assertEquals(admin.getIsDeleted(), currentAdmin.getIsDeleted());
 
-    verify(jedis).setex("admin:" + adminId, 600, objectMapper.writeValueAsString(admin));
+    verify(jedis).setex("admin:" + adminId, 600, mockObjectMapper.writeValueAsString(admin));
   }
 
   @Test
@@ -89,6 +92,7 @@ public class GetCurrentAdminTests {
     when(authHelpers.getCurrentUserId()).thenReturn(adminId);
 
     when(jedis.get("admin:" + adminId)).thenReturn(objectMapper.writeValueAsString(admin));
+    when(mockObjectMapper.readValue(objectMapper.writeValueAsString(admin), Admin.class)).thenReturn(admin);
 
     Admin currentAdmin = adminService.getCurrentAdmin();
     assertEquals(admin.getUserId(), currentAdmin.getUserId());
