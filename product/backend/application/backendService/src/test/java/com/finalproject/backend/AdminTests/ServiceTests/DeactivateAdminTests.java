@@ -2,7 +2,6 @@ package com.finalproject.backend.AdminTests.ServiceTests;
 
 import com.finalproject.backend.admin.repositories.AdminRepository;
 import com.finalproject.backend.admin.services.AdminService;
-import com.finalproject.backend.common.dto.MutationResponse;
 import com.finalproject.backend.common.exceptions.UnauthorisedException;
 import com.finalproject.backend.common.helpers.AuthHelpers;
 import com.finalproject.backend.permissions.authorizers.AdminAuthorizer;
@@ -15,6 +14,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import redis.clients.jedis.Jedis;
+import redis.clients.jedis.JedisPool;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -36,16 +37,23 @@ public class DeactivateAdminTests {
   @Mock
   private AdminAuthorizer adminAuthorizer;
 
+  @Mock
+  private JedisPool jedisPool;
+
+  @Mock
+  private Jedis jedis;
+
   @InjectMocks
   private AdminService adminService;
 
-  private UUID adminId = UUID.randomUUID();
-  private UUID userId = UUID.randomUUID();
+  private final UUID adminId = UUID.randomUUID();
+  private final UUID userId = UUID.randomUUID();
 
 
   @Test
   public void deactivateAdmin() {
     when(authHelpers.getCurrentUserId()).thenReturn(adminId);
+    when(jedisPool.getResource()).thenReturn(jedis);
     when(adminAuthorizer.authorize(
             any(UUID.class),
             eq(Resources.ADMINS),
@@ -56,6 +64,7 @@ public class DeactivateAdminTests {
     Boolean result = adminService.deactivateAdmin(userId);
 
     verify(adminRepository).deactivateAdmin(userId, adminId);
+    verify(jedis).del("admin:" + userId);
     assertTrue(result);
   }
 
