@@ -21,6 +21,7 @@ import redis.clients.jedis.JedisPool;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -100,6 +101,17 @@ public class GetCurrentAdminTests {
     assertEquals(admin.getStatus(), currentAdmin.getStatus());
     assertEquals(admin.isSuperAdmin(), currentAdmin.isSuperAdmin());
     assertEquals(admin.getIsDeleted(), currentAdmin.getIsDeleted());
+  }
+
+  @Test
+  public void testGetCurrentAdminCacheError() {
+    when(authHelpers.getCurrentUserId()).thenReturn(adminId);
+    when(jedisPool.getResource()).thenThrow(new RuntimeException("Redis error"));
+
+    Admin currentAdmin = adminService.getCurrentAdmin();
+    assertNull(currentAdmin);
+    verify(jedis, never()).get("admin:" + adminId);
+    verify(adminRepository, never()).findById(adminId);
   }
 
 }
