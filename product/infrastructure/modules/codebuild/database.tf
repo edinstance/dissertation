@@ -56,7 +56,7 @@ resource "aws_codebuild_project" "database_codebuild" {
   logs_config {
     cloudwatch_logs {
       group_name  = "codebuild-logs"
-      stream_name = "example-codebuild-project"
+      stream_name = "database-codebuild-project"
     }
   }
 
