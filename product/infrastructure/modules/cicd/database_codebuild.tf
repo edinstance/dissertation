@@ -4,7 +4,7 @@ resource "aws_codebuild_project" "database_codebuild" {
   service_role = var.codebuild_iam_role_arn
   source {
     type = "CODEPIPELINE"
-    buildspec       = "./product/CICD/database.yml"
+    buildspec       = "./product/CICD/aws/database.yml"
   }
 
   vpc_config {
