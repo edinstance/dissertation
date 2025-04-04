@@ -3,15 +3,8 @@ resource "aws_codebuild_project" "database_codebuild" {
   description  = "CodeBuild project for database migrations"
   service_role = var.codebuild_iam_role_arn
   source {
-    type            = var.codebuild_src
-    location        = var.codebuild_src_url
-    git_clone_depth = 1
+    type = "CODEPIPELINE"
     buildspec       = "./product/CICD/database.yml"
-
-    git_submodules_config {
-      fetch_submodules = true
-
-    }
   }
 
   vpc_config {
@@ -41,12 +34,12 @@ resource "aws_codebuild_project" "database_codebuild" {
 
     environment_variable {
       name  = "environment"
-      value = "prod"
+      value = "${var.environment}"
       type  = "PLAINTEXT"
     }
   }
   artifacts {
-    type = "NO_ARTIFACTS"
+    type = "CODEPIPELINE"
   }
 
   cache {

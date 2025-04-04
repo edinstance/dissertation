@@ -1,0 +1,64 @@
+variable "environment" {
+  description = "The environment to deploy (dev, test, prod)"
+  type        = string
+
+  validation {
+    condition     = contains(["dev", "test", "prod"], var.environment)
+    error_message = "The environment must be one of 'dev', 'test', or 'prod'."
+  }
+}
+
+variable "codeconnection_arn" {
+  description = "The ARN of the codeconnection"
+  type        = string
+}
+
+# CodePipeline
+variable "codepipeline_iam_role_arn" {
+  description = "The ARN of the IAM role for CodePipeline"
+  type        = string
+}
+
+variable "codepipeline_artifact_bucket" {
+  description = "The name of the S3 bucket for CodePipeline artifacts"
+  type        = string
+}
+
+# CodeBuild
+variable "codebuild_iam_role_arn" {
+  description = "The name of the IAM role for CodeBuild"
+  type        = string
+}
+
+variable "codebuild_src" {
+  description = "The source provider for CodeBuild, e.g., GITHUB"
+  type        = string
+}
+
+variable "codebuild_src_url" {
+  description = "The source url for CodeBuild"
+  type        = string
+}
+
+# Networking
+variable "vpc_id" {
+  description = "The ID of the VPC"
+  type        = string
+}
+
+variable "database_subnet_ids" {
+  description = "The IDs of the subnets for the database"
+  type        = list(string)
+}
+
+
+variable "database_codebuild_sg_id" {
+  description = "The ID of the security group for the database CodeBuild"
+  type        = string
+}
+
+# Secrets
+variable "rds_secrets_arn" {
+  description = "The ARN of the RDS secrets"
+  type        = string
+}

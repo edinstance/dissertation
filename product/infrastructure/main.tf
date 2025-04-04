@@ -216,8 +216,14 @@ module "ses" {
   aws_route53_zone_id = module.route53.zone_id
 }
 
-module "codebuild" {
-  source = "./modules/codebuild"
+module "cicd" {
+  source = "./modules/cicd"
+
+  environment        = var.environment
+  codeconnection_arn = aws_codeconnections_connection.codeconnection.arn
+
+  codepipeline_iam_role_arn    = module.iam.codepipeline_role_arn
+  codepipeline_artifact_bucket = module.s3.codepipeline_artifact_bucket_name
 
   codebuild_iam_role_arn = module.iam.codebuild_role_arn
   codebuild_src          = var.codebuild_src
@@ -230,6 +236,14 @@ module "codebuild" {
   rds_secrets_arn          = module.rds.rds_secrets_arn
 }
 
+
+module "s3" {
+  source = "./modules/s3"
+
+  environment               = var.environment
+  codepipeline_iam_role_arn = module.iam.codepipeline_role_arn
+  codebuild_iam_role_arn    = module.iam.codebuild_role_arn
+}
 
 # The aws_codeconnections_connection resource is created in the state PENDING. 
 # Authentication with the connection provider must be completed in the AWS Console. 
