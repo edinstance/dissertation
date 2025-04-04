@@ -227,7 +227,7 @@ module "codebuild" {
 
   database_subnet_ids      = module.networking.private_subnet_ids
   database_codebuild_sg_id = module.networking.database_codebuild_sg_id
-  rds_secrets_arn = module.rds.rds_secrets_arn
+  rds_secrets_arn          = module.rds.rds_secrets_arn
 }
 
 
