@@ -165,9 +165,9 @@ module "dynamodb" {
 module "iam" {
   source = "./modules/iam"
 
-  environment           = var.environment
-  cognito_user_pool_arn = module.cognito.cognito_user_pool_arn
-  admin_access_logs_table_arn  = module.dynamodb.admin_access_logs_table_arn
+  environment                 = var.environment
+  cognito_user_pool_arn       = module.cognito.cognito_user_pool_arn
+  admin_access_logs_table_arn = module.dynamodb.admin_access_logs_table_arn
 }
 
 # SSM
@@ -214,4 +214,27 @@ module "ses" {
   environment         = var.environment
   domain              = var.domain
   aws_route53_zone_id = module.route53.zone_id
+}
+
+module "codebuild" {
+  source = "./modules/codebuild"
+
+  codebuild_iam_role_arn = module.iam.codebuild_role_arn
+  codebuild_src          = var.codebuild_src
+  codebuild_src_url      = var.codebuild_src_url
+
+  vpc_id = module.networking.vpc_id
+
+  database_subnet_ids      = module.networking.private_subnet_ids
+  database_codebuild_sg_id = module.networking.database_codebuild_sg_id
+  rds_secrets_arn = module.rds.rds_secrets_arn
+}
+
+
+# The aws_codeconnections_connection resource is created in the state PENDING. 
+# Authentication with the connection provider must be completed in the AWS Console. 
+# See the AWS documentation for details.
+resource "aws_codeconnections_connection" "codeconnection" {
+  name          = "code connection"
+  provider_type = var.code_connect_src
 }
