@@ -1,7 +1,9 @@
 resource "aws_codebuild_project" "database_codebuild" {
-  name         = "database-codebuild-project"
+  name         = "${var.environment}-database-codebuild-project"
   description  = "CodeBuild project for database migrations"
   service_role = var.codebuild_iam_role_arn
+  build_timeout = 30
+
   source {
     type = "CODEPIPELINE"
     buildspec       = "./product/CICD/aws/database.yml"
@@ -48,12 +50,8 @@ resource "aws_codebuild_project" "database_codebuild" {
 
   logs_config {
     cloudwatch_logs {
-      group_name  = "codebuild-logs"
-      stream_name = "database-codebuild-project"
+      group_name  = "${var.environment}-codebuild-logs"
+      stream_name = "${var.environment}-database-codebuild-project"
     }
   }
-
-  build_timeout = 60
-
-
 }

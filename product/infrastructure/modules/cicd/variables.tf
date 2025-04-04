@@ -8,6 +8,16 @@ variable "environment" {
   }
 }
 
+variable "aws_region" {
+  description = "The AWS region to deploy to"
+  type        = string
+}
+
+variable "aws_account_id" {
+  description = "The AWS account ID"
+  type        = string
+}
+
 variable "codeconnection_arn" {
   description = "The ARN of the codeconnection"
   type        = string

@@ -1,5 +1,5 @@
-resource "aws_codepipeline" "database_pipeline" {
-  name     = "database-migration-pipeline"
+resource "aws_codepipeline" "application-pipeline" {
+  name     = "${var.environment}-application-pipeline"
   role_arn = var.codepipeline_iam_role_arn
 
   artifact_store {
@@ -29,7 +29,38 @@ resource "aws_codepipeline" "database_pipeline" {
 
   # Database Update Stage
   stage {
-    name = "DatabaseUpdate"
+    name = "Build"
+
+    action {
+      name            = "BuildFrontend"
+      category        = "Build"
+      owner           = "AWS"
+      provider        = "CodeBuild"
+      version         = "1"
+      input_artifacts = ["source_output"]
+
+      configuration = {
+        ProjectName = aws_codebuild_project.frontend_codebuild.name
+      }
+    }
+
+    action {
+      name            = "BuildBackend"
+      category        = "Build"
+      owner           = "AWS"
+      provider        = "CodeBuild"
+      version         = "1"
+      input_artifacts = ["source_output"]
+
+      configuration = {
+        ProjectName = aws_codebuild_project.backend_codebuild.name
+      }
+    }
+  }
+
+  # Database Update Stage
+  stage {
+    name = "Deploy"
 
     action {
       name            = "UpdateDatabase"
@@ -44,4 +75,5 @@ resource "aws_codepipeline" "database_pipeline" {
       }
     }
   }
+
 }

@@ -33,6 +33,13 @@ resource "aws_iam_policy" "codebuild_policy" {
       {
         Effect = "Allow",
         Action = [
+          "ecr:*",
+        ],
+        Resource = "*"
+      },
+      {
+        Effect = "Allow",
+        Action = [
           "codebuild:StartBuild",
           "codebuild:BatchGetBuilds",
           "codebuild:BatchGetProjects",
@@ -45,6 +52,8 @@ resource "aws_iam_policy" "codebuild_policy" {
         Effect = "Allow",
         Action = [
           "secretsmanager:GetSecretValue",
+          "ssm:GetSecretValue",
+          "ssm:GetParameters"
         ],
         Resource = "*"
       },

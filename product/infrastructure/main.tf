@@ -38,6 +38,8 @@ provider "aws" {
 
 data "aws_region" "current" {}
 
+data "aws_caller_identity" "current" {}
+
 # Cognito
 module "cognito" {
   source = "./modules/cognito"
@@ -220,6 +222,8 @@ module "cicd" {
   source = "./modules/cicd"
 
   environment        = var.environment
+  aws_account_id     = data.aws_caller_identity.current.account_id
+  aws_region         = data.aws_region.current.name
   codeconnection_arn = aws_codeconnections_connection.codeconnection.arn
 
   codepipeline_iam_role_arn    = module.iam.codepipeline_role_arn
