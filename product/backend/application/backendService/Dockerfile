@@ -1,7 +1,7 @@
 
 
 # Build the docker image
-FROM maven:3.9-eclipse-temurin-21-alpine AS BUILD
+FROM maven:3.9-eclipse-temurin-21-alpine AS build
 
 # Set the working directory
 WORKDIR /app
@@ -28,7 +28,7 @@ FROM eclipse-temurin:21-jdk-alpine AS run
 WORKDIR /app
 
 # Copy the JAR file built in the previous stage
-COPY --from=BUILD /app/target/*.jar ./app.jar
+COPY --from=build /app/target/*.jar ./app.jar
 
 # Expose the applications port
 EXPOSE 8080

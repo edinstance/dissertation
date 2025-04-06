@@ -40,6 +40,13 @@ management:
         include: health
         # This should be the actuator endpoints that you want to expose
 
+jira:
+  accessToken: ""
+  email: ""
+  url: ""
+  projectKey: ""
+  # This should be the jira information for reporting bugs
+  
 api:
   key: test
   # This is to test the api key authentication

@@ -50,7 +50,7 @@ resource "aws_iam_policy" "ssm_access_policy" {
           "ssm:GetParameters",
           "ssm:GetParametersByPath"
         ]
-        Resource = "${var.environment}/*"
+        Resource = "*"
       },
     ]
   })

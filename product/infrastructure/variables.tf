@@ -28,6 +28,22 @@ variable "dynamodb_local_endpoint" {
   type        = string
 }
 
+# Codebuild
+variable "codebuild_src" {
+  description = "The source provider for CodeBuild, e.g., GITHUB"
+  type        = string
+}
+
+variable "codebuild_src_url" {
+  description = "The source url for CodeBuild"
+  type        = string
+}
+
+variable "code_connect_src" {
+  description = "The source provider for codeconnect, e.g., GitHub"
+  type        = string
+}
+
 # ECS
 variable "frontend_image_tag" {
   description = "The tag of the frontend Docker image to deploy"

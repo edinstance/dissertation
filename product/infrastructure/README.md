@@ -6,6 +6,11 @@ This directory will contain all of the infrastrucure as code that will define th
 
 This project uses different [terraform workspaces](https://developer.hashicorp.com/terraform/language/state/workspaces) and enviroment variables to manage enviroments. For local development, currently just the [dynamodb module](./modules/dynamodb/), use a workspace called local, for others there are `dev`, `test` and `prod`.
 
+
+## Code connect
+
+The aws_codeconnections_connection resource is created in the state PENDING. Authentication with the connection provider must be completed in the AWS Console. See the AWS documentation for details.
+
 ## DNS
 
 Once the Route53 hosted zone is setup, get the nameservers for the domain and then set your custom domain to use them.

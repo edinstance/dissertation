@@ -105,6 +105,21 @@ resource "aws_security_group" "backend_sg" {
   }
 }
 
+resource "aws_security_group" "codebuild_database_sg" {
+  name        = "${var.environment}-codebuild-database-sg"
+  description = "Security group for codebuild database access"
+
+  vpc_id = aws_vpc.vpc.id
+
+  egress {
+    description = "Allow all traffic out"
+    protocol    = "-1"
+    from_port   = 0
+    to_port     = 0
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+}
+
 resource "aws_security_group" "database_sg" {
   name        = "${var.environment}-database-sg"
   description = "Security group for the database"
@@ -117,6 +132,14 @@ resource "aws_security_group" "database_sg" {
     from_port       = 5432
     to_port         = 5432
     security_groups = [aws_security_group.backend_sg.id]
+  }
+
+  ingress {
+    description     = "Allow traffic from the database codebuild"
+    protocol        = "tcp"
+    from_port       = 5432
+    to_port         = 5432
+    security_groups = [aws_security_group.codebuild_database_sg.id]
   }
 
   egress {
