@@ -72,3 +72,13 @@ variable "rds_secrets_arn" {
   description = "The ARN of the RDS secrets"
   type        = string
 }
+
+variable "gitlab_user" {
+  description = "The GitLab user for CI/CD pipeline"
+  type        = string
+}
+
+variable "gitlab_token" {
+  description = "The GitLab token for CI/CD pipeline"
+  type        = string
+}

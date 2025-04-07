@@ -199,6 +199,9 @@ module "ssm" {
   jira_email            = var.jira_email
   jira_url              = var.jira_url
   jira_project_key      = var.jira_project_key
+
+  # CICD
+  gitlab_terraform_config = var.gitlab_terraform_config
 }
 
 module "ses" {
@@ -217,18 +220,26 @@ module "cicd" {
   aws_region         = data.aws_region.current.name
   codeconnection_arn = aws_codeconnections_connection.codeconnection.arn
 
-  codepipeline_iam_role_arn    = module.iam.codepipeline_role_arn
+  # IAM
+  codebuild_iam_role_arn    = module.iam.codebuild_role_arn
+  codepipeline_iam_role_arn = module.iam.codepipeline_role_arn
+
+  # Codebuild
+  codebuild_src                = var.codebuild_src
+  codebuild_src_url            = var.codebuild_src_url
+
+  # Codepipeline
   codepipeline_artifact_bucket = module.s3.codepipeline_artifact_bucket_name
 
-  codebuild_iam_role_arn = module.iam.codebuild_role_arn
-  codebuild_src          = var.codebuild_src
-  codebuild_src_url      = var.codebuild_src_url
-
-  vpc_id = module.networking.vpc_id
-
+  # Networking
+  vpc_id                   = module.networking.vpc_id
   database_subnet_ids      = module.networking.private_subnet_ids
   database_codebuild_sg_id = module.networking.database_codebuild_sg_id
-  rds_secrets_arn          = module.rds.rds_secrets_arn
+
+  # Secrets
+  gitlab_user     = var.gitlab_user
+  gitlab_token    = var.gitlab_token
+  rds_secrets_arn = module.rds.rds_secrets_arn
 }
 
 

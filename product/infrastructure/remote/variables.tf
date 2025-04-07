@@ -38,6 +38,22 @@ variable "code_connect_src" {
   type        = string
 }
 
+variable "gitlab_user" {
+  description = "The GitLab user for CI/CD pipeline"
+  type        = string
+}
+
+variable "gitlab_token" {
+  description = "The GitLab token for CI/CD pipeline"
+  type        = string
+}
+
+variable "gitlab_terraform_config" {
+  description = "The GitLab Terraform config, it should contain the terraform address, lock address and unlock address"
+  type        = string
+}
+
+
 # ECS
 variable "frontend_image_tag" {
   description = "The tag of the frontend Docker image to deploy"
