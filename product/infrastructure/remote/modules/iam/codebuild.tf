@@ -78,6 +78,7 @@ resource "aws_iam_policy" "codebuild_policy" {
           "codeconnections:UseConnection",
           "codeconnections:GetConnection",
           "codeconnections:ListConnections",
+          "codestar-connections:PassConnection",
           "codeconnections:*",
           "codestar:*",
         ],
