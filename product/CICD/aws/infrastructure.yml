@@ -42,7 +42,7 @@ phases:
       - echo "Initializing Terraform"
       - |
         terraform init \
-        -backend-config="address=$(echo "$GITLAB_TERRAFORM_CONFIG" | jq -r '.address' ) \
+        -backend-config="address=$(echo "$GITLAB_TERRAFORM_CONFIG" | jq -r '.address')" \
         -backend-config="lock_address=$(echo "$GITLAB_TERRAFORM_CONFIG" | jq -r '.lock_address')" \
         -backend-config="unlock_address=$(echo "$GITLAB_TERRAFORM_CONFIG" | jq -r '.unlock_address')" \
         -backend-config="username=$GITLAB_USER" \
