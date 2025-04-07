@@ -53,6 +53,7 @@ resource "aws_iam_policy" "codebuild_policy" {
           "codebuild:BatchGetProjects",
           "codebuild:ListBuildsForProject",
           "codebuild:ListProjects",
+          "codedeploy:*"
         ],
         Resource = "*"
       },
