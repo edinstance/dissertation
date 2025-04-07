@@ -26,7 +26,15 @@ resource "aws_iam_policy" "codebuild_policy" {
         Effect = "Allow",
         Action = [
           "ec2:*",
+          "ecs:*",
           "rds:*",
+          "elasticache:*",
+          "s3:*",
+          "dynamodb:*",
+          "route53:*",
+          "acm:*",
+          "elasticloadbalancing:*",
+          "ses:*",
         ],
         Resource = "*"
       },
@@ -51,10 +59,15 @@ resource "aws_iam_policy" "codebuild_policy" {
       {
         Effect = "Allow",
         Action = [
-          "secretsmanager:GetSecretValue",
-          "ssm:GetSecretValue",
-          "ssm:GetParameters",
-          "ssm:GetParametersByPath"
+          "codepipeline:*",
+        ],
+        Resource = "*"
+      },
+      {
+        Effect = "Allow",
+        Action = [
+          "secretsmanager:*",
+          "ssm:*"
         ],
         Resource = "*"
       },
@@ -73,6 +86,20 @@ resource "aws_iam_policy" "codebuild_policy" {
         Effect = "Allow",
         Action = [
           "logs:*",
+        ],
+        Resource = "*"
+      },
+      {
+        Effect = "Allow",
+        Action = [
+          "cognito-idp:*",
+        ],
+        Resource = "*"
+      },
+      {
+        Effect = "Allow",
+        Action = [
+          "iam:*",
         ],
         Resource = "*"
       },
