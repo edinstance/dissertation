@@ -266,6 +266,7 @@ module "s3" {
   environment               = var.environment
   codepipeline_iam_role_arn = module.iam.codepipeline_role_arn
   codebuild_iam_role_arn    = module.iam.codebuild_role_arn
+  codedeploy_iam_role_arn   = module.iam.codedeploy_service_role_arn
 }
 
 # The aws_codeconnections_connection resource is created in the state PENDING. 

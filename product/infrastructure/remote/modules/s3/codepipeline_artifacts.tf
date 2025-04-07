@@ -25,14 +25,14 @@ resource "aws_s3_bucket_policy" "artifact_bucket_policy" {
       {
         Effect = "Allow"
         Principal = {
-          AWS = var.codepipeline_iam_role_arn
-          AWS = var.codebuild_iam_role_arn
+          AWS = [
+            var.codepipeline_iam_role_arn,
+            var.codebuild_iam_role_arn,
+            var.codedeploy_iam_role_arn
+          ]
         }
         Action = [
-          "s3:GetObject",
-          "s3:GetObjectVersion",
-          "s3:PutObject",
-          "s3:GetBucketVersioning"
+          "s3:*"
         ]
         Resource = [
           aws_s3_bucket.codepipeline_artifact_bucket.arn,

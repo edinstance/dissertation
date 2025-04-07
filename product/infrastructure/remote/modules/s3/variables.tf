@@ -17,3 +17,8 @@ variable "codebuild_iam_role_arn" {
   description = "The ARN of the IAM role for CodeBuilde"
   type        = string
 }
+
+variable "codedeploy_iam_role_arn" {
+  description = "The ARN of the IAM role for CodeDeploy"
+  type        = string
+}
