@@ -37,6 +37,7 @@ resource "aws_iam_policy" "codedeploy_policy" {
           "codebuild:BatchGetBuilds",
           "codedeploy:GetDeployment",
           "codedeploy:UpdateDeployment",
+          "codedeploy:GetDeploymentConfig",
           "application-autoscaling:DescribeScalableTargets",
           "application-autoscaling:UpdateScalableTarget",
           "ec2:DescribeInstances",

@@ -101,7 +101,7 @@ resource "aws_codepipeline" "application-pipeline" {
       provider        = "CodeDeploy"
       version         = "1"
       run_order       = 1
-      input_artifacts = ["source_output"]
+      input_artifacts = ["frontend_output"]
 
       configuration = {
         ApplicationName     = aws_codedeploy_app.frontend_codedeploy_application.name
@@ -116,7 +116,7 @@ resource "aws_codepipeline" "application-pipeline" {
       provider        = "CodeDeploy"
       version         = "1"
       run_order       = 1
-      input_artifacts = ["source_output"]
+      input_artifacts = ["backend_output"]
 
       configuration = {
         ApplicationName     = aws_codedeploy_app.backend_codedeploy_application.name
