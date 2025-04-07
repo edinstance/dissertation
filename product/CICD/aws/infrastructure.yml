@@ -23,11 +23,14 @@ phases:
 
       - |
         aws ssm get-parameters-by-path \
-        --path "$BASE_PATH" \
-        --recursive \
-        --with-decryption \
-        --query "Parameters[].{Name:Name,Value:Value}" \
-        --output json | jq --arg prefix "$ENVIRONMENT_PATH" -r '.[] | "export TF_VAR_\(.Name | ltrimstr($prefix) | gsub("/"; "_"))=\(.Value | @sh)"' > set_env.sh
+          --path "$BASE_PATH" \
+          --recursive \
+          --with-decryption \
+          --query 'Parameters[].{Name: Name, Value: Value}' \
+          --output json | jq -r '.[] |
+          (.Name | split("/") | last) as $name |
+          ( $name | ltrimstr("backend_") | ltrimstr("frontend_") | ascii_downcase) as $final_name |
+          "export TF_VAR_" + $final_name + "=\(.Value | @sh)"' > set_env.sh
 
       # Use . instead of source for POSIX compatibility
       - chmod +x set_env.sh
