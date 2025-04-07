@@ -225,8 +225,8 @@ module "cicd" {
   codepipeline_iam_role_arn = module.iam.codepipeline_role_arn
 
   # Codebuild
-  codebuild_src                = var.codebuild_src
-  codebuild_src_url            = var.codebuild_src_url
+  codebuild_src     = var.codebuild_src
+  codebuild_src_url = var.codebuild_src_url
 
   # Codepipeline
   codepipeline_artifact_bucket = module.s3.codepipeline_artifact_bucket_name
