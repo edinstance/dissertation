@@ -1,12 +1,12 @@
 resource "aws_codebuild_project" "database_codebuild" {
-  name         = "${var.environment}-database-codebuild-project"
-  description  = "CodeBuild project for database migrations"
-  service_role = var.codebuild_iam_role_arn
+  name          = "${var.environment}-database-codebuild-project"
+  description   = "CodeBuild project for database migrations"
+  service_role  = var.codebuild_iam_role_arn
   build_timeout = 30
 
   source {
-    type = "CODEPIPELINE"
-    buildspec       = "./product/CICD/aws/database.yml"
+    type      = "CODEPIPELINE"
+    buildspec = "./product/CICD/aws/database.yml"
   }
 
   vpc_config {
@@ -36,7 +36,7 @@ resource "aws_codebuild_project" "database_codebuild" {
 
     environment_variable {
       name  = "environment"
-      value = "${var.environment}"
+      value = var.environment
       type  = "PLAINTEXT"
     }
   }

@@ -53,7 +53,8 @@ resource "aws_iam_policy" "codebuild_policy" {
         Action = [
           "secretsmanager:GetSecretValue",
           "ssm:GetSecretValue",
-          "ssm:GetParameters"
+          "ssm:GetParameters",
+          "ssm:GetParametersByPath"
         ],
         Resource = "*"
       },

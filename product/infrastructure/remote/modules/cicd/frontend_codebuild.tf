@@ -1,12 +1,12 @@
 resource "aws_codebuild_project" "frontend_codebuild" {
-  name           = "${var.environment}-frontend-codebuild-project"
-  description    = "CodeBuild project for the frontend application"
-  service_role   = var.codebuild_iam_role_arn
-  build_timeout  = 30
+  name          = "${var.environment}-frontend-codebuild-project"
+  description   = "CodeBuild project for the frontend application"
+  service_role  = var.codebuild_iam_role_arn
+  build_timeout = 30
 
   source {
-    type            = "CODEPIPELINE"
-    buildspec       = "./product/CICD/aws/frontend.yml"
+    type      = "CODEPIPELINE"
+    buildspec = "./product/CICD/aws/frontend.yml"
   }
 
   environment {

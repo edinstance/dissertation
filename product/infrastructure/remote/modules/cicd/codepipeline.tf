@@ -27,6 +27,23 @@ resource "aws_codepipeline" "application-pipeline" {
     }
   }
 
+  stage {
+    name = "Infrastructure"
+
+    action {
+      name            = "BuildInfrastructure"
+      category        = "Build"
+      owner           = "AWS"
+      provider        = "CodeBuild"
+      version         = "1"
+      input_artifacts = ["source_output"]
+
+      configuration = {
+        ProjectName = aws_codebuild_project.infrastructure_codebuild.name
+      }
+    }
+  }
+
   # Database Update Stage
   stage {
     name = "Build"

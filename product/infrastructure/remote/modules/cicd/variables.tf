@@ -82,3 +82,9 @@ variable "gitlab_token" {
   description = "The GitLab token for CI/CD pipeline"
   type        = string
 }
+
+# SSM
+variable "gitlab_terraform_config_arn" {
+  description = "The ARN of the SSM parameter for GitLab Terraform config"
+  type        = string
+}

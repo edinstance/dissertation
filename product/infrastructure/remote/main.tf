@@ -240,6 +240,9 @@ module "cicd" {
   gitlab_user     = var.gitlab_user
   gitlab_token    = var.gitlab_token
   rds_secrets_arn = module.rds.rds_secrets_arn
+
+  # SSM
+  gitlab_terraform_config_arn = module.ssm.gitlab_terraform_config_arn
 }
 
 

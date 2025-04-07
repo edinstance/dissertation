@@ -150,5 +150,9 @@ variable "api_key" {
 # CICD
 variable "gitlab_terraform_config" {
   description = "The GitLab Terraform config, it should contain the terraform address, lock address and unlock address"
-  type        = string
+  type = object({
+    address        = string
+    unlock_address = string
+    lock_address   = string
+  })
 }

@@ -104,3 +104,8 @@ output "jira_project_key_arn" {
 output "api_key_arn" {
   value = aws_ssm_parameter.api_key.arn
 }
+
+# CICD
+output "gitlab_terraform_config_arn" {
+  value = aws_ssm_parameter.gitlab_terraform_config.arn
+}

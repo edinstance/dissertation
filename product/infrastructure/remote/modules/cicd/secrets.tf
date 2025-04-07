@@ -1,6 +1,6 @@
 
 resource "aws_secretsmanager_secret" "gitlab_credentials" {
-  name        = "gitlab_credentials"
+  name        = "GITLAB_CREDENTIALS"
   description = "GitLab credentials for CI/CD pipeline"
   tags = {
     Environment = var.environment

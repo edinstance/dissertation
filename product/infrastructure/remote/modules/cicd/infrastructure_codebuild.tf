@@ -1,12 +1,12 @@
-resource "aws_codebuild_project" "backend_codebuild" {
-  name          = "${var.environment}-backend-codebuild-project"
-  description   = "CodeBuild project for the backend application"
+resource "aws_codebuild_project" "infrastructure_codebuild" {
+  name          = "${var.environment}-infrastructure-codebuild-project"
+  description   = "CodeBuild project for the infrastructure"
   service_role  = var.codebuild_iam_role_arn
   build_timeout = 30
 
   source {
     type      = "CODEPIPELINE"
-    buildspec = "./product/CICD/aws/backend.yml"
+    buildspec = "./product/CICD/aws/infrastructure.yml"
   }
 
   environment {
@@ -18,24 +18,26 @@ resource "aws_codebuild_project" "backend_codebuild" {
 
     # Environment variables
     environment_variable {
-      name  = "AWS_ACCOUNT_ID"
-      value = var.aws_account_id
+      name  = "GITLAB_USER"
+      type  = "SECRETS_MANAGER"
+      value = "${aws_secretsmanager_secret.gitlab_credentials.arn}:gitlab_user"
     }
 
     environment_variable {
-      name  = "IMAGE_REPO_NAME"
-      value = "${var.environment}-backend-ecr"
+      name  = "GITLAB_TOKEN"
+      type  = "SECRETS_MANAGER"
+      value = "${aws_secretsmanager_secret.gitlab_credentials.arn}:gitlab_token"
+    }
+
+    environment_variable {
+      name  = "GITLAB_TERRAFORM_CONFIG"
+      type  = "PARAMETER_STORE"
+      value = var.gitlab_terraform_config_arn
     }
 
     environment_variable {
       name  = "ENVIRONMENT"
       value = var.environment
-    }
-
-    environment_variable {
-      name  = "TEST_COGNITO_JWT_URL"
-      value = "/test/backend/COGNITO_JWT_URL"
-      type  = "PARAMETER_STORE"
     }
   }
 
@@ -51,7 +53,7 @@ resource "aws_codebuild_project" "backend_codebuild" {
   logs_config {
     cloudwatch_logs {
       group_name  = "${var.environment}-codebuild-logs"
-      stream_name = "${var.environment}-backend-codebuild-project"
+      stream_name = "${var.environment}-infrastructure-codebuild-project"
     }
   }
 }
