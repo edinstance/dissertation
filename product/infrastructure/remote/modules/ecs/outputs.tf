@@ -13,7 +13,7 @@ output "frontend_ecs_service_name" {
 }
 
 output "frontend_alb_listener_arn" {
-  value = aws_lb_listener.frontend_alb_listener.arn
+  value = aws_lb_listener.frontend_https.arn
 }
 
 output "frontend_alb_target_group_blue_name" {
@@ -29,7 +29,7 @@ output "backend_ecs_service_name" {
 }
 
 output "backend_alb_listener_arn" {
-  value = aws_lb_listener.backend_alb_listener.arn
+  value = aws_lb_listener.backend_http.arn
 }
 
 output "backend_alb_target_group_blue_name" {
