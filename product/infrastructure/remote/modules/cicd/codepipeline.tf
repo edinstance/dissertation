@@ -22,7 +22,7 @@ resource "aws_codepipeline" "application-pipeline" {
       configuration = {
         ConnectionArn    = var.codeconnection_arn
         FullRepositoryId = "edinstance/dissertation"
-        BranchName       = "infrastructure-updates"
+        BranchName       = "cicd-pipeline-updates"
       }
     }
   }
