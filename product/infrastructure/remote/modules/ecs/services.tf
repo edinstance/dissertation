@@ -12,13 +12,7 @@ resource "aws_ecs_service" "frontend_service" {
     security_groups = [var.frontend_sg_id]
   }
 
-  load_balancer {
-    target_group_arn = aws_lb_target_group.alb_frontend_tg.arn
-    container_name   = "frontend"
-    container_port   = 3000
-  }
-
-  depends_on = [aws_lb.frontend_alb, aws_lb_target_group.alb_frontend_tg]
+  depends_on = [aws_lb.frontend_alb]
 
   lifecycle {
     # Allow external changes without Terraform plan difference such as autoscaling
@@ -40,13 +34,7 @@ resource "aws_ecs_service" "backend_service" {
     security_groups = [var.backend_sg_id]
   }
 
-  load_balancer {
-    target_group_arn = aws_lb_target_group.alb_backend_tg.arn
-    container_name   = "backend"
-    container_port   = 8080
-  }
-
-  depends_on = [aws_lb.backend_alb, aws_lb_target_group.alb_backend_tg]
+  depends_on = [aws_lb.backend_alb]
 
   lifecycle {
     # Allow external changes without Terraform plan difference such as autoscaling

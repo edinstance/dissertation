@@ -18,3 +18,8 @@ output "codebuild_role_arn" {
 output "codepipeline_role_arn" {
   value = aws_iam_role.codepipeline_role.arn
 }
+
+# CodeDeploy
+output "codedeploy_service_role_arn" {
+  value = aws_iam_role.codedeploy_role.arn
+}

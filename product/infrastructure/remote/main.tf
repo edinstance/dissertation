@@ -223,8 +223,9 @@ module "cicd" {
   codeconnection_arn = aws_codeconnections_connection.codeconnection.arn
 
   # IAM
-  codebuild_iam_role_arn    = module.iam.codebuild_role_arn
-  codepipeline_iam_role_arn = module.iam.codepipeline_role_arn
+  codebuild_iam_role_arn      = module.iam.codebuild_role_arn
+  codepipeline_iam_role_arn   = module.iam.codepipeline_role_arn
+  codedeploy_service_role_arn = module.iam.codedeploy_service_role_arn
 
   # Codepipeline
   codepipeline_artifact_bucket = module.s3.codepipeline_artifact_bucket_name
@@ -241,6 +242,21 @@ module "cicd" {
 
   # SSM
   gitlab_terraform_config_arn = module.ssm.gitlab_terraform_config_arn
+
+  # CodeDeploy
+  ecs_cluster_name = module.ecs.ecs_cluster_name
+
+  frontend_ecs_service_name = module.ecs.frontend_ecs_service_name
+  backend_ecs_service_name  = module.ecs.backend_ecs_service_name
+
+  frontend_alb_listener_arn = module.ecs.frontend_alb_listener_arn
+  backend_alb_listener_arn  = module.ecs.backend_alb_listener_arn
+
+  frontend_alb_target_group_blue_name  = module.ecs.frontend_alb_target_group_blue_name
+  frontend_alb_target_group_green_name = module.ecs.frontend_alb_target_group_green_name
+
+  backend_alb_target_group_blue_name  = module.ecs.backend_alb_target_group_blue_name
+  backend_alb_target_group_green_name = module.ecs.backend_alb_target_group_green_name
 }
 
 

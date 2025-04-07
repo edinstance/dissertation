@@ -34,13 +34,34 @@ resource "aws_lb_listener" "frontend_https" {
 
   default_action {
     type             = "forward"
-    target_group_arn = aws_lb_target_group.alb_frontend_tg.arn
+    target_group_arn = aws_lb_target_group.alb_frontend_tg_blue.arn
   }
 }
 
 
-resource "aws_lb_target_group" "alb_frontend_tg" {
-  name        = "${var.environment}-frontend-tg"
+resource "aws_lb_target_group" "alb_frontend_tg_blue" {
+  name        = "${var.environment}-frontend-tg-blue"
+  port        = 3000
+  protocol    = "HTTP"
+  target_type = "ip"
+  vpc_id      = var.vpc_id
+
+  health_check {
+    path                = "/api/health"
+    interval            = 30
+    timeout             = 5
+    healthy_threshold   = 2
+    unhealthy_threshold = 2
+  }
+
+  stickiness {
+    type            = "lb_cookie"
+    cookie_duration = 600
+  }
+}
+
+resource "aws_lb_target_group" "alb_frontend_tg_green" {
+  name        = "${var.environment}-frontend-tg-green"
   port        = 3000
   protocol    = "HTTP"
   target_type = "ip"
@@ -76,12 +97,28 @@ resource "aws_lb_listener" "backend_http" {
   protocol          = "HTTP"
   default_action {
     type             = "forward"
-    target_group_arn = aws_lb_target_group.alb_backend_tg.arn
+    target_group_arn = aws_lb_target_group.alb_backend_tg_blue.arn
   }
 }
 
-resource "aws_lb_target_group" "alb_backend_tg" {
-  name        = "${var.environment}-backend-tg"
+resource "aws_lb_target_group" "alb_backend_tg_blue" {
+  name        = "${var.environment}-backend-tg-blue"
+  port        = 8080
+  protocol    = "HTTP"
+  target_type = "ip"
+  vpc_id      = var.vpc_id
+
+  health_check {
+    path                = "/details/health"
+    interval            = 30
+    timeout             = 5
+    healthy_threshold   = 2
+    unhealthy_threshold = 2
+  }
+}
+
+resource "aws_lb_target_group" "alb_backend_tg_green" {
+  name        = "${var.environment}-backend-tg-green"
   port        = 8080
   protocol    = "HTTP"
   target_type = "ip"

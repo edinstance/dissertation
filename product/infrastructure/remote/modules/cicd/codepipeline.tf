@@ -49,12 +49,13 @@ resource "aws_codepipeline" "application-pipeline" {
     name = "Build"
 
     action {
-      name            = "BuildFrontend"
-      category        = "Build"
-      owner           = "AWS"
-      provider        = "CodeBuild"
-      version         = "1"
-      input_artifacts = ["source_output"]
+      name             = "BuildFrontend"
+      category         = "Build"
+      owner            = "AWS"
+      provider         = "CodeBuild"
+      version          = "1"
+      input_artifacts  = ["source_output"]
+      output_artifacts = ["frontend_output"]
 
       configuration = {
         ProjectName = aws_codebuild_project.frontend_codebuild.name
@@ -62,12 +63,13 @@ resource "aws_codepipeline" "application-pipeline" {
     }
 
     action {
-      name            = "BuildBackend"
-      category        = "Build"
-      owner           = "AWS"
-      provider        = "CodeBuild"
-      version         = "1"
-      input_artifacts = ["source_output"]
+      name             = "BuildBackend"
+      category         = "Build"
+      owner            = "AWS"
+      provider         = "CodeBuild"
+      version          = "1"
+      input_artifacts  = ["source_output"]
+      output_artifacts = ["backend_output"]
 
       configuration = {
         ProjectName = aws_codebuild_project.backend_codebuild.name
@@ -91,6 +93,35 @@ resource "aws_codepipeline" "application-pipeline" {
         ProjectName = aws_codebuild_project.database_codebuild.name
       }
     }
-  }
 
+    action {
+      name            = "DeployFrontend"
+      category        = "Deploy"
+      owner           = "AWS"
+      provider        = "CodeDeploy"
+      version         = "1"
+      input_artifacts = ["frontend_output"]
+      run_order       = 1
+
+      configuration = {
+        ApplicationName     = aws_codedeploy_app.frontend_codedeploy_application.name
+        DeploymentGroupName = aws_codedeploy_deployment_group.frontend_codedeploy_deployment_group.deployment_group_name
+      }
+    }
+
+    action {
+      name            = "DeployBackend"
+      category        = "Deploy"
+      owner           = "AWS"
+      provider        = "CodeDeploy"
+      version         = "1"
+      input_artifacts = ["backend_output"]
+      run_order       = 1
+
+      configuration = {
+        ApplicationName     = aws_codedeploy_app.backend_codedeploy_application.name
+        DeploymentGroupName = aws_codedeploy_deployment_group.backend_codedeploy_deployment_group.deployment_group_name
+      }
+    }
+  }
 }

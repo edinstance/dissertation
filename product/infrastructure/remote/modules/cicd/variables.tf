@@ -23,6 +23,57 @@ variable "codeconnection_arn" {
   type        = string
 }
 
+# CodeDeploy
+variable "codedeploy_service_role_arn" {
+  description = "The ARN of the IAM role for CodeDeploy"
+  type        = string
+}
+
+variable "frontend_ecs_service_name" {
+  description = "The name of the ECS service for the frontend"
+  type        = string
+}
+
+variable "frontend_alb_listener_arn" {
+  description = "The ARN of the ALB listener for the frontend"
+  type        = string
+}
+
+variable "frontend_alb_target_group_blue_name" {
+  description = "The name of the blue target group for the frontend ALB"
+  type        = string
+}
+
+variable "frontend_alb_target_group_green_name" {
+  description = "The name of the green target group for the frontend ALB"
+  type        = string
+}
+
+variable "backend_ecs_service_name" {
+  description = "The name of the ECS service for the backend"
+  type        = string
+}
+
+variable "backend_alb_listener_arn" {
+  description = "The ARN of the ALB listener for the backend"
+  type        = string
+}
+
+variable "backend_alb_target_group_blue_name" {
+  description = "The name of the blue target group for the backend ALB"
+  type        = string
+}
+
+variable "backend_alb_target_group_green_name" {
+  description = "The name of the green target group for the backend ALB"
+  type        = string
+}
+
+variable "ecs_cluster_name" {
+  description = "The name of the ECS cluster"
+  type        = string
+}
+
 # CodePipeline
 variable "codepipeline_iam_role_arn" {
   description = "The ARN of the IAM role for CodePipeline"
