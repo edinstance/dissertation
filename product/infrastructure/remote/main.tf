@@ -8,7 +8,9 @@ terraform {
     }
   }
   backend "http" {
-
+    lock_method       = "POST"
+    unlock_method     = "DELETE"
+    retretry_wait_max = 5
   }
 }
 
