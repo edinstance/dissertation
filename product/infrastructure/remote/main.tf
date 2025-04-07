@@ -7,30 +7,19 @@ terraform {
       version = ">= 5.60.0"
     }
   }
+  backend "http" {
+
+  }
 }
 
 provider "aws" {
   region = "eu-west-2"
 
-  # Use profile for cloud, dummy keys for local
-  profile                     = terraform.workspace == "local" ? null : "default"
-  access_key                  = terraform.workspace == "local" ? "dummykey" : null
-  secret_key                  = terraform.workspace == "local" ? "dummysecret" : null
-  skip_credentials_validation = terraform.workspace == "local" ? true : null
-  skip_metadata_api_check     = terraform.workspace == "local" ? true : null
-  skip_requesting_account_id  = terraform.workspace == "local" ? true : null
-
-  dynamic "endpoints" {
-    # Only add this block if workspace is "local"
-    for_each = terraform.workspace == "local" ? toset(["dynamodb"]) : toset([])
-    content {
-      dynamodb = var.dynamodb_local_endpoint
-    }
-  }
+  profile = "default"
 
   default_tags {
     tags = {
-      Environment = terraform.workspace
+      Environment = var.environment
       Project     = "SubShop"
     }
   }
@@ -158,7 +147,7 @@ module "elasticache" {
 }
 
 module "dynamodb" {
-  source = "./modules/dynamodb"
+  source = "../shared/dynamodb"
 
   environment = var.environment
 }

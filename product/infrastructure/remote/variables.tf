@@ -22,12 +22,6 @@ variable "domain" {
   type        = string
 }
 
-# Local development variables
-variable "dynamodb_local_endpoint" {
-  description = "The endpoint for the local DynamoDB instance"
-  type        = string
-}
-
 # Codebuild
 variable "codebuild_src" {
   description = "The source provider for CodeBuild, e.g., GITHUB"
