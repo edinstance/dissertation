@@ -23,16 +23,6 @@ variable "domain" {
 }
 
 # Codebuild
-variable "codebuild_src" {
-  description = "The source provider for CodeBuild, e.g., GITHUB"
-  type        = string
-}
-
-variable "codebuild_src_url" {
-  description = "The source url for CodeBuild"
-  type        = string
-}
-
 variable "code_connect_src" {
   description = "The source provider for codeconnect, e.g., GitHub"
   type        = string
@@ -62,11 +52,13 @@ variable "gitlab_terraform_config" {
 variable "frontend_image_tag" {
   description = "The tag of the frontend Docker image to deploy"
   type        = string
+  default     = "latest"
 }
 
 variable "backend_image_tag" {
   description = "The tag of the backend Docker image to deploy"
   type        = string
+  default     = "latest"
 }
 
 # SSM

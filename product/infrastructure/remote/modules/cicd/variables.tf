@@ -40,16 +40,6 @@ variable "codebuild_iam_role_arn" {
   type        = string
 }
 
-variable "codebuild_src" {
-  description = "The source provider for CodeBuild, e.g., GITHUB"
-  type        = string
-}
-
-variable "codebuild_src_url" {
-  description = "The source url for CodeBuild"
-  type        = string
-}
-
 # Networking
 variable "vpc_id" {
   description = "The ID of the VPC"

@@ -156,3 +156,15 @@ variable "gitlab_terraform_config" {
     lock_address   = string
   })
 }
+
+variable "code_connect_src" {
+  description = "The source for codeconnect"
+  type        = string
+}
+
+
+# Global
+variable "domain" {
+  description = "The domain for the application"
+  type        = string
+}
