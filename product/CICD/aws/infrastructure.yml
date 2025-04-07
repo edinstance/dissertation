@@ -32,9 +32,9 @@ phases:
           ( $name | ltrimstr("backend_") | ltrimstr("frontend_") | ascii_downcase) as $final_name |
           "export TF_VAR_" + $final_name + "=\(.Value | @sh)"' > set_env.sh
 
-      - export TF_VAR_gitlab_token = $GITLAB_TOKEN
-      - export TF_VAR_gitlab_user = $GITLAB_USER
-      - export TF_VAR_gitlab_terraform_config = $GITLAB_TERRAFORM_CONFIG
+      - export TF_VAR_gitlab_token=$GITLAB_TOKEN
+      - export TF_VAR_gitlab_user=$GITLAB_USER
+      - export TF_VAR_gitlab_terraform_config=$GITLAB_TERRAFORM_CONFIG
       # Use . instead of source for POSIX compatibility
       - chmod +x set_env.sh
       - . ./set_env.sh
@@ -43,8 +43,8 @@ phases:
       - |
         terraform init \
         -backend-config="address=$(echo "$GITLAB_TERRAFORM_CONFIG" | jq -r '.address' ) \
-        -backend-config="lock_address=$(echo "$GITLAB_TERRAFORM_CONFIG" | jq -r '.unlock_address')" \
-        -backend-config="unlock_address=$(echo "$GITLAB_TERRAFORM_CONFIG" | jq -r '.lock_address')" \
+        -backend-config="lock_address=$(echo "$GITLAB_TERRAFORM_CONFIG" | jq -r '.lock_address')" \
+        -backend-config="unlock_address=$(echo "$GITLAB_TERRAFORM_CONFIG" | jq -r '.unlock_address')" \
         -backend-config="username=$GITLAB_USER" \
         -backend-config="password=$GITLAB_TOKEN"
 
