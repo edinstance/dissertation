@@ -43,6 +43,7 @@ resource "aws_iam_policy" "codedeploy_policy" {
           "ec2:DescribeSecurityGroups",
           "ec2:AuthorizeSecurityGroupIngress",
           "ec2:RevokeSecurityGroupIngress",
+          "s3:*"
         ],
         Resource = "*",
         Effect   = "Allow"
