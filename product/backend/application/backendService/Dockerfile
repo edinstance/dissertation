@@ -1,7 +1,7 @@
 
 
 # Build the docker image
-FROM maven:3.9-eclipse-temurin-21-alpine AS build
+FROM public.ecr.aws/docker/library/maven:3.9-eclipse-temurin-21-alpine AS build
 
 # Set the working directory
 WORKDIR /app
@@ -22,7 +22,7 @@ RUN mv src/test/resources/application.example.yml src/test/resources/application
 RUN mvn clean package
 
 # Stage 2: Create the run time image
-FROM eclipse-temurin:21-jdk-alpine AS run
+FROM public.ecr.aws/docker/library/eclipse-temurin:21-jdk-alpine AS run
 
 # Set the working directory
 WORKDIR /app
