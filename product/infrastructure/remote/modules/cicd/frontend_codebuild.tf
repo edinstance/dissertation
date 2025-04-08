@@ -36,6 +36,11 @@ resource "aws_codebuild_project" "frontend_codebuild" {
       name  = "SERVICE_TYPE"
       value = "frontend"
     }
+
+    environment_variable {
+      name  = "CONTAINER_PORT"
+      value = "3000"
+    }
   }
 
   cache {

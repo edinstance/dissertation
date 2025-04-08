@@ -38,6 +38,11 @@ resource "aws_codebuild_project" "backend_codebuild" {
     }
 
     environment_variable {
+      name  = "CONTAINER_PORT"
+      value = "3000"
+    }
+
+    environment_variable {
       name  = "TEST_COGNITO_JWT_URL"
       value = "/test/backend/COGNITO_JWT_URL"
       type  = "PARAMETER_STORE"
