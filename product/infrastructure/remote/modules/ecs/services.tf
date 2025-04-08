@@ -18,7 +18,7 @@ resource "aws_ecs_service" "frontend_service" {
 
   load_balancer {
     target_group_arn = aws_lb_target_group.alb_frontend_tg_blue.arn
-    container_name   = "frontend"
+    container_name   = "${var.environment}-frontend-container"
     container_port   = 3000
   }
 
@@ -50,7 +50,7 @@ resource "aws_ecs_service" "backend_service" {
 
   load_balancer {
     target_group_arn = aws_lb_target_group.alb_backend_tg_blue.arn
-    container_name   = "backend"
+    container_name   = "${var.environment}-backend-container"
     container_port   = 8080
   }
 
