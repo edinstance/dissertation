@@ -27,6 +27,16 @@ resource "aws_ecs_task_definition" "frontend_task" {
           protocol      = "tcp"
         }
       ]
+      healthCheck = {
+        command = [
+          "CMD-SHELL",
+          "curl -f http://127.0.0.1/api/health || exit 1"
+        ],
+        interval    = 30
+        timeout     = 5
+        retries     = 3
+        startPeriod = 0
+      }
       logConfiguration = {
         logDriver = "awslogs"
         options = {
@@ -127,6 +137,16 @@ resource "aws_ecs_task_definition" "backend_task" {
           protocol      = "tcp"
         }
       ]
+      healthCheck = {
+        command = [
+          "CMD-SHELL",
+          "curl -f http://127.0.0.1/details/health || exit 1"
+        ],
+        interval    = 30
+        timeout     = 5
+        retries     = 3
+        startPeriod = 0
+      }
       logConfiguration = {
         logDriver = "awslogs"
         options = {
