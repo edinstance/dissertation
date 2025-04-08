@@ -48,11 +48,7 @@ resource "aws_iam_policy" "codebuild_policy" {
       {
         Effect = "Allow",
         Action = [
-          "codebuild:StartBuild",
-          "codebuild:BatchGetBuilds",
-          "codebuild:BatchGetProjects",
-          "codebuild:ListBuildsForProject",
-          "codebuild:ListProjects",
+          "codebuild:*",
           "codedeploy:*"
         ],
         Resource = "*"
