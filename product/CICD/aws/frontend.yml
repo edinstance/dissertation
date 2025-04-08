@@ -19,10 +19,17 @@ phases:
 
       # Create appspec.yml and task definition for CodeDeploy
       - cd $CODEBUILD_SRC_DIR
-      - export TASK_DEFINITION=$(aws ecs describe-task-definition --task-definition ${ENVIRONMENT}-frontend-task --query 'taskDefinition.taskDefinitionArn' --output text)
 
-      - echo "Updating task definition image..."
-      - aws ecs update-task-definition --task-definition $TASK_DEFINITION_ARN --container-definitions "[{\"name\":\"${ENVIRONMENT}-backend-container\",\"image\":\"${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${IMAGE_REPO_NAME}:${CODEBUILD_RESOLVED_SOURCE_VERSION}\"}]"
+      - export CURRENT_TASK_DEF=$(aws ecs describe-task-definition --task-definition ${ENVIRONMENT}-frontend-task --query 'taskDefinition' --output json)
+
+      # Update the image in the task definition
+      - export NEW_TASK_DEF=$(echo $CURRENT_TASK_DEF | jq --arg IMAGE "${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${IMAGE_REPO_NAME}:${CODEBUILD_RESOLVED_SOURCE_VERSION}" '.containerDefinitions[0].image = $IMAGE')
+
+      # Remove fields that can't be included in register-task-definition
+      - export TASK_DEFINITION=$(echo $NEW_TASK_DEF | jq 'del(.taskDefinitionArn, .revision, .status, .requiresAttributes, .compatibilities, .registeredAt, .registeredBy)')
+
+      # Register the new task definition
+      - aws ecs register-task-definition --cli-input-json "$TASK_DEFINITION"
 
       - echo "Substituting variables in appspec.yml..."
       - envsubst < ./product/CICD/aws/appspec-template.yml > appspec.yml
