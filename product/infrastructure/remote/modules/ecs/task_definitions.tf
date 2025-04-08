@@ -3,7 +3,7 @@ data "aws_region" "current" {}
 
 # ECS Frontend Task Definition
 resource "aws_ecs_task_definition" "frontend_task" {
-  family                   = "frontend"
+  family                   = "${var.environment}-frontend-task"
   network_mode             = "awsvpc"
   requires_compatibilities = ["FARGATE"]
   runtime_platform {
@@ -104,7 +104,7 @@ resource "aws_ecs_task_definition" "frontend_task" {
 
 # ECS Backend Task Definition
 resource "aws_ecs_task_definition" "backend_task" {
-  family                   = "backend"
+  family                   = "${var.environment}-backend-task"
   network_mode             = "awsvpc"
   requires_compatibilities = ["FARGATE"]
   runtime_platform {

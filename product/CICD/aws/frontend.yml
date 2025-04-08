@@ -27,5 +27,4 @@ artifacts:
   files:
     - appspec.yml
     - task-definition.json
-    - product/CICD/aws/scripts/**/*
   discard-paths: no
