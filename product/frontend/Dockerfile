@@ -1,6 +1,7 @@
 FROM public.ecr.aws/docker/library/node:23-alpine AS base
 
-RUN apk add --no-cache curl # Added to install curl
+RUN apk add --no-cache curl
+HEALTHCHECK CMD curl -f http://localhost:3000/api/health || exit 1
 
 # Install dependencies only when needed
 FROM base AS deps

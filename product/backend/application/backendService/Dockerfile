@@ -3,7 +3,8 @@
 # Build the docker image
 FROM public.ecr.aws/docker/library/maven:3.9-eclipse-temurin-21-alpine AS build
 
-RUN apk add --no-cache curl # Added to install curl
+RUN apk add --no-cache curl
+HEALTHCHECK CMD curl -f http://localhost:8080/details/health || exit 1
 
 # Set the working directory
 WORKDIR /app
