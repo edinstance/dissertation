@@ -30,7 +30,7 @@ resource "aws_ecs_task_definition" "frontend_task" {
       healthCheck = {
         command = [
           "CMD-SHELL",
-          "curl -f http://127.0.0.1:3000/api/health || exit 1"
+          "curl -sSf http://127.0.0.1:3000/api/health | jq '.status' | grep -q '\"UP\"' || exit 1"
         ],
         interval    = 30
         timeout     = 5
@@ -140,7 +140,7 @@ resource "aws_ecs_task_definition" "backend_task" {
       healthCheck = {
         command = [
           "CMD-SHELL",
-          "curl -f http://127.0.0.1:8080/details/health || exit 1"
+          "curl -sSf http://127.0.0.1:8080/details/health | jq '.status' | grep -q '\"UP\"' || exit 1"
         ],
         interval    = 30
         timeout     = 5

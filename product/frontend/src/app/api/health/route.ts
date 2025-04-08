@@ -7,5 +7,8 @@
  */
 export async function GET() {
   console.log("Health check endpoint called");
-  return new Response("UP", { status: 200 });
+
+  return new Response(JSON.stringify({ status: "UP" }), {
+    status: 200,
+  });
 }
