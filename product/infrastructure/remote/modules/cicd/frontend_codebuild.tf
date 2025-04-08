@@ -31,6 +31,11 @@ resource "aws_codebuild_project" "frontend_codebuild" {
       name  = "ENVIRONMENT"
       value = var.environment
     }
+
+    environment_variable {
+      name  = "SERVICE_TYPE"
+      value = "frontend"
+    }
   }
 
   cache {

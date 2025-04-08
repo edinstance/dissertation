@@ -38,6 +38,17 @@ resource "aws_s3_bucket_policy" "artifact_bucket_policy" {
           aws_s3_bucket.codepipeline_artifact_bucket.arn,
           "${aws_s3_bucket.codepipeline_artifact_bucket.arn}/*"
         ]
+      },
+      {
+        Effect = "Allow"
+        Principal = {
+          Service = "codedeploy.amazonaws.com"
+        }
+        Action = [
+          "s3:GetObject",
+          "s3:GetObjectVersion"
+        ]
+        Resource = "${aws_s3_bucket.codepipeline_artifact_bucket.arn}/*"
       }
     ]
   })
