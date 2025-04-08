@@ -19,12 +19,13 @@ phases:
 
       # Create appspec.yml and task definition for CodeDeploy
       - cd $CODEBUILD_SRC_DIR
-      - aws ecs describe-task-definition --task-definition ${ENVIRONMENT}-frontend-task --query 'taskDefinition' > task-definition.json
+      - export TASK_DEFINITION=$(aws ecs describe-task-definition --task-definition ${ENVIRONMENT}-backend-task --query 'taskDefinition.taskDefinitionArn' --output text)
+      - echo "Substituting variables in appspec.yml..."
       - envsubst < ./product/CICD/aws/appspec-template.yml > appspec.yml
       - echo "Build completed on $(date)"
 
 artifacts:
   files:
     - appspec.yml
-    - task-definition.json
+    - product/CICD/aws/scripts/**/*
   discard-paths: no
