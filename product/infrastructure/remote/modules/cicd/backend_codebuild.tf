@@ -39,7 +39,7 @@ resource "aws_codebuild_project" "backend_codebuild" {
 
     environment_variable {
       name  = "CONTAINER_PORT"
-      value = "3000"
+      value = "8080"
     }
 
     environment_variable {
