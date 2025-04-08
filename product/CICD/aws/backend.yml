@@ -20,6 +20,10 @@ phases:
       # Create appspec.yml and task definition for CodeDeploy
       - cd $CODEBUILD_SRC_DIR
       - export TASK_DEFINITION=$(aws ecs describe-task-definition --task-definition ${ENVIRONMENT}-backend-task --query 'taskDefinition.taskDefinitionArn' --output text)
+
+      - echo "Updating task definition image..."
+      - aws ecs update-task-definition --task-definition $TASK_DEFINITION_ARN --container-definitions "[{\"name\":\"${ENVIRONMENT}-backend-container\",\"image\":\"${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${IMAGE_REPO_NAME}:${CODEBUILD_RESOLVED_SOURCE_VERSION}\"}]"
+
       - echo "Substituting variables in appspec.yml..."
       - envsubst < ./product/CICD/aws/appspec-template.yml > appspec.yml
       - echo "Build completed on $(date)"
