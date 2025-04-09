@@ -1,0 +1,54 @@
+version: 0.2
+
+phases:
+  install:
+    commands:
+      - curl -s -qL -o terraform.zip https://releases.hashicorp.com/terraform/1.11.3/terraform_1.11.3_linux_amd64.zip
+      - unzip -o terraform.zip
+      - chmod +x terraform
+      - ./terraform --version
+      - export PATH=$PATH:$(pwd)
+
+  build:
+    commands:
+      - cd ./product/infrastructure/remote/
+      - export ENVIRONMENT=${ENVIRONMENT}
+
+      - echo "Retrieving parameters from SSM Parameter Store..."
+
+      - export BASE_PATH="/${ENVIRONMENT}"
+
+      - |
+        aws ssm get-parameters-by-path \
+          --path "$BASE_PATH" \
+          --recursive \
+          --with-decryption \
+          --query 'Parameters[].{Name: Name, Value: Value}' \
+          --output json | jq -r '.[] |
+          (.Name | split("/") | last) as $name |
+          ( $name | ltrimstr("backend_") | ltrimstr("frontend_") | ascii_downcase) as $final_name |
+          "export TF_VAR_" + $final_name + "=\(.Value | @sh)"' > set_env.sh
+      - chmod +x set_env.sh
+      - . ./set_env.sh
+
+      - export TF_VAR_gitlab_token=$GITLAB_TOKEN
+      - export TF_VAR_gitlab_user=$GITLAB_USER
+
+      - export TF_VAR_environment=$ENVIRONMENT
+
+      - echo "Initializing Terraform"
+      - |
+        terraform init \
+          -backend-config="address=https://gitlab.cim.rhul.ac.uk/api/v4/projects/3124/terraform/state/$ENVIRONMENT" \
+          -backend-config="lock_address=https://gitlab.cim.rhul.ac.uk/api/v4/projects/3124/terraform/state/$ENVIRONMENT/lock" \
+          -backend-config="unlock_address=https://gitlab.cim.rhul.ac.uk/api/v4/projects/3124/terraform/state/$ENVIRONMENT/lock" \
+          -backend-config="username=$GITLAB_USER" \
+          -backend-config="password=$GITLAB_TOKEN" \
+          -input=false -no-color
+
+      - echo "Applying Terraform"
+      - terraform apply -no-color -input=false -auto-approve
+
+  post_build:
+    commands:
+      - echo "Terraform apply completed on `date`"

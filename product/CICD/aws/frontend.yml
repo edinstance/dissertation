@@ -8,10 +8,38 @@ phases:
   build:
     commands:
       - cd ./product/frontend
-      - echo Building the Docker image...          
+      - echo Building the Docker image...
       - docker build -t $IMAGE_REPO_NAME:$CODEBUILD_RESOLVED_SOURCE_VERSION .
-      - docker tag $IMAGE_REPO_NAME:$CODEBUILD_RESOLVED_SOURCE_VERSION $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$IMAGE_REPO_NAME:$CODEBUILD_RESOLVED_SOURCE_VERSION      
+      - docker tag $IMAGE_REPO_NAME:$CODEBUILD_RESOLVED_SOURCE_VERSION $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$IMAGE_REPO_NAME:$CODEBUILD_RESOLVED_SOURCE_VERSION
+
   post_build:
     commands:
       - echo Pushing the Docker image...
       - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$IMAGE_REPO_NAME:$CODEBUILD_RESOLVED_SOURCE_VERSION
+
+      # Create appspec.yml and task definition for CodeDeploy
+      - cd $CODEBUILD_SRC_DIR
+
+      # Get current task definition and save to a file
+      - aws ecs describe-task-definition --task-definition ${ENVIRONMENT}-frontend-task --query 'taskDefinition' --output json > current-task-def.json
+
+      # Update the image in the task definition
+      - jq --arg IMAGE "${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${IMAGE_REPO_NAME}:${CODEBUILD_RESOLVED_SOURCE_VERSION}" '.containerDefinitions[0].image = $IMAGE' current-task-def.json > new-task-def.json
+
+      # Remove fields that can't be included in register-task-definition
+      - jq 'del(.taskDefinitionArn, .revision, .status, .requiresAttributes, .compatibilities, .registeredAt, .registeredBy)' new-task-def.json > final-task-def.json
+
+      # Register the new task definition and capture the ARN
+      - export TASK_DEFINITION=$(aws ecs register-task-definition --cli-input-json file://final-task-def.json --query 'taskDefinition.taskDefinitionArn' --output text)
+
+
+      - echo "Substituting variables in appspec.yml..."
+      - envsubst < ./product/CICD/aws/appspec-template.yml > appspec.yml
+
+      - echo "Build completed on $(date)"
+
+artifacts:
+  files:
+    - appspec.yml
+    - product/CICD/aws/scripts/**/*
+  discard-paths: no

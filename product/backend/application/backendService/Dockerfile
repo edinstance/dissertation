@@ -1,7 +1,10 @@
 
 
 # Build the docker image
-FROM maven:3.9-eclipse-temurin-21-alpine AS build
+FROM public.ecr.aws/docker/library/maven:3.9-eclipse-temurin-21-alpine AS build
+
+RUN apk add --no-cache curl jq
+HEALTHCHECK CMD curl -sSf http://127.0.0.1:8080/details/health | jq '.status' | grep -q '\"UP\"' || exit 1
 
 # Set the working directory
 WORKDIR /app
@@ -22,7 +25,7 @@ RUN mv src/test/resources/application.example.yml src/test/resources/application
 RUN mvn clean package
 
 # Stage 2: Create the run time image
-FROM eclipse-temurin:21-jdk-alpine AS run
+FROM public.ecr.aws/docker/library/eclipse-temurin:21-jdk-alpine AS run
 
 # Set the working directory
 WORKDIR /app
