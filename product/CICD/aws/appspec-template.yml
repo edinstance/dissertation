@@ -9,5 +9,11 @@ Resources:
           ContainerPort: ${CONTAINER_PORT}
         PlatformVersion: "LATEST"
 Hooks:
-  - BeforeAllowTraffic: "scripts/before-allow-traffic.sh"
-  - AfterAllowTraffic: "scripts/after-allow-traffic.sh"
+  - BeforeAllowTraffic: 
+    - location: "scripts/before-allow-traffic.sh"
+      timeout: 300
+      runas: root
+  - AfterAllowTraffic: 
+    - location: "scripts/after-allow-traffic.sh"
+      timeout: 300
+      runas: root
