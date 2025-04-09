@@ -8,12 +8,3 @@ Resources:
           ContainerName: "${ENVIRONMENT}-${SERVICE_TYPE}-container"
           ContainerPort: ${CONTAINER_PORT}
         PlatformVersion: "LATEST"
-Hooks:
-  BeforeAllowTraffic:
-    - location: scripts/before-allow-traffic.sh
-      timeout: 300
-      runas: root
-  AfterAllowTraffic:
-    - location: scripts/after-allow-traffic.sh
-      timeout: 300
-      runas: root

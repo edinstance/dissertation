@@ -8,7 +8,7 @@ resource "aws_codedeploy_deployment_group" "backend_codedeploy_deployment_group"
   app_name               = aws_codedeploy_app.backend_codedeploy_application.name
   deployment_group_name  = "${var.environment}-backend-codedeploy-dg"
   service_role_arn       = var.codedeploy_service_role_arn
-  deployment_config_name = "CodeDeployDefault.ECSCanary10Percent5Minutes"
+  deployment_config_name = "CodeDeployDefault.ECSLinear10PercentEvery1Minutes"
 
   ecs_service {
     cluster_name = var.ecs_cluster_name
