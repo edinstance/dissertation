@@ -22,7 +22,7 @@ resource "aws_codepipeline" "application-pipeline" {
       configuration = {
         ConnectionArn    = var.codeconnection_arn
         FullRepositoryId = "edinstance/dissertation"
-        BranchName       = "cicd-pipeline-updates"
+        BranchName       = var.environment == "prod" ? "main" : (var.environment == "dev" ? "Development" : "test")
       }
     }
   }
