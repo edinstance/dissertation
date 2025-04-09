@@ -16,6 +16,10 @@ resource "aws_ecs_service" "frontend_service" {
     type = "CODE_DEPLOY"
   }
 
+  deployment_maximum_percent         = 200
+  deployment_minimum_healthy_percent = 100
+  health_check_grace_period_seconds  = 60
+
   load_balancer {
     target_group_arn = aws_lb_target_group.alb_frontend_tg_blue.arn
     container_name   = "${var.environment}-frontend-container"
@@ -47,6 +51,10 @@ resource "aws_ecs_service" "backend_service" {
   deployment_controller {
     type = "CODE_DEPLOY"
   }
+
+  deployment_maximum_percent         = 200
+  deployment_minimum_healthy_percent = 100
+  health_check_grace_period_seconds  = 60
 
   load_balancer {
     target_group_arn = aws_lb_target_group.alb_backend_tg_blue.arn
