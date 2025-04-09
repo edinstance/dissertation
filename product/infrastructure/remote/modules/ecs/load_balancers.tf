@@ -33,7 +33,16 @@ resource "aws_lb_listener" "frontend_https" {
   certificate_arn   = var.acm_certificate_arn
 
   default_action {
-    type             = "forward"
+    type = "forward"
+    forward {
+      target_group {
+        arn = aws_lb_target_group.alb_frontend_tg_blue.arn
+      }
+      stickiness {
+        enabled  = true
+        duration = 600
+      }
+    }
     target_group_arn = aws_lb_target_group.alb_frontend_tg_blue.arn
   }
 }
