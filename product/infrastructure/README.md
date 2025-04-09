@@ -2,9 +2,25 @@
 
 This directory will contain all of the infrastrucure as code that will define the architecture and some of the services this project will use. 
 
-## Enviroments
+## Local and remote deployments
 
-This project uses different [terraform workspaces](https://developer.hashicorp.com/terraform/language/state/workspaces) and enviroment variables to manage enviroments. For local development, currently just the [dynamodb module](./modules/dynamodb/), use a workspace called local, for others there are `dev`, `test` and `prod`.
+This project uses gitlab as the backend as well as local state files for managing local infrastructure for testing. The [shared directory](./shared/) contains all the infrastructure that is shared between the local and remote modules.
+
+### Remote
+
+All the IAC in the [remote directory](./remote/) is infrastructure that will be deployed to AWS and the state stored in gitlab, there is more information about deploying this in the [readme](./remote/README.md).
+
+### Local
+
+All the IAC in the [local directory](./local/) is infrastructure that can be deployed locally for testing and development.
+
+### Shared
+
+All the IAC in the [shared directory](./shared/) is infrastructure that can be deployed to AWS and locally.
+
+## Code connect
+
+The aws_codeconnections_connection resource is created in the state PENDING. Authentication with the connection provider must be completed in the AWS Console. See the AWS documentation for details.
 
 ## DNS
 

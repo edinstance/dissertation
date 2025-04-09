@@ -47,6 +47,8 @@ public class DevSecurityConfig {
             .authorizeHttpRequests((authorize) -> authorize
                     // Allow preflight requests to all endpoints
                     .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+                    // Allow details requests
+                    .requestMatchers("/details/**").permitAll()
                     // Allow all requests to the graphiql endpoint
                     .requestMatchers("*", "/graphiql").permitAll()
                     // All other requests must be authenticated

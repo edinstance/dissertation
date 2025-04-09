@@ -6,5 +6,9 @@
  * @returns A promise that resolves to a Response object with a status of 200 and a message "UP".
  */
 export async function GET() {
-  return new Response("UP", { status: 200 });
+  console.log("Health check endpoint called");
+
+  return new Response(JSON.stringify({ status: "UP" }), {
+    status: 200,
+  });
 }

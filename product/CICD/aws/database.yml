@@ -1,0 +1,66 @@
+version: 0.2
+
+phases:
+  install:
+    commands:
+      - echo "Installing Liquibase and required tools..."
+      - curl -L https://github.com/liquibase/liquibase/releases/download/v4.31.1/liquibase-4.31.1.tar.gz -o liquibase.tar.gz
+      - mkdir /opt/liquibase && tar -xzf liquibase.tar.gz -C /opt/liquibase
+      - sudo ln -s /opt/liquibase/liquibase /usr/local/bin/liquibase
+      - rm liquibase.tar.gz
+      - sudo apt-get install -y postgresql
+      - liquibase --version
+      - echo "Liquibase installed successfully."
+
+  pre_build:
+    commands:
+      - echo "Retrieving database information..."
+
+      # Get the DB endpoint and database name
+      - export DB_HOST=$(aws rds describe-db-clusters --db-cluster-identifier ${environment}-database --query 'DBClusters[0].Endpoint' --output text)
+      - export DB_NAME=$(aws rds describe-db-clusters --db-cluster-identifier ${environment}-database --query 'DBClusters[0].DatabaseName' --output text)
+      - export DB_PORT=5432
+
+      # Set up the JDBC URL with standard authentication parameters
+      - export DB_URL="jdbc:postgresql://${DB_HOST}:${DB_PORT}/${DB_NAME}?ssl=true&sslmode=require"
+
+      - echo "Testing connectivity to database..."
+      - |
+        if ! timeout 5 bash -c "</dev/tcp/$DB_HOST/$DB_PORT"; then
+          echo "ERROR: TCP connection failed - cannot connect to database host"
+          exit 1
+        fi
+        echo "TCP connection successful"
+
+      # Test authentication with psql and exit on failure
+      - echo "Testing authentication with psql..."
+      - |
+        if ! PGPASSWORD="$DB_PASSWORD" psql -h $DB_HOST -p $DB_PORT -U $DB_USERNAME -d $DB_NAME -c "SELECT 1 as connection_test;"; then
+          echo "ERROR: PSQL connection failed - authentication issue or database not accessible"
+          exit 1
+        fi
+        echo "PSQL authentication successful"
+
+  build:
+    commands:
+      - cd ./product/backend/database
+      - echo "Running Liquibase migrations..."
+
+      # Create a properties file instead of command line parameters
+      - echo "url=$DB_URL" > liquibase.properties
+      - echo "username=$DB_USERNAME" >> liquibase.properties
+      - echo "password=$DB_PASSWORD" >> liquibase.properties
+      - echo "changeLogFile=/changelogs/changelog-master.xml" >> liquibase.properties
+      - echo "driver=org.postgresql.Driver" >> liquibase.properties
+
+      # Check if properties file has password
+      - grep -q "password=" liquibase.properties && echo "Password is in properties file" || echo "Password is NOT in properties file"
+
+      # Run Liquibase with properties file and debug logging
+      - liquibase --defaultsFile=liquibase.properties --log-level=DEBUG update
+      - rm liquibase.properties # Clean up sensitive information
+      - echo "Liquibase migrations completed successfully."
+
+  post_build:
+    commands:
+      - echo "Build completed."
