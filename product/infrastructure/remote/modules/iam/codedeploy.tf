@@ -33,6 +33,7 @@ resource "aws_iam_policy" "codedeploy_policy" {
           "ecs:UpdateTaskSet",
           "ecs:DeleteTaskSet",
           "ecs:DescribeTaskSets",
+          "ecs:UpdateServicePrimaryTaskSet",
           "elasticloadbalancing:*",
           "iam:PassRole",
           "codebuild:BatchGetBuilds",
