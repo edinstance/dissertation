@@ -10,12 +10,10 @@ Resources:
         PlatformVersion: "LATEST"
 Hooks:
   BeforeAllowTraffic:
-    - LifecycleEvent: BeforeAllowTraffic
-      Script: scripts/before-allow-traffic.sh
-      Timeout: 300
-      Runas: root
+    - location: scripts/before-allow-traffic.sh
+      timeout: 300
+      runas: root
   AfterAllowTraffic:
-    - LifecycleEvent: AfterAllowTraffic
-      Script: scripts/after-allow-traffic.sh
-      Timeout: 300
-      Runas: root
+    - location: scripts/after-allow-traffic.sh
+      timeout: 300
+      runas: root
