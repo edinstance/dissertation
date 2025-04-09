@@ -8,3 +8,6 @@ Resources:
           ContainerName: "${ENVIRONMENT}-${SERVICE_TYPE}-container"
           ContainerPort: ${CONTAINER_PORT}
         PlatformVersion: "LATEST"
+Hooks:
+  - BeforeAllowTraffic: "scripts/before-allow-traffic.sh"
+  - AfterAllowTraffic: "scripts/after-allow-traffic.sh"

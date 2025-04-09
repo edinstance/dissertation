@@ -34,6 +34,10 @@ phases:
 
       - echo "Substituting variables in appspec.yml..."
       - envsubst < ./product/CICD/aws/appspec-template.yml > appspec.yml
+
+      - chmod +x product/CICD/aws/scripts/before-allow-traffic.sh
+      - chmod +x product/CICD/aws/scripts/after-allow-traffic.sh
+
       - echo "Build completed on $(date)"
 
 artifacts:
