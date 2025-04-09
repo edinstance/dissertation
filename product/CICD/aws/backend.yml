@@ -9,7 +9,7 @@ phases:
     commands:
       - cd ./product/backend/application/backendService
       - echo Building the Docker image...
-      - docker build --build-arg TEST_COGNITO_JWT_URL=$TEST_COGNITO_JWT_URL --platform=linux/amd64 -t $IMAGE_REPO_NAME:$CODEBUILD_RESOLVED_SOURCE_VERSION .
+      - docker build --build-arg TEST_COGNITO_JWT_URL=$TEST_COGNITO_JWT_URL -t $IMAGE_REPO_NAME:$CODEBUILD_RESOLVED_SOURCE_VERSION .
       - docker tag $IMAGE_REPO_NAME:$CODEBUILD_RESOLVED_SOURCE_VERSION $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$IMAGE_REPO_NAME:$CODEBUILD_RESOLVED_SOURCE_VERSION
 
   post_build:
