@@ -32,7 +32,7 @@ public class ChatMutations {
     /**
      * A mutation to create a chat.
      *
-     * @param chat the chat to create.
+     * @param message the message for the chat.
      */
     @DgsMutation
     public MutationResponse createChat(@InputArgument String message) {
@@ -40,5 +40,19 @@ public class ChatMutations {
 
         return new MutationResponse(true,
                 "Chat created successfully");
+    }
+
+
+    /**
+     * A mutation to clear the current conversation of a user.
+     *
+     * @return a response on the result.
+     */
+    @DgsMutation
+    public MutationResponse clearCurrentConversation() {
+        chatService.clearCurrentConversation();
+
+        return new MutationResponse(true,
+                "Conversation cleared successfully");
     }
 }

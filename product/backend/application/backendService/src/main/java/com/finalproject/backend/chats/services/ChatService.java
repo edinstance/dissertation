@@ -73,6 +73,15 @@ public class ChatService {
                 "System", "Message placeholder");
     }
 
+    public void clearCurrentConversation() {
+        try (Jedis jedis = jedisPool.getResource()) {
+            jedis.del("chat:" + authHelpers.getCurrentUserId());
+        } catch (Exception e) {
+            AppLogger.error(e.getMessage());
+            throw new RuntimeException(e);
+        }
+    }
+
     public List<Chat> getCurrentMessages() {
         List<Chat> messages = new ArrayList<>();
         try (Jedis jedis = jedisPool.getResource()) {

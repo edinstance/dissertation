@@ -4,6 +4,7 @@ extend type Query {
 
 extend type Mutation {
     createChat(message: String!): MutationResponse
+    clearCurrentConversation: MutationResponse
 }
 
 extend type Subscription {

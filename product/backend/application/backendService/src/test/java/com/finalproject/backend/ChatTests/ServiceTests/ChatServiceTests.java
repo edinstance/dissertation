@@ -7,7 +7,6 @@ import com.finalproject.backend.chats.services.ChatService;
 import com.finalproject.backend.chats.streams.ChatStream;
 import com.finalproject.backend.common.dynamodb.tables.Chat;
 import com.finalproject.backend.common.helpers.AuthHelpers;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
@@ -16,7 +15,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
-import java.time.Instant;
 import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
@@ -24,7 +22,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -163,6 +160,28 @@ public class ChatServiceTests {
         List<Chat> response = chatService.getCurrentMessages();
 
         assertEquals(0, response.size());
+    }
+
+    @Test
+    public void testClearCurrentConversation() {
+        when(jedisPool.getResource()).thenReturn(jedis);
+        when(authHelpers.getCurrentUserId()).thenReturn(userId);
+
+        chatService.clearCurrentConversation();
+
+        verify(jedis, times(1)).del("chat:" + userId);
+    }
+
+    @Test
+    public void testClearCurrentConversationError() {
+        when(jedisPool.getResource()).thenThrow(new RuntimeException("Redis connection failed"));
+
+        assertThrows(
+                RuntimeException.class,
+                () -> chatService.clearCurrentConversation()
+        );
+
+        verify(jedis, times(0)).del("chat:" + userId);
     }
 
 }
