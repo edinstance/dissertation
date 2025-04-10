@@ -1,0 +1,16 @@
+
+extend type Mutation {
+    createChat(message: String!): MutationResponse
+}
+
+extend type Subscription {
+    chatSubscription: Chat
+}
+
+type Chat {
+    chatId: String!
+    userId: String!
+    sender: String!
+    message: String!
+    createdAt: String
+}
