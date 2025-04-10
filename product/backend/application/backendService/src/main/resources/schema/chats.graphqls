@@ -1,3 +1,6 @@
+extend type Query {
+    getCurrentConversation: [Chat]
+}
 
 extend type Mutation {
     createChat(message: String!): MutationResponse

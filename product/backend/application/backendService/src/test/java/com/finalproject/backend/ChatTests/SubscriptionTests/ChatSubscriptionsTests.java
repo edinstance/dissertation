@@ -5,10 +5,15 @@ import com.finalproject.backend.chats.subscriptions.ChatSubscriptions;
 import com.finalproject.backend.common.dynamodb.tables.Chat;
 import com.finalproject.backend.common.helpers.AuthHelpers;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import reactor.core.publisher.Flux;
+import redis.clients.jedis.Jedis;
+import redis.clients.jedis.JedisPool;
 
 import java.util.List;
 import java.util.UUID;
@@ -16,17 +21,17 @@ import java.util.UUID;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
-@SpringBootTest
+@ExtendWith(MockitoExtension.class)
 public class ChatSubscriptionsTests {
 
-    @Autowired
-    private ChatSubscriptions chatSubscriptions;
-
-    @MockBean
+    @Mock
     private ChatStream chatStream;
 
-    @MockBean
+    @Mock
     private AuthHelpers authHelpers;
+
+    @InjectMocks
+    private ChatSubscriptions chatSubscriptions;
 
     private final UUID chatId = UUID.randomUUID();
     private final UUID userId = UUID.randomUUID();
@@ -49,7 +54,6 @@ public class ChatSubscriptionsTests {
     }
     @Test
     void testChatSubscriptionSpecificUser() {
-
         Chat chat2 = new Chat(UUID.randomUUID(), UUID.randomUUID(), "time", "sender", "message2");
 
         when(authHelpers.getCurrentUserId()).thenReturn(userId);
