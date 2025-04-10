@@ -1,12 +1,11 @@
 package com.finalproject.backend.AdminTests.ServiceTests;
 
 import com.finalproject.backend.admin.services.AdminService;
-import com.finalproject.backend.common.exceptions.UnauthorisedException;
+import com.finalproject.backend.common.Exceptions.UnauthorisedException;
 import com.finalproject.backend.common.helpers.AuthHelpers;
 import com.finalproject.backend.permissions.authorizers.AdminAuthorizer;
 import com.finalproject.backend.permissions.types.Actions;
 import com.finalproject.backend.permissions.types.AdminViewTypes;
-import com.finalproject.backend.permissions.types.GrantType;
 import com.finalproject.backend.permissions.types.Resources;
 import com.finalproject.backend.users.entities.UserEntity;
 import com.finalproject.backend.users.repositories.UserRepository;

@@ -8,7 +8,7 @@ import com.finalproject.backend.admin.entities.AdminEntity;
 import com.finalproject.backend.admin.mappers.AdminMapper;
 import com.finalproject.backend.admin.repositories.AdminRepository;
 import com.finalproject.backend.common.config.logging.AppLogger;
-import com.finalproject.backend.common.exceptions.UnauthorisedException;
+import com.finalproject.backend.common.Exceptions.UnauthorisedException;
 import com.finalproject.backend.common.helpers.AuthHelpers;
 import com.finalproject.backend.permissions.authorizers.AdminAuthorizer;
 import com.finalproject.backend.permissions.types.Actions;

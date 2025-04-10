@@ -1,4 +1,4 @@
-package com.finalproject.backend.common.exceptions;
+package com.finalproject.backend.common.Exceptions;
 
 import java.io.Serial;
 
