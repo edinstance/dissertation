@@ -4,6 +4,7 @@ import com.finalproject.backend.chats.dynamodb.ChatsDynamoService;
 import com.finalproject.backend.chats.services.ChatService;
 import com.finalproject.backend.chats.streams.ChatStream;
 import com.finalproject.backend.common.dynamodb.tables.Chat;
+import com.finalproject.backend.common.helpers.AuthHelpers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -18,6 +19,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 public class ChatServiceTests {
@@ -28,35 +30,32 @@ public class ChatServiceTests {
     @Mock
     private ChatStream chatStream;
 
+    @Mock
+    private AuthHelpers authHelpers;
+
     @InjectMocks
     private ChatService chatService;
-
-    private Chat chat;
-
-    @BeforeEach
-    void setUp() {
-        chat = new Chat(UUID.randomUUID(), UUID.randomUUID(),
-                Instant.now().toString(),
-                "System", "Message");
-    }
 
     @Test
     public void createChatTests() {
         ArgumentCaptor<Chat> chatCaptor = ArgumentCaptor.forClass(Chat.class);
 
-        chatService.createChat(chat);
+        UUID userId = UUID.randomUUID();
+        when(authHelpers.getCurrentUserId()).thenReturn(userId);
+
+        chatService.createChat("Message");
 
         verify(chatStream).publish(chatCaptor.capture());
 
         Chat capturedChat = chatCaptor.getValue();
 
         assertNotNull(capturedChat);
-        assertEquals(chat.getChatId(), capturedChat.getChatId());
-        assertEquals(chat.getUserId(), capturedChat.getUserId());
+        assertNotNull(capturedChat.getChatId());
+        assertEquals(userId, capturedChat.getUserId());
         assertEquals("System", capturedChat.getSender());
         assertEquals("Message placeholder", capturedChat.getMessage());
 
-        verify(chatsDynamoService, times(1)).writeChat(chat);
+        verify(chatsDynamoService, times(1)).writeChat(any(Chat.class));
         verify(chatStream, times(1)).publish(any(Chat.class));
     }
 

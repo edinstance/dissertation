@@ -3,6 +3,7 @@ package com.finalproject.backend.chats.services;
 import com.finalproject.backend.chats.dynamodb.ChatsDynamoService;
 import com.finalproject.backend.chats.streams.ChatStream;
 import com.finalproject.backend.common.dynamodb.tables.Chat;
+import com.finalproject.backend.common.helpers.AuthHelpers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.time.Instant;
@@ -15,18 +16,27 @@ public class ChatService {
 
     private final ChatStream chatStream;
 
+    private final AuthHelpers authHelpers;
+
     @Autowired
-    public ChatService(ChatsDynamoService chatsDynamoService, ChatStream chatStream) {
+    public ChatService(ChatsDynamoService chatsDynamoService, ChatStream chatStream, AuthHelpers authHelpers) {
         this.chatsDynamoService = chatsDynamoService;
         this.chatStream = chatStream;
+        this.authHelpers = authHelpers;
     }
 
-    public void createChat(Chat chat) {
+    public void createChat(String message) {
         Instant now = Instant.now();
         UUID chatId = UUID.randomUUID();
+        UUID userId = authHelpers.getCurrentUserId();
 
-        chat.setCreatedAt(now.toString());
-        chat.setChatId(chatId);
+        Chat chat = new Chat(
+                chatId,
+                userId,
+                now.toString(),
+                "User " + userId,
+                message
+        );
 
         chatsDynamoService.writeChat(chat);
 

@@ -1,6 +1,7 @@
 package com.finalproject.backend.chats.Mutations;
 
 import com.finalproject.backend.chats.services.ChatService;
+import com.finalproject.backend.common.dto.MutationResponse;
 import com.finalproject.backend.common.dynamodb.tables.Chat;
 import com.netflix.graphql.dgs.DgsComponent;
 import com.netflix.graphql.dgs.DgsMutation;
@@ -34,7 +35,10 @@ public class ChatMutations {
      * @param chat the chat to create.
      */
     @DgsMutation
-    public void createChat(@InputArgument Chat chat) {
-        chatService.createChat(chat);
+    public MutationResponse createChat(@InputArgument String message) {
+        chatService.createChat(message);
+
+        return new MutationResponse(true,
+                "Chat created successfully");
     }
 }
