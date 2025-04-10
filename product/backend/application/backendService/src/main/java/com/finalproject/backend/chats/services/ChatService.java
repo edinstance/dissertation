@@ -30,12 +30,13 @@ public class ChatService {
 
         chatsDynamoService.writeChat(chat);
 
-        Chat response = createResponse(chatId);
+        Chat response = createResponse(chatId, chat.getUserId());
         chatStream.publish(response);
     }
 
-    public Chat createResponse(final UUID chatId) {
+    public Chat createResponse(final UUID chatId, final UUID userId) {
         Instant now = Instant.now();
-        return new Chat(chatId, now.toString(), "System", "Message placeholder");
+        return new Chat(chatId, userId, now.toString(),
+                "System", "Message placeholder");
     }
 }

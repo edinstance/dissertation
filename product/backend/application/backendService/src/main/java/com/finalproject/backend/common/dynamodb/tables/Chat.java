@@ -6,6 +6,7 @@ import lombok.Setter;
 import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbAttribute;
 import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbBean;
 import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbPartitionKey;
+import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbSecondaryPartitionKey;
 import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbSortKey;
 
 /**
@@ -20,6 +21,11 @@ public class Chat {
      * The id of a chat.
      */
     private UUID chatId;
+
+    /**
+     * The id of the user the chats are for.
+     */
+    private UUID userId;
 
     /**
      * When the chat was created.
@@ -51,6 +57,12 @@ public class Chat {
     @DynamoDbAttribute("chatId")
     public UUID getChatId() {
         return chatId;
+    }
+
+    @DynamoDbSecondaryPartitionKey(indexNames = "userId")
+    @DynamoDbAttribute("userId")
+    public UUID getUserId() {
+        return userId;
     }
 
     /**
@@ -105,12 +117,15 @@ public class Chat {
      * Constructor for Chat.
      *
      * @param chatId    the chat ID.
+     * @param userId    the id of the user the chat is for.
      * @param createdAt when the chat was created.
      * @param sender    the sender of the message.
      * @param message   the message content.
      */
-    public Chat(UUID chatId, String createdAt, String sender, String message) {
+    public Chat(UUID chatId, UUID userId, String createdAt,
+                String sender, String message) {
         this.chatId = chatId;
+        this.userId = userId;
         this.createdAt = createdAt;
         this.sender = sender;
         this.message = message;

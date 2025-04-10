@@ -76,8 +76,8 @@ public class ChatsDynamoService {
             AppLogger.error("Cannot write log. DynamoDB table reference is not initialized.");
             return;
         }
-        if (chat == null || chat.getSender() == null) {
-            AppLogger.error("Cannot write log. Chat or sender is null.");
+        if (chat == null || chat.getUserId() == null) {
+            AppLogger.error("Cannot write log. Chat or userId are null.");
             return;
         }
 

@@ -35,7 +35,8 @@ public class ChatServiceTests {
 
     @BeforeEach
     void setUp() {
-        chat = new Chat(UUID.randomUUID(), Instant.now().toString(),
+        chat = new Chat(UUID.randomUUID(), UUID.randomUUID(),
+                Instant.now().toString(),
                 "System", "Message");
     }
 
@@ -51,6 +52,7 @@ public class ChatServiceTests {
 
         assertNotNull(capturedChat);
         assertEquals(chat.getChatId(), capturedChat.getChatId());
+        assertEquals(chat.getUserId(), capturedChat.getUserId());
         assertEquals("System", capturedChat.getSender());
         assertEquals("Message placeholder", capturedChat.getMessage());
 
@@ -61,10 +63,12 @@ public class ChatServiceTests {
     @Test
     public void testCreateResponse() {
         UUID chatId = UUID.randomUUID();
-        Chat response = chatService.createResponse(chatId);
+        UUID userId = UUID.randomUUID();
+        Chat response = chatService.createResponse(chatId, userId);
 
         assertNotNull(response);
         assertEquals(chatId, response.getChatId());
+        assertEquals(userId, response.getUserId());
         assertEquals("System", response.getSender());
         assertEquals("Message placeholder", response.getMessage());
     }
