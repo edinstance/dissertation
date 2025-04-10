@@ -8,6 +8,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import java.util.UUID;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -23,10 +24,11 @@ public class ChatMutationTests {
 
     @Test
     public void createChatTest() {
-        MutationResponse response = chatMutations.createChat("Message");
+        UUID conversationId = UUID.randomUUID();
+        MutationResponse response = chatMutations.createChat(conversationId.toString(), "Message");
 
         assertTrue(response.isSuccess());
         assert response.getMessage().equals("Chat created successfully");
-        verify(chatService, times(1)).createChat("Message");
+        verify(chatService, times(1)).createChat(conversationId, "Message");
     }
 }

@@ -25,7 +25,7 @@ public class ChatTests {
         Instant now = Instant.now();
         String timestamp = now.toString();
 
-        chat = new Chat(UUID.randomUUID(), UUID.randomUUID(), timestamp, "User", "Message");
+        chat = new Chat(UUID.randomUUID(), UUID.randomUUID(), UUID.randomUUID(), timestamp, "User", "Message");
 
         assertNotNull(chat);
         assertNotNull(chat.getChatId());

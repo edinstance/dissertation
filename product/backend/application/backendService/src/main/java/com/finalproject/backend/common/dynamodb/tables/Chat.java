@@ -18,6 +18,11 @@ import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbSortK
 public class Chat {
 
     /**
+     * The id of a conversation
+     */
+    private UUID conversationId;
+
+    /**
      * The id of a chat.
      */
     private UUID chatId;
@@ -49,16 +54,32 @@ public class Chat {
 
 
     /**
+     * Gets the conversation ID.
+     *
+     * @return the conversation ID.
+     */
+    @DynamoDbPartitionKey
+    @DynamoDbAttribute("conversationId")
+    public UUID getConversationId() {
+        return conversationId;
+    }
+
+    /**
      * Gets the chat ID.
      *
      * @return the chat ID.
      */
-    @DynamoDbPartitionKey
+    @DynamoDbSecondaryPartitionKey(indexNames = "chatId")
     @DynamoDbAttribute("chatId")
     public UUID getChatId() {
         return chatId;
     }
 
+    /**
+     * Gets the user ID.
+     *
+     * @return the UserId.
+     */
     @DynamoDbSecondaryPartitionKey(indexNames = "userId")
     @DynamoDbAttribute("userId")
     public UUID getUserId() {
@@ -116,14 +137,16 @@ public class Chat {
     /**
      * Constructor for Chat.
      *
-     * @param chatId    the chat ID.
-     * @param userId    the id of the user the chat is for.
-     * @param createdAt when the chat was created.
-     * @param sender    the sender of the message.
-     * @param message   the message content.
+     * @param conversationId the id of the conversation.
+     * @param chatId         the chat ID.
+     * @param userId         the id of the user the chat is for.
+     * @param createdAt      when the chat was created.
+     * @param sender         the sender of the message.
+     * @param message        the message content.
      */
-    public Chat(UUID chatId, UUID userId, String createdAt,
-                String sender, String message) {
+    public Chat(UUID conversationId, UUID chatId, UUID userId,
+                String createdAt, String sender, String message) {
+        this.conversationId = conversationId;
         this.chatId = chatId;
         this.userId = userId;
         this.createdAt = createdAt;

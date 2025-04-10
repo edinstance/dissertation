@@ -22,14 +22,16 @@ public class ChatQueryTests {
     private ChatQueries chatQueries;
 
     @Test
-    public void testGetCurrentConversation(){
+    public void testGetCurrentConversation() {
+        UUID conversationId = UUID.randomUUID();
         UUID chatId = UUID.randomUUID();
         UUID userId = UUID.randomUUID();
-        Chat chat = new Chat(chatId, userId, "date",
+        Chat chat = new Chat(conversationId, chatId, userId,
+                "date",
                 "User", "Message");
-        when(chatService.getCurrentMessages()).thenReturn(List.of(chat));
+        when(chatService.getCurrentMessages(conversationId)).thenReturn(List.of(chat));
 
-        List<Chat> response = chatQueries.getCurrentConversation();
+        List<Chat> response = chatQueries.getCurrentConversation(conversationId.toString());
 
         assert response.size() == 1;
         assert response.getFirst().getChatId().equals(chatId);

@@ -33,9 +33,10 @@ public class ChatSubscriptionsTests {
     @InjectMocks
     private ChatSubscriptions chatSubscriptions;
 
+    private final UUID conversationId = UUID.randomUUID();
     private final UUID chatId = UUID.randomUUID();
     private final UUID userId = UUID.randomUUID();
-    private final Chat chat = new Chat(chatId, userId, "time", "sender", "message");
+    private final Chat chat = new Chat(conversationId, chatId, userId, "time", "sender", "message");
 
 
     @Test
@@ -52,9 +53,10 @@ public class ChatSubscriptionsTests {
         assertEquals("message", chatList.getFirst().getMessage());
 
     }
+
     @Test
     void testChatSubscriptionSpecificUser() {
-        Chat chat2 = new Chat(UUID.randomUUID(), UUID.randomUUID(), "time", "sender", "message2");
+        Chat chat2 = new Chat(conversationId, UUID.randomUUID(), UUID.randomUUID(), "time", "sender", "message2");
 
         when(authHelpers.getCurrentUserId()).thenReturn(userId);
         when(chatStream.getChatStream()).thenReturn(Flux.just(chat, chat2));

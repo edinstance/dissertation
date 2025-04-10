@@ -15,9 +15,10 @@ public class ChatStreamTests {
     @Test
     public void publishMessageTest() throws InterruptedException { //Handle interrupted exception.
         ChatStream chatStream = new ChatStream();
+        UUID conversationId = UUID.randomUUID();
         UUID chatId = UUID.randomUUID();
         UUID userId = UUID.randomUUID();
-        Chat chat = new Chat(chatId, userId, "testTimestamp", "testSender", "testMessage");
+        Chat chat = new Chat(conversationId, chatId, userId, "testTimestamp", "testSender", "testMessage");
 
         BlockingQueue<Chat> queue = new LinkedBlockingQueue<>();
         chatStream.getChatStream().subscribe(queue::add);

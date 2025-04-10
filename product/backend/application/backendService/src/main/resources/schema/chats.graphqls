@@ -1,10 +1,10 @@
 extend type Query {
-    getCurrentConversation: [Chat]
+    getCurrentConversation(conversationId: String!): [Chat]
 }
 
 extend type Mutation {
-    createChat(message: String!): MutationResponse
-    clearCurrentConversation: MutationResponse
+    createChat(conversationId: String!, message: String!): MutationResponse
+    clearCurrentConversation(conversationId: String!): MutationResponse
 }
 
 extend type Subscription {
