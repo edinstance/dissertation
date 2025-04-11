@@ -3,8 +3,6 @@ import "@/styles/globals.css";
 import { ApolloWrapper } from "@/components/apollo";
 
 const BACKEND_GRAPHQL_ENDPOINT = process.env.BACKEND_GRAPHQL_ENDPOINT ?? "";
-const BACKEND_GRAPHQL_WS_ENDPOINT =
-  process.env.BACKEND_GRAPHQL_WS_ENDPOINT ?? "";
 const BACKEND_API_KEY = process.env.API_KEY ?? "";
 
 /**
@@ -22,8 +20,7 @@ export default async function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <ApolloWrapper
-      httpLinkUri={BACKEND_GRAPHQL_ENDPOINT}
-      wsLinkUri={BACKEND_GRAPHQL_WS_ENDPOINT}
+      link={BACKEND_GRAPHQL_ENDPOINT}
       apiKey={BACKEND_API_KEY}
     >
       {children}

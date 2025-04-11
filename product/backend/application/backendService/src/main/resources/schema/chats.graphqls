@@ -3,12 +3,17 @@ extend type Query {
 }
 
 extend type Mutation {
-    createChat(conversationId: String!, message: String!): MutationResponse
+    createChat(conversationId: String!, message: String!): CreateChatResponse
     clearCurrentConversation(conversationId: String!): MutationResponse
 }
 
 extend type Subscription {
     chatSubscription(conversationId: String!): Chat
+}
+
+type CreateChatResponse {
+    chat: Chat
+    response: Chat
 }
 
 type Chat {

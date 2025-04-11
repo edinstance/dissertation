@@ -1,8 +1,8 @@
 package com.finalproject.backend.chats.services;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.finalproject.backend.chats.dto.CreateChatResponse;
 import com.finalproject.backend.chats.dynamodb.ChatsDynamoService;
-import com.finalproject.backend.chats.streams.ChatStream;
 import com.finalproject.backend.common.config.logging.AppLogger;
 import com.finalproject.backend.common.dynamodb.tables.Chat;
 import com.finalproject.backend.common.helpers.AuthHelpers;
@@ -27,11 +27,6 @@ public class ChatService {
   private final ChatsDynamoService chatsDynamoService;
 
   /**
-   * The stream for the chats to be published.
-   */
-  private final ChatStream chatStream;
-
-  /**
    * The auth helpers to use.
    */
   private final AuthHelpers authHelpers;
@@ -50,16 +45,14 @@ public class ChatService {
    * The constructor for the service.
    *
    * @param chatsDynamoService the dynamo service to use.
-   * @param chatStream         the stream to use.
    * @param authHelpers        the auth helpers to use.
    * @param jedisPool          the cache pool.
    * @param objectMapper       the object mapper.
    */
   @Autowired
-  public ChatService(ChatsDynamoService chatsDynamoService, ChatStream chatStream,
-                     AuthHelpers authHelpers, JedisPool jedisPool, ObjectMapper objectMapper) {
+  public ChatService(ChatsDynamoService chatsDynamoService, AuthHelpers authHelpers,
+                     JedisPool jedisPool, ObjectMapper objectMapper) {
     this.chatsDynamoService = chatsDynamoService;
-    this.chatStream = chatStream;
     this.authHelpers = authHelpers;
     this.jedisPool = jedisPool;
     this.objectMapper = objectMapper;
@@ -71,7 +64,7 @@ public class ChatService {
    * @param conversationId the conversation to create the chat in.
    * @param message        the message for the chat.
    */
-  public void createChat(UUID conversationId, String message) {
+  public CreateChatResponse createChat(UUID conversationId, String message) {
     Instant now = Instant.now();
     UUID chatId = UUID.randomUUID();
     UUID userId = authHelpers.getCurrentUserId();
@@ -88,9 +81,8 @@ public class ChatService {
     addChatToCache(conversationId, now, chat);
 
     chatsDynamoService.writeChat(chat);
-    chatStream.publish(chat);
 
-    createResponse(conversationId);
+    return new CreateChatResponse(chat, createResponse(conversationId));
   }
 
   /**
@@ -98,7 +90,7 @@ public class ChatService {
    *
    * @param conversationId the id of the conversation
    */
-  public void createResponse(final UUID conversationId) {
+  public Chat createResponse(final UUID conversationId) {
     Instant now = Instant.now();
 
 
@@ -116,7 +108,8 @@ public class ChatService {
     AppLogger.info("System About to publish chat with conversationId: "
             + chat.getConversationId() + " message: " + chat.getMessage());
 
-    chatStream.publish(chat);
+    return chat;
+
   }
 
   private void addChatToCache(UUID conversationId, Instant now, Chat chat) {

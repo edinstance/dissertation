@@ -4,7 +4,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.finalproject.backend.chats.dynamodb.ChatsDynamoService;
 import com.finalproject.backend.chats.services.ChatService;
-import com.finalproject.backend.chats.streams.ChatStream;
 import com.finalproject.backend.common.dynamodb.tables.Chat;
 import com.finalproject.backend.common.helpers.AuthHelpers;
 import org.junit.jupiter.api.Test;
@@ -35,9 +34,6 @@ public class ChatServiceTests {
     private ChatsDynamoService chatsDynamoService;
 
     @Mock
-    private ChatStream chatStream;
-
-    @Mock
     private AuthHelpers authHelpers;
 
     @Mock
@@ -60,8 +56,6 @@ public class ChatServiceTests {
     @Test
     public void createChatTest() throws JsonProcessingException {
         ArgumentCaptor<Chat> dynamoChatCaptor = ArgumentCaptor.forClass(Chat.class);
-        ArgumentCaptor<Chat> systemPublishCaptor = ArgumentCaptor.forClass(Chat.class);
-
         Chat chat = new Chat();
 
         String message = "Test Message";
@@ -83,15 +77,6 @@ public class ChatServiceTests {
         assertEquals("User " + userId, dynamoCapturedChat.getSender());
         assertEquals(message, dynamoCapturedChat.getMessage());
 
-        verify(chatStream, times(2)).publish(any(Chat.class));
-        verify(chatStream, times(2)).publish(systemPublishCaptor.capture());
-
-        Chat systemCaptureChat = systemPublishCaptor.getValue();
-
-        assertNotNull(systemCaptureChat);
-        assertEquals(conversationId, systemCaptureChat.getConversationId());
-        assertEquals("System", systemCaptureChat.getSender());
-        assertEquals("Message placeholder", systemCaptureChat.getMessage());
 
         verify(jedis, times(2))
                 .zadd(eq("chat:" + conversationId), any(Double.class), any(String.class));

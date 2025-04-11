@@ -10,8 +10,7 @@ import { Item, SortDirection, Sorting } from "@/gql/graphql";
 import { GET_SHOP_ITEMS, SEARCH_FOR_ITEMS } from "@/lib/graphql/items";
 import { useSearchStore } from "@/stores/SearchStore";
 import { useLazyQuery } from "@apollo/client";
-import { useEffect, useRef, useState } from "react";
-import { v4 as uuidv4 } from "uuid";
+import { useEffect, useState } from "react";
 
 /**
  * Shop component for displaying the shop page.
@@ -80,8 +79,6 @@ export default function Shop() {
     ? results.items.filter((item): item is Item => item !== null)
     : [];
 
-  const conversationId = useRef(uuidv4());
-
   return (
     <div className="flex min-h-screen flex-col bg-zinc-100 pt-16 dark:bg-zinc-900">
       <div className="fixed left-16 right-0 top-16 z-50 border-b bg-zinc-100 px-4 py-4 pl-20 dark:border-zinc-800 dark:bg-zinc-900 sm:pl-4">
@@ -114,7 +111,7 @@ export default function Shop() {
           />
         </div>
       )}
-      <ChatWindow conversationId={conversationId.current} />
+      <ChatWindow />
     </div>
   );
 }

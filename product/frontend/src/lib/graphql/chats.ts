@@ -1,21 +1,29 @@
 import { graphql } from "@/gql";
 
-export const CHAT_SUBSCRIPTION = graphql(`
-  subscription ChatSubscription($conversationId: String!) {
-    chatSubscription(conversationId: $conversationId) {
-      conversationId
-      chatId
-      userId
-      sender
-      message
-      createdAt
+export const SEND_CHAT_MESSAGE = graphql(`
+  mutation createChat($conversationId: String!, $message: String!) {
+    createChat(conversationId: $conversationId, message: $message) {
+      chat {
+        chatId
+        userId
+        sender
+        message
+        createdAt
+      }
+      response {
+        chatId
+        userId
+        sender
+        message
+        createdAt
+      }
     }
   }
 `);
 
-export const SEND_CHAT_MESSAGE = graphql(`
-  mutation createChat($conversationId: String!, $message: String!) {
-    createChat(conversationId: $conversationId, message: $message) {
+export const CLEAR_CONVERSATION_MUTATION = graphql(`
+  mutation clearCurrentConversation($conversationId: String!) {
+    clearCurrentConversation(conversationId: $conversationId) {
       success
       message
     }

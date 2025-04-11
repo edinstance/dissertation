@@ -63,6 +63,12 @@ export type Chat = {
   userId?: Maybe<Scalars["String"]["output"]>;
 };
 
+export type CreateChatResponse = {
+  __typename?: "CreateChatResponse";
+  chat?: Maybe<Chat>;
+  response?: Maybe<Chat>;
+};
+
 export type CreatePermissionInput = {
   action: Actions;
   actionDescription?: InputMaybe<Scalars["String"]["input"]>;
@@ -351,7 +357,7 @@ export type Mutation = {
   __typename?: "Mutation";
   clearCurrentConversation?: Maybe<MutationResponse>;
   createAdmin?: Maybe<MutationResponse>;
-  createChat?: Maybe<MutationResponse>;
+  createChat?: Maybe<CreateChatResponse>;
   createPermission?: Maybe<MutationResponse>;
   createUser?: Maybe<User>;
   deactivateAdmin?: Maybe<MutationResponse>;
@@ -922,23 +928,6 @@ export type DeactivateAdminMutation = {
   } | null;
 };
 
-export type ChatSubscriptionSubscriptionVariables = Exact<{
-  conversationId: Scalars["String"]["input"];
-}>;
-
-export type ChatSubscriptionSubscription = {
-  __typename?: "Subscription";
-  chatSubscription?: {
-    __typename?: "Chat";
-    conversationId: string;
-    chatId: string;
-    userId?: string | null;
-    sender: string;
-    message: string;
-    createdAt?: string | null;
-  } | null;
-};
-
 export type CreateChatMutationVariables = Exact<{
   conversationId: Scalars["String"]["input"];
   message: Scalars["String"]["input"];
@@ -947,6 +936,33 @@ export type CreateChatMutationVariables = Exact<{
 export type CreateChatMutation = {
   __typename?: "Mutation";
   createChat?: {
+    __typename?: "CreateChatResponse";
+    chat?: {
+      __typename?: "Chat";
+      chatId: string;
+      userId?: string | null;
+      sender: string;
+      message: string;
+      createdAt?: string | null;
+    } | null;
+    response?: {
+      __typename?: "Chat";
+      chatId: string;
+      userId?: string | null;
+      sender: string;
+      message: string;
+      createdAt?: string | null;
+    } | null;
+  } | null;
+};
+
+export type ClearCurrentConversationMutationVariables = Exact<{
+  conversationId: Scalars["String"]["input"];
+}>;
+
+export type ClearCurrentConversationMutation = {
+  __typename?: "Mutation";
+  clearCurrentConversation?: {
     __typename?: "MutationResponse";
     success?: boolean | null;
     message?: string | null;
@@ -1981,68 +1997,6 @@ export const DeactivateAdminDocument = {
   DeactivateAdminMutation,
   DeactivateAdminMutationVariables
 >;
-export const ChatSubscriptionDocument = {
-  kind: "Document",
-  definitions: [
-    {
-      kind: "OperationDefinition",
-      operation: "subscription",
-      name: { kind: "Name", value: "ChatSubscription" },
-      variableDefinitions: [
-        {
-          kind: "VariableDefinition",
-          variable: {
-            kind: "Variable",
-            name: { kind: "Name", value: "conversationId" },
-          },
-          type: {
-            kind: "NonNullType",
-            type: {
-              kind: "NamedType",
-              name: { kind: "Name", value: "String" },
-            },
-          },
-        },
-      ],
-      selectionSet: {
-        kind: "SelectionSet",
-        selections: [
-          {
-            kind: "Field",
-            name: { kind: "Name", value: "chatSubscription" },
-            arguments: [
-              {
-                kind: "Argument",
-                name: { kind: "Name", value: "conversationId" },
-                value: {
-                  kind: "Variable",
-                  name: { kind: "Name", value: "conversationId" },
-                },
-              },
-            ],
-            selectionSet: {
-              kind: "SelectionSet",
-              selections: [
-                {
-                  kind: "Field",
-                  name: { kind: "Name", value: "conversationId" },
-                },
-                { kind: "Field", name: { kind: "Name", value: "chatId" } },
-                { kind: "Field", name: { kind: "Name", value: "userId" } },
-                { kind: "Field", name: { kind: "Name", value: "sender" } },
-                { kind: "Field", name: { kind: "Name", value: "message" } },
-                { kind: "Field", name: { kind: "Name", value: "createdAt" } },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode<
-  ChatSubscriptionSubscription,
-  ChatSubscriptionSubscriptionVariables
->;
 export const CreateChatDocument = {
   kind: "Document",
   definitions: [
@@ -2107,6 +2061,114 @@ export const CreateChatDocument = {
             selectionSet: {
               kind: "SelectionSet",
               selections: [
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "chat" },
+                  selectionSet: {
+                    kind: "SelectionSet",
+                    selections: [
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "chatId" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "userId" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "sender" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "message" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "createdAt" },
+                      },
+                    ],
+                  },
+                },
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "response" },
+                  selectionSet: {
+                    kind: "SelectionSet",
+                    selections: [
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "chatId" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "userId" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "sender" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "message" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "createdAt" },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<CreateChatMutation, CreateChatMutationVariables>;
+export const ClearCurrentConversationDocument = {
+  kind: "Document",
+  definitions: [
+    {
+      kind: "OperationDefinition",
+      operation: "mutation",
+      name: { kind: "Name", value: "clearCurrentConversation" },
+      variableDefinitions: [
+        {
+          kind: "VariableDefinition",
+          variable: {
+            kind: "Variable",
+            name: { kind: "Name", value: "conversationId" },
+          },
+          type: {
+            kind: "NonNullType",
+            type: {
+              kind: "NamedType",
+              name: { kind: "Name", value: "String" },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "clearCurrentConversation" },
+            arguments: [
+              {
+                kind: "Argument",
+                name: { kind: "Name", value: "conversationId" },
+                value: {
+                  kind: "Variable",
+                  name: { kind: "Name", value: "conversationId" },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
                 { kind: "Field", name: { kind: "Name", value: "success" } },
                 { kind: "Field", name: { kind: "Name", value: "message" } },
               ],
@@ -2116,7 +2178,10 @@ export const CreateChatDocument = {
       },
     },
   ],
-} as unknown as DocumentNode<CreateChatMutation, CreateChatMutationVariables>;
+} as unknown as DocumentNode<
+  ClearCurrentConversationMutation,
+  ClearCurrentConversationMutationVariables
+>;
 export const GetCurrentConversationDocument = {
   kind: "Document",
   definitions: [

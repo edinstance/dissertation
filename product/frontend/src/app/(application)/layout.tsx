@@ -6,8 +6,6 @@ import { GraphQLClient } from "graphql-request";
 import { redirect } from "next/navigation";
 
 const BACKEND_GRAPHQL_ENDPOINT = process.env.BACKEND_GRAPHQL_ENDPOINT ?? "";
-const BACKEND_GRAPHQL_WS_ENDPOINT =
-  process.env.BACKEND_GRAPHQL_WS_ENDPOINT ?? "";
 
 /**
  * RootLayout component for the application.
@@ -52,8 +50,7 @@ export default async function RootLayout({
 
   return (
     <ApolloWrapper
-      httpLinkUri={BACKEND_GRAPHQL_ENDPOINT}
-      wsLinkUri={BACKEND_GRAPHQL_WS_ENDPOINT}
+      link={BACKEND_GRAPHQL_ENDPOINT}
       accessToken={session?.accessToken}
     >
       <Sidebar />
