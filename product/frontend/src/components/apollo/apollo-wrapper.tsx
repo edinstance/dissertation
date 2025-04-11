@@ -1,6 +1,15 @@
 "use client";
-import { ApolloClient, createHttpLink, InMemoryCache } from "@apollo/client";
+
+import {
+  ApolloClient,
+  createHttpLink,
+  InMemoryCache,
+  split,
+} from "@apollo/client";
 import { setContext } from "@apollo/client/link/context";
+import { GraphQLWsLink } from "@apollo/client/link/subscriptions";
+import { getMainDefinition } from "@apollo/client/utilities";
+import { createClient } from "graphql-ws";
 import { ReactNode } from "react";
 import ApolloProvider from "./apollo-provider";
 
@@ -13,11 +22,31 @@ import ApolloProvider from "./apollo-provider";
  * @returns The configured Apollo Client instance.
  */
 function createApolloClient(
-  link: string,
+  httpLinkUri: string,
+  wsLinkUri: string,
   accessToken?: string,
   apiKey?: string,
 ) {
-  const httpLink = createHttpLink({ uri: link, credentials: "include" });
+  const httpLink = createHttpLink({
+    uri: httpLinkUri,
+    credentials: "include",
+  });
+
+  const wsLink = new GraphQLWsLink(
+    createClient({
+      url: wsLinkUri,
+      connectionParams: () => {
+        const authHeaders: { [key: string]: string } = {};
+        if (accessToken) {
+          authHeaders["Authorization"] = `Bearer ${accessToken}`;
+        }
+        if (apiKey) {
+          authHeaders["x-api-key"] = apiKey;
+        }
+        return authHeaders;
+      },
+    }),
+  );
 
   // Conditionally add the headers to avoid empty values
   const authHeaders: { [key: string]: string } = {};
@@ -38,7 +67,17 @@ function createApolloClient(
   }));
 
   return new ApolloClient({
-    link: authLink.concat(httpLink),
+    link: split(
+      ({ query }) => {
+        const definition = getMainDefinition(query);
+        return (
+          definition.kind === "OperationDefinition" &&
+          definition.operation === "subscription"
+        );
+      },
+      wsLink,
+      authLink.concat(httpLink),
+    ),
     connectToDevTools: true,
     cache: new InMemoryCache(),
   });
@@ -59,18 +98,61 @@ function createApolloClient(
  */
 export function ApolloWrapper({
   children,
-  link,
+  httpLinkUri,
+  wsLinkUri,
   accessToken,
   apiKey,
 }: {
   children: ReactNode;
-  link: string;
+  httpLinkUri: string;
+  wsLinkUri: string;
   accessToken?: string;
   apiKey?: string;
 }) {
   return (
-    <ApolloProvider client={createApolloClient(link, accessToken, apiKey)}>
+    <ApolloProvider
+      client={createApolloClient(httpLinkUri, wsLinkUri, accessToken, apiKey)}
+    >
       {children}
     </ApolloProvider>
   );
 }
+
+// /**
+//  * Creates an Apollo Client instance with optional authentication headers and
+//  * WebSocket support for subscriptions.
+//  */
+// function createApolloClient(
+//   httpLinkUri: string,
+//   wsLinkUri: string,
+//   accessToken?: string,
+//   apiKey?: string,
+// ) {
+//   const httpLink = createHttpLink({
+//     uri: httpLinkUri,
+//     credentials: "include",
+//   });
+
+//   const wsLink = new GraphQLWsLink(
+//     createClient({
+//       url: wsLinkUri,
+//       connectionParams: () => {
+//         const authHeaders: { [key: string]: string } = {};
+//         if (accessToken) {
+//           authHeaders["Authorization"] = `Bearer ${accessToken}`;
+//         }
+//         if (apiKey) {
+//           authHeaders["x-api-key"] = apiKey;
+//         }
+//         return authHeaders;
+//       },
+//     }),
+//   );
+
+//   const authLink = setContext((_, { headers }) => {
+//     return {
+//       headers: {
+//         ...headers,
+//       },
+//     };
+//   });

@@ -53,6 +53,16 @@ export type Admin = {
   userId: Scalars["String"]["output"];
 };
 
+export type Chat = {
+  __typename?: "Chat";
+  chatId: Scalars["String"]["output"];
+  conversationId: Scalars["String"]["output"];
+  createdAt?: Maybe<Scalars["String"]["output"]>;
+  message: Scalars["String"]["output"];
+  sender: Scalars["String"]["output"];
+  userId?: Maybe<Scalars["String"]["output"]>;
+};
+
 export type CreatePermissionInput = {
   action: Actions;
   actionDescription?: InputMaybe<Scalars["String"]["input"]>;
@@ -339,7 +349,9 @@ export enum ItemSortOptions {
 
 export type Mutation = {
   __typename?: "Mutation";
+  clearCurrentConversation?: Maybe<MutationResponse>;
   createAdmin?: Maybe<MutationResponse>;
+  createChat?: Maybe<MutationResponse>;
   createPermission?: Maybe<MutationResponse>;
   createUser?: Maybe<User>;
   deactivateAdmin?: Maybe<MutationResponse>;
@@ -353,8 +365,17 @@ export type Mutation = {
   saveUserDetails?: Maybe<User>;
 };
 
+export type MutationClearCurrentConversationArgs = {
+  conversationId: Scalars["String"]["input"];
+};
+
 export type MutationCreateAdminArgs = {
   userId: Scalars["String"]["input"];
+};
+
+export type MutationCreateChatArgs = {
+  conversationId: Scalars["String"]["input"];
+  message: Scalars["String"]["input"];
 };
 
 export type MutationCreatePermissionArgs = {
@@ -453,6 +474,7 @@ export type Query = {
   getAllUsers?: Maybe<Array<Maybe<User>>>;
   getCurrentAdmin?: Maybe<Admin>;
   getCurrentAdminPermissions?: Maybe<Array<Maybe<PermissionView>>>;
+  getCurrentConversation?: Maybe<Array<Maybe<Chat>>>;
   getItemById?: Maybe<Item>;
   getItemsByUser?: Maybe<SearchedItemsResponse>;
   getShopItems?: Maybe<SearchedItemsResponse>;
@@ -463,6 +485,10 @@ export type Query = {
 
 export type QueryGetAdminPermissionsByAdminIdArgs = {
   adminId: Scalars["String"]["input"];
+};
+
+export type QueryGetCurrentConversationArgs = {
+  conversationId: Scalars["String"]["input"];
 };
 
 export type QueryGetItemByIdArgs = {
@@ -523,6 +549,15 @@ export type Sorting = {
   __typename?: "Sorting";
   sortBy?: Maybe<Scalars["String"]["output"]>;
   sortDirection?: Maybe<SortDirection>;
+};
+
+export type Subscription = {
+  __typename?: "Subscription";
+  chatSubscription?: Maybe<Chat>;
+};
+
+export type SubscriptionChatSubscriptionArgs = {
+  conversationId: Scalars["String"]["input"];
 };
 
 export type User = {
@@ -887,17 +922,51 @@ export type DeactivateAdminMutation = {
   } | null;
 };
 
-export type GetGrantTypeEnumValuesQueryVariables = Exact<{
-  [key: string]: never;
+export type ChatSubscriptionSubscriptionVariables = Exact<{
+  conversationId: Scalars["String"]["input"];
 }>;
 
-export type GetGrantTypeEnumValuesQuery = {
-  __typename?: "Query";
-  GrantType?: {
-    __typename?: "__Type";
-    name?: string | null;
-    enumValues?: Array<{ __typename?: "__EnumValue"; name: string }> | null;
+export type ChatSubscriptionSubscription = {
+  __typename?: "Subscription";
+  chatSubscription?: {
+    __typename?: "Chat";
+    conversationId: string;
+    chatId: string;
+    userId?: string | null;
+    sender: string;
+    message: string;
+    createdAt?: string | null;
   } | null;
+};
+
+export type CreateChatMutationVariables = Exact<{
+  conversationId: Scalars["String"]["input"];
+  message: Scalars["String"]["input"];
+}>;
+
+export type CreateChatMutation = {
+  __typename?: "Mutation";
+  createChat?: {
+    __typename?: "MutationResponse";
+    success?: boolean | null;
+    message?: string | null;
+  } | null;
+};
+
+export type GetCurrentConversationQueryVariables = Exact<{
+  conversationId: Scalars["String"]["input"];
+}>;
+
+export type GetCurrentConversationQuery = {
+  __typename?: "Query";
+  getCurrentConversation?: Array<{
+    __typename?: "Chat";
+    chatId: string;
+    userId?: string | null;
+    sender: string;
+    message: string;
+    createdAt?: string | null;
+  } | null> | null;
 };
 
 export type GetActionsEnumValuesQueryVariables = Exact<{
@@ -1912,52 +1981,57 @@ export const DeactivateAdminDocument = {
   DeactivateAdminMutation,
   DeactivateAdminMutationVariables
 >;
-export const GetGrantTypeEnumValuesDocument = {
+export const ChatSubscriptionDocument = {
   kind: "Document",
   definitions: [
     {
       kind: "OperationDefinition",
-      operation: "query",
-      name: { kind: "Name", value: "GetGrantTypeEnumValues" },
+      operation: "subscription",
+      name: { kind: "Name", value: "ChatSubscription" },
+      variableDefinitions: [
+        {
+          kind: "VariableDefinition",
+          variable: {
+            kind: "Variable",
+            name: { kind: "Name", value: "conversationId" },
+          },
+          type: {
+            kind: "NonNullType",
+            type: {
+              kind: "NamedType",
+              name: { kind: "Name", value: "String" },
+            },
+          },
+        },
+      ],
       selectionSet: {
         kind: "SelectionSet",
         selections: [
           {
             kind: "Field",
-            alias: { kind: "Name", value: "GrantType" },
-            name: { kind: "Name", value: "__type" },
+            name: { kind: "Name", value: "chatSubscription" },
             arguments: [
               {
                 kind: "Argument",
-                name: { kind: "Name", value: "name" },
+                name: { kind: "Name", value: "conversationId" },
                 value: {
-                  kind: "StringValue",
-                  value: "GrantType",
-                  block: false,
+                  kind: "Variable",
+                  name: { kind: "Name", value: "conversationId" },
                 },
               },
             ],
             selectionSet: {
               kind: "SelectionSet",
               selections: [
-                { kind: "Field", name: { kind: "Name", value: "name" } },
                 {
                   kind: "Field",
-                  name: { kind: "Name", value: "enumValues" },
-                  arguments: [
-                    {
-                      kind: "Argument",
-                      name: { kind: "Name", value: "includeDeprecated" },
-                      value: { kind: "BooleanValue", value: false },
-                    },
-                  ],
-                  selectionSet: {
-                    kind: "SelectionSet",
-                    selections: [
-                      { kind: "Field", name: { kind: "Name", value: "name" } },
-                    ],
-                  },
+                  name: { kind: "Name", value: "conversationId" },
                 },
+                { kind: "Field", name: { kind: "Name", value: "chatId" } },
+                { kind: "Field", name: { kind: "Name", value: "userId" } },
+                { kind: "Field", name: { kind: "Name", value: "sender" } },
+                { kind: "Field", name: { kind: "Name", value: "message" } },
+                { kind: "Field", name: { kind: "Name", value: "createdAt" } },
               ],
             },
           },
@@ -1966,8 +2040,140 @@ export const GetGrantTypeEnumValuesDocument = {
     },
   ],
 } as unknown as DocumentNode<
-  GetGrantTypeEnumValuesQuery,
-  GetGrantTypeEnumValuesQueryVariables
+  ChatSubscriptionSubscription,
+  ChatSubscriptionSubscriptionVariables
+>;
+export const CreateChatDocument = {
+  kind: "Document",
+  definitions: [
+    {
+      kind: "OperationDefinition",
+      operation: "mutation",
+      name: { kind: "Name", value: "createChat" },
+      variableDefinitions: [
+        {
+          kind: "VariableDefinition",
+          variable: {
+            kind: "Variable",
+            name: { kind: "Name", value: "conversationId" },
+          },
+          type: {
+            kind: "NonNullType",
+            type: {
+              kind: "NamedType",
+              name: { kind: "Name", value: "String" },
+            },
+          },
+        },
+        {
+          kind: "VariableDefinition",
+          variable: {
+            kind: "Variable",
+            name: { kind: "Name", value: "message" },
+          },
+          type: {
+            kind: "NonNullType",
+            type: {
+              kind: "NamedType",
+              name: { kind: "Name", value: "String" },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "createChat" },
+            arguments: [
+              {
+                kind: "Argument",
+                name: { kind: "Name", value: "conversationId" },
+                value: {
+                  kind: "Variable",
+                  name: { kind: "Name", value: "conversationId" },
+                },
+              },
+              {
+                kind: "Argument",
+                name: { kind: "Name", value: "message" },
+                value: {
+                  kind: "Variable",
+                  name: { kind: "Name", value: "message" },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                { kind: "Field", name: { kind: "Name", value: "success" } },
+                { kind: "Field", name: { kind: "Name", value: "message" } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<CreateChatMutation, CreateChatMutationVariables>;
+export const GetCurrentConversationDocument = {
+  kind: "Document",
+  definitions: [
+    {
+      kind: "OperationDefinition",
+      operation: "query",
+      name: { kind: "Name", value: "getCurrentConversation" },
+      variableDefinitions: [
+        {
+          kind: "VariableDefinition",
+          variable: {
+            kind: "Variable",
+            name: { kind: "Name", value: "conversationId" },
+          },
+          type: {
+            kind: "NonNullType",
+            type: {
+              kind: "NamedType",
+              name: { kind: "Name", value: "String" },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "getCurrentConversation" },
+            arguments: [
+              {
+                kind: "Argument",
+                name: { kind: "Name", value: "conversationId" },
+                value: {
+                  kind: "Variable",
+                  name: { kind: "Name", value: "conversationId" },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                { kind: "Field", name: { kind: "Name", value: "chatId" } },
+                { kind: "Field", name: { kind: "Name", value: "userId" } },
+                { kind: "Field", name: { kind: "Name", value: "sender" } },
+                { kind: "Field", name: { kind: "Name", value: "message" } },
+                { kind: "Field", name: { kind: "Name", value: "createdAt" } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  GetCurrentConversationQuery,
+  GetCurrentConversationQueryVariables
 >;
 export const GetActionsEnumValuesDocument = {
   kind: "Document",
