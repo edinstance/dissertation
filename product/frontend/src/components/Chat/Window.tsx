@@ -39,10 +39,21 @@ function ChatWindow() {
 
   const chatContainerRef = useRef<HTMLDivElement | null>(null);
 
+  // Store conversation data in localStorage
+  const storeConversationData = useCallback((id: string) => {
+    if (typeof window === "undefined") return;
+
+    const data: StoredChatData = {
+      conversationId: id,
+      lastInteraction: Date.now(),
+    };
+    localStorage.setItem(CHAT_STORAGE_KEY, JSON.stringify(data));
+  }, []);
+
   useEffect(() => {
     // Initialize conversation ID from localStorage or create a new one
     setConversationId(getStoredConversationId());
-  }, []);
+  }, [getStoredConversationId]);
 
   // Get the stored conversation ID from localStorage
   const getStoredConversationId = useCallback((): string => {
@@ -75,18 +86,7 @@ function ChatWindow() {
       storeConversationData(newId);
       return newId;
     }
-  }, []);
-
-  // Store conversation data in localStorage
-  const storeConversationData = useCallback((id: string) => {
-    if (typeof window === "undefined") return;
-
-    const data: StoredChatData = {
-      conversationId: id,
-      lastInteraction: Date.now(),
-    };
-    localStorage.setItem(CHAT_STORAGE_KEY, JSON.stringify(data));
-  }, []);
+  }, [storeConversationData]);
 
   // Function to update the last interaction time
   const updateLastInteraction = useCallback(() => {
