@@ -1,6 +1,6 @@
 package com.finalproject.backend.ChatTests.MutationTests;
 
-import com.finalproject.backend.chats.Mutations.ChatMutations;
+import com.finalproject.backend.chats.mutations.ChatMutations;
 import com.finalproject.backend.chats.services.ChatService;
 import com.finalproject.backend.common.dto.MutationResponse;
 import org.junit.jupiter.api.Test;

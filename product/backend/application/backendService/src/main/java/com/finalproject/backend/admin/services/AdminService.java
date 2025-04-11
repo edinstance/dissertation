@@ -8,7 +8,7 @@ import com.finalproject.backend.admin.entities.AdminEntity;
 import com.finalproject.backend.admin.mappers.AdminMapper;
 import com.finalproject.backend.admin.repositories.AdminRepository;
 import com.finalproject.backend.common.config.logging.AppLogger;
-import com.finalproject.backend.common.Exceptions.UnauthorisedException;
+import com.finalproject.backend.common.exceptions.UnauthorisedException;
 import com.finalproject.backend.common.helpers.AuthHelpers;
 import com.finalproject.backend.permissions.authorizers.AdminAuthorizer;
 import com.finalproject.backend.permissions.types.Actions;
@@ -196,6 +196,7 @@ public class AdminService {
    * A function to create a new admin.
    *
    * @param userId the id of the user to turn into an admin.
+   *
    * @return the new admin.
    */
   public Boolean createAdmin(final UUID userId) {
@@ -232,6 +233,7 @@ public class AdminService {
    * This function promotes an admin to a super admin.
    *
    * @param userId the id of the admin to promote.
+   *
    * @return true if the promotion was successful.
    */
   public Boolean promoteAdminToSuperUser(final UUID userId) {
@@ -245,7 +247,7 @@ public class AdminService {
     AppLogger.info("Admin " + currentAdminId + " promoting user " + userId + " to super admin");
     adminRepository.makeAdminSuperAdmin(userId, currentAdminId);
 
-    try(Jedis jedis = jedisPool.getResource()) {
+    try (Jedis jedis = jedisPool.getResource()) {
       jedis.del("admin:" + userId);
     }
 
@@ -256,6 +258,7 @@ public class AdminService {
    * This function deactivates an admin.
    *
    * @param userId the id of the admin to deactivate.
+   *
    * @return true if the promotion was successful.
    */
   public Boolean deactivateAdmin(final UUID userId) {
@@ -273,7 +276,7 @@ public class AdminService {
     AppLogger.info("Admin " + currentAdminId + " deactivating user " + userId);
     adminRepository.deactivateAdmin(userId, currentAdminId);
 
-    try(Jedis jedis = jedisPool.getResource()) {
+    try (Jedis jedis = jedisPool.getResource()) {
       jedis.del("admin:" + userId);
     }
 
