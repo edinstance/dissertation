@@ -8,12 +8,13 @@ extend type Mutation {
 }
 
 extend type Subscription {
-    chatSubscription: Chat
+    chatSubscription(conversationId: String!): Chat
 }
 
 type Chat {
+    conversationId: String!
     chatId: String!
-    userId: String!
+    userId: String
     sender: String!
     message: String!
     createdAt: String

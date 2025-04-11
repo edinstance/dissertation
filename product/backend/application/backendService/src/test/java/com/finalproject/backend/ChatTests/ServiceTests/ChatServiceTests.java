@@ -23,6 +23,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -58,38 +59,43 @@ public class ChatServiceTests {
 
     @Test
     public void createChatTest() throws JsonProcessingException {
-        ArgumentCaptor<Chat> chatCaptor = ArgumentCaptor.forClass(Chat.class);
+        ArgumentCaptor<Chat> dynamoChatCaptor = ArgumentCaptor.forClass(Chat.class);
+        ArgumentCaptor<Chat> systemPublishCaptor = ArgumentCaptor.forClass(Chat.class);
 
+        Chat chat = new Chat();
 
-        String message = "Message";
+        String message = "Test Message";
 
         when(authHelpers.getCurrentUserId()).thenReturn(userId);
         when(jedisPool.getResource()).thenReturn(jedis);
-
-        when(mockObjectMapper.writeValueAsString(any(Chat.class)))
-                .thenAnswer(
-                        invocation -> {
-                            Chat chat = invocation.getArgument(0);
-                            return objectMapper.writeValueAsString(chat);
-                        });
+        when(mockObjectMapper.writeValueAsString(any(Chat.class))).thenReturn(objectMapper.writeValueAsString(chat));
+        doNothing().when(chatsDynamoService).writeChat(any(Chat.class));
 
         chatService.createChat(conversationId, message);
 
-        verify(chatStream).publish(chatCaptor.capture());
+        verify(chatsDynamoService, times(1)).writeChat(dynamoChatCaptor.capture());
 
-        Chat capturedChat = chatCaptor.getValue();
+        Chat dynamoCapturedChat = dynamoChatCaptor.getValue();
 
-        assertNotNull(capturedChat);
-        assertNotNull(capturedChat.getChatId());
-        assertEquals(userId, capturedChat.getUserId());
-        assertEquals("System", capturedChat.getSender());
-        assertEquals("Message placeholder", capturedChat.getMessage());
+        assertNotNull(dynamoCapturedChat);
+        assertEquals(conversationId, dynamoCapturedChat.getConversationId());
+        assertEquals(userId, dynamoCapturedChat.getUserId());
+        assertEquals("User " + userId, dynamoCapturedChat.getSender());
+        assertEquals(message, dynamoCapturedChat.getMessage());
 
-        verify(chatsDynamoService, times(1)).writeChat(any(Chat.class));
-        verify(chatStream, times(1)).publish(any(Chat.class));
-        verify(jedis, times(1))
+        verify(chatStream, times(2)).publish(any(Chat.class));
+        verify(chatStream, times(2)).publish(systemPublishCaptor.capture());
+
+        Chat systemCaptureChat = systemPublishCaptor.getValue();
+
+        assertNotNull(systemCaptureChat);
+        assertEquals(conversationId, systemCaptureChat.getConversationId());
+        assertEquals("System", systemCaptureChat.getSender());
+        assertEquals("Message placeholder", systemCaptureChat.getMessage());
+
+        verify(jedis, times(2))
                 .zadd(eq("chat:" + conversationId), any(Double.class), any(String.class));
-        verify(jedis, times(1)).expire(eq("chat:" + conversationId), eq(600L));
+        verify(jedis, times(2)).expire(eq("chat:" + conversationId), eq(600L));
     }
 
     @Test
@@ -106,17 +112,13 @@ public class ChatServiceTests {
 
     }
 
-
     @Test
     public void testCreateResponse() {
+        when(jedisPool.getResource()).thenReturn(jedis);
         UUID chatId = UUID.randomUUID();
-        Chat response = chatService.createResponse(conversationId, chatId, userId);
+        chatService.createResponse(conversationId);
 
-        assertNotNull(response);
-        assertEquals(conversationId, response.getConversationId());
-        assertEquals(userId, response.getUserId());
-        assertEquals("System", response.getSender());
-        assertEquals("Message placeholder", response.getMessage());
+
     }
 
     @Test
@@ -149,14 +151,13 @@ public class ChatServiceTests {
     @Test
     public void testGetCurrentMessagesReadFailure() throws JsonProcessingException {
         when(jedisPool.getResource()).thenReturn(jedis);
-        when(authHelpers.getCurrentUserId()).thenReturn(userId);
 
         Chat testChat = new Chat(conversationId, UUID.randomUUID(), userId,
                 "time", "Test Sender", "Test Message");
 
         String chatJson = objectMapper.writeValueAsString(testChat);
 
-        when(jedis.zrange("chat:" + userId, 0, -1)).thenReturn(Collections.singletonList(chatJson));
+        when(jedis.zrange("chat:" + conversationId, 0L, -1)).thenReturn(Collections.singletonList(chatJson));
         when(mockObjectMapper.readValue(eq(chatJson), eq(Chat.class))).thenThrow(new RuntimeException("Redis connection failed"));
 
         List<Chat> response = chatService.getCurrentMessages(conversationId);

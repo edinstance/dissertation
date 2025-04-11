@@ -47,24 +47,44 @@ public class ChatService {
                 message
         );
 
+        addChatToCache(conversationId, now, chat);
+
+        chatsDynamoService.writeChat(chat);
+        chatStream.publish(chat);
+
+        createResponse(conversationId);
+    }
+
+    public void createResponse(final UUID conversationId) {
+        Instant now = Instant.now();
+
+
+        Chat chat = new Chat(
+                conversationId,
+                UUID.randomUUID(),
+                null,
+                now.toString(),
+                "System",
+                "Message placeholder"
+        );
+
+        addChatToCache(conversationId, now, chat);
+
+        AppLogger.info("System About to publish chat with conversationId: " + chat.getConversationId() + " message: " + chat.getMessage());
+
+        chatStream.publish(chat);
+    }
+
+    private void addChatToCache(UUID conversationId, Instant now, Chat chat) {
         try (Jedis jedis = jedisPool.getResource()) {
+
             jedis.zadd("chat:" + conversationId, now.toEpochMilli(), objectMapper.writeValueAsString(chat));
+
             jedis.expire("chat:" + conversationId, 600L);
         } catch (Exception e) {
             AppLogger.error(e.getMessage());
             throw new RuntimeException(e);
         }
-
-        chatsDynamoService.writeChat(chat);
-
-        Chat response = createResponse(conversationId, UUID.randomUUID(), chat.getUserId());
-        chatStream.publish(response);
-    }
-
-    public Chat createResponse(final UUID conversationId, final UUID chatId, final UUID userId) {
-        Instant now = Instant.now();
-        return new Chat(conversationId, chatId, userId, now.toString(),
-                "System", "Message placeholder");
     }
 
     public void clearCurrentConversation(UUID conversationId) {

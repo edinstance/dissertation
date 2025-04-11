@@ -41,27 +41,25 @@ public class ChatSubscriptionsTests {
 
     @Test
     public void testCreateChat() {
-        when(authHelpers.getCurrentUserId()).thenReturn(userId);
         when(chatStream.getChatStream()).thenReturn(Flux.just(chat));
 
-        Flux<Chat> filteredChatStream = (Flux<Chat>) chatSubscriptions.chatSubscription();
+        Flux<Chat> filteredChatStream = (Flux<Chat>) chatSubscriptions.chatSubscription(conversationId.toString());
         List<Chat> chatList = filteredChatStream.collectList().block();
 
         assert chatList != null;
         assertEquals(1, chatList.size());
         assertEquals(userId, chatList.getFirst().getUserId());
         assertEquals("message", chatList.getFirst().getMessage());
-
     }
 
     @Test
-    void testChatSubscriptionSpecificUser() {
-        Chat chat2 = new Chat(conversationId, UUID.randomUUID(), UUID.randomUUID(), "time", "sender", "message2");
+    public void testCreateChatFilteredByConversationId() {
 
-        when(authHelpers.getCurrentUserId()).thenReturn(userId);
-        when(chatStream.getChatStream()).thenReturn(Flux.just(chat, chat2));
+        Chat newChat = new Chat(UUID.randomUUID(), chatId, userId, "time", "sender", "message");
 
-        Flux<Chat> filteredChatStream = (Flux<Chat>) chatSubscriptions.chatSubscription();
+        when(chatStream.getChatStream()).thenReturn(Flux.just(chat, newChat));
+
+        Flux<Chat> filteredChatStream = (Flux<Chat>) chatSubscriptions.chatSubscription(conversationId.toString());
         List<Chat> chatList = filteredChatStream.collectList().block();
 
         assert chatList != null;

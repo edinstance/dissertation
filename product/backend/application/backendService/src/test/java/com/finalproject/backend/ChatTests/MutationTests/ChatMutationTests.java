@@ -31,4 +31,13 @@ public class ChatMutationTests {
         assert response.getMessage().equals("Chat created successfully");
         verify(chatService, times(1)).createChat(conversationId, "Message");
     }
+
+    @Test
+    public void clearCurrentConversationTest() {
+        UUID conversationId = UUID.randomUUID();
+        MutationResponse response = chatMutations.clearCurrentConversation(conversationId.toString());
+        assertTrue(response.isSuccess());
+        assert response.getMessage().equals("Conversation cleared successfully");
+        verify(chatService, times(1)).clearCurrentConversation(conversationId);
+    }
 }
