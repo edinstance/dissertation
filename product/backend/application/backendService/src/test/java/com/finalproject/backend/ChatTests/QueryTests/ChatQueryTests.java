@@ -15,29 +15,29 @@ import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
 public class ChatQueryTests {
 
-    @Mock
-    private ChatService chatService;
+  @Mock
+  private ChatService chatService;
 
-    @InjectMocks
-    private ChatQueries chatQueries;
+  @InjectMocks
+  private ChatQueries chatQueries;
 
-    @Test
-    public void testGetCurrentConversation() {
-        UUID conversationId = UUID.randomUUID();
-        UUID chatId = UUID.randomUUID();
-        UUID userId = UUID.randomUUID();
-        Chat chat = new Chat(conversationId, chatId, userId,
-                "date",
-                "User", "Message");
-        when(chatService.getCurrentMessages(conversationId)).thenReturn(List.of(chat));
+  @Test
+  public void testGetCurrentConversation() {
+    UUID conversationId = UUID.randomUUID();
+    UUID chatId = UUID.randomUUID();
+    UUID userId = UUID.randomUUID();
+    Chat chat = new Chat(conversationId, chatId, userId,
+            "date",
+            "User", "Message");
+    when(chatService.getCurrentMessages(conversationId)).thenReturn(List.of(chat));
 
-        List<Chat> response = chatQueries.getCurrentConversation(conversationId.toString());
+    List<Chat> response = chatQueries.getCurrentConversation(conversationId.toString());
 
-        assert response.size() == 1;
-        assert response.getFirst().getChatId().equals(chatId);
-        assert response.getFirst().getUserId().equals(userId);
-        assert response.getFirst().getCreatedAt().equals("date");
-        assert response.getFirst().getSender().equals("User");
-        assert response.getFirst().getMessage().equals("Message");
-    }
+    assert response.size() == 1;
+    assert response.getFirst().getChatId().equals(chatId);
+    assert response.getFirst().getUserId().equals(userId);
+    assert response.getFirst().getCreatedAt().equals("date");
+    assert response.getFirst().getSender().equals("User");
+    assert response.getFirst().getMessage().equals("Message");
+  }
 }

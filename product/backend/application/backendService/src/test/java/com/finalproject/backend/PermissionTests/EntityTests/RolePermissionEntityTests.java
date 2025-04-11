@@ -11,9 +11,7 @@ import com.finalproject.backend.permissions.types.GrantType;
 import com.finalproject.backend.permissions.types.Resources;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-
 import java.util.UUID;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
@@ -58,11 +56,11 @@ public class RolePermissionEntityTests {
 
     PermissionsEntity permissionsEntity = new PermissionsEntity(resourcesEntity, actionsEntity, "Permission Description");
     permissionsEntity.setId(UUID.randomUUID());
-    
+
     RolePermissionId rolePermissionId = new RolePermissionId();
     rolePermissionId.setRoleId(roleEntity.getId());
     rolePermissionId.setPermissionId(permissionsEntity.getId());
-    
+
     rolePermissionEntity = new RolePermissionEntity(roleEntity, permissionsEntity, GrantType.GRANT);
     rolePermissionEntity.setId(rolePermissionId);
   }

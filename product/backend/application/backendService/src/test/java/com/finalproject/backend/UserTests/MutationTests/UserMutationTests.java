@@ -10,9 +10,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
-
 import java.util.UUID;
-
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
@@ -82,11 +80,11 @@ public class UserMutationTests {
   }
 
   @Test
-    public void testDeactivateUser() {
-        UUID userId = UUID.randomUUID();
+  public void testDeactivateUser() {
+    UUID userId = UUID.randomUUID();
 
-        userMutations.deactivateUser(userId.toString());
+    userMutations.deactivateUser(userId.toString());
 
-        verify(userService).deactivateUser(userId);
-    }
+    verify(userService).deactivateUser(userId);
+  }
 }

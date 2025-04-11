@@ -6,9 +6,7 @@ import com.finalproject.backend.permissions.types.Actions;
 import com.finalproject.backend.permissions.types.GrantType;
 import com.finalproject.backend.permissions.types.Resources;
 import org.junit.jupiter.api.Test;
-
 import java.util.UUID;
-
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class PermissionsViewTest {
@@ -47,23 +45,23 @@ public class PermissionsViewTest {
   }
 
   @Test
-    public void testActionMethods() {
+  public void testActionMethods() {
     PermissionView view = new PermissionView();
-        view.setAction(Actions.READ);
+    view.setAction(Actions.READ);
 
-        assert view.getAction() == Actions.READ;
-    }
+    assert view.getAction() == Actions.READ;
+  }
 
-    @Test
-    public void testAssociatedUserIdMethods() {
-      PermissionView view = new PermissionView();
+  @Test
+  public void testAssociatedUserIdMethods() {
+    PermissionView view = new PermissionView();
 
-        UUID id = UUID.randomUUID();
-        PermissionViewId adminId = new PermissionViewId();
-        adminId.setUserId(id);
-        view.setId(adminId);
+    UUID id = UUID.randomUUID();
+    PermissionViewId adminId = new PermissionViewId();
+    adminId.setUserId(id);
+    view.setId(adminId);
 
-        assert view.getAssociatedUserId() == id;
-    }
+    assert view.getAssociatedUserId() == id;
+  }
 
 }

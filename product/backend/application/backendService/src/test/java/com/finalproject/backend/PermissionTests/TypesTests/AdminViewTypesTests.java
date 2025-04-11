@@ -3,7 +3,6 @@ package com.finalproject.backend.PermissionTests.TypesTests;
 import com.finalproject.backend.permissions.types.AdminViewTypes;
 import com.finalproject.backend.permissions.types.ViewTypes;
 import org.junit.jupiter.api.Test;
-
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 

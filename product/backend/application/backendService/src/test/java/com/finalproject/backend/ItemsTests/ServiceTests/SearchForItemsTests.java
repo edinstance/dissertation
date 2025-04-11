@@ -5,11 +5,11 @@ import com.finalproject.backend.common.dto.SortInput;
 import com.finalproject.backend.common.types.SortDirection;
 import com.finalproject.backend.items.dto.SearchedItemsResponse;
 import org.junit.jupiter.api.Test;
-
 import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 public class SearchForItemsTests extends SetupServiceTests {
 

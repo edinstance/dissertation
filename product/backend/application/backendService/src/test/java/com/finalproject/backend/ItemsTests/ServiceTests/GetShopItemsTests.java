@@ -2,10 +2,10 @@ package com.finalproject.backend.ItemsTests.ServiceTests;
 
 import com.finalproject.backend.common.dto.PaginationInput;
 import org.junit.jupiter.api.Test;
-
 import java.util.List;
-
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 public class GetShopItemsTests extends SetupServiceTests {
 

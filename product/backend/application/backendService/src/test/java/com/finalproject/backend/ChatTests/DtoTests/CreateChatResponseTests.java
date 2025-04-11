@@ -50,7 +50,7 @@ public class CreateChatResponseTests {
   }
 
   @Test
-  public void testChatMethods(){
+  public void testChatMethods() {
     assert createChatResponse.getChat().equals(chat);
 
     createChatResponse.setChat(response);
@@ -58,7 +58,7 @@ public class CreateChatResponseTests {
   }
 
   @Test
-  public void testResponseMethods(){
+  public void testResponseMethods() {
     assert createChatResponse.getResponse().equals(response);
 
     createChatResponse.setResponse(chat);

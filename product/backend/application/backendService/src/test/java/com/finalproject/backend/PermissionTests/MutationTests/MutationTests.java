@@ -11,7 +11,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -42,7 +41,7 @@ public class MutationTests {
             Resources.USERS,
             "Test Resource Description")).thenReturn(true);
 
-            MutationResponse result = permissionsMutations.createPermission(createPermissionInput);
+    MutationResponse result = permissionsMutations.createPermission(createPermissionInput);
 
     assertTrue(result.isSuccess());
     assertEquals("Permission created successfully", result.getMessage());

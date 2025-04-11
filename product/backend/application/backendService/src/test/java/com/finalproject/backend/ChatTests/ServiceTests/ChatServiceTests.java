@@ -30,145 +30,145 @@ import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
 public class ChatServiceTests {
 
-    @Mock
-    private ChatsDynamoService chatsDynamoService;
+  @Mock
+  private ChatsDynamoService chatsDynamoService;
 
-    @Mock
-    private AuthHelpers authHelpers;
+  @Mock
+  private AuthHelpers authHelpers;
 
-    @Mock
-    private JedisPool jedisPool;
+  @Mock
+  private JedisPool jedisPool;
 
-    @Mock
-    private Jedis jedis;
+  @Mock
+  private Jedis jedis;
 
-    @Mock
-    private ObjectMapper mockObjectMapper;
+  @Mock
+  private ObjectMapper mockObjectMapper;
 
-    @InjectMocks
-    private ChatService chatService;
+  @InjectMocks
+  private ChatService chatService;
 
-    private final ObjectMapper objectMapper = new ObjectMapper();
+  private final ObjectMapper objectMapper = new ObjectMapper();
 
-    private final UUID conversationId = UUID.randomUUID();
-    private final UUID userId = UUID.randomUUID();
+  private final UUID conversationId = UUID.randomUUID();
+  private final UUID userId = UUID.randomUUID();
 
-    @Test
-    public void createChatTest() throws JsonProcessingException {
-        ArgumentCaptor<Chat> dynamoChatCaptor = ArgumentCaptor.forClass(Chat.class);
-        Chat chat = new Chat();
+  @Test
+  public void createChatTest() throws JsonProcessingException {
+    ArgumentCaptor<Chat> dynamoChatCaptor = ArgumentCaptor.forClass(Chat.class);
+    Chat chat = new Chat();
 
-        String message = "Test Message";
+    String message = "Test Message";
 
-        when(authHelpers.getCurrentUserId()).thenReturn(userId);
-        when(jedisPool.getResource()).thenReturn(jedis);
-        when(mockObjectMapper.writeValueAsString(any(Chat.class))).thenReturn(objectMapper.writeValueAsString(chat));
-        doNothing().when(chatsDynamoService).writeChat(any(Chat.class));
+    when(authHelpers.getCurrentUserId()).thenReturn(userId);
+    when(jedisPool.getResource()).thenReturn(jedis);
+    when(mockObjectMapper.writeValueAsString(any(Chat.class))).thenReturn(objectMapper.writeValueAsString(chat));
+    doNothing().when(chatsDynamoService).writeChat(any(Chat.class));
 
-        chatService.createChat(conversationId, message);
+    chatService.createChat(conversationId, message);
 
-        verify(chatsDynamoService, times(1)).writeChat(dynamoChatCaptor.capture());
+    verify(chatsDynamoService, times(1)).writeChat(dynamoChatCaptor.capture());
 
-        Chat dynamoCapturedChat = dynamoChatCaptor.getValue();
+    Chat dynamoCapturedChat = dynamoChatCaptor.getValue();
 
-        assertNotNull(dynamoCapturedChat);
-        assertEquals(conversationId, dynamoCapturedChat.getConversationId());
-        assertEquals(userId, dynamoCapturedChat.getUserId());
-        assertEquals("User " + userId, dynamoCapturedChat.getSender());
-        assertEquals(message, dynamoCapturedChat.getMessage());
-
-
-        verify(jedis, times(2))
-                .zadd(eq("chat:" + conversationId), any(Double.class), any(String.class));
-        verify(jedis, times(2)).expire(eq("chat:" + conversationId), eq(600L));
-    }
-
-    @Test
-    public void createChatErrorTest() {
-        String message = "Message";
-
-        when(authHelpers.getCurrentUserId()).thenReturn(userId);
-        when(jedisPool.getResource()).thenThrow(new RuntimeException("Redis connection failed"));
-
-        assertThrows(
-                RuntimeException.class,
-                () -> chatService.createChat(conversationId, message)
-        );
-
-    }
-
-    @Test
-    public void testCreateResponse() {
-        when(jedisPool.getResource()).thenReturn(jedis);
-        UUID chatId = UUID.randomUUID();
-        chatService.createResponse(conversationId);
+    assertNotNull(dynamoCapturedChat);
+    assertEquals(conversationId, dynamoCapturedChat.getConversationId());
+    assertEquals(userId, dynamoCapturedChat.getUserId());
+    assertEquals("User " + userId, dynamoCapturedChat.getSender());
+    assertEquals(message, dynamoCapturedChat.getMessage());
 
 
-    }
+    verify(jedis, times(2))
+            .zadd(eq("chat:" + conversationId), any(Double.class), any(String.class));
+    verify(jedis, times(2)).expire(eq("chat:" + conversationId), eq(600L));
+  }
 
-    @Test
-    public void testGetCurrentMessagesError() {
-        when(jedisPool.getResource()).thenThrow(new RuntimeException("Redis connection failed"));
+  @Test
+  public void createChatErrorTest() {
+    String message = "Message";
 
-        List<Chat> response = chatService.getCurrentMessages(conversationId);
+    when(authHelpers.getCurrentUserId()).thenReturn(userId);
+    when(jedisPool.getResource()).thenThrow(new RuntimeException("Redis connection failed"));
 
-        assertEquals(0, response.size());
-    }
+    assertThrows(
+            RuntimeException.class,
+            () -> chatService.createChat(conversationId, message)
+    );
 
-    @Test
-    public void testGetCurrentMessagesSuccess() throws JsonProcessingException {
-        when(jedisPool.getResource()).thenReturn(jedis);
+  }
 
-        Chat testChat = new Chat(conversationId, UUID.randomUUID(), userId,
-                "time", "Test Sender", "Test Message");
+  @Test
+  public void testCreateResponse() {
+    when(jedisPool.getResource()).thenReturn(jedis);
+    UUID chatId = UUID.randomUUID();
+    chatService.createResponse(conversationId);
 
-        String chatJson = objectMapper.writeValueAsString(testChat);
 
-        when(jedis.zrange("chat:" + conversationId, 0, -1)).thenReturn(Collections.singletonList(chatJson));
-        when(mockObjectMapper.readValue(eq(chatJson), eq(Chat.class))).thenReturn(testChat);
+  }
 
-        List<Chat> response = chatService.getCurrentMessages(conversationId);
+  @Test
+  public void testGetCurrentMessagesError() {
+    when(jedisPool.getResource()).thenThrow(new RuntimeException("Redis connection failed"));
 
-        assertEquals(1, response.size());
-        assertEquals(testChat, response.getFirst());
-    }
+    List<Chat> response = chatService.getCurrentMessages(conversationId);
 
-    @Test
-    public void testGetCurrentMessagesReadFailure() throws JsonProcessingException {
-        when(jedisPool.getResource()).thenReturn(jedis);
+    assertEquals(0, response.size());
+  }
 
-        Chat testChat = new Chat(conversationId, UUID.randomUUID(), userId,
-                "time", "Test Sender", "Test Message");
+  @Test
+  public void testGetCurrentMessagesSuccess() throws JsonProcessingException {
+    when(jedisPool.getResource()).thenReturn(jedis);
 
-        String chatJson = objectMapper.writeValueAsString(testChat);
+    Chat testChat = new Chat(conversationId, UUID.randomUUID(), userId,
+            "time", "Test Sender", "Test Message");
 
-        when(jedis.zrange("chat:" + conversationId, 0L, -1)).thenReturn(Collections.singletonList(chatJson));
-        when(mockObjectMapper.readValue(eq(chatJson), eq(Chat.class))).thenThrow(new RuntimeException("Redis connection failed"));
+    String chatJson = objectMapper.writeValueAsString(testChat);
 
-        List<Chat> response = chatService.getCurrentMessages(conversationId);
+    when(jedis.zrange("chat:" + conversationId, 0, -1)).thenReturn(Collections.singletonList(chatJson));
+    when(mockObjectMapper.readValue(eq(chatJson), eq(Chat.class))).thenReturn(testChat);
 
-        assertEquals(0, response.size());
-    }
+    List<Chat> response = chatService.getCurrentMessages(conversationId);
 
-    @Test
-    public void testClearCurrentConversation() {
-        when(jedisPool.getResource()).thenReturn(jedis);
+    assertEquals(1, response.size());
+    assertEquals(testChat, response.getFirst());
+  }
 
-        chatService.clearCurrentConversation(conversationId);
+  @Test
+  public void testGetCurrentMessagesReadFailure() throws JsonProcessingException {
+    when(jedisPool.getResource()).thenReturn(jedis);
 
-        verify(jedis, times(1)).del("chat:" + conversationId);
-    }
+    Chat testChat = new Chat(conversationId, UUID.randomUUID(), userId,
+            "time", "Test Sender", "Test Message");
 
-    @Test
-    public void testClearCurrentConversationError() {
-        when(jedisPool.getResource()).thenThrow(new RuntimeException("Redis connection failed"));
+    String chatJson = objectMapper.writeValueAsString(testChat);
 
-        assertThrows(
-                RuntimeException.class,
-                () -> chatService.clearCurrentConversation(conversationId)
-        );
+    when(jedis.zrange("chat:" + conversationId, 0L, -1)).thenReturn(Collections.singletonList(chatJson));
+    when(mockObjectMapper.readValue(eq(chatJson), eq(Chat.class))).thenThrow(new RuntimeException("Redis connection failed"));
 
-        verify(jedis, times(0)).del("chat:" + conversationId);
-    }
+    List<Chat> response = chatService.getCurrentMessages(conversationId);
+
+    assertEquals(0, response.size());
+  }
+
+  @Test
+  public void testClearCurrentConversation() {
+    when(jedisPool.getResource()).thenReturn(jedis);
+
+    chatService.clearCurrentConversation(conversationId);
+
+    verify(jedis, times(1)).del("chat:" + conversationId);
+  }
+
+  @Test
+  public void testClearCurrentConversationError() {
+    when(jedisPool.getResource()).thenThrow(new RuntimeException("Redis connection failed"));
+
+    assertThrows(
+            RuntimeException.class,
+            () -> chatService.clearCurrentConversation(conversationId)
+    );
+
+    verify(jedis, times(0)).del("chat:" + conversationId);
+  }
 
 }
