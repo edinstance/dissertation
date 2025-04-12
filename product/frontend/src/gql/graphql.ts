@@ -486,6 +486,7 @@ export type Query = {
   getShopItems?: Maybe<SearchedItemsResponse>;
   getUser?: Maybe<User>;
   getUserStats?: Maybe<UserStats>;
+  isChatEnabled?: Maybe<Scalars["Boolean"]["output"]>;
   searchForItems?: Maybe<SearchedItemsResponse>;
 };
 
@@ -928,6 +929,29 @@ export type DeactivateAdminMutation = {
   } | null;
 };
 
+export type IsChatEnabledQueryVariables = Exact<{ [key: string]: never }>;
+
+export type IsChatEnabledQuery = {
+  __typename?: "Query";
+  isChatEnabled?: boolean | null;
+};
+
+export type GetCurrentConversationQueryVariables = Exact<{
+  conversationId: Scalars["String"]["input"];
+}>;
+
+export type GetCurrentConversationQuery = {
+  __typename?: "Query";
+  getCurrentConversation?: Array<{
+    __typename?: "Chat";
+    chatId: string;
+    userId?: string | null;
+    sender: string;
+    message: string;
+    createdAt?: string | null;
+  } | null> | null;
+};
+
 export type CreateChatMutationVariables = Exact<{
   conversationId: Scalars["String"]["input"];
   message: Scalars["String"]["input"];
@@ -967,22 +991,6 @@ export type ClearCurrentConversationMutation = {
     success?: boolean | null;
     message?: string | null;
   } | null;
-};
-
-export type GetCurrentConversationQueryVariables = Exact<{
-  conversationId: Scalars["String"]["input"];
-}>;
-
-export type GetCurrentConversationQuery = {
-  __typename?: "Query";
-  getCurrentConversation?: Array<{
-    __typename?: "Chat";
-    chatId: string;
-    userId?: string | null;
-    sender: string;
-    message: string;
-    createdAt?: string | null;
-  } | null> | null;
 };
 
 export type GetActionsEnumValuesQueryVariables = Exact<{
@@ -1997,6 +2005,80 @@ export const DeactivateAdminDocument = {
   DeactivateAdminMutation,
   DeactivateAdminMutationVariables
 >;
+export const IsChatEnabledDocument = {
+  kind: "Document",
+  definitions: [
+    {
+      kind: "OperationDefinition",
+      operation: "query",
+      name: { kind: "Name", value: "isChatEnabled" },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          { kind: "Field", name: { kind: "Name", value: "isChatEnabled" } },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<IsChatEnabledQuery, IsChatEnabledQueryVariables>;
+export const GetCurrentConversationDocument = {
+  kind: "Document",
+  definitions: [
+    {
+      kind: "OperationDefinition",
+      operation: "query",
+      name: { kind: "Name", value: "getCurrentConversation" },
+      variableDefinitions: [
+        {
+          kind: "VariableDefinition",
+          variable: {
+            kind: "Variable",
+            name: { kind: "Name", value: "conversationId" },
+          },
+          type: {
+            kind: "NonNullType",
+            type: {
+              kind: "NamedType",
+              name: { kind: "Name", value: "String" },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "getCurrentConversation" },
+            arguments: [
+              {
+                kind: "Argument",
+                name: { kind: "Name", value: "conversationId" },
+                value: {
+                  kind: "Variable",
+                  name: { kind: "Name", value: "conversationId" },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                { kind: "Field", name: { kind: "Name", value: "chatId" } },
+                { kind: "Field", name: { kind: "Name", value: "userId" } },
+                { kind: "Field", name: { kind: "Name", value: "sender" } },
+                { kind: "Field", name: { kind: "Name", value: "message" } },
+                { kind: "Field", name: { kind: "Name", value: "createdAt" } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  GetCurrentConversationQuery,
+  GetCurrentConversationQueryVariables
+>;
 export const CreateChatDocument = {
   kind: "Document",
   definitions: [
@@ -2181,64 +2263,6 @@ export const ClearCurrentConversationDocument = {
 } as unknown as DocumentNode<
   ClearCurrentConversationMutation,
   ClearCurrentConversationMutationVariables
->;
-export const GetCurrentConversationDocument = {
-  kind: "Document",
-  definitions: [
-    {
-      kind: "OperationDefinition",
-      operation: "query",
-      name: { kind: "Name", value: "getCurrentConversation" },
-      variableDefinitions: [
-        {
-          kind: "VariableDefinition",
-          variable: {
-            kind: "Variable",
-            name: { kind: "Name", value: "conversationId" },
-          },
-          type: {
-            kind: "NonNullType",
-            type: {
-              kind: "NamedType",
-              name: { kind: "Name", value: "String" },
-            },
-          },
-        },
-      ],
-      selectionSet: {
-        kind: "SelectionSet",
-        selections: [
-          {
-            kind: "Field",
-            name: { kind: "Name", value: "getCurrentConversation" },
-            arguments: [
-              {
-                kind: "Argument",
-                name: { kind: "Name", value: "conversationId" },
-                value: {
-                  kind: "Variable",
-                  name: { kind: "Name", value: "conversationId" },
-                },
-              },
-            ],
-            selectionSet: {
-              kind: "SelectionSet",
-              selections: [
-                { kind: "Field", name: { kind: "Name", value: "chatId" } },
-                { kind: "Field", name: { kind: "Name", value: "userId" } },
-                { kind: "Field", name: { kind: "Name", value: "sender" } },
-                { kind: "Field", name: { kind: "Name", value: "message" } },
-                { kind: "Field", name: { kind: "Name", value: "createdAt" } },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode<
-  GetCurrentConversationQuery,
-  GetCurrentConversationQueryVariables
 >;
 export const GetActionsEnumValuesDocument = {
   kind: "Document",
