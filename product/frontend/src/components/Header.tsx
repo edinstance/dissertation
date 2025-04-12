@@ -33,8 +33,13 @@ export default function Header({ launched }: { launched: boolean }) {
             <ThemeToggle />
 
             {session.status === "authenticated" ? (
-              <div className="flex flex-row rounded-lg text-zinc-700 hover:bg-zinc-300 dark:text-zinc-200 dark:hover:bg-zinc-600">
-                <UserMenu />
+              <div className="flex flex-row space-x-4">
+                {window.location.pathname === "/" && (
+                  <Button href="/shop">Go to the shop</Button>
+                )}
+                <div className="flex flex-row space-x-4 rounded-lg text-zinc-700 hover:bg-zinc-300 dark:text-zinc-200 dark:hover:bg-zinc-600">
+                  <UserMenu />
+                </div>
               </div>
             ) : (
               launched && (
