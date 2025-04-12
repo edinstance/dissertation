@@ -961,14 +961,6 @@ export type CreateChatMutation = {
   __typename?: "Mutation";
   createChat?: {
     __typename?: "CreateChatResponse";
-    chat?: {
-      __typename?: "Chat";
-      chatId: string;
-      userId?: string | null;
-      sender: string;
-      message: string;
-      createdAt?: string | null;
-    } | null;
     response?: {
       __typename?: "Chat";
       chatId: string;
@@ -2143,35 +2135,6 @@ export const CreateChatDocument = {
             selectionSet: {
               kind: "SelectionSet",
               selections: [
-                {
-                  kind: "Field",
-                  name: { kind: "Name", value: "chat" },
-                  selectionSet: {
-                    kind: "SelectionSet",
-                    selections: [
-                      {
-                        kind: "Field",
-                        name: { kind: "Name", value: "chatId" },
-                      },
-                      {
-                        kind: "Field",
-                        name: { kind: "Name", value: "userId" },
-                      },
-                      {
-                        kind: "Field",
-                        name: { kind: "Name", value: "sender" },
-                      },
-                      {
-                        kind: "Field",
-                        name: { kind: "Name", value: "message" },
-                      },
-                      {
-                        kind: "Field",
-                        name: { kind: "Name", value: "createdAt" },
-                      },
-                    ],
-                  },
-                },
                 {
                   kind: "Field",
                   name: { kind: "Name", value: "response" },

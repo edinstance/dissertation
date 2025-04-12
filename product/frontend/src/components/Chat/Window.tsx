@@ -116,21 +116,24 @@ function ChatWindow() {
   });
 
   // Set up mutation for sending messages
-  const [createChatMutation] = useMutation(SEND_CHAT_MESSAGE, {
-    onCompleted: (data) => {
-      if (data?.createChat) {
-        const { chat, response } = data.createChat;
+  const [createChatMutation, { loading: chatLoading }] = useMutation(
+    SEND_CHAT_MESSAGE,
+    {
+      onCompleted: (data) => {
+        if (data?.createChat) {
+          const { response } = data.createChat;
 
-        // Update the conversation state with the new message
-        setConversation((prev) => [
-          ...prev,
-          ...[chat, response].filter(
-            (msg): msg is Chat => msg !== null && msg !== undefined,
-          ),
-        ]);
-      }
+          // Update the conversation state with the new message
+          setConversation((prev) => [
+            ...prev,
+            ...[response].filter(
+              (msg): msg is Chat => msg !== null && msg !== undefined,
+            ),
+          ]);
+        }
+      },
     },
-  });
+  );
 
   // Query for existing conversation messages
   useQuery(GET_CURRENT_CONVERSATION, {
@@ -153,10 +156,44 @@ function ChatWindow() {
   const handleSendMessage = useCallback(() => {
     if (newMessage.trim() !== "") {
       const currentConversationId = getStoredConversationId();
+      const optimisticChatId = uuidv4();
+      // Create optimistic chat object
+      const optimisticChat: Chat = {
+        __typename: "Chat",
+        chatId: optimisticChatId,
+        conversationId: currentConversationId,
+        message: newMessage,
+        sender: "User",
+        createdAt: new Date().toISOString(),
+      };
+
+      // Optimistically update the conversation state
+      setConversation((prev) => [...prev, optimisticChat]);
+
       createChatMutation({
         variables: {
           conversationId: currentConversationId,
           message: newMessage,
+        },
+        onCompleted: (data) => {
+          if (data?.createChat) {
+            const { response } = data.createChat;
+
+            // Remove optimistic chat and replace with actual chat and response
+            setConversation((prev) => [
+              ...prev,
+              ...[response].filter(
+                (msg): msg is Chat => msg !== null && msg !== undefined,
+              ),
+            ]);
+          }
+        },
+        onError: (error) => {
+          console.error("Error sending message:", error);
+          // Remove optimistic chat on error
+          setConversation((prev) =>
+            prev.filter((msg) => msg.chatId !== optimisticChatId),
+          );
         },
       });
 
@@ -220,6 +257,18 @@ function ChatWindow() {
                 {message.message}
               </div>
             ))}
+            {chatLoading && (
+              <div
+                key={uuidv4()}
+                className="mr-auto max-w-[70%] animate-pulse rounded-lg bg-gray-100 p-3 text-sm"
+              >
+                <div className="flex items-center space-x-2">
+                  {[...Array(5)].map((_, i) => (
+                    <div key={i} className="h-2 w-2 rounded-full bg-gray-400" />
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
 
           <div className="flex flex-col items-center space-y-3 border-t p-4">
@@ -244,7 +293,7 @@ function ChatWindow() {
               </Button>
             </div>
             <button
-              className="text-sm text-gray-500 hover:text-red-600 underline"
+              className="text-sm text-gray-500 underline hover:text-red-600"
               onClick={() => {
                 if (conversationId) {
                   clearChatMutation({

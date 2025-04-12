@@ -21,13 +21,6 @@ export const GET_CURRENT_CONVERSATION = graphql(`
 export const SEND_CHAT_MESSAGE = graphql(`
   mutation createChat($conversationId: String!, $message: String!) {
     createChat(conversationId: $conversationId, message: $message) {
-      chat {
-        chatId
-        userId
-        sender
-        message
-        createdAt
-      }
       response {
         chatId
         userId

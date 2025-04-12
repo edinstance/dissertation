@@ -46,7 +46,7 @@ const documents = {
     types.IsChatEnabledDocument,
   "\n  query getCurrentConversation($conversationId: String!) {\n    getCurrentConversation(conversationId: $conversationId) {\n      chatId\n      userId\n      sender\n      message\n      createdAt\n    }\n  }\n":
     types.GetCurrentConversationDocument,
-  "\n  mutation createChat($conversationId: String!, $message: String!) {\n    createChat(conversationId: $conversationId, message: $message) {\n      chat {\n        chatId\n        userId\n        sender\n        message\n        createdAt\n      }\n      response {\n        chatId\n        userId\n        sender\n        message\n        createdAt\n      }\n    }\n  }\n":
+  "\n  mutation createChat($conversationId: String!, $message: String!) {\n    createChat(conversationId: $conversationId, message: $message) {\n      response {\n        chatId\n        userId\n        sender\n        message\n        createdAt\n      }\n    }\n  }\n":
     types.CreateChatDocument,
   "\n  mutation clearCurrentConversation($conversationId: String!) {\n    clearCurrentConversation(conversationId: $conversationId) {\n      success\n      message\n    }\n  }\n":
     types.ClearCurrentConversationDocument,
@@ -192,8 +192,8 @@ export function graphql(
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(
-  source: "\n  mutation createChat($conversationId: String!, $message: String!) {\n    createChat(conversationId: $conversationId, message: $message) {\n      chat {\n        chatId\n        userId\n        sender\n        message\n        createdAt\n      }\n      response {\n        chatId\n        userId\n        sender\n        message\n        createdAt\n      }\n    }\n  }\n",
-): (typeof documents)["\n  mutation createChat($conversationId: String!, $message: String!) {\n    createChat(conversationId: $conversationId, message: $message) {\n      chat {\n        chatId\n        userId\n        sender\n        message\n        createdAt\n      }\n      response {\n        chatId\n        userId\n        sender\n        message\n        createdAt\n      }\n    }\n  }\n"];
+  source: "\n  mutation createChat($conversationId: String!, $message: String!) {\n    createChat(conversationId: $conversationId, message: $message) {\n      response {\n        chatId\n        userId\n        sender\n        message\n        createdAt\n      }\n    }\n  }\n",
+): (typeof documents)["\n  mutation createChat($conversationId: String!, $message: String!) {\n    createChat(conversationId: $conversationId, message: $message) {\n      response {\n        chatId\n        userId\n        sender\n        message\n        createdAt\n      }\n    }\n  }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
