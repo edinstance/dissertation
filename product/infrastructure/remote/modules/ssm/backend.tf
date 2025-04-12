@@ -63,3 +63,27 @@ resource "aws_ssm_parameter" "jira_project_key" {
   type  = "String"
   value = var.jira_project_key
 }
+
+resource "aws_ssm_parameter" "is_chat_enabled" {
+  name  = "/${var.environment}/backend/IS_CHAT_ENABLED"
+  type  = "String"
+  value = var.is_chat_enabled
+}
+
+resource "aws_ssm_parameter" "open_ai_key" {
+  name  = "/${var.environment}/backend/OPEN_AI_KEY"
+  type  = "String"
+  value = var.open_ai_key
+}
+
+resource "aws_ssm_parameter" "open_ai_project_id" {
+  name  = "/${var.environment}/backend/OPEN_AI_PROJECT_ID"
+  type  = "String"
+  value = var.open_ai_project_id
+}
+
+resource "aws_ssm_parameter" "open_ai_organization_id" {
+  name  = "/${var.environment}/backend/OPEN_AI_ORGANIZATION_ID"
+  type  = "String"
+  value = var.open_ai_organization_id
+}

@@ -37,5 +37,5 @@ provider "aws" {
 module "dynamodb" {
   source = "../shared/dynamodb"
 
-  environment = "local"
+  environment = "dev"
 }

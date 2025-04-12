@@ -8,11 +8,11 @@ import com.finalproject.backend.common.types.SortDirection;
 import com.finalproject.backend.items.dto.SearchedItemsResponse;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
-
 import java.util.List;
-
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 public class GetShopItemsTests extends SetupQueryTests {
 

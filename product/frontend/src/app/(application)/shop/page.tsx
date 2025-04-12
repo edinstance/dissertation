@@ -1,14 +1,16 @@
 "use client";
 
+import ChatWindow from "@/components/Chat/Window";
 import ItemShopCard from "@/components/Items/ItemShopCard";
 import ItemSorting from "@/components/Items/ItemSorting";
 import { SearchBar } from "@/components/Search";
 import LoadingSpinner from "@/components/ui/LoadingSpinner";
 import Pagination from "@/components/ui/Pagination";
 import { Item, SortDirection, Sorting } from "@/gql/graphql";
+import { IS_CHAT_ENABLED } from "@/lib/graphql/chats";
 import { GET_SHOP_ITEMS, SEARCH_FOR_ITEMS } from "@/lib/graphql/items";
 import { useSearchStore } from "@/stores/SearchStore";
-import { useLazyQuery } from "@apollo/client";
+import { useLazyQuery, useQuery } from "@apollo/client";
 import { useEffect, useState } from "react";
 
 /**
@@ -26,6 +28,10 @@ export default function Shop() {
   ] = useLazyQuery(SEARCH_FOR_ITEMS);
   const [getShopItems, { data: shopItemsData, loading: shopItemsLoading }] =
     useLazyQuery(GET_SHOP_ITEMS);
+
+  const isChatEnabledQuery = useQuery(IS_CHAT_ENABLED);
+
+  const isChatEnabled = isChatEnabledQuery.data?.isChatEnabled;
 
   const [sorting, setSorting] = useState<Sorting>({
     sortBy: "ending_time",
@@ -110,6 +116,7 @@ export default function Shop() {
           />
         </div>
       )}
+      {isChatEnabled && !isChatEnabledQuery.loading && <ChatWindow />}
     </div>
   );
 }

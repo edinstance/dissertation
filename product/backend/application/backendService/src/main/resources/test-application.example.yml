@@ -34,6 +34,12 @@ management:
         include: "health"
         # This should be the actuator endpoints that you want to expose
 
+chat:
+  isEnabled: true
+  openApiKey: ""
+  openApiProjectId: ""
+  openApiOrganizationId: ""
+
 jira:
   accessToken: ""
   email: ""

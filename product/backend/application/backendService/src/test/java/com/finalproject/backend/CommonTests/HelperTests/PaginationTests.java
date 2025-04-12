@@ -3,7 +3,6 @@ package com.finalproject.backend.CommonTests.HelperTests;
 import com.finalproject.backend.common.helpers.Pagination;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class PaginationTests {
