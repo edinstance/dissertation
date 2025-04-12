@@ -203,6 +203,22 @@ resource "aws_ecs_task_definition" "backend_task" {
         {
           name      = "JIRA_PROJECT_KEY"
           valueFrom = var.jira_project_key_arn
+        },
+        {
+          name      = "IS_CHAT_ENABLED"
+          valueFrom = var.is_chat_enabled_arn
+        },
+        {
+          name      = "OPEN_API_KEY"
+          valueFrom = var.open_ai_key_arn
+        },
+        {
+          name      = "OPEN_API_PROJECT_ID"
+          valueFrom = var.open_ai_project_id_arn
+        },
+        {
+          name      = "OPEN_API_ORGANIZATION_ID"
+          valueFrom = var.open_ai_organization_id_arn
         }
       ]
     }
