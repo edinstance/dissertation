@@ -123,10 +123,14 @@ public class ChatService {
     Chat chat = new Chat(conversationId, UUID.randomUUID(), null, now.toString(), "System");
 
     try {
+      AppLogger.info("Is enabled ", isEnabled);
       if (!isEnabled) {
         chat.setConversationId(conversationId);
         chat.setMessage("Chat is not enabled.");
         chat.setCreatedAt(now.toString());
+
+        addChatToCache(conversationId, now, chat);
+
         return chat;
       }
       OpenAIClient client = OpenAIOkHttpClient.builder()
@@ -137,7 +141,7 @@ public class ChatService {
 
       String prompt =
               "You are a friendly, helpful assistant for an "
-                      + "online shopping platform called ShopSmart. "
+                      + "online shopping platform called SubShop. "
                       + "Your name is SmartShop Assistant. "
                       + "Respond in a warm, conversational tone while being concise and accurate. "
                       + "Address the user directly and personalize your responses. "
@@ -161,6 +165,7 @@ public class ChatService {
       chat.setMessage(aiResponseText);
 
       addChatToCache(conversationId, now, chat);
+
       return chat;
 
     } catch (Exception e) {
