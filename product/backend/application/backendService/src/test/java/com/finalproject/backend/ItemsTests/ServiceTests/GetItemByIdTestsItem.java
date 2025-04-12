@@ -13,7 +13,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-public class GetItemByIdTests extends SetupServiceTests {
+public class GetItemByIdTestsItem extends SetupItemServiceTests {
 
   @Test
   public void testGetItemById() {

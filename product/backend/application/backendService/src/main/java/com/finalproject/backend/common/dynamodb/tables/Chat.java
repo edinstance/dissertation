@@ -134,6 +134,24 @@ public class Chat {
   }
 
   /**
+   * Constructor for Chat without a message.
+   *
+   * @param conversationId the id of the conversation.
+   * @param chatId         the chat ID.
+   * @param userId         the id of the user the chat is for.
+   * @param createdAt      when the chat was created.
+   * @param sender         the sender of the message.
+   */
+  public Chat(UUID conversationId, UUID chatId,
+                  UUID userId, String createdAt, String sender) {
+    this.conversationId = conversationId;
+    this.chatId = chatId;
+    this.userId = userId;
+    this.createdAt = createdAt;
+    this.sender = sender;
+  }
+
+  /**
    * Constructor for Chat.
    *
    * @param conversationId the id of the conversation.

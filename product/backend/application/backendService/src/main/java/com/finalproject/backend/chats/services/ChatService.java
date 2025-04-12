@@ -3,17 +3,24 @@ package com.finalproject.backend.chats.services;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.finalproject.backend.chats.dto.CreateChatResponse;
 import com.finalproject.backend.chats.dynamodb.ChatsDynamoService;
+import com.finalproject.backend.chats.helpers.ChatHelpers;
 import com.finalproject.backend.common.config.logging.AppLogger;
 import com.finalproject.backend.common.dynamodb.tables.Chat;
 import com.finalproject.backend.common.helpers.AuthHelpers;
+import com.openai.client.OpenAIClient;
+import com.openai.client.okhttp.OpenAIOkHttpClient;
+import com.openai.models.ChatModel;
+import com.openai.models.responses.Response;
+import com.openai.models.responses.ResponseCreateParams;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
+import redis.clients.jedis.Jedis;
+import redis.clients.jedis.JedisPool;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import redis.clients.jedis.Jedis;
-import redis.clients.jedis.JedisPool;
 
 /**
  * A service for handling chats.
@@ -40,6 +47,18 @@ public class ChatService {
    * The object mapper to use.
    */
   private final ObjectMapper objectMapper;
+
+  @Value("${chat.isEnabled:false}")
+  private boolean isEnabled;
+
+  @Value("${chat.openApiKey}")
+  private String openAiApiKey;
+
+  @Value("${chat.openApiProjectId}")
+  private String openAiProject;
+
+  @Value("${chat.openApiOrganizationId}")
+  private String openAiOrganization;
 
   /**
    * The constructor for the service.
@@ -82,7 +101,7 @@ public class ChatService {
 
     chatsDynamoService.writeChat(chat);
 
-    return new CreateChatResponse(chat, createResponse(conversationId));
+    return new CreateChatResponse(chat, createResponse(conversationId, message));
   }
 
   /**
@@ -90,26 +109,53 @@ public class ChatService {
    *
    * @param conversationId the id of the conversation
    */
-  public Chat createResponse(final UUID conversationId) {
+  public Chat createResponse(final UUID conversationId, final String message) {
     Instant now = Instant.now();
+    Chat chat = new Chat(conversationId, UUID.randomUUID(), null, now.toString(), "System");
 
+    try {
+      if (!isEnabled) {
+        chat.setConversationId(conversationId);
+        chat.setMessage("Chat is not enabled.");
+        chat.setCreatedAt(now.toString());
+        return chat;
+      }
+      OpenAIClient client = OpenAIOkHttpClient.builder()
+              .apiKey(openAiApiKey)
+              .project(openAiProject)
+              .organization(openAiOrganization)
+              .build();
 
-    Chat chat = new Chat(
-            conversationId,
-            UUID.randomUUID(),
-            null,
-            now.toString(),
-            "System",
-            "Message placeholder"
-    );
+      String prompt =
+              "You are a friendly, helpful assistant for an online shopping platform called ShopSmart. "
+                      + "Your name is SmartShop Assistant. "
+                      + "Respond in a warm, conversational tone while being concise and accurate. "
+                      + "Address the user directly and personalize your responses. "
+                      + "If you cannot answer based on your knowledge, politely explain you're unable to help "
+                      + "and suggest contacting customer service. "
+                      + "End your response with a follow-up question or offer of additional help when appropriate. "
+                      + "User's Question: "
+                      + message;
 
-    addChatToCache(conversationId, now, chat);
+      ResponseCreateParams params =
+              ResponseCreateParams.builder().input(prompt).model(ChatModel.GPT_4O_MINI).build();
 
-    AppLogger.info("System About to publish chat with conversationId: "
-            + chat.getConversationId() + " message: " + chat.getMessage());
+      Response response = client.responses().create(params);
 
-    return chat;
+      String aiResponseText = response.output().toString();
+      aiResponseText = ChatHelpers.cleanOpenAiChatResponse(aiResponseText);
+      AppLogger.info("AI Response: " + aiResponseText);
 
+      chat.setMessage(aiResponseText);
+
+      addChatToCache(conversationId, now, chat);
+      return chat;
+
+    } catch (Exception e) {
+      AppLogger.error("Error generating AI response:", e);
+      chat.setMessage("Error generating getting response. Please try again later.");
+      return chat;
+    }
   }
 
   private void addChatToCache(UUID conversationId, Instant now, Chat chat) {

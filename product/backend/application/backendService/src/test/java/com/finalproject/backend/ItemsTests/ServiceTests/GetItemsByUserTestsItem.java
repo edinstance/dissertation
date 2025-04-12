@@ -13,7 +13,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-public class GetItemsByUserTests extends SetupServiceTests {
+public class GetItemsByUserTestsItem extends SetupItemServiceTests {
 
   @Test
   public void testGetItemsByUserNoCache() throws JsonProcessingException {

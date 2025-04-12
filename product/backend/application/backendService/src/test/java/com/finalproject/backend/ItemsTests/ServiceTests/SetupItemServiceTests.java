@@ -25,7 +25,7 @@ import java.util.List;
 import java.util.UUID;
 
 @ExtendWith(MockitoExtension.class)
-public class SetupServiceTests {
+public class SetupItemServiceTests {
 
   public final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 

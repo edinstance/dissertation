@@ -11,7 +11,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-public class SearchForItemsTests extends SetupServiceTests {
+public class SearchForItemsTestsItem extends SetupItemServiceTests {
 
   @Test
   public void testSearchForItems() {

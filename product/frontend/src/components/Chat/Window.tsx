@@ -50,11 +50,6 @@ function ChatWindow() {
     localStorage.setItem(CHAT_STORAGE_KEY, JSON.stringify(data));
   }, []);
 
-  useEffect(() => {
-    // Initialize conversation ID from localStorage or create a new one
-    setConversationId(getStoredConversationId());
-  }, [getStoredConversationId]);
-
   // Get the stored conversation ID from localStorage
   const getStoredConversationId = useCallback((): string => {
     if (typeof window === "undefined") return "";
@@ -87,6 +82,10 @@ function ChatWindow() {
       return newId;
     }
   }, [storeConversationData]);
+
+  useEffect(() => {
+    setConversationId(getStoredConversationId());
+  }, [getStoredConversationId]);
 
   // Function to update the last interaction time
   const updateLastInteraction = useCallback(() => {
@@ -124,7 +123,7 @@ function ChatWindow() {
   // Query for existing conversation messages
   useQuery(GET_CURRENT_CONVERSATION, {
     variables: { conversationId: conversationId || "" },
-    skip: !conversationId, // Skip the query until we have a valid conversationId
+    skip: !conversationId,
     onCompleted: (data) => {
       if (data?.getCurrentConversation) {
         setConversation(
@@ -140,10 +139,11 @@ function ChatWindow() {
   });
 
   const handleSendMessage = useCallback(() => {
-    if (newMessage.trim() !== "" && conversationId) {
+    if (newMessage.trim() !== "") {
+      const currentConversationId = getStoredConversationId();
       createChatMutation({
         variables: {
-          conversationId: conversationId,
+          conversationId: currentConversationId,
           message: newMessage,
         },
       });
@@ -151,7 +151,12 @@ function ChatWindow() {
       setNewMessage("");
       updateLastInteraction();
     }
-  }, [newMessage, createChatMutation, conversationId, updateLastInteraction]);
+  }, [
+    newMessage,
+    createChatMutation,
+    updateLastInteraction,
+    getStoredConversationId,
+  ]);
 
   // Auto-scroll to bottom when new messages arrive
   useEffect(() => {
@@ -197,7 +202,7 @@ function ChatWindow() {
                   message.sender?.substring(0, 4) === "User"
                     ? "ml-auto bg-blue-100"
                     : "mr-auto bg-gray-100"
-                }`}
+                } whitespace-pre-line`}
               >
                 {message.message}
               </div>

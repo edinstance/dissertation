@@ -14,7 +14,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-public class SaveOrUpdateItemsTests extends SetupServiceTests {
+public class SaveOrUpdateItemsTestsItem extends SetupItemServiceTests {
 
   @Test
   public void saveOrUpdateItem() throws JsonProcessingException, ParseException {
