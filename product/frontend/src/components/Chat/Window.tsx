@@ -1,6 +1,7 @@
 "use client";
 import { Chat } from "@/gql/graphql";
 import {
+  CLEAR_CONVERSATION_MUTATION,
   GET_CURRENT_CONVERSATION,
   SEND_CHAT_MESSAGE,
 } from "@/lib/graphql/chats";
@@ -103,6 +104,17 @@ function ChatWindow() {
     }
   }, []);
 
+  const [clearChatMutation] = useMutation(CLEAR_CONVERSATION_MUTATION, {
+    onCompleted: () => {
+      if (typeof window === "undefined") return;
+
+      setConversation([]);
+      localStorage.removeItem(CHAT_STORAGE_KEY);
+      setConversationId(null);
+      setNewMessage("");
+    },
+  });
+
   // Set up mutation for sending messages
   const [createChatMutation] = useMutation(SEND_CHAT_MESSAGE, {
     onCompleted: (data) => {
@@ -149,6 +161,7 @@ function ChatWindow() {
       });
 
       setNewMessage("");
+      setConversationId(currentConversationId);
       updateLastInteraction();
     }
   }, [
@@ -209,7 +222,7 @@ function ChatWindow() {
             ))}
           </div>
 
-          <div className="border-t p-4">
+          <div className="flex flex-col items-center space-y-3 border-t p-4">
             <div className="flex items-center space-x-2">
               <Input
                 type="text"
@@ -230,6 +243,18 @@ function ChatWindow() {
                 Send
               </Button>
             </div>
+            <button
+              className="text-sm text-gray-500 hover:text-red-600 underline"
+              onClick={() => {
+                if (conversationId) {
+                  clearChatMutation({
+                    variables: { conversationId: conversationId },
+                  });
+                }
+              }}
+            >
+              Clear chat
+            </button>
           </div>
         </>
       </div>
