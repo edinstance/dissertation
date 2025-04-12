@@ -5,7 +5,6 @@ import com.finalproject.backend.common.helpers.Sorting;
 import com.finalproject.backend.common.types.SortDirection;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class SortingTests {

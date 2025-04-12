@@ -4,13 +4,16 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.finalproject.backend.common.dto.PaginationInput;
 import org.junit.jupiter.api.Test;
 import redis.clients.jedis.params.SetParams;
-
 import java.util.List;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
-import static org.mockito.ArgumentMatchers.*;
-import static org.mockito.Mockito.*;
-
-public class GetItemsByUserTests extends SetupServiceTests {
+public class GetItemsByUserTestsItem extends SetupItemServiceTests {
 
   @Test
   public void testGetItemsByUserNoCache() throws JsonProcessingException {

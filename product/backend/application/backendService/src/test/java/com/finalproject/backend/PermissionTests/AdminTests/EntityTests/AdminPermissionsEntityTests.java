@@ -1,14 +1,15 @@
 package com.finalproject.backend.PermissionTests.AdminTests.EntityTests;
 
 import com.finalproject.backend.admin.entities.AdminEntity;
+import com.finalproject.backend.permissions.entities.ActionsEntity;
+import com.finalproject.backend.permissions.entities.PermissionsEntity;
+import com.finalproject.backend.permissions.entities.ResourcesEntity;
 import com.finalproject.backend.permissions.entities.admin.AdminPermissionsEntity;
 import com.finalproject.backend.permissions.entities.admin.ids.AdminPermissionsEntityId;
-import com.finalproject.backend.permissions.entities.*;
 import com.finalproject.backend.permissions.types.Actions;
 import com.finalproject.backend.permissions.types.Resources;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-
 import java.util.UUID;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
@@ -46,28 +47,28 @@ public class AdminPermissionsEntityTests {
   }
 
   @Test
-  public void testIdMethods(){
+  public void testIdMethods() {
     AdminPermissionsEntityId adminPermissionsEntityId = new AdminPermissionsEntityId();
     adminPermissionsEntity.setId(adminPermissionsEntityId);
     assert adminPermissionsEntity.getId().equals(adminPermissionsEntityId);
   }
 
   @Test
-  public void testAdminMethods(){
+  public void testAdminMethods() {
     AdminEntity adminEntity = new AdminEntity();
     adminPermissionsEntity.setAdmin(adminEntity);
     assert adminPermissionsEntity.getAdmin().equals(adminEntity);
   }
 
   @Test
-  public void testPermissionMethods(){
+  public void testPermissionMethods() {
     PermissionsEntity permissionsEntity = new PermissionsEntity();
     adminPermissionsEntity.setPermission(permissionsEntity);
     assert adminPermissionsEntity.getPermission().equals(permissionsEntity);
   }
 
   @Test
-  public void testGrantTypeMethods(){
+  public void testGrantTypeMethods() {
     adminPermissionsEntity.setGrantType("Deny");
     assert adminPermissionsEntity.getGrantType().equals("Deny");
   }

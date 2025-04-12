@@ -6,6 +6,10 @@ type Query {
 
 }
 
+type Subscription {
+
+}
+
 input PaginationInput {
     page: Int
     size: Int

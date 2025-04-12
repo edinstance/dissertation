@@ -4,9 +4,7 @@ import com.finalproject.backend.permissions.entities.ActionsEntity;
 import com.finalproject.backend.permissions.types.Actions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-
 import java.util.UUID;
-
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class ActionsEntityTests {
@@ -14,13 +12,13 @@ public class ActionsEntityTests {
   private static ActionsEntity actionsEntity;
 
   @Test
-  public void testDefaultConstructor(){
+  public void testDefaultConstructor() {
     actionsEntity = new ActionsEntity();
     assertNotNull(actionsEntity);
   }
 
   @Test
-  public void testConstructor(){
+  public void testConstructor() {
     actionsEntity = new ActionsEntity(UUID.randomUUID(), Actions.READ, "Description");
     assertNotNull(actionsEntity);
     assert actionsEntity.getAction().equals(Actions.READ);
@@ -28,26 +26,26 @@ public class ActionsEntityTests {
   }
 
   @BeforeAll
-  public static void setUp(){
+  public static void setUp() {
     actionsEntity = new ActionsEntity(UUID.randomUUID(), Actions.READ, "Description");
   }
 
   @Test
-  public void testActionIdMethods(){
+  public void testActionIdMethods() {
     UUID newActionId = UUID.randomUUID();
     actionsEntity.setActionId(newActionId);
-    assert(actionsEntity.getActionId().equals(newActionId));
+    assert (actionsEntity.getActionId().equals(newActionId));
   }
 
   @Test
-  public void testActionMethods(){
+  public void testActionMethods() {
     actionsEntity.setAction(Actions.WRITE);
-    assert(actionsEntity.getAction().equals(Actions.WRITE));
+    assert (actionsEntity.getAction().equals(Actions.WRITE));
   }
 
   @Test
-  public void testDescriptionMethods(){
+  public void testDescriptionMethods() {
     actionsEntity.setDescription("New Description");
-    assert(actionsEntity.getDescription().equals("New Description"));
+    assert (actionsEntity.getDescription().equals("New Description"));
   }
 }

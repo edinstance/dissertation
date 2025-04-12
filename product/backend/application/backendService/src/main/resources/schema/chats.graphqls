@@ -1,0 +1,27 @@
+extend type Query {
+    isChatEnabled: Boolean
+    getCurrentConversation(conversationId: String!): [Chat]
+}
+
+extend type Mutation {
+    createChat(conversationId: String!, message: String!): CreateChatResponse
+    clearCurrentConversation(conversationId: String!): MutationResponse
+}
+
+extend type Subscription {
+    chatSubscription(conversationId: String!): Chat
+}
+
+type CreateChatResponse {
+    chat: Chat
+    response: Chat
+}
+
+type Chat {
+    conversationId: String!
+    chatId: String!
+    userId: String
+    sender: String!
+    message: String!
+    createdAt: String
+}

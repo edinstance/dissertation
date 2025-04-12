@@ -24,6 +24,7 @@
         <maven-checkstyle.version>3.6.0</maven-checkstyle.version>
         <checkstyle.version>10.20.1</checkstyle.version>
         <log4j.version>2.24.3</log4j.version>
+        <openapi.version>1.2.0</openapi.version>
     </properties>
 
     <dependencies>
@@ -58,6 +59,12 @@
             <groupId>com.netflix.graphql.dgs</groupId>
             <artifactId>graphql-dgs-spring-graphql-starter-test</artifactId>
             <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.openai</groupId>
+            <artifactId>openai-java</artifactId>
+            <version>${openapi.version}</version>
         </dependency>
 
         <!-- PostgreSQL -->

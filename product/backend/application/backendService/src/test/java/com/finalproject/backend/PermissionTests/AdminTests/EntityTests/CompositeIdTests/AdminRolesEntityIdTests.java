@@ -2,10 +2,10 @@ package com.finalproject.backend.PermissionTests.AdminTests.EntityTests.Composit
 
 import com.finalproject.backend.permissions.entities.admin.ids.AdminRolesEntityId;
 import org.junit.jupiter.api.Test;
-
 import java.util.UUID;
-
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 public class AdminRolesEntityIdTests {
 

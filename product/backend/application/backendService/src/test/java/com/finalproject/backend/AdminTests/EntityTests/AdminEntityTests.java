@@ -4,10 +4,11 @@ import com.finalproject.backend.admin.entities.AdminEntity;
 import com.finalproject.backend.users.entities.UserEntity;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-
 import java.util.UUID;
-
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class AdminEntityTests {
 
@@ -76,7 +77,7 @@ public class AdminEntityTests {
   }
 
   @Test
-  public void testUserMethods(){
+  public void testUserMethods() {
     UserEntity user = new UserEntity();
     adminEntity.setUser(user);
     assertEquals(user, adminEntity.getUser());

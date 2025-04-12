@@ -1,14 +1,12 @@
 package com.finalproject.backend.PermissionTests.AdminTests.EntityTests;
 
 import com.finalproject.backend.admin.entities.AdminEntity;
+import com.finalproject.backend.permissions.entities.RoleEntity;
 import com.finalproject.backend.permissions.entities.admin.AdminRolesEntity;
 import com.finalproject.backend.permissions.entities.admin.ids.AdminRolesEntityId;
-import com.finalproject.backend.permissions.entities.RoleEntity;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-
 import java.util.UUID;
-
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class AdminRolesEntityTests {
@@ -16,13 +14,13 @@ public class AdminRolesEntityTests {
   private static AdminRolesEntity adminRolesEntity;
 
   @Test
-  public void testDefaultConstructor(){
+  public void testDefaultConstructor() {
     adminRolesEntity = new AdminRolesEntity();
     assertNotNull(adminRolesEntity);
   }
 
   @Test
-  public void testConstructor(){
+  public void testConstructor() {
     adminRolesEntity = new AdminRolesEntity(new AdminEntity(), new RoleEntity());
     assertNotNull(adminRolesEntity);
     assertNotNull(adminRolesEntity.getRole());
@@ -30,7 +28,7 @@ public class AdminRolesEntityTests {
   }
 
   @BeforeAll
-  public static void setUp(){
+  public static void setUp() {
     AdminEntity adminEntity = new AdminEntity(UUID.randomUUID(),
             false, "ACTIVE", UUID.randomUUID(), UUID.randomUUID());
 
@@ -40,21 +38,21 @@ public class AdminRolesEntityTests {
   }
 
   @Test
-  public void testIdMethods(){
+  public void testIdMethods() {
     AdminRolesEntityId newId = new AdminRolesEntityId();
     adminRolesEntity.setId(newId);
     assert adminRolesEntity.getId().equals(newId);
   }
 
   @Test
-  public void testAdminMethods(){
+  public void testAdminMethods() {
     AdminEntity newAdmin = new AdminEntity();
     adminRolesEntity.setAdmin(newAdmin);
     assert adminRolesEntity.getAdmin().equals(newAdmin);
   }
 
   @Test
-  public void testRoleMethods(){
+  public void testRoleMethods() {
     RoleEntity newRole = new RoleEntity();
     adminRolesEntity.setRole(newRole);
     assert adminRolesEntity.getRole().equals(newRole);

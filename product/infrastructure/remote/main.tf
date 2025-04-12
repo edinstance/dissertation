@@ -96,17 +96,21 @@ module "ecs" {
   ses_production_arn             = module.ssm.ses_production_arn
 
   # Backend enviroment variables
-  spring_active_profile_arn = module.ssm.spring_active_profile_arn
-  cognito_jwt_url_arn       = module.ssm.cognito_jwt_url_arn
-  database_url_arn          = module.ssm.database_url_arn
-  postgres_user_arn         = module.ssm.postgres_user_arn
-  postgres_password_arn     = module.ssm.postgres_password_arn
-  redis_host_arn            = module.ssm.redis_host_arn
-  redis_port_arn            = module.ssm.redis_port_arn
-  jira_access_token_arn     = module.ssm.jira_access_token_arn
-  jira_email_arn            = module.ssm.jira_email_arn
-  jira_url_arn              = module.ssm.jira_url_arn
-  jira_project_key_arn      = module.ssm.jira_project_key_arn
+  spring_active_profile_arn   = module.ssm.spring_active_profile_arn
+  cognito_jwt_url_arn         = module.ssm.cognito_jwt_url_arn
+  database_url_arn            = module.ssm.database_url_arn
+  postgres_user_arn           = module.ssm.postgres_user_arn
+  postgres_password_arn       = module.ssm.postgres_password_arn
+  redis_host_arn              = module.ssm.redis_host_arn
+  redis_port_arn              = module.ssm.redis_port_arn
+  jira_access_token_arn       = module.ssm.jira_access_token_arn
+  jira_email_arn              = module.ssm.jira_email_arn
+  jira_url_arn                = module.ssm.jira_url_arn
+  jira_project_key_arn        = module.ssm.jira_project_key_arn
+  is_chat_enabled_arn         = module.ssm.is_chat_enabled_arn
+  open_ai_key_arn             = module.ssm.open_ai_key_arn
+  open_ai_project_id_arn      = module.ssm.open_ai_project_id_arn
+  open_ai_organization_id_arn = module.ssm.open_ai_organization_id_arn
 }
 
 # Networking
@@ -186,17 +190,21 @@ module "ssm" {
   ses_production             = var.ses_production
 
   # Backend
-  spring_active_profile = var.spring_active_profile
-  cognito_jwt_url       = "https://cognito-idp.${data.aws_region.current.name}.amazonaws.com/${module.cognito.cognito_user_pool_id}"
-  database_url          = "jdbc:postgresql://${module.rds.database_url}/"
-  postgres_user         = var.postgres_user
-  postgres_password     = var.postgres_password
-  redis_host            = module.elasticache.redis_host
-  redis_port            = "6789"
-  jira_access_token     = var.jira_access_token
-  jira_email            = var.jira_email
-  jira_url              = var.jira_url
-  jira_project_key      = var.jira_project_key
+  spring_active_profile   = var.spring_active_profile
+  cognito_jwt_url         = "https://cognito-idp.${data.aws_region.current.name}.amazonaws.com/${module.cognito.cognito_user_pool_id}"
+  database_url            = "jdbc:postgresql://${module.rds.database_url}/"
+  postgres_user           = var.postgres_user
+  postgres_password       = var.postgres_password
+  redis_host              = module.elasticache.redis_host
+  redis_port              = "6789"
+  jira_access_token       = var.jira_access_token
+  jira_email              = var.jira_email
+  jira_url                = var.jira_url
+  jira_project_key        = var.jira_project_key
+  is_chat_enabled         = var.is_chat_enabled
+  open_ai_key             = var.open_ai_key
+  open_ai_project_id      = var.open_ai_project_id
+  open_ai_organization_id = var.open_ai_organization_id
 
   # CICD
   gitlab_terraform_config = var.gitlab_terraform_config

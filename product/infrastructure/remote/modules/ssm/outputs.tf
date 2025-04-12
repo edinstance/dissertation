@@ -100,6 +100,22 @@ output "jira_project_key_arn" {
   value = aws_ssm_parameter.jira_project_key.arn
 }
 
+output "is_chat_enabled_arn" {
+  value = aws_ssm_parameter.is_chat_enabled.arn
+}
+
+output "open_ai_key_arn" {
+  value = aws_ssm_parameter.open_ai_key.arn
+}
+
+output "open_ai_project_id_arn" {
+  value = aws_ssm_parameter.open_ai_project_id.arn
+}
+
+output "open_ai_organization_id_arn" {
+  value = aws_ssm_parameter.open_ai_organization_id.arn
+}
+
 # Shared
 output "api_key_arn" {
   value = aws_ssm_parameter.api_key.arn

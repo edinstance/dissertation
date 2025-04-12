@@ -3,9 +3,7 @@ package com.finalproject.backend.UserTests.EntityTests;
 import com.finalproject.backend.users.entities.UserDetailsEntity;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
 import java.util.UUID;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 

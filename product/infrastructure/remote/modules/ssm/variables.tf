@@ -141,6 +141,26 @@ variable "jira_project_key" {
   type        = string
 }
 
+variable "is_chat_enabled" {
+  description = "Whether chat is enabled"
+  type        = bool
+}
+
+variable "open_ai_key" {
+  description = "The OpenAI key"
+  type        = string
+}
+
+variable "open_ai_project_id" {
+  description = "The project ID for OpenAI"
+  type        = string
+}
+
+variable "open_ai_organization_id" {
+  description = "The organization ID for OpenAI"
+  type        = string
+}
+
 # Shared
 variable "api_key" {
   description = "The API key"

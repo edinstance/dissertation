@@ -4,9 +4,7 @@ import com.finalproject.backend.permissions.entities.ResourcesEntity;
 import com.finalproject.backend.permissions.types.Resources;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-
 import java.util.UUID;
-
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class ResourcesEntityTests {
@@ -35,20 +33,20 @@ public class ResourcesEntityTests {
   }
 
   @Test
-  public void testIdMethods(){
+  public void testIdMethods() {
     UUID newId = UUID.randomUUID();
     resourcesEntity.setId(newId);
     assert resourcesEntity.getId().equals(newId);
   }
 
   @Test
-  public void testResourceMethods(){
+  public void testResourceMethods() {
     resourcesEntity.setResource(Resources.ADMIN_PERMISSIONS);
     assert resourcesEntity.getResource().equals(Resources.ADMIN_PERMISSIONS);
   }
 
   @Test
-  public void testDescriptionMethods(){
+  public void testDescriptionMethods() {
     resourcesEntity.setDescription("New Description");
     assert resourcesEntity.getDescription().equals("New Description");
   }

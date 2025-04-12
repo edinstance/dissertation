@@ -4,9 +4,7 @@ import com.finalproject.backend.users.dto.UserInput;
 import com.finalproject.backend.users.entities.UserEntity;
 import com.finalproject.backend.users.mappers.UserMapper;
 import org.junit.jupiter.api.Test;
-
 import java.util.UUID;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
