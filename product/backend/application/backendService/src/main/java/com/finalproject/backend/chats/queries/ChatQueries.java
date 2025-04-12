@@ -42,4 +42,14 @@ public class ChatQueries {
 
     return chatService.getCurrentMessages(UUID.fromString(conversationId));
   }
+
+  /**
+   * A query to get if the chat is enabled.
+   *
+   * @return if the chat is enabled.
+   */
+  @DgsQuery
+  public boolean isChatEnabled() {
+    return chatService.isEnabled();
+  }
 }

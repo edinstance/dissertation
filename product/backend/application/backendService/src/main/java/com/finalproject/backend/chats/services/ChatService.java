@@ -12,15 +12,15 @@ import com.openai.client.okhttp.OpenAIOkHttpClient;
 import com.openai.models.ChatModel;
 import com.openai.models.responses.Response;
 import com.openai.models.responses.ResponseCreateParams;
+import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
-import java.time.Instant;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
 
 /**
  * A service for handling chats.
@@ -78,6 +78,15 @@ public class ChatService {
   }
 
   /**
+   * A function to return if the chat is enabled.
+   *
+   * @return if it is enabled.
+   */
+  public boolean isEnabled() {
+    return isEnabled;
+  }
+
+  /**
    * A function to create a chat.
    *
    * @param conversationId the conversation to create the chat in.
@@ -127,13 +136,16 @@ public class ChatService {
               .build();
 
       String prompt =
-              "You are a friendly, helpful assistant for an online shopping platform called ShopSmart. "
+              "You are a friendly, helpful assistant for an "
+                      + "online shopping platform called ShopSmart. "
                       + "Your name is SmartShop Assistant. "
                       + "Respond in a warm, conversational tone while being concise and accurate. "
                       + "Address the user directly and personalize your responses. "
-                      + "If you cannot answer based on your knowledge, politely explain you're unable to help "
+                      + "If you cannot answer based on your knowledge, politely "
+                      + "explain you're unable to help "
                       + "and suggest contacting customer service. "
-                      + "End your response with a follow-up question or offer of additional help when appropriate. "
+                      + "End your response with a follow-up question or "
+                      + "offer of additional help when appropriate. "
                       + "User's Question: "
                       + message;
 
