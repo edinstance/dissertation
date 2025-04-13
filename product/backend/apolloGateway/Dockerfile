@@ -7,14 +7,19 @@ RUN apk add --no-cache curl
 HEALTHCHECK --interval=30s --timeout=10s --retries=3 \
     CMD curl -f http://localhost:4000/graphql\?query\=%7B__typename%7D || exit 1
 
-WORKDIR /app
 
-COPY package*.json ./
+COPY package.json yarn.lock* package-lock.json* pnpm-lock.yaml* ./
+RUN \
+  if [ -f yarn.lock ]; then yarn --frozen-lockfile; \
+  elif [ -f package-lock.json ]; then npm ci; \
+  elif [ -f pnpm-lock.yaml ]; then yarn global add pnpm && pnpm i; \
+  else echo "Lockfile not found." && exit 1; \
+  fi
 
-RUN npm ci
-
+COPY tsconfig.json ./
 COPY src/ ./src
-COPY dist/ ./dist
+
+RUN npm run build
 
 EXPOSE 4000
 
@@ -22,4 +27,4 @@ ENV PORT=3000
 ENV HOSTNAME=0.0.0.0
 
 # Start the server
-CMD ["node", "./dist/index.js"]
+CMD ["node", "/dist/index.js"]

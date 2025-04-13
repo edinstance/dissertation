@@ -4,6 +4,7 @@
   "description": "A gateway for the backend graphql services.",
   "scripts": {
     "compile": "tsc",
+    "build": "npm run compile",
     "start": "npm run compile && node dist/index.js",
     "prettier": "prettier --write ."
   },
