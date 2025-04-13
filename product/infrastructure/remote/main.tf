@@ -49,6 +49,12 @@ module "backend_ecr" {
   name = "${var.environment}-backend-ecr"
 }
 
+module "apollo_gateway_ecr" {
+  source = "./modules/ecr"
+
+  name = "${var.environment}-apollo-gateway-ecr"
+}
+
 # ECS
 module "ecs" {
   source = "./modules/ecs"
@@ -57,10 +63,12 @@ module "ecs" {
   environment = var.environment
 
   # ECR
-  frontend_ecr_repo  = module.frontend_ecr.repository_url
-  backend_ecr_repo   = module.backend_ecr.repository_url
-  frontend_image_tag = var.frontend_image_tag
-  backend_image_tag  = var.backend_image_tag
+  frontend_ecr_repo        = module.frontend_ecr.repository_url
+  backend_ecr_repo         = module.backend_ecr.repository_url
+  apollo_gateway_ecr_repo  = module.apollo_gateway_ecr.repository_url
+  frontend_image_tag       = var.frontend_image_tag
+  backend_image_tag        = var.backend_image_tag
+  apollo_gateway_image_tag = var.apollo_gateway_image_tag
 
   # IAM
   ecs_task_execution_role_arn = module.iam.ecs_task_execution_role_arn
@@ -254,17 +262,22 @@ module "cicd" {
   # CodeDeploy
   ecs_cluster_name = module.ecs.ecs_cluster_name
 
-  frontend_ecs_service_name = module.ecs.frontend_ecs_service_name
-  backend_ecs_service_name  = module.ecs.backend_ecs_service_name
+  frontend_ecs_service_name       = module.ecs.frontend_ecs_service_name
+  backend_ecs_service_name        = module.ecs.backend_ecs_service_name
+  apollo_gateway_ecs_service_name = module.ecs.apollo_gateway_ecs_service_name
 
-  frontend_alb_listener_arn = module.ecs.frontend_alb_listener_arn
-  backend_alb_listener_arn  = module.ecs.backend_alb_listener_arn
+  frontend_alb_listener_arn       = module.ecs.frontend_alb_listener_arn
+  backend_alb_listener_arn        = module.ecs.backend_alb_listener_arn
+  apollo_gateway_alb_listener_arn = module.ecs.apollo_gateway_alb_listener_arn
 
   frontend_alb_target_group_blue_name  = module.ecs.frontend_alb_target_group_blue_name
   frontend_alb_target_group_green_name = module.ecs.frontend_alb_target_group_green_name
 
   backend_alb_target_group_blue_name  = module.ecs.backend_alb_target_group_blue_name
   backend_alb_target_group_green_name = module.ecs.backend_alb_target_group_green_name
+
+  apollo_gateway_alb_target_group_blue_name  = module.ecs.apollo_gateway_alb_target_group_blue_name
+  apollo_gateway_alb_target_group_green_name = module.ecs.apollo_gateway_alb_target_group_green_name
 }
 
 

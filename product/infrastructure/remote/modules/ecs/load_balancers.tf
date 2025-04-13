@@ -106,8 +106,40 @@ resource "aws_lb_listener" "backend_http" {
   protocol          = "HTTP"
   default_action {
     type             = "forward"
+    target_group_arn = aws_lb_target_group.alb_apollo_gatway_tg_blue.arn
+  }
+}
+
+resource "aws_lb_listener_rule" "backend_rule" {
+  listener_arn = aws_lb_listener.backend_http.arn
+  priority     = 20
+
+  action {
+    type             = "forward"
     target_group_arn = aws_lb_target_group.alb_backend_tg_blue.arn
   }
+
+  condition {
+    path_pattern {
+      values = ["/backend*"]
+    }
+  }
+}
+
+resource "aws_lb_target_group" "alb_apollo_gatway_tg_blue" {
+  name        = "${var.environment}-apollo-gateway-tg-blue"
+  port        = 4000
+  protocol    = "HTTP"
+  target_type = "ip"
+  vpc_id      = var.vpc_id
+}
+
+resource "aws_lb_target_group" "alb_apollo_gatway_tg_green" {
+  name        = "${var.environment}-apollo-gateway-tg-green"
+  port        = 4000
+  protocol    = "HTTP"
+  target_type = "ip"
+  vpc_id      = var.vpc_id
 }
 
 resource "aws_lb_target_group" "alb_backend_tg_blue" {
