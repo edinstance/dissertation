@@ -34,6 +34,13 @@ management:
         include: "health"
         # This should be the actuator endpoints that you want to expose
 
+dgs:
+  graphql:
+    path: "/backend/graphql"
+    introspection:
+      enabled: true
+
+
 chat:
   isEnabled: false
   openApiKey: ""
