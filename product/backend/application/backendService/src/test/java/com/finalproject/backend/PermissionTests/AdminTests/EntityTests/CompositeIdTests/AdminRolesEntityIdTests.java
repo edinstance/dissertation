@@ -66,7 +66,7 @@ public class AdminRolesEntityIdTests {
     id1.setAdminId(adminId);
     id1.setRoleId(roleId);
 
-    assertFalse(id1.equals(null));
+    assertNotEquals(null, id1);
   }
 
   @Test
@@ -78,6 +78,6 @@ public class AdminRolesEntityIdTests {
     id1.setAdminId(adminId);
     id1.setRoleId(roleId);
 
-    assertFalse(id1.equals("String"));
+    assertNotEquals("String", id1);
   }
 }

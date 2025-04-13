@@ -66,7 +66,7 @@ public class RolePermissionIdTests {
     id1.setPermissionId(permissionId);
     id1.setRoleId(roleId);
 
-    assertFalse(id1.equals(null));
+    assertNotEquals(null, id1);
   }
 
   @Test
@@ -78,6 +78,6 @@ public class RolePermissionIdTests {
     id1.setRoleId(roleId);
     id1.setPermissionId(permissionId);
 
-    assertFalse(id1.equals("String"));
+    assertNotEquals("String", id1);
   }
 }

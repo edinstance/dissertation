@@ -41,7 +41,7 @@ public class PermissionKeyTests {
 
   @Test
   public void testDifferentObjects() {
-    assertFalse(key.equals("String"));
+    assertNotEquals("String", key);
   }
 
   @Test

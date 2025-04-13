@@ -25,7 +25,7 @@ public class MutationTests {
   @InjectMocks
   private PermissionsMutations permissionsMutations;
 
-  private CreatePermissionInput createPermissionInput = new CreatePermissionInput(
+  private final CreatePermissionInput createPermissionInput = new CreatePermissionInput(
           "Test Permission",
           Actions.READ,
           "Test Action Description",

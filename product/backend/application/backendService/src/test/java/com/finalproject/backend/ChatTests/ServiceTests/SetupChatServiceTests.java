@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.finalproject.backend.chats.dynamodb.ChatsDynamoService;
 import com.finalproject.backend.chats.services.ChatService;
 import com.finalproject.backend.common.helpers.AuthHelpers;
-import com.openai.client.OpenAIClient;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

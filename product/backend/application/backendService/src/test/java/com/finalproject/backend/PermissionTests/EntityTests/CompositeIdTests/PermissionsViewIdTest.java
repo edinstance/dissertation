@@ -187,7 +187,7 @@ public class PermissionsViewIdTest {
     id1.setResourceId(resourceId);
     id1.setActionId(actionId);
 
-    assertFalse(id1.equals(null));
+    assertNotEquals(null, id1);
   }
 
   @Test
@@ -203,6 +203,6 @@ public class PermissionsViewIdTest {
     id1.setResourceId(resourceId);
     id1.setActionId(actionId);
 
-    assertFalse(id1.equals("String"));
+    assertNotEquals("String", id1);
   }
 }

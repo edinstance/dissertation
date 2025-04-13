@@ -41,9 +41,9 @@ public class CreateChatTests extends SetupChatServiceTests {
     assertEquals(message, dynamoCapturedChat.getMessage());
 
 
-    verify(jedis, times(1))
+    verify(jedis, times(2))
             .zadd(eq("chat:" + conversationId), any(Double.class), any(String.class));
-    verify(jedis, times(1)).expire(eq("chat:" + conversationId), eq(600L));
+    verify(jedis, times(2)).expire(eq("chat:" + conversationId), eq(600L));
   }
 
   @Test
