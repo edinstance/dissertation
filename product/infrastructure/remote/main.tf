@@ -200,7 +200,7 @@ module "ssm" {
   # Backend
   spring_active_profile   = var.spring_active_profile
   cognito_jwt_url         = "https://cognito-idp.${data.aws_region.current.name}.amazonaws.com/${module.cognito.cognito_user_pool_id}"
-  database_url            = "jdbc:postgresql://${module.rds.database_url}/"
+  database_url            = "jdbc:postgresql://${module.rds.database_url}"
   postgres_user           = var.postgres_user
   postgres_password       = var.postgres_password
   redis_host              = module.elasticache.redis_host
