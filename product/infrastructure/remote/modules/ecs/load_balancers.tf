@@ -166,7 +166,7 @@ resource "aws_lb_target_group" "alb_backend_tg_blue" {
   vpc_id      = var.vpc_id
 
   health_check {
-    path                = "/details/health"
+    path                = "/backend/details/health"
     interval            = 30
     timeout             = 5
     healthy_threshold   = 2
@@ -182,7 +182,7 @@ resource "aws_lb_target_group" "alb_backend_tg_green" {
   vpc_id      = var.vpc_id
 
   health_check {
-    path                = "/details/health"
+    path                = "/backend/details/health"
     interval            = 30
     timeout             = 5
     healthy_threshold   = 2

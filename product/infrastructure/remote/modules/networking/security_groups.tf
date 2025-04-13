@@ -73,7 +73,7 @@ resource "aws_security_group" "backend_alb_sg" {
 
   egress {
     description = "Allow all traffic out"
-    protocol    = "tcp"
+    protocol    = "-1"
     from_port   = 0
     to_port     = 0
     cidr_blocks = ["0.0.0.0/0"]
@@ -90,9 +90,9 @@ resource "aws_security_group" "backend_sg" {
 
   ingress {
     description     = "Allow traffic from backend ALB"
-    protocol        = "tcp"
-    from_port       = 8080
-    to_port         = 8080
+    protocol        = "-1"
+    from_port       = 0
+    to_port         = 0
     security_groups = [aws_security_group.backend_alb_sg.id]
   }
 

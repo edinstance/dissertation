@@ -45,18 +45,21 @@ resource "aws_ecs_task_definition" "frontend_task" {
           awslogs-stream-prefix = "ecs"
         }
       }
+
+      enviroment = [
+        {
+          name  = "BACKEND_GRAPHQL_ENDPOINT"
+          value = "http://${aws_lb.backend_alb.dns_name}/"
+        },
+        {
+          name  = "NEXTAUTH_URL"
+          value = "http://${aws_lb.frontend_alb.dns_name}"
+        }
+      ]
       secrets = [
         {
           name      = "NEXTAUTH_SECRET"
           valueFrom = var.nextauth_secret_arn
-        },
-        {
-          name      = "NEXTAUTH_URL"
-          valueFrom = var.nextauth_url_arn
-        },
-        {
-          name      = "BACKEND_GRAPHQL_ENDPOINT"
-          valueFrom = var.backend_graphql_endpoint_arn
         },
         {
           name      = "COGNITO_CLIENT_ID"

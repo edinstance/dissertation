@@ -87,9 +87,7 @@ module "ecs" {
   backend_sg_id      = module.networking.backend_sg_id
 
   # Frontend enviroment variables
-  nextauth_url_arn               = module.ssm.nextauth_url_arn
   nextauth_secret_arn            = module.ssm.nextauth_secret_arn
-  backend_graphql_endpoint_arn   = module.ssm.backend_graphql_endpoint_arn
   frontend_cognito_client_id_arn = module.ssm.frontend_cognito_client_id_arn
   cognito_user_pool_id_arn       = module.ssm.cognito_user_pool_id_arn
   api_key_arn                    = module.ssm.api_key_arn
@@ -182,9 +180,7 @@ module "ssm" {
   api_key     = var.api_key
 
   # Frontend
-  nextauth_url               = var.nextauth_url
   nextauth_secret            = var.nextauth_secret
-  backend_graphql_endpoint   = var.backend_graphql_endpoint
   frontend_cognito_client_id = module.cognito.frontend_client_id
   cognito_user_pool_id       = module.cognito.cognito_user_pool_id
   stripe_publishable_key     = var.stripe_publishable_key

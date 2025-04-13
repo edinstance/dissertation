@@ -96,18 +96,8 @@ variable "ecs_task_role_arn" {
 
 
 # Frontend environment variables
-variable "nextauth_url_arn" {
-  description = "The arn of the URL for NextAuth"
-  type        = string
-}
-
 variable "nextauth_secret_arn" {
   description = "The arn of the secret for NextAuth"
-  type        = string
-}
-
-variable "backend_graphql_endpoint_arn" {
-  description = "The arn of the endpoint for the backend GraphQL"
   type        = string
 }
 
