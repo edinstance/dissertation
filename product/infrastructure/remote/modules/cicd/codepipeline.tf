@@ -63,6 +63,20 @@ resource "aws_codepipeline" "application-pipeline" {
     }
 
     action {
+      name             = "BuildApolloGateway"
+      category         = "Build"
+      owner            = "AWS"
+      provider         = "CodeBuild"
+      version          = "1"
+      input_artifacts  = ["source_output"]
+      output_artifacts = ["apollo_gateway_output"]
+
+      configuration = {
+        ProjectName = aws_codebuild_project.apollo_gateway_codebuild.name
+      }
+    }
+
+    action {
       name             = "BuildBackend"
       category         = "Build"
       owner            = "AWS"
@@ -106,6 +120,21 @@ resource "aws_codepipeline" "application-pipeline" {
       configuration = {
         ApplicationName     = aws_codedeploy_app.frontend_codedeploy_application.name
         DeploymentGroupName = aws_codedeploy_deployment_group.frontend_codedeploy_deployment_group.deployment_group_name
+      }
+    }
+
+    action {
+      name            = "DeployApolloGateway"
+      category        = "Deploy"
+      owner           = "AWS"
+      provider        = "CodeDeploy"
+      version         = "1"
+      run_order       = 1
+      input_artifacts = ["apollo_gateway_output"]
+
+      configuration = {
+        ApplicationName     = aws_codedeploy_app.apollo_gateway_codedeploy_application.name
+        DeploymentGroupName = aws_codedeploy_deployment_group.apollo_gateway_codedeploy_deployment_group.deployment_group_name
       }
     }
 
