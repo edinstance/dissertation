@@ -1,4 +1,16 @@
 services:
+  final-project-apollo-gateway:
+    build:
+      context: ../backend/apolloGateway/
+      dockerfile: Dockerfile
+    container_name: final-project-apollo-gateway-local
+    ports:
+      - 4000:4000
+    environment:
+      API_KEY: ${API_KEY}
+      ORIGIN_URL: http://final-project-frontend:3000
+      MAIN_SUBGRAPH_URL: http://final-project-backend:8080/graphql
+
   final-project-backend:
     build:
       context: ../backend/application/backendService/
