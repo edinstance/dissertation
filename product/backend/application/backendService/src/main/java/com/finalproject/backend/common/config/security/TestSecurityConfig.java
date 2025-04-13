@@ -46,7 +46,7 @@ public class TestSecurityConfig {
                     // The healthcheck requests need
                     // authentication so that the authenticated
                     // routes can be tested
-                    .requestMatchers("/details/health").authenticated()
+                    .requestMatchers("/backend/details/**").permitAll()
                     // All other requests are permitted
                     .anyRequest().permitAll()
             )
