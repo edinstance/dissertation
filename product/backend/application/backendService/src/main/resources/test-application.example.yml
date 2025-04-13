@@ -35,7 +35,7 @@ management:
         # This should be the actuator endpoints that you want to expose
 
 chat:
-  isEnabled: true
+  isEnabled: false
   openApiKey: ""
   openApiProjectId: ""
   openApiOrganizationId: ""
