@@ -38,11 +38,11 @@ resource "aws_codedeploy_deployment_group" "apollo_gateway_codedeploy_deployment
       }
 
       target_group {
-        name = var.frontend_alb_target_group_blue_name
+        name = var.apollo_gateway_alb_target_group_blue_name
       }
 
       target_group {
-        name = var.frontend_alb_target_group_green_name
+        name = var.apollo_gateway_alb_target_group_green_name
       }
     }
   }

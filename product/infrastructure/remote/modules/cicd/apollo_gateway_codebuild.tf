@@ -34,7 +34,7 @@ resource "aws_codebuild_project" "apollo_gateway_codebuild" {
 
     environment_variable {
       name  = "SERVICE_TYPE"
-      value = "backend"
+      value = "apollo-gateway"
     }
 
     environment_variable {
@@ -55,7 +55,7 @@ resource "aws_codebuild_project" "apollo_gateway_codebuild" {
   logs_config {
     cloudwatch_logs {
       group_name  = "${var.environment}-codebuild-logs"
-      stream_name = "${var.environment}-apollo-gatewau-codebuild-project"
+      stream_name = "${var.environment}-apollo-gateway-codebuild-project"
     }
   }
 }
