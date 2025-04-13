@@ -63,15 +63,15 @@ variable "frontend_ecr_repo" {
   type        = string
 }
 
-variable "apollo_gateway_image_tag" {
-  description = "The tag of the Apollo Gateway Docker image to deploy"
-  type        = string
-}
+# variable "apollo_gateway_image_tag" {
+#   description = "The tag of the Apollo Gateway Docker image to deploy"
+#   type        = string
+# }
 
-variable "apollo_gateway_ecr_repo" {
-  description = "The URL of the Apollo Gateway ECR repository"
-  type        = string
-}
+# variable "apollo_gateway_ecr_repo" {
+#   description = "The URL of the Apollo Gateway ECR repository"
+#   type        = string
+# }
 
 variable "backend_image_tag" {
   description = "The tag of the backend Docker image to deploy"

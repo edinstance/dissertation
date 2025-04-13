@@ -116,67 +116,67 @@ resource "aws_ecs_task_definition" "frontend_task" {
 
 
 # ECS Apollo gateway Task Definition
-resource "aws_ecs_task_definition" "apollo_gateway_task" {
-  family                   = "${var.environment}-apollo-gateway-task"
-  network_mode             = "awsvpc"
-  requires_compatibilities = ["FARGATE"]
-  runtime_platform {
-    operating_system_family = "LINUX"
-    cpu_architecture        = "ARM64"
-  }
-  cpu                = "512"  # 0.5 vCPU
-  memory             = "1024" # 1 GB
-  execution_role_arn = var.ecs_task_execution_role_arn
+# resource "aws_ecs_task_definition" "apollo_gateway_task" {
+#   family                   = "${var.environment}-apollo-gateway-task"
+#   network_mode             = "awsvpc"
+#   requires_compatibilities = ["FARGATE"]
+#   runtime_platform {
+#     operating_system_family = "LINUX"
+#     cpu_architecture        = "ARM64"
+#   }
+#   cpu                = "512"  # 0.5 vCPU
+#   memory             = "1024" # 1 GB
+#   execution_role_arn = var.ecs_task_execution_role_arn
 
-  container_definitions = jsonencode([
-    {
-      name      = "${var.environment}-apollo-gateway-container"
-      image     = "${var.apollo_gateway_ecr_repo}:${var.apollo_gateway_image_tag}"
-      essential = true
-      portMappings = [
-        {
-          containerPort = 4000
-          hostPort      = 4000
-          protocol      = "tcp"
-        }
-      ]
-      healthCheck = {
-        command = [
-          "CMD-SHELL",
-          "echo \"ok\"|| exit 1"
-        ],
-        interval    = 30
-        timeout     = 5
-        retries     = 3
-        startPeriod = 0
-      }
-      logConfiguration = {
-        logDriver = "awslogs"
-        options = {
-          awslogs-group         = "/ecs/apollo-gateway"
-          awslogs-region        = data.aws_region.current.name
-          awslogs-stream-prefix = "ecs"
-        }
-      }
-      environment = [
-        {
-          name  = "ORIGIN_URL"
-          value = "http://${aws_lb.frontend_alb.dns_name}"
-        },
-        {
-          name  = "BACKEND_SUBGRAPH_URL"
-          value = "http://${aws_lb.backend_alb.dns_name}/backend/graphql"
-        }
-      ]
-      secrets = [
-        {
-          name      = "API_KEY"
-          valueFrom = var.api_key_arn
-        }
-      ]
-    }
-  ])
-}
+#   container_definitions = jsonencode([
+#     {
+#       name      = "${var.environment}-apollo-gateway-container"
+#       image     = "${var.apollo_gateway_ecr_repo}:${var.apollo_gateway_image_tag}"
+#       essential = true
+#       portMappings = [
+#         {
+#           containerPort = 4000
+#           hostPort      = 4000
+#           protocol      = "tcp"
+#         }
+#       ]
+#       healthCheck = {
+#         command = [
+#           "CMD-SHELL",
+#           "echo \"ok\"|| exit 1"
+#         ],
+#         interval    = 30
+#         timeout     = 5
+#         retries     = 3
+#         startPeriod = 0
+#       }
+#       logConfiguration = {
+#         logDriver = "awslogs"
+#         options = {
+#           awslogs-group         = "/ecs/apollo-gateway"
+#           awslogs-region        = data.aws_region.current.name
+#           awslogs-stream-prefix = "ecs"
+#         }
+#       }
+#       environment = [
+#         {
+#           name  = "ORIGIN_URL"
+#           value = "http://${aws_lb.frontend_alb.dns_name}"
+#         },
+#         {
+#           name  = "BACKEND_SUBGRAPH_URL"
+#           value = "http://${aws_lb.backend_alb.dns_name}/backend/graphql"
+#         }
+#       ]
+#       secrets = [
+#         {
+#           name      = "API_KEY"
+#           valueFrom = var.api_key_arn
+#         }
+#       ]
+#     }
+#   ])
+# }
 
 
 

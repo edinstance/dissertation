@@ -27,7 +27,7 @@ redis:
 management:
   endpoints:
     web:
-      base-path: "/backend/details"
+      base-path: "/details"
       # This should be the base path for the actuator endpoints
     jmx:
       exposure:
@@ -36,7 +36,7 @@ management:
 
 dgs:
   graphql:
-    path: "/backend/graphql"
+    path: "/graphql"
     introspection:
       enabled: true
 
