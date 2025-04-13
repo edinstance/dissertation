@@ -132,6 +132,14 @@ resource "aws_lb_target_group" "alb_apollo_gatway_tg_blue" {
   protocol    = "HTTP"
   target_type = "ip"
   vpc_id      = var.vpc_id
+
+  health_check {
+    path                = "/health"
+    interval            = 30
+    timeout             = 5
+    healthy_threshold   = 2
+    unhealthy_threshold = 2
+  }
 }
 
 resource "aws_lb_target_group" "alb_apollo_gatway_tg_green" {
@@ -140,6 +148,14 @@ resource "aws_lb_target_group" "alb_apollo_gatway_tg_green" {
   protocol    = "HTTP"
   target_type = "ip"
   vpc_id      = var.vpc_id
+
+  health_check {
+    path                = "/health"
+    interval            = 30
+    timeout             = 5
+    healthy_threshold   = 2
+    unhealthy_threshold = 2
+  }
 }
 
 resource "aws_lb_target_group" "alb_backend_tg_blue" {
