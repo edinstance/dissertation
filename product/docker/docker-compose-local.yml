@@ -9,7 +9,7 @@ services:
     environment:
       API_KEY: ${API_KEY}
       ORIGIN_URL: http://final-project-frontend:3000
-      MAIN_SUBGRAPH_URL: http://final-project-backend:8080/graphql
+      BACKEND_SUBGRAPH_URL: http://final-project-backend:8080/graphql
 
   final-project-backend:
     build:
@@ -61,7 +61,7 @@ services:
       - STRIPE_PRICE_ID=${STRIPE_PRICE_ID}
       - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
       - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
-    
+
   postgres:
     container_name: final-project-database-local
     image: postgres
@@ -89,9 +89,34 @@ services:
       - "8000:8000"
     command: "-jar DynamoDBLocal.jar -sharedDb -inMemory"
 
-
   redis:
     container_name: final-project-redis-local
     image: redis
     ports:
       - "6379:6379"
+  zookeeper:
+    image: confluentinc/cp-zookeeper:latest
+    container_name: final-project-zookeeper-local
+    ports:
+      - "2181:2181"
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+
+  kafka:
+    image: confluentinc/cp-kafka:latest
+    container_name: final-project-kafka-local
+    depends_on:
+      - zookeeper
+    ports:
+      - "9092:9092"
+      - "9094:9094"
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: final-project-zookeeper-local:2181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092,PLAINTEXT_HOST://localhost:9094
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1

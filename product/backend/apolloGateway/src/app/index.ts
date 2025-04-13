@@ -10,7 +10,7 @@ dotenv.config();
 
 const apiKey = process.env.API_KEY || "";
 const originUrl = process.env.ORIGIN_URL || "";
-const mainSubgraphUrl = process.env.MAIN_SUBGRAPH_URL || "";
+const backendSubgraphUrl = process.env.BACKEND_SUBGRAPH_URL || "";
 
 class AuthenticatedDataSource extends RemoteGraphQLDataSource {
   willSendRequest({ request, context }: { request: any; context: any }) {
@@ -32,8 +32,8 @@ const gateway = new ApolloGateway({
   supergraphSdl: new IntrospectAndCompose({
     subgraphs: [
       {
-        name: "main",
-        url: mainSubgraphUrl,
+        name: "backend",
+        url: backendSubgraphUrl,
       },
     ],
   }),
