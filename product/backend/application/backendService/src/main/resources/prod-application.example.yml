@@ -23,12 +23,18 @@ redis:
 management:
   endpoints:
     web:
-      base-path: "/details"
+      base-path: "/backend/details"
       # This should be the base path for the actuator endpoints
     jmx:
       exposure:
         include: "health"
         # This should be the actuator endpoints that you want to expose
+
+dgs:
+  graphql:
+    path: "/backend/graphql"
+    introspection:
+      enabled: true
 
 jira:
   accessToken:

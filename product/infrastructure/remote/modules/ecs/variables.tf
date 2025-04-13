@@ -63,6 +63,16 @@ variable "frontend_ecr_repo" {
   type        = string
 }
 
+variable "apollo_gateway_image_tag" {
+  description = "The tag of the Apollo Gateway Docker image to deploy"
+  type        = string
+}
+
+variable "apollo_gateway_ecr_repo" {
+  description = "The URL of the Apollo Gateway ECR repository"
+  type        = string
+}
+
 variable "backend_image_tag" {
   description = "The tag of the backend Docker image to deploy"
   type        = string
@@ -86,18 +96,8 @@ variable "ecs_task_role_arn" {
 
 
 # Frontend environment variables
-variable "nextauth_url_arn" {
-  description = "The arn of the URL for NextAuth"
-  type        = string
-}
-
 variable "nextauth_secret_arn" {
   description = "The arn of the secret for NextAuth"
-  type        = string
-}
-
-variable "backend_graphql_endpoint_arn" {
-  description = "The arn of the endpoint for the backend GraphQL"
   type        = string
 }
 
@@ -214,7 +214,7 @@ variable "jira_project_key_arn" {
 
 variable "is_chat_enabled_arn" {
   description = "Whether chat is enabled"
-  type        = bool
+  type        = string
 }
 
 variable "open_ai_key_arn" {

@@ -1,6 +1,6 @@
 package integrationTests.MutationTests;
 
-import com.finalproject.backend.users.entities.UserDetailsEntity;
+import backend.users.entities.UserDetailsEntity;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
