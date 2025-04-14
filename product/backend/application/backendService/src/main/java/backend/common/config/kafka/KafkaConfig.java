@@ -46,7 +46,6 @@ public class KafkaConfig {
       }
     }
     AppLogger.error("Failed to create Kafka topic ");
-
   }
 }
 

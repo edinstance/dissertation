@@ -36,6 +36,15 @@ dgs:
     introspection:
       enabled: true
 
+kafka:
+  topics: Bids
+
+chat:
+  isEnabled: true
+  openApiKey: ""
+  openApiProjectId: ""
+  openApiOrganizationId: ""
+
 jira:
   accessToken:
   email:

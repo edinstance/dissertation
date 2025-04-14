@@ -45,6 +45,9 @@ dgs:
     introspection:
       enabled: true
 
+kafka:
+  topics: Bids
+
 chat:
   isEnabled: ${IS_CHAT_ENABLED}
   openApiKey: ${OPEN_API_KEY}
