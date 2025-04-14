@@ -5,10 +5,12 @@ import jakarta.annotation.PostConstruct;
 import org.apache.kafka.clients.admin.NewTopic;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Profile;
 import org.springframework.kafka.core.KafkaAdmin;
 import org.springframework.stereotype.Service;
 
 @Service
+@Profile("!test")
 public class KafkaConfig {
 
   private final KafkaAdmin kafkaAdmin;
