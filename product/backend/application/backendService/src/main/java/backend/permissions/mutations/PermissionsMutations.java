@@ -35,6 +35,7 @@ public class PermissionsMutations {
    * action associated with it if they do not exist.
    *
    * @param input the input for creating a permission.
+   *
    * @return a response about the success of the operation.
    */
   @DgsMutation

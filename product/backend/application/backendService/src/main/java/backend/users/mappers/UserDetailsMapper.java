@@ -14,7 +14,7 @@ public class UserDetailsMapper {
   /**
    * Maps UserDetailsInputDTTO to UserDetailsEntity.
    *
-   * @param id The id of the user.
+   * @param id    The id of the user.
    * @param input The user details.
    *
    * @return UserDetailsEntity The user details that are returned.

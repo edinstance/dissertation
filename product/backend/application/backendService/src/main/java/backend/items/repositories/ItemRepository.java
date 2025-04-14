@@ -51,6 +51,7 @@ public interface ItemRepository extends JpaRepository<ItemEntity, UUID> {
    * @param searchText The search text to match against item names.
    * @param page       The page to search retrieve.
    * @param pageSize   The size of the page.
+   *
    * @return A list of items that match the search text.
    */
   @Query(value = "SELECT * FROM search_for_items(:searchText, :order_by, "
@@ -69,6 +70,7 @@ public interface ItemRepository extends JpaRepository<ItemEntity, UUID> {
    * @param isActive If the items are active or not.
    * @param page     The page of items to search for.
    * @param pageSize The size of the pages.
+   *
    * @return The items for the user.
    */
   @Query(value = "SELECT * FROM get_items_by_user(:userId, :isActive, :page, :pageSize)",
@@ -82,10 +84,11 @@ public interface ItemRepository extends JpaRepository<ItemEntity, UUID> {
   /**
    * This query gets the shop items.
    *
-   * @param orderBy What to order the items on.
+   * @param orderBy        What to order the items on.
    * @param orderDirection Which direction to order the items.
-   * @param page The current page.
-   * @param pageSize The size of the page.
+   * @param page           The current page.
+   * @param pageSize       The size of the page.
+   *
    * @return The shops items.
    */
   @Query(value = "SELECT * FROM get_shop_items(:order_by, "
@@ -102,6 +105,7 @@ public interface ItemRepository extends JpaRepository<ItemEntity, UUID> {
    * @param userId   The user id to search against.
    * @param isActive If the items are active.
    * @param pageSize The page size.
+   *
    * @return The total amount of pages.
    */
   @Query(value = "SELECT * FROM get_items_by_user_pages(:userId, :isActive, :pageSize)",
@@ -116,6 +120,7 @@ public interface ItemRepository extends JpaRepository<ItemEntity, UUID> {
    *
    * @param searchText The search text to match against item names.
    * @param pageSize   The size of the page.
+   *
    * @return The total amount of pages for the search text.
    */
   @Query(value = "SELECT * FROM get_item_search_pages(:searchText, :pageSize)",
@@ -126,7 +131,8 @@ public interface ItemRepository extends JpaRepository<ItemEntity, UUID> {
   /**
    * This query gets the total amount of pages for the shop page.
    *
-   * @param pageSize   The size of the page.
+   * @param pageSize The size of the page.
+   *
    * @return The total amount of pages for the shop.
    */
   @Query(value = "SELECT * FROM get_shop_items_pages(:pageSize)",
@@ -138,6 +144,7 @@ public interface ItemRepository extends JpaRepository<ItemEntity, UUID> {
    * This function gets the items price from the database.
    *
    * @param itemId the id of the item.
+   *
    * @return the price.
    */
   @Query(value = "SELECT get_item_price(:itemId)", nativeQuery = true)

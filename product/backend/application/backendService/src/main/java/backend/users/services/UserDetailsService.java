@@ -1,12 +1,12 @@
 package backend.users.services;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import backend.common.config.logging.AppLogger;
 import backend.users.entities.UserDetailsEntity;
 import backend.users.entities.UserEntity;
 import backend.users.helpers.UserHelpers;
 import backend.users.repositories.UserDetailsRepository;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -59,6 +59,7 @@ public class UserDetailsService {
    * Updates or creates the user details.
    *
    * @param newDetails the details to be edited.
+   *
    * @throws IllegalArgumentException error if duplicated UUId.
    */
   @Transactional

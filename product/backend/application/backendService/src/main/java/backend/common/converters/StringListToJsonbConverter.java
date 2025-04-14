@@ -1,8 +1,8 @@
 package backend.common.converters;
 
+import backend.common.config.logging.AppLogger;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import backend.common.config.logging.AppLogger;
 import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Converter;
 import java.io.IOException;

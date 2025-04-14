@@ -35,8 +35,8 @@ public interface AdminPermissionsRepository extends JpaRepository
   /**
    * Function for granting permissions to an admin.
    *
-   * @param userId   the id of the admin that the permission will be granted to.
-   * @param adminId  the id of the admin performing this operation.
+   * @param userId       the id of the admin that the permission will be granted to.
+   * @param adminId      the id of the admin performing this operation.
    * @param permissionId the id of the permission to grant.
    */
   @Modifying

@@ -9,20 +9,37 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.kafka.core.KafkaAdmin;
 import org.springframework.stereotype.Service;
 
+/**
+ * Kafka config for the project.
+ */
 @Service
 @Profile("!test")
 public class KafkaConfig {
 
+  /**
+   * A kafka admin instance.
+   */
   private final KafkaAdmin kafkaAdmin;
 
+  /**
+   * The topics to create in kafka.
+   */
   @Value("${kafka.topics}")
   private String[] topics;
 
+  /**
+   * Constructor for the config.
+   *
+   * @param kafkaAdmin kafka admin instance to use.
+   */
   @Autowired
   public KafkaConfig(KafkaAdmin kafkaAdmin) {
     this.kafkaAdmin = kafkaAdmin;
   }
 
+  /**
+   * Function to initilise kafka.
+   */
   @PostConstruct
   public void initializeKafka() {
     int maxAttempts = 5;

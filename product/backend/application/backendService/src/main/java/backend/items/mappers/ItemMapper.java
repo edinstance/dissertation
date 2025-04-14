@@ -36,11 +36,12 @@ public class ItemMapper {
    * Maps ItemInput to ItemEntity.
    *
    * @param itemInput The input to map.
+   *
    * @return ItemEntity The item that is returned.
    */
   public ItemEntity mapInputToItem(final ItemInput itemInput) {
     return new ItemEntity(itemInput.getId(), itemInput.getName(),
-            itemInput.getDescription(), itemInput.getEndingTime(),  itemInput.getPrice(),
+            itemInput.getDescription(), itemInput.getEndingTime(), itemInput.getPrice(),
             itemInput.getStock(), itemInput.getCategory(),
             itemInput.getImages(), userHelpers.getUserById(authHelpers.getCurrentUserId()));
   }

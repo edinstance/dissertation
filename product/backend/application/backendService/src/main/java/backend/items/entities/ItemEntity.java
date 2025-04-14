@@ -1,10 +1,10 @@
 package backend.items.entities;
 
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import backend.common.converters.StringListToJsonbConverter;
 import backend.common.converters.TimestampToStringConverter;
 import backend.users.entities.UserEntity;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.Column;
 import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
@@ -105,15 +105,15 @@ public class ItemEntity {
   /**
    * This constructor creates a new ItemEntity with specified details.
    *
-   * @param id        The item's id.
-   * @param name          The item's name.
-   * @param description   The item's description.
-   * @param endingTime    The item's ending date.
-   * @param price         The item's price.
-   * @param stock         The item's stock quantity.
-   * @param category      The item's category.
-   * @param images        The item's images.
-   * @param seller        The item's seller.
+   * @param id          The item's id.
+   * @param name        The item's name.
+   * @param description The item's description.
+   * @param endingTime  The item's ending date.
+   * @param price       The item's price.
+   * @param stock       The item's stock quantity.
+   * @param category    The item's category.
+   * @param images      The item's images.
+   * @param seller      The item's seller.
    */
   public ItemEntity(UUID id, String name, String description,
                     String endingTime, BigDecimal price, Integer stock,

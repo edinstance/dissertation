@@ -34,6 +34,7 @@ public class ChatQueries {
    * A query to get the current conversation.
    *
    * @param conversationId the conversation id.
+   *
    * @return the chats in the conversation.
    */
   @DgsQuery

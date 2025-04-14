@@ -43,6 +43,7 @@ public class UserDetailsMutations {
    * GraphQL mutation to create or update user details.
    *
    * @param detailsInput The input data for the user details.
+   *
    * @return The created UserEntity.
    */
   @DgsMutation

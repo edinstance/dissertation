@@ -35,6 +35,7 @@ public class DevSecurityConfig {
    * access to the graphiql sandbox.</p>
    *
    * @param http the {@link HttpSecurity} to modify
+   *
    * @return the configured {@link SecurityFilterChain}
    * @throws Exception if an error occurs while configuring the filter chain
    */

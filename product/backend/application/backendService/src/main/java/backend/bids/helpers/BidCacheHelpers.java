@@ -1,13 +1,16 @@
 package backend.bids.helpers;
 
 import backend.common.config.logging.AppLogger;
+import java.math.BigDecimal;
+import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
-import java.math.BigDecimal;
-import java.util.UUID;
 
+/**
+ * Cache helpers for bidding.
+ */
 @Component
 public class BidCacheHelpers {
 
@@ -21,9 +24,16 @@ public class BidCacheHelpers {
    */
   public static final int ITEM_CURRENT_BID_CACHE_EXPIRY_SECONDS = 3600;
 
-
+  /**
+   * The jedis pool to use.
+   */
   private final JedisPool jedisPool;
 
+  /**
+   * Constructor for the cache helpers.
+   *
+   * @param jedisPool the jedis pool to use.
+   */
   @Autowired
   public BidCacheHelpers(JedisPool jedisPool) {
     this.jedisPool = jedisPool;
@@ -32,7 +42,7 @@ public class BidCacheHelpers {
   /**
    * A function to update the cached highest bids.
    *
-   * @param itemId the item id.
+   * @param itemId    the item id.
    * @param newAmount the new amount.
    */
   public void updateCachedHighestBid(UUID itemId, BigDecimal newAmount) {

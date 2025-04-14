@@ -17,7 +17,7 @@ public interface AdminRepository extends JpaRepository<AdminEntity, UUID> {
   /**
    * Function for creating an admin.
    *
-   * @param userId the id of the user to promote to an admin.
+   * @param userId  the id of the user to promote to an admin.
    * @param adminId the id of the admin performing this operation.
    */
   @Modifying
@@ -32,7 +32,7 @@ public interface AdminRepository extends JpaRepository<AdminEntity, UUID> {
   /**
    * Function for making an admin a super admin.
    *
-   * @param userId the id of the admin to promote to a super admin.
+   * @param userId  the id of the admin to promote to a super admin.
    * @param adminId the id of the admin performing this operation.
    */
   @Modifying
@@ -47,7 +47,7 @@ public interface AdminRepository extends JpaRepository<AdminEntity, UUID> {
   /**
    * Function for deactivating an admin.
    *
-   * @param userId the id of the admin to deactivate.
+   * @param userId  the id of the admin to deactivate.
    * @param adminId the id of the admin performing this operation.
    */
   @Modifying

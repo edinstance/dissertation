@@ -1,10 +1,10 @@
 package backend.BidTests.DtoTests;
 
 import backend.bids.dto.CreateBidDto;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 import java.math.BigDecimal;
 import java.util.UUID;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
@@ -21,14 +21,14 @@ public class CreateBidDtoTests {
 
   @Test
   public void testConstructor() {
-    createBidDto = new CreateBidDto(UUID.randomUUID(), UUID.randomUUID(), UUID.randomUUID(), new BigDecimal("4.5"));
+    createBidDto = new CreateBidDto(UUID.randomUUID(), UUID.randomUUID(), new BigDecimal("4.5"));
 
     assertNotNull(createBidDto);
   }
 
   @BeforeEach
   void setUp() {
-    createBidDto = new CreateBidDto(UUID.randomUUID(), UUID.randomUUID(), UUID.randomUUID(), new BigDecimal("4.5"));
+    createBidDto = new CreateBidDto(UUID.randomUUID(), UUID.randomUUID(), new BigDecimal("4.5"));
   }
 
   @Test

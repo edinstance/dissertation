@@ -40,6 +40,7 @@ public class ApiKeyFilter extends GenericFilterBean {
    * @param request  The incoming request.
    * @param response The outgoing response.
    * @param chain    The filter chain.
+   *
    * @throws IOException      If an input or output exception occurs.
    * @throws ServletException If a servlet exception occurs.
    */

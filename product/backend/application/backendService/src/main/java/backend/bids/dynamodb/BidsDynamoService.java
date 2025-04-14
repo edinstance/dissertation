@@ -5,6 +5,9 @@ import backend.bids.mappers.MapCreateBidDtoToDynamo;
 import backend.common.config.logging.AppLogger;
 import backend.common.dynamodb.tables.Bids;
 import jakarta.annotation.PostConstruct;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
+import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -17,9 +20,6 @@ import software.amazon.awssdk.enhanced.dynamodb.model.PutItemEnhancedRequest;
 import software.amazon.awssdk.enhanced.dynamodb.model.QueryConditional;
 import software.amazon.awssdk.enhanced.dynamodb.model.QueryEnhancedRequest;
 import software.amazon.awssdk.services.dynamodb.model.DynamoDbException;
-import java.time.Instant;
-import java.time.temporal.ChronoUnit;
-import java.util.UUID;
 
 /**
  * This service handles the interaction with DynamoDB for bids.

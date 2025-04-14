@@ -1,7 +1,7 @@
 package backend.users.entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import backend.items.entities.ItemEntity;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -63,8 +63,8 @@ public class UserEntity {
   private List<ItemEntity> items;
 
   /**
-  * The users detail's.
-  */
+   * The users detail's.
+   */
   @OneToOne
   @JoinColumn(name = "user_id")
   private UserDetailsEntity userDetailsEntity;

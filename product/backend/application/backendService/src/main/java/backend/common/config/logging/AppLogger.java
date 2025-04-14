@@ -91,8 +91,8 @@ public class AppLogger {
   /**
    * Error logging with messages and params.
    *
-   * @param message   the message to log.
-   * @param params    extra params to log.
+   * @param message the message to log.
+   * @param params  extra params to log.
    */
   public static void error(String message, Object... params) {
     logger.error(message, params);

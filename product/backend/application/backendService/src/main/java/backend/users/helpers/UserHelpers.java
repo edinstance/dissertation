@@ -32,6 +32,7 @@ public class UserHelpers {
    * Retrieves a user entity by its ID.
    *
    * @param id The ID of the user.
+   *
    * @return The user entity.
    */
   public UserEntity getUserById(UUID id) {

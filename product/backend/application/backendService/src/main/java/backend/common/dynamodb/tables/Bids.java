@@ -121,7 +121,7 @@ public class Bids {
   /**
    * Constructor for Bids.
    *
-   * @param bidId the id of the bid.
+   * @param bidId  the id of the bid.
    * @param userId the id of the user the bid is for.
    * @param itemId the id of the item the bid is for.
    * @param amount the amount of the bid.

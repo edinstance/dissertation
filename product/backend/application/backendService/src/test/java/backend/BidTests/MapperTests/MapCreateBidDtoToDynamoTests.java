@@ -18,19 +18,17 @@ public class MapCreateBidDtoToDynamoTests {
 
   @Test
   public void testMapCreateBidDtoToDynamo() {
-    UUID bidId = UUID.randomUUID();
     UUID userId = UUID.randomUUID();
     UUID itemId = UUID.randomUUID();
     BigDecimal amount = new BigDecimal("4.5");
 
-    CreateBidDto createBidDto = new CreateBidDto(bidId, userId, itemId, amount);
+    CreateBidDto createBidDto = new CreateBidDto(userId, itemId, amount);
 
     Bids bid = MapCreateBidDtoToDynamo.mapBidDtoToDynamo(createBidDto);
 
     assertNotNull(bid);
     assert bid.getClass() == Bids.class;
 
-    assert bid.getBidId().equals(bidId);
     assert bid.getUserId().equals(userId);
     assert bid.getItemId().equals(itemId);
     assert bid.getAmount().equals(amount);

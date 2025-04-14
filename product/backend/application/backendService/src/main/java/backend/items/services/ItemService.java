@@ -1,8 +1,5 @@
 package backend.items.services;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import backend.common.config.logging.AppLogger;
 import backend.common.dto.PaginationInput;
 import backend.common.dto.SortInput;
@@ -13,6 +10,9 @@ import backend.items.dto.SearchedItemsResponse;
 import backend.items.entities.ItemEntity;
 import backend.items.helpers.ItemCacheHelpers;
 import backend.items.repositories.ItemRepository;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -75,6 +75,7 @@ public class ItemService {
    * Retrieves an item entity by its ID.
    *
    * @param id The ID of the item.
+   *
    * @return The item entity.
    */
   public ItemEntity getItemById(UUID id) {
@@ -112,10 +113,12 @@ public class ItemService {
    * Searches for items based on an input name.
    *
    * @param searchText The name to search against.
+   *
    * @return The items found and the pagination information.
    */
-  public SearchedItemsResponse searchForItemsByName(final String searchText,
-                                    final PaginationInput pagination, final SortInput sort
+  public SearchedItemsResponse searchForItemsByName(
+          final String searchText,
+          final PaginationInput pagination, final SortInput sort
   ) {
     return new SearchedItemsResponse(itemRepository.searchForItems(searchText,
             sort.getSortBy(), sort.getSortDirection().name(),
@@ -131,6 +134,7 @@ public class ItemService {
    * @param userId     The id of the user.
    * @param isActive   If the items are active or not.
    * @param pagination The pagination data for the query.
+   *
    * @return The items and pagination data.
    */
   public SearchedItemsResponse getItemsByUser(final UUID userId,
@@ -174,7 +178,8 @@ public class ItemService {
    * This function gets the shop items and returns them.
    *
    * @param pagination The pagination information.
-   * @param sortInput The sort information.
+   * @param sortInput  The sort information.
+   *
    * @return The shop items.
    */
   public SearchedItemsResponse getShopItems(final PaginationInput pagination,
@@ -195,6 +200,7 @@ public class ItemService {
    * This saves or updates an item in the database.
    *
    * @param itemEntity is the item to create or update.
+   *
    * @return the item is returned.
    */
   public ItemEntity saveOrUpdateItem(

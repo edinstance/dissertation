@@ -30,7 +30,7 @@ public class SortInput {
   /**
    * This constructor creates a SortInput with the specified details.
    *
-   * @param sortBy What to sort by.
+   * @param sortBy        What to sort by.
    * @param sortDirection The direction of the sorting.
    */
   public SortInput(final String sortBy, final SortDirection sortDirection) {

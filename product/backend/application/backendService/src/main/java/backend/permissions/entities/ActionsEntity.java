@@ -44,13 +44,14 @@ public class ActionsEntity {
   /**
    * Default constructor.
    */
-  public ActionsEntity() {}
+  public ActionsEntity() {
+  }
 
   /**
    * Constructor with options.
    *
-   * @param actionId the id of the action.
-   * @param action the action.
+   * @param actionId    the id of the action.
+   * @param action      the action.
    * @param description the description.
    */
   public ActionsEntity(UUID actionId, Actions action, String description) {

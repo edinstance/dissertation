@@ -33,6 +33,7 @@ public class TestSecurityConfig {
    * and request authorization.</p>
    *
    * @param http the {@link HttpSecurity} to modify
+   *
    * @return the configured {@link SecurityFilterChain}
    * @throws Exception if an error occurs while configuring the filter chain
    */

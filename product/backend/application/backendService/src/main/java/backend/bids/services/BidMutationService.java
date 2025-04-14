@@ -5,21 +5,40 @@ import backend.bids.helpers.BidCacheHelpers;
 import backend.bids.helpers.BidHelpers;
 import backend.bids.helpers.BidKafkaHelpers;
 import backend.common.config.logging.AppLogger;
+import java.math.BigDecimal;
+import java.util.concurrent.CompletableFuture;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.support.SendResult;
 import org.springframework.stereotype.Service;
-import java.math.BigDecimal;
-import java.util.concurrent.CompletableFuture;
 
+/**
+ * A service class for the bid mutations.
+ */
 @Service
 public class BidMutationService {
 
+  /**
+   * The bid helpers to use.
+   */
   private final BidHelpers bidHelpers;
 
+  /**
+   * The bid cache helpers to use.
+   */
   private final BidCacheHelpers bidCacheHelpers;
 
+  /**
+   * The bid kafka helpers to use.
+   */
   private final BidKafkaHelpers bidKafkaHelpers;
 
+  /**
+   * Constructor for the mutation service.
+   *
+   * @param bidHelpers the bid helpers to use.
+   * @param bidCacheHelpers the bid cache helpers to use.
+   * @param bidKafkaHelpers the bid kafka helpers to use.
+   */
   @Autowired
   public BidMutationService(BidHelpers bidHelpers,
                             BidCacheHelpers bidCacheHelpers, BidKafkaHelpers bidKafkaHelpers) {
@@ -29,11 +48,11 @@ public class BidMutationService {
   }
 
   /**
-   * Creates a new bid if it's valid
+   * Creates a new bid if it's valid.
    *
-   * @param bidDto the bid to create
+   * @param bidDto the bid to create.
    *
-   * @return true if bid was accepted, false if rejected due to business rules
+   * @return true if bid was accepted, false if rejected due to business rules.
    */
   public boolean createBid(CreateBidDto bidDto) {
     if (bidDto == null || bidDto.getItemId() == null || bidDto.getAmount() == null) {
