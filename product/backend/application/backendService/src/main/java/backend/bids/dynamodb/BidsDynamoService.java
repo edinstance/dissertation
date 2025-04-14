@@ -11,10 +11,15 @@ import org.springframework.stereotype.Service;
 import software.amazon.awssdk.enhanced.dynamodb.DynamoDbEnhancedClient;
 import software.amazon.awssdk.enhanced.dynamodb.DynamoDbTable;
 import software.amazon.awssdk.enhanced.dynamodb.TableSchema;
+import software.amazon.awssdk.enhanced.dynamodb.model.Page;
+import software.amazon.awssdk.enhanced.dynamodb.model.PageIterable;
 import software.amazon.awssdk.enhanced.dynamodb.model.PutItemEnhancedRequest;
+import software.amazon.awssdk.enhanced.dynamodb.model.QueryConditional;
+import software.amazon.awssdk.enhanced.dynamodb.model.QueryEnhancedRequest;
 import software.amazon.awssdk.services.dynamodb.model.DynamoDbException;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
+import java.util.UUID;
 
 /**
  * This service handles the interaction with DynamoDB for bids.
@@ -104,5 +109,48 @@ public class BidsDynamoService {
     }
   }
 
+  /**
+   * Retrieves the most recent bid for an item from DynamoDB.
+   *
+   * @param itemId The ID of the item for which to retrieve the most recent bid.
+   *
+   * @return The most recent bid, or null if no bids exist for the item.
+   */
+  public Bids getMostRecentBid(UUID itemId) {
+    if (bidsTable == null) {
+      AppLogger.error("Cannot retrieve bid. DynamoDB table reference is not initialized.");
+      return null;
+    }
+
+    try {
+      QueryEnhancedRequest request = QueryEnhancedRequest.builder()
+              .queryConditional(
+                      QueryConditional.keyEqualTo(
+                              k -> k.partitionValue(itemId.toString())))
+              .scanIndexForward(false)
+              .limit(1)
+              .build();
+
+      // Execute the query
+      PageIterable<Bids> pages = bidsTable.query(request);
+
+      // Extract the first page, we are only interested in its items
+      Page<Bids> firstPage = pages.stream().findFirst().orElse(null);
+
+      if (firstPage != null && !firstPage.items().isEmpty()) {
+        return firstPage.items().getFirst();
+      } else {
+        AppLogger.info("No bids found");
+        return null;
+      }
+
+    } catch (DynamoDbException e) {
+      AppLogger.error("Error retrieving most recent bid for item : {}", e);
+      return null;
+    } catch (Exception e) {
+      AppLogger.error("Unexpected error retrieving most recent bid for item: {}", e);
+      return null;
+    }
+  }
 
 }
