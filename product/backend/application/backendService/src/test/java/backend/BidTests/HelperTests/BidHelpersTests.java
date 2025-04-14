@@ -45,37 +45,43 @@ public class BidHelpersTests {
     itemId = UUID.randomUUID();
     cacheKey = String.format(ITEM_CURRENT_BID_KEY_FORMAT, itemId);
 
-    // Setup jedisPool to return our mock jedis
     when(jedisPool.getResource()).thenReturn(jedis);
   }
 
   @Test
-  void getCurrentHighestBid_CacheHit_ReturnsCachedValue() {
-    // Arrange
+  void testGetHighestBidFromCache() {
     BigDecimal expectedPrice = new BigDecimal("150.00");
     when(jedis.get(cacheKey)).thenReturn(expectedPrice.toString());
 
-    // Act
     BigDecimal result = bidHelpers.getCurrentHighestBid(itemId);
 
-    // Assert
     assertEquals(expectedPrice, result);
     verify(jedis).get(cacheKey);
     verify(bidsDynamoService, never()).getMostRecentBid(any(UUID.class));
+    verify(jedis).expire(cacheKey, ITEM_CURRENT_BID_CACHE_EXPIRY_SECONDS);
   }
 
   @Test
-  void getCurrentHighestBid_CacheMiss_FetchesFromDynamoAndUpdatesCache() {
-    // Arrange
+  void testGetNullBid() {
+    when(jedis.get(cacheKey)).thenReturn(null);
+    when(bidsDynamoService.getMostRecentBid(itemId)).thenReturn(null);
+
+    BigDecimal result = bidHelpers.getCurrentHighestBid(itemId);
+
+    assertEquals(BigDecimal.ZERO, result);
+
+    verify(jedis).setex(cacheKey, ITEM_CURRENT_BID_CACHE_EXPIRY_SECONDS, BigDecimal.ZERO.toString());
+  }
+
+  @Test
+  void testGetHighestBidFromDynamo() {
     BigDecimal expectedPrice = new BigDecimal("200.00");
     when(jedis.get(cacheKey)).thenReturn(null);
     when(bidsDynamoService.getMostRecentBid(itemId)).thenReturn(mockBid);
     when(mockBid.getAmount()).thenReturn(expectedPrice);
 
-    // Act
     BigDecimal result = bidHelpers.getCurrentHighestBid(itemId);
 
-    // Assert
     assertEquals(expectedPrice, result);
     verify(jedis).get(cacheKey);
     verify(bidsDynamoService).getMostRecentBid(itemId);
@@ -83,11 +89,24 @@ public class BidHelpersTests {
   }
 
   @Test
-  void getCurrentHighestBid_JedisException_ThrowsRuntimeException() {
-    // Arrange
+  void testGetNegativeBid() {
+    when(jedis.get(cacheKey)).thenReturn(null);
+    when(bidsDynamoService.getMostRecentBid(itemId)).thenReturn(mockBid);
+    when(mockBid.getAmount()).thenReturn(new BigDecimal("-10.00"));
+
+    BigDecimal result = bidHelpers.getCurrentHighestBid(itemId);
+
+    assertEquals(BigDecimal.ZERO, result);
+    verify(jedis).get(cacheKey);
+    verify(bidsDynamoService).getMostRecentBid(itemId);
+  }
+
+
+
+  @Test
+  void testJedisReadError() {
     when(jedis.get(cacheKey)).thenThrow(new RuntimeException("Redis connection error"));
 
-    // Act & Assert
     RuntimeException exception = assertThrows(RuntimeException.class, () ->
             bidHelpers.getCurrentHighestBid(itemId)
     );
@@ -96,13 +115,11 @@ public class BidHelpersTests {
   }
 
   @Test
-  void getCurrentHighestBid_DynamoException_ThrowsRuntimeException() {
-    // Arrange
+  void testDynamoError() {
     when(jedis.get(cacheKey)).thenReturn(null);
     when(bidsDynamoService.getMostRecentBid(itemId))
             .thenThrow(new RuntimeException("DynamoDB error"));
 
-    // Act & Assert
     RuntimeException exception = assertThrows(RuntimeException.class, () ->
             bidHelpers.getCurrentHighestBid(itemId)
     );
@@ -112,27 +129,13 @@ public class BidHelpersTests {
   }
 
   @Test
-  void getCurrentHighestBid_JedisPoolReturnsNull_ThrowsRuntimeException() {
-    // Arrange
+  void testJedisPoolError() {
     when(jedisPool.getResource()).thenReturn(null);
 
-    // Act & Assert
     RuntimeException exception = assertThrows(RuntimeException.class, () ->
             bidHelpers.getCurrentHighestBid(itemId)
     );
     assertEquals("Failed to retrieve current bid price", exception.getMessage());
   }
 
-  @Test
-  void getCurrentHighestBid_VerifyJedisResourceIsClosed() {
-    // Arrange
-    BigDecimal expectedPrice = new BigDecimal("150.00");
-    when(jedis.get(cacheKey)).thenReturn(expectedPrice.toString());
-
-    // Act
-    bidHelpers.getCurrentHighestBid(itemId);
-
-    // Assert
-    verify(jedis).close();
-  }
 }

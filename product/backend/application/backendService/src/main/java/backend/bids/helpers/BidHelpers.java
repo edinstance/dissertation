@@ -5,6 +5,7 @@ import static backend.bids.helpers.BidCacheHelpers.ITEM_CURRENT_BID_KEY_FORMAT;
 
 import backend.bids.dynamodb.BidsDynamoService;
 import backend.common.config.logging.AppLogger;
+import backend.common.dynamodb.tables.Bids;
 import java.math.BigDecimal;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,14 +57,28 @@ public class BidHelpers {
       String itemPriceStr = jedis.get(cacheKey);
 
       if (itemPriceStr != null) {
+        jedis.expire(cacheKey, ITEM_CURRENT_BID_CACHE_EXPIRY_SECONDS);
         return new BigDecimal(itemPriceStr);
       } else {
-        BigDecimal itemPrice = bidsDynamoService.getMostRecentBid(itemId).getAmount();
-        jedis.setex(cacheKey, ITEM_CURRENT_BID_CACHE_EXPIRY_SECONDS, itemPrice.toString());
+        Bids mostRecentBid = bidsDynamoService.getMostRecentBid(itemId);
+        if (mostRecentBid == null) {
+          AppLogger.warn("No bids found in DynamoDB for item {}", itemId);
+          jedis.setex(
+                  cacheKey, ITEM_CURRENT_BID_CACHE_EXPIRY_SECONDS, BigDecimal.ZERO.toString());
+          return BigDecimal.ZERO;
+        }
+
+        BigDecimal itemPrice = mostRecentBid.getAmount();
+
+        if (itemPrice.compareTo(BigDecimal.ZERO) < 0) {
+          itemPrice = BigDecimal.ZERO;
+        }
+        jedis.setex(
+                cacheKey, ITEM_CURRENT_BID_CACHE_EXPIRY_SECONDS, itemPrice.toString());
         return itemPrice;
       }
     } catch (Exception e) {
-      AppLogger.error("Error accessing data store: {}", e);
+      AppLogger.error("Error accessing data store: {}", e.getMessage());
       throw new RuntimeException("Failed to retrieve current bid price", e);
     }
   }
