@@ -4,6 +4,11 @@ spring:
   profiles:
     active: prod
     # This sets the active profile to prod
+  kafka:
+    bootstrap-servers:
+    consumer:
+      group-id: bids
+
   security:
     oauth2:
       resourceserver:

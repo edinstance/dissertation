@@ -8,6 +8,10 @@ spring:
     graphiql:
       enabled: true
       # This enables the graphiql interface
+  kafka:
+    bootstrap-servers: ${KAFKA_URL}
+    consumer:
+      group-id: bids
   security:
     oauth2:
       resourceserver:
