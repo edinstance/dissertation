@@ -54,7 +54,7 @@ public class ProdSecurityConfig {
                     // Allow preflight requests to all endpoints
                     .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                     // Allow details requests
-                    .requestMatchers("/backend/details/**").permitAll()
+                    .requestMatchers("/details/**").permitAll()
                     // All other requests must be authenticated
                     .anyRequest().authenticated()
             )
