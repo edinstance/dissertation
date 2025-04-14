@@ -132,4 +132,14 @@ public interface ItemRepository extends JpaRepository<ItemEntity, UUID> {
   @Query(value = "SELECT * FROM get_shop_items_pages(:pageSize)",
           nativeQuery = true)
   int getShopItemsPages(@Param("pageSize") int pageSize);
+
+
+  /**
+   * This function gets the items price from the database.
+   *
+   * @param itemId the id of the item.
+   * @return the price.
+   */
+  @Query(value = "SELECT get_item_price(:itemId)", nativeQuery = true)
+  BigDecimal getItemPriceByItemId(@Param("itemId") UUID itemId);
 }

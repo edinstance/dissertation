@@ -103,4 +103,11 @@
                         stripComments="false" />
         </changeSet>
 
+         <changeSet id="get_item_price" author="zlac370" runOnChange="false">
+                <sqlFile path="../../src/sql/functions/get_item_price.sql"
+                        relativeToChangelogFile="true"
+                        splitStatements="false"
+                        stripComments="false" />
+        </changeSet>
+
 </databaseChangeLog>
