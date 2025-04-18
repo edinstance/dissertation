@@ -4,6 +4,7 @@ package backend.items.entities;
 import backend.common.converters.StringListToJsonbConverter;
 import backend.common.converters.TimestampToStringConverter;
 import backend.users.entities.UserEntity;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.Column;
 import jakarta.persistence.Convert;
@@ -94,6 +95,7 @@ public class ItemEntity {
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "seller_id", nullable = false)
   @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+  @JsonIgnore
   private UserEntity seller;
 
   /**
