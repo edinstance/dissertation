@@ -1,5 +1,7 @@
 package backend.bids.services;
 
+import static backend.common.config.kafka.KafkaTopics.BID_TOPIC;
+
 import backend.bids.dto.CreateBidDto;
 import backend.bids.helpers.BidCacheHelpers;
 import backend.bids.helpers.BidHelpers;
@@ -66,6 +68,8 @@ public class BidMutationService {
       currentHighestBid = bidHelpers.getCurrentHighestBid(
               bidDto.getItemId());
 
+      AppLogger.info("Current highest bid: {}, New bid amount: {}",
+              currentHighestBid, bidDto.getAmount());
       if (currentHighestBid.compareTo(bidDto.getAmount()) >= 0) {
         AppLogger.warn(
                 "Bid amount {} is less than or equal to the current highest bid {}. Bid rejected.",
@@ -79,11 +83,12 @@ public class BidMutationService {
     }
 
     try {
-      CompletableFuture<SendResult<String, CreateBidDto>> resultFuture = new CompletableFuture<>();
+      CompletableFuture<SendResult<String, Object>> resultFuture = new CompletableFuture<>();
 
-      bidKafkaHelpers.attemptSend(bidDto, 5, 100, 0, resultFuture);
+      bidKafkaHelpers.attemptSend(BID_TOPIC, bidDto.getBidId().toString(),
+              bidDto, 3, 1000, 0, resultFuture);
 
-      bidCacheHelpers.updateCachedHighestBid(bidDto.getBidId(), bidDto.getAmount());
+      bidCacheHelpers.updateCachedHighestBid(bidDto.getItemId(), bidDto.getAmount());
 
       return true;
     } catch (Exception e) {

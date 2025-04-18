@@ -1,20 +1,23 @@
 package backend.BidTests.ServiceTests;
 
-import backend.bids.dto.CreateBidDto;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.junit.jupiter.MockitoExtension;
-import java.math.BigDecimal;
-import java.util.UUID;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.any;
-import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.eq;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+
+import backend.bids.dto.CreateBidDto;
+import java.math.BigDecimal;
+import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.kafka.support.SendResult;
 
 @ExtendWith(MockitoExtension.class)
 public class BidMutationServiceTests extends SetupBidMutationServiceTests {
@@ -26,21 +29,21 @@ public class BidMutationServiceTests extends SetupBidMutationServiceTests {
 
   @Test
   void testNullItemId() {
-    CreateBidDto bidDto = new CreateBidDto();
+    CreateBidDto bidDto = new CreateBidDto(UUID.randomUUID(), UUID.randomUUID(), BigDecimal.TEN);
     bidDto.setAmount(BigDecimal.TEN);
     assertFalse(bidMutationService.createBid(bidDto));
   }
 
   @Test
   void testNullAmount() {
-    CreateBidDto bidDto = new CreateBidDto();
+    CreateBidDto bidDto = new CreateBidDto(UUID.randomUUID(), UUID.randomUUID(), BigDecimal.TEN);
     bidDto.setItemId(UUID.randomUUID());
     assertFalse(bidMutationService.createBid(bidDto));
   }
 
   @Test
   void testBidLessThanCurrentHighestBid() {
-    CreateBidDto bidDto = new CreateBidDto();
+    CreateBidDto bidDto = new CreateBidDto(UUID.randomUUID(), UUID.randomUUID(), BigDecimal.TEN);
     UUID itemId = UUID.randomUUID();
     bidDto.setItemId(itemId);
     bidDto.setAmount(BigDecimal.ONE);
@@ -52,7 +55,7 @@ public class BidMutationServiceTests extends SetupBidMutationServiceTests {
 
   @Test
   void testGetCurrentHighestBidThrowsException() {
-    CreateBidDto bidDto = new CreateBidDto();
+    CreateBidDto bidDto = new CreateBidDto(UUID.randomUUID(), UUID.randomUUID(), BigDecimal.TEN);
     UUID itemId = UUID.randomUUID();
     bidDto.setItemId(itemId);
     bidDto.setAmount(BigDecimal.TEN);
@@ -72,24 +75,44 @@ public class BidMutationServiceTests extends SetupBidMutationServiceTests {
     bidDto.setAmount(BigDecimal.TEN);
 
     when(bidHelpers.getCurrentHighestBid(itemId)).thenReturn(BigDecimal.ONE);
-    doNothing().when(bidCacheHelpers).updateCachedHighestBid(bidId, BigDecimal.TEN);
-    doNothing()
+
+    doAnswer(
+            invocation -> {
+              CompletableFuture<SendResult<String, Object>> future =
+                      invocation.getArgument(6);
+              future.complete(null);
+              return null;
+            })
             .when(bidKafkaHelpers)
             .attemptSend(
-                    eq(bidDto), eq(5), eq(100L), eq(0), any());
+                    eq("Bids"),
+                    eq(bidId.toString()),
+                    any(),
+                    eq(3),
+                    eq(1000L),
+                    eq(0),
+                    any());
 
+    boolean result = bidMutationService.createBid(bidDto);
 
-    assertTrue(bidMutationService.createBid(bidDto));
+    assertTrue(result);
 
     verify(bidKafkaHelpers, times(1))
             .attemptSend(
-                    eq(bidDto), eq(5), eq(100L), eq(0), any());
-    verify(bidCacheHelpers, times(1)).updateCachedHighestBid(bidId, BigDecimal.TEN);
+                    eq("Bids"),
+                    eq(bidId.toString()),
+                    any(),
+                    eq(3),
+                    eq(1000L),
+                    eq(0),
+                    any());
+    verify(bidCacheHelpers, times(1)).updateCachedHighestBid(itemId, bidDto.getAmount());
   }
+
 
   @Test
   void testKafkaSendThrowsException() {
-    CreateBidDto bidDto = new CreateBidDto();
+    CreateBidDto bidDto = new CreateBidDto(UUID.randomUUID(), UUID.randomUUID(), BigDecimal.TEN);
     UUID itemId = UUID.randomUUID();
     bidDto.setItemId(itemId);
     bidDto.setAmount(BigDecimal.TEN);
@@ -97,7 +120,7 @@ public class BidMutationServiceTests extends SetupBidMutationServiceTests {
     when(bidHelpers.getCurrentHighestBid(itemId)).thenReturn(BigDecimal.ONE);
     doThrow(new RuntimeException("Kafka Error"))
             .when(bidKafkaHelpers)
-            .attemptSend(eq(bidDto), eq(5), eq(100L), eq(0), any());
+            .attemptSend(eq("Bids"), eq(bidDto.getBidId().toString()), eq(bidDto), eq(5), eq(100L), eq(0), any());
 
     assertFalse(bidMutationService.createBid(bidDto));
   }
