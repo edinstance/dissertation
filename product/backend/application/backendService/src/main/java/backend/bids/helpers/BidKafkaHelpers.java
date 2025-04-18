@@ -1,6 +1,6 @@
 package backend.bids.helpers;
 
-import backend.bids.dto.CreateBidDto;
+
 import backend.common.config.logging.AppLogger;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
@@ -10,77 +10,91 @@ import org.springframework.kafka.support.SendResult;
 import org.springframework.stereotype.Component;
 
 /**
- * Kafka helpers for the bids.
+ * Generic Kafka helpers.
  */
 @Component
 public class BidKafkaHelpers {
 
   /**
-   * The bid topic.
+   * The kafka template.  No longer specific to CreateBidDto
    */
-  private static final String BIDS_TOPIC = "Bids";
-
-  /**
-   * The kafka template for the bids.
-   */
-  private final KafkaTemplate<String, CreateBidDto> bidKafkaTemplate;
+  private final KafkaTemplate<String, Object> kafkaTemplate;
 
   /**
    * constructor for this helper.
    *
-   * @param bidKafkaTemplate the kafka template.
+   * @param kafkaTemplate the kafka template.
    */
   @Autowired
-  public BidKafkaHelpers(KafkaTemplate<String, CreateBidDto> bidKafkaTemplate) {
-    this.bidKafkaTemplate = bidKafkaTemplate;
+  public BidKafkaHelpers(KafkaTemplate<String, Object> kafkaTemplate) {
+    this.kafkaTemplate = kafkaTemplate;
   }
 
   /**
-   * A function that attempts to send a bitDto to kafka.
+   * A function that attempts to send a message to kafka with retry logic.
    *
-   * @param bidDto the bid to send.
-   * @param maxRetries the max number of retries.
-   * @param backoffMs the time it should backoff for.
+   * @param topic          the kafka topic.
+   * @param key            the key.
+   * @param message        the message to send.
+   * @param maxRetries     the max number of retries.
+   * @param backoffMs      the time it should backoff for.
    * @param currentAttempt the current attempt
-   * @param resultFuture the future of the result.
+   * @param resultFuture   the future of the result.
    */
-  public void attemptSend(
-          CreateBidDto bidDto,
+  public <T> void attemptSend(
+          String topic,
+          String key,
+          T message,
           int maxRetries,
           long backoffMs,
           int currentAttempt,
-          CompletableFuture<SendResult<String, CreateBidDto>> resultFuture) {
+          CompletableFuture<SendResult<String, Object>> resultFuture) {
+    kafkaTemplate.send(topic, key, message)
+            .whenComplete(
+                    (result, ex) -> {
+                      if (ex == null) {
+                        AppLogger.info(
+                                "Sent message={} with offset=[{}] on attempt {}",
+                                message,
+                                result.getRecordMetadata().offset(),
+                                currentAttempt + 1);
+                        resultFuture.complete(result);
+                      } else {
+                        // Failure case
+                        AppLogger.warn(
+                                "Failed to send message to Kafka on attempt {}: {}",
+                                currentAttempt + 1,
+                                ex.getMessage());
 
-    bidKafkaTemplate.send(BIDS_TOPIC, bidDto)
-            .whenComplete((result, ex) -> {
-              if (ex == null) {
-                AppLogger.info(
-                        "Sent bid={} with offset=[{}] on attempt {}",
-                        bidDto,
-                        result.getRecordMetadata().offset(),
-                        currentAttempt + 1);
-                resultFuture.complete(result);
-              } else {
-                // Failure case
-                AppLogger.warn("Failed to send bid to Kafka on attempt {}: {}",
-                        currentAttempt + 1, ex.getMessage());
+                        if (currentAttempt < maxRetries) {
+                          // Schedule retry with exponential backoff
+                          long nextBackoff = backoffMs * 2; // Exponential backoff
+                          AppLogger.info(
+                                  "Retrying in {} ms (attempt {}/{})",
+                                  backoffMs,
+                                  currentAttempt + 2,
+                                  maxRetries + 1);
 
-                if (currentAttempt < maxRetries) {
-                  // Schedule retry with exponential backoff
-                  long nextBackoff = backoffMs * 2; // Exponential backoff
-                  AppLogger.info("Retrying in {} ms (attempt {}/{})",
-                          backoffMs, currentAttempt + 2, maxRetries + 1);
+                          CompletableFuture.delayedExecutor(backoffMs, TimeUnit.MILLISECONDS)
+                                  .execute(
+                                          () ->
+                                                  attemptSend(
+                                                          topic,
+                                                          key,
+                                                          message,
+                                                          maxRetries,
+                                                          nextBackoff,
+                                                          currentAttempt + 1,
+                                                          resultFuture));
+                        } else {
+                          // Max retries exceeded
+                          AppLogger.error(
+                                  "Max retries ({}) exceeded for message {}",
+                                  maxRetries + 1, message);
 
-                  CompletableFuture.delayedExecutor(backoffMs, TimeUnit.MILLISECONDS)
-                          .execute(() -> attemptSend(
-                                  bidDto, maxRetries, nextBackoff,
-                                  currentAttempt + 1, resultFuture));
-                } else {
-                  // Max retries exceeded
-                  AppLogger.error("Max retries ({}) exceeded for bid {}", maxRetries + 1, bidDto);
-                  resultFuture.completeExceptionally(ex);
-                }
-              }
-            });
+                          resultFuture.completeExceptionally(ex);
+                        }
+                      }
+                    });
   }
 }

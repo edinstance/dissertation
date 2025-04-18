@@ -1,9 +1,20 @@
 package backend.BidTests.HelperTests;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
 import backend.bids.dto.CreateBidDto;
 import backend.bids.helpers.BidKafkaHelpers;
+import java.math.BigDecimal;
+import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
 import org.apache.kafka.clients.producer.RecordMetadata;
 import org.apache.kafka.common.TopicPartition;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -11,97 +22,87 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.support.SendResult;
-import java.util.concurrent.CompletableFuture;
-import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 public class BidKafkaHelperTests {
 
   @Mock
-  private KafkaTemplate<String, CreateBidDto> bidKafkaTemplate;
+  private KafkaTemplate<String, Object> kafkaTemplate;
 
   @InjectMocks
   private BidKafkaHelpers bidKafkaHelpers;
 
+  private CreateBidDto bidDto;
+  private String topic;
+  private String key;
+  private int maxRetries;
+  private long backoffMs;
+  private int currentAttempt;
+
+  @BeforeEach
+  void setUp() {
+    bidDto = new CreateBidDto(UUID.randomUUID(), UUID.randomUUID(), BigDecimal.TEN);
+    topic = "Bids";
+    key = bidDto.getBidId().toString();
+    maxRetries = 3;
+    backoffMs = 100L;
+    currentAttempt = 0;
+  }
+
   @Test
   void testAttemptSendSuccess() {
-    CreateBidDto bidDto = new CreateBidDto();
-    int maxRetries = 3;
-    long backoffMs = 100L;
-    int currentAttempt = 0;
-    CompletableFuture<SendResult<String, CreateBidDto>> resultFuture =
-            new CompletableFuture<>();
-    CompletableFuture<SendResult<String, CreateBidDto>> kafkaResultFuture =
-            new CompletableFuture<>();
+    CompletableFuture<SendResult<String, Object>> kafkaResultFuture = new CompletableFuture<>();
 
-    TopicPartition topicPartition = new TopicPartition("Bids", 0);
+    TopicPartition topicPartition = new TopicPartition(topic, 0);
     long timestamp = System.currentTimeMillis();
     long offset = 0L;
-    RecordMetadata recordMetadata = new RecordMetadata(
-            topicPartition,
-            offset,
-            100,
-            timestamp,
-            0,
-            0
-    );
+    RecordMetadata recordMetadata =
+            new RecordMetadata(topicPartition, offset, 100, timestamp, 0, 0);
 
-    SendResult<String, CreateBidDto> expectedResult = new SendResult<>(null, recordMetadata);
+    SendResult<String, Object> expectedResult = new SendResult<>(null, recordMetadata);
 
-    when(bidKafkaTemplate.send(eq("Bids"), eq(bidDto))).thenReturn(kafkaResultFuture);
+    when(kafkaTemplate.send(eq(topic), eq(key), eq(bidDto))).thenReturn(kafkaResultFuture);
     kafkaResultFuture.complete(expectedResult);
 
-    bidKafkaHelpers.attemptSend(bidDto, maxRetries, backoffMs, currentAttempt, resultFuture);
+    CompletableFuture<SendResult<String, Object>> resultFuture = new CompletableFuture<>();
+    bidKafkaHelpers.attemptSend(topic, key, bidDto, maxRetries, backoffMs, currentAttempt, resultFuture);
 
-    verify(bidKafkaTemplate, times(1)).send(eq("Bids"), eq(bidDto));
+    verify(kafkaTemplate, times(1)).send(eq(topic), eq(key), eq(bidDto));
 
-    assert resultFuture.isDone();
-    assert !resultFuture.isCompletedExceptionally();
+    assertTrue(resultFuture.isDone());
+    assertFalse(resultFuture.isCompletedExceptionally());
   }
 
   @Test
   void testAttemptSendFailureWithRetry() {
-    CreateBidDto bidDto = new CreateBidDto();
-    int maxRetries = 1;
-    long backoffMs = 100L;
-    int currentAttempt = 0;
-    CompletableFuture<SendResult<String, CreateBidDto>> resultFuture =
-            new CompletableFuture<>();
-    CompletableFuture<SendResult<String, CreateBidDto>> kafkaResultFuture =
-            new CompletableFuture<>();
+    int localMaxRetries = 1;
+    CompletableFuture<SendResult<String, Object>> kafkaResultFuture = new CompletableFuture<>();
     Exception exception = new RuntimeException("Kafka send failure");
 
-    when(bidKafkaTemplate.send(eq("Bids"), eq(bidDto))).thenReturn(kafkaResultFuture);
+    when(kafkaTemplate.send(eq(topic), eq(key), eq(bidDto))).thenReturn(kafkaResultFuture);
     kafkaResultFuture.completeExceptionally(exception);
 
-    bidKafkaHelpers.attemptSend(bidDto, maxRetries, backoffMs, currentAttempt, resultFuture);
+    CompletableFuture<SendResult<String, Object>> resultFuture = new CompletableFuture<>();
+    bidKafkaHelpers.attemptSend(topic, key, bidDto, localMaxRetries, backoffMs, currentAttempt, resultFuture);
 
-    verify(bidKafkaTemplate, times(1)).send(eq("Bids"), eq(bidDto));
+    verify(kafkaTemplate, times(1)).send(eq(topic), eq(key), eq(bidDto));
   }
 
   @Test
   void testAttemptSendFailureMaxRetriesExceeded() {
-    CreateBidDto bidDto = new CreateBidDto();
-    int maxRetries = 0;
-    long backoffMs = 100L;
-    int currentAttempt = 0;
-    CompletableFuture<SendResult<String, CreateBidDto>> resultFuture =
-            new CompletableFuture<>();
-    CompletableFuture<SendResult<String, CreateBidDto>> kafkaResultFuture =
-            new CompletableFuture<>();
+    int localMaxRetries = 0;
+    CompletableFuture<SendResult<String, Object>> kafkaResultFuture = new CompletableFuture<>();
     Exception exception = new RuntimeException("Kafka send failure");
 
-    when(bidKafkaTemplate.send(eq("Bids"), eq(bidDto))).thenReturn(kafkaResultFuture);
+    when(kafkaTemplate.send(eq(topic), eq(key), eq(bidDto))).thenReturn(kafkaResultFuture);
     kafkaResultFuture.completeExceptionally(exception);
 
-    bidKafkaHelpers.attemptSend(bidDto, maxRetries, backoffMs, currentAttempt, resultFuture);
+    CompletableFuture<SendResult<String, Object>> resultFuture = new CompletableFuture<>();
+    bidKafkaHelpers.attemptSend(topic, key, bidDto, localMaxRetries, backoffMs, currentAttempt, resultFuture);
 
-    verify(bidKafkaTemplate, times(1)).send(eq("Bids"), eq(bidDto));
+    verify(kafkaTemplate, times(1)).send(eq(topic), eq(key), eq(bidDto));
 
-    assert resultFuture.isDone();
-    assert resultFuture.isCompletedExceptionally();
+    assertTrue(resultFuture.isDone());
+    assertTrue(resultFuture.isCompletedExceptionally());
   }
 }
