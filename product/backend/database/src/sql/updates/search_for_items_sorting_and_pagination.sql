@@ -49,6 +49,7 @@ RETURNS TABLE (
             i.seller_id
         FROM items i
         WHERE similarity(i.name, $1) > 0.3
+        AND is_active = true
         ORDER BY %I %s
         LIMIT $2 OFFSET $3', 
         order_by,

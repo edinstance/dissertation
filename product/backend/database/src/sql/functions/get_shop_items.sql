@@ -42,6 +42,7 @@ BEGIN
             i.images,
             i.seller_id
         FROM items i
+        WHERE is_active = true
         ORDER BY %I %s
         LIMIT $1 OFFSET $2',
         _order_by,
