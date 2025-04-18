@@ -49,6 +49,7 @@ public class BidCacheHelpers {
     try (Jedis jedis = jedisPool.getResource()) {
       String cacheKey = String.format(ITEM_CURRENT_BID_KEY_FORMAT, itemId);
 
+      AppLogger.info("Updating cached highest bid for item: " + itemId);
       jedis.setex(cacheKey, ITEM_CURRENT_BID_CACHE_EXPIRY_SECONDS, newAmount.toString());
     } catch (Exception e) {
       AppLogger.warn("Failed to update bid cache: {}", e.getMessage());
