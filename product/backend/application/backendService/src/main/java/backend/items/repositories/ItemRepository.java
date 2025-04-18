@@ -149,4 +149,14 @@ public interface ItemRepository extends JpaRepository<ItemEntity, UUID> {
    */
   @Query(value = "SELECT get_item_price(:itemId)", nativeQuery = true)
   BigDecimal getItemPriceByItemId(@Param("itemId") UUID itemId);
+
+  /**
+   * This query gets the items from finished auctions.
+   *
+   * @return the items.
+   */
+
+  @Query(value = "SELECT * FROM get_items_from_finished_auctions()", nativeQuery = true)
+  @Transactional
+  List<ItemEntity> getItemsFromFinishedAuctions();
 }
