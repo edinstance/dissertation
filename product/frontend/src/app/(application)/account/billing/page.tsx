@@ -25,7 +25,7 @@ export default async function CheckoutPage() {
 
   console.log("Existing subscription:", existingSubscription);
   return (
-    <div className="pt-8">
+    <div className="pt-8 text-black dark:text-white">
       {existingSubscription?.status == "active" ? (
         <div>
           <h1 className="text-xl font-bold">Your Subscription</h1>

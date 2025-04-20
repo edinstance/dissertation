@@ -7,7 +7,9 @@ import {
   useElements,
   useStripe,
 } from "@stripe/react-stripe-js";
-import { useState } from "react";
+import { Appearance } from "@stripe/stripe-js";
+import { useTheme } from "next-themes";
+import { useEffect, useState } from "react";
 import { Button } from "../../ui/Button";
 
 /**
@@ -21,8 +23,7 @@ import { Button } from "../../ui/Button";
  */
 export default function SubscriptionElements() {
   const userResponse = useQuery(GET_USER);
-  const user = userResponse?.data?.getUser;
-  console.log(user);
+  const user = userResponse?.data?.getUser;  
 
   const stripe = useStripe();
   const elements = useElements();
@@ -47,7 +48,7 @@ export default function SubscriptionElements() {
     const { error } = await stripe.confirmPayment({
       elements,
       confirmParams: {
-        return_url: "http://localhost:3000/account/billing",
+        return_url: `${window.location.origin}/account/billing`,
       },
     });
 
@@ -63,7 +64,9 @@ export default function SubscriptionElements() {
       onSubmit={handleSubmit}
       className="mb-4 rounded-lg px-8 py-4 pb-8 shadow-md"
     >
-      <p className="pb-4 text-xl">Pay for your subscription</p>
+      <p className="pb-4 text-xl text-black dark:text-white">
+        Pay for your subscription
+      </p>
       <PaymentElement
         options={{
           layout: {
@@ -76,7 +79,9 @@ export default function SubscriptionElements() {
       />
 
       <div className="pt-8">
-        <p className="pb-4 text-xl">Billing Information</p>
+        <p className="pb-4 text-xl text-black dark:text-white">
+          Billing Information
+        </p>
         <AddressElement
           options={{
             mode: "billing",

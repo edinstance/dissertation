@@ -2,9 +2,10 @@
 
 import LoadingSpinner from "@/components/ui/LoadingSpinner";
 import { Elements } from "@stripe/react-stripe-js";
-import { loadStripe } from "@stripe/stripe-js";
+import { Appearance, loadStripe } from "@stripe/stripe-js";
 import { useSession } from "next-auth/react";
-import { useEffect, useState } from "react";
+import { useTheme } from "next-themes";
+import { useEffect, useMemo, useState } from "react";
 import SubscriptionElements from "./SubscriptionElements";
 
 /**
@@ -21,6 +22,7 @@ export default function SubscriptionForm({ stripeKey }: { stripeKey: string }) {
   const stripePromise = loadStripe(stripeKey);
   const session = useSession();
   const [clientSecret, setClientSecret] = useState();
+  const { resolvedTheme } = useTheme();
 
   useEffect(() => {
     const fetchClientSecret = async () => {
@@ -49,8 +51,16 @@ export default function SubscriptionForm({ stripeKey }: { stripeKey: string }) {
     fetchClientSecret();
   }, [session.data?.user?.id]);
 
+  const appearance: Appearance | undefined = useMemo(
+    () => ({
+      theme: resolvedTheme === "dark" ? "night" : "stripe",
+    }),
+    [resolvedTheme],
+  );
+
   const options = {
     clientSecret: clientSecret,
+    appearance,
   };
 
   return (
