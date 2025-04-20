@@ -19,4 +19,5 @@ type Bid {
     userId: String
     itemId: String
     amount: Float
+    createdAt: String
 }
