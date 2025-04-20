@@ -184,7 +184,7 @@ function BidSidebar({ isOpen, item }: { isOpen: boolean; item: Item }) {
                           : "bg-zinc-200 dark:bg-zinc-700"
                       }`}
                     >
-                      <div className="flex justify-between">
+                      <div className="flex items-center justify-between">
                         <span className="text-sm font-medium">
                           £{bid.amount?.toFixed(2)}
                         </span>
