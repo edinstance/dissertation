@@ -2,12 +2,14 @@ import { Item } from "@/gql/graphql";
 import { GET_BIDS_BY_ITEM, SUBMIT_BID_MUTATION } from "@/lib/graphql/bids";
 import { useMutation, useQuery } from "@apollo/client";
 import { useSession } from "next-auth/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { v4 as uuidv4 } from "uuid";
 import { Button } from "../ui/Button";
 import { Input } from "../ui/Input";
 import LoadingSpinner from "../ui/LoadingSpinner";
+import CountdownTimer from "./BidCountdownTimer";
+import BidCountdownTimer from "./BidCountdownTimer";
 
 function BidSidebar({ isOpen, item }: { isOpen: boolean; item: Item }) {
   if (!item || !item.id) {
@@ -95,6 +97,14 @@ function BidSidebar({ isOpen, item }: { isOpen: boolean; item: Item }) {
     });
   };
 
+  if (loading) {
+    return (
+      <div className="fixed inset-y-0 right-0 z-40 w-72 transform border-l border-zinc-300 bg-zinc-100 p-6 pt-40 transition-transform duration-300 ease-in-out dark:border-zinc-700 dark:bg-zinc-800 md:relative md:inset-y-auto md:z-auto md:w-1/4 md:min-w-[280px] md:max-w-xs md:translate-x-0 md:border-l md:pt-6">
+        <LoadingSpinner />
+      </div>
+    );
+  }
+
   return (
     <div
       className={`md:pt-30 fixed inset-y-0 right-0 z-40 w-72 transform border-l border-zinc-300 bg-zinc-100 p-6 pt-40 transition-transform duration-300 ease-in-out dark:border-zinc-700 dark:bg-zinc-800 md:relative md:inset-y-auto md:z-auto md:w-1/4 md:min-w-[280px] md:max-w-xs md:translate-x-0 md:border-l md:pt-6 ${
@@ -104,7 +114,15 @@ function BidSidebar({ isOpen, item }: { isOpen: boolean; item: Item }) {
       <div className="flex h-full flex-col gap-6 text-black dark:text-white">
         <h2 className="text-center text-2xl font-bold">Bid for {item.name}</h2>
 
-        {loading && <div className="text-center">Loading bid info...</div>}
+        {item.endingTime && (
+          <div className="mb-2 flex flex-row items-center justify-between gap-2 text-center">
+            <p className="text-sm font-medium text-gray-600 dark:text-gray-400">
+              Auction ends in:
+            </p>
+            <BidCountdownTimer endTime={new Date(item.endingTime)} />
+          </div>
+        )}
+
         {error && (
           <div className="text-center text-red-500">Error loading bids.</div>
         )}
