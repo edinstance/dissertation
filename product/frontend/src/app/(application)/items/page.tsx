@@ -105,7 +105,7 @@ export default function Items() {
           </div>
         ) : items.length !== 0 ? (
           <>
-            <ItemOverviewGrid items={items} />
+            <ItemOverviewGrid items={items} isActive={itemsActive} />
             {pagination && (
               <Pagination
                 total={pagination.total ?? 1}
