@@ -229,7 +229,7 @@ function ChatWindow() {
         <ChatBubbleLeftRightIcon className="h-6 w-6" />
       </Button>
       <div
-        className={`fixed bottom-0 right-0 z-50 mb-8 mr-8 flex h-[80vh] w-96 flex-col rounded-md border bg-white dark:bg-zinc-900 border-gray-700 shadow-lg ${
+        className={`fixed bottom-0 right-0 z-50 mb-8 mr-8 flex h-[80vh] w-96 flex-col rounded-md border border-gray-700 bg-white shadow-lg dark:bg-zinc-900 ${
           isOpen ? "" : "hidden"
         }`}
       >
@@ -260,11 +260,14 @@ function ChatWindow() {
             {chatLoading && (
               <div
                 key={uuidv4()}
-                className="mr-auto max-w-[70%] animate-pulse rounded-lg bg-gray-100 dark:bg-gray-900 p-3 text-sm"
+                className="mr-auto max-w-[70%] animate-pulse rounded-lg bg-gray-100 p-3 text-sm dark:bg-gray-900"
               >
                 <div className="flex items-center space-x-2">
                   {[...Array(5)].map((_, i) => (
-                    <div key={i} className="h-2 w-2 rounded-full bg-gray-400 dark:bg-gray-600" />
+                    <div
+                      key={i}
+                      className="h-2 w-2 rounded-full bg-gray-400 dark:bg-gray-600"
+                    />
                   ))}
                 </div>
               </div>

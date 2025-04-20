@@ -7,6 +7,7 @@ import LoadingSpinner from "@/components/ui/LoadingSpinner";
 import { IS_CHAT_ENABLED } from "@/lib/graphql/chats";
 import { GET_ITEM_BY_ID_QUERY } from "@/lib/graphql/items";
 import { useQuery } from "@apollo/client";
+import Image from "next/image";
 import { useParams } from "next/navigation";
 import { useState } from "react";
 
@@ -64,8 +65,10 @@ export default function ItemPage() {
                     )
                     .map((image, index) => (
                       <div key={index} className="flex-shrink-0">
-                        <img
+                        <Image
                           src={image}
+                          width={256}
+                          height={256}
                           alt={`${item.name ?? "Item"} image ${index + 1}`}
                           className="h-64 w-64 rounded-lg object-cover transition-transform duration-300 hover:scale-105"
                           loading="lazy"

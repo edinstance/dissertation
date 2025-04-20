@@ -4,7 +4,6 @@ import { GET_USER } from "@/lib/graphql/users";
 import { auth } from "@/server/auth";
 import { GraphQLClient } from "graphql-request";
 import { redirect } from "next/navigation";
-import { Bounce, ToastContainer } from "react-toastify";
 
 const BACKEND_GRAPHQL_ENDPOINT = process.env.BACKEND_GRAPHQL_ENDPOINT ?? "";
 

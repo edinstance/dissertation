@@ -11,10 +11,6 @@ import LoadingSpinner from "../ui/LoadingSpinner";
 import BidCountdownTimer from "./BidCountdownTimer";
 
 function BidSidebar({ isOpen, item }: { isOpen: boolean; item: Item }) {
-  if (!item || !item.id) {
-    return null;
-  }
-
   const session = useSession();
   const userId = session?.data?.user?.id ?? null;
 
@@ -22,7 +18,7 @@ function BidSidebar({ isOpen, item }: { isOpen: boolean; item: Item }) {
 
   const existingBidsQuery = useQuery(GET_BIDS_BY_ITEM, {
     variables: {
-      itemId: item.id,
+      itemId: item.id ?? "",
     },
     fetchPolicy: "cache-and-network",
     onCompleted: (data) => {
@@ -41,7 +37,7 @@ function BidSidebar({ isOpen, item }: { isOpen: boolean; item: Item }) {
       {
         query: GET_BIDS_BY_ITEM,
         variables: {
-          itemId: item.id,
+          itemId: item.id ?? "",
         },
       },
     ],
@@ -75,7 +71,7 @@ function BidSidebar({ isOpen, item }: { isOpen: boolean; item: Item }) {
         bid: {
           bidId: uuidv4(),
           userId: userId,
-          itemId: item.id,
+          itemId: item.id ?? "",
           amount: bidAmount,
         },
       },
