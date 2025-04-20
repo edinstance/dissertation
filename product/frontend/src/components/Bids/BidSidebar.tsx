@@ -154,12 +154,12 @@ function BidSidebar({ isOpen, item }: { isOpen: boolean; item: Item }) {
           </Button>
         </div>
 
-        <div className="mt-4 flex-1 overflow-y-auto border-t pt-4 dark:border-zinc-700">
+        <div className="mt-4 flex-1 border-t pt-4 dark:border-zinc-700">
           <h3 className="mb-2 text-lg font-semibold">Bid History</h3>
           {loading && <LoadingSpinner />}
           {error && <p className="text-red-500">Could not load bid history.</p>}
           {!loading && !error && existingBids && existingBids.length > 0 ? (
-            <div className="space-y-2">
+            <div className="max-h-48 space-y-2 overflow-y-auto">
               {existingBids.map(
                 (bid, index) =>
                   bid && (
