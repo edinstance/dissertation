@@ -53,6 +53,15 @@ export type Admin = {
   userId: Scalars["String"]["output"];
 };
 
+export type Bid = {
+  __typename?: "Bid";
+  amount?: Maybe<Scalars["Float"]["output"]>;
+  bidId?: Maybe<Scalars["String"]["output"]>;
+  createdAt?: Maybe<Scalars["String"]["output"]>;
+  itemId?: Maybe<Scalars["String"]["output"]>;
+  userId?: Maybe<Scalars["String"]["output"]>;
+};
+
 export type Chat = {
   __typename?: "Chat";
   chatId: Scalars["String"]["output"];
@@ -369,6 +378,7 @@ export type Mutation = {
   revokeAdminPermission?: Maybe<MutationResponse>;
   saveItem?: Maybe<Item>;
   saveUserDetails?: Maybe<User>;
+  submitBid?: Maybe<MutationResponse>;
 };
 
 export type MutationClearCurrentConversationArgs = {
@@ -428,6 +438,10 @@ export type MutationSaveUserDetailsArgs = {
   id: Scalars["String"]["input"];
 };
 
+export type MutationSubmitBidArgs = {
+  bid?: InputMaybe<SubmitBidInput>;
+};
+
 export type MutationResponse = {
   __typename?: "MutationResponse";
   message?: Maybe<Scalars["String"]["output"]>;
@@ -481,6 +495,7 @@ export type Query = {
   getCurrentAdmin?: Maybe<Admin>;
   getCurrentAdminPermissions?: Maybe<Array<Maybe<PermissionView>>>;
   getCurrentConversation?: Maybe<Array<Maybe<Chat>>>;
+  getItemBidsById?: Maybe<Array<Maybe<Bid>>>;
   getItemById?: Maybe<Item>;
   getItemsByUser?: Maybe<SearchedItemsResponse>;
   getShopItems?: Maybe<SearchedItemsResponse>;
@@ -496,6 +511,10 @@ export type QueryGetAdminPermissionsByAdminIdArgs = {
 
 export type QueryGetCurrentConversationArgs = {
   conversationId: Scalars["String"]["input"];
+};
+
+export type QueryGetItemBidsByIdArgs = {
+  itemId?: InputMaybe<Scalars["String"]["input"]>;
 };
 
 export type QueryGetItemByIdArgs = {
@@ -558,13 +577,11 @@ export type Sorting = {
   sortDirection?: Maybe<SortDirection>;
 };
 
-export type Subscription = {
-  __typename?: "Subscription";
-  chatSubscription?: Maybe<Chat>;
-};
-
-export type SubscriptionChatSubscriptionArgs = {
-  conversationId: Scalars["String"]["input"];
+export type SubmitBidInput = {
+  amount?: InputMaybe<Scalars["Float"]["input"]>;
+  bidId?: InputMaybe<Scalars["String"]["input"]>;
+  itemId?: InputMaybe<Scalars["String"]["input"]>;
+  userId?: InputMaybe<Scalars["String"]["input"]>;
 };
 
 export type User = {
@@ -923,6 +940,35 @@ export type DeactivateAdminMutationVariables = Exact<{
 export type DeactivateAdminMutation = {
   __typename?: "Mutation";
   deactivateAdmin?: {
+    __typename?: "MutationResponse";
+    success?: boolean | null;
+    message?: string | null;
+  } | null;
+};
+
+export type GetItemBidsByIdQueryVariables = Exact<{
+  itemId: Scalars["String"]["input"];
+}>;
+
+export type GetItemBidsByIdQuery = {
+  __typename?: "Query";
+  getItemBidsById?: Array<{
+    __typename?: "Bid";
+    bidId?: string | null;
+    itemId?: string | null;
+    userId?: string | null;
+    amount?: number | null;
+    createdAt?: string | null;
+  } | null> | null;
+};
+
+export type SubmitBidMutationVariables = Exact<{
+  bid: SubmitBidInput;
+}>;
+
+export type SubmitBidMutation = {
+  __typename?: "Mutation";
+  submitBid?: {
     __typename?: "MutationResponse";
     success?: boolean | null;
     message?: string | null;
@@ -1997,6 +2043,113 @@ export const DeactivateAdminDocument = {
   DeactivateAdminMutation,
   DeactivateAdminMutationVariables
 >;
+export const GetItemBidsByIdDocument = {
+  kind: "Document",
+  definitions: [
+    {
+      kind: "OperationDefinition",
+      operation: "query",
+      name: { kind: "Name", value: "getItemBidsById" },
+      variableDefinitions: [
+        {
+          kind: "VariableDefinition",
+          variable: {
+            kind: "Variable",
+            name: { kind: "Name", value: "itemId" },
+          },
+          type: {
+            kind: "NonNullType",
+            type: {
+              kind: "NamedType",
+              name: { kind: "Name", value: "String" },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "getItemBidsById" },
+            arguments: [
+              {
+                kind: "Argument",
+                name: { kind: "Name", value: "itemId" },
+                value: {
+                  kind: "Variable",
+                  name: { kind: "Name", value: "itemId" },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                { kind: "Field", name: { kind: "Name", value: "bidId" } },
+                { kind: "Field", name: { kind: "Name", value: "itemId" } },
+                { kind: "Field", name: { kind: "Name", value: "userId" } },
+                { kind: "Field", name: { kind: "Name", value: "amount" } },
+                { kind: "Field", name: { kind: "Name", value: "createdAt" } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  GetItemBidsByIdQuery,
+  GetItemBidsByIdQueryVariables
+>;
+export const SubmitBidDocument = {
+  kind: "Document",
+  definitions: [
+    {
+      kind: "OperationDefinition",
+      operation: "mutation",
+      name: { kind: "Name", value: "submitBid" },
+      variableDefinitions: [
+        {
+          kind: "VariableDefinition",
+          variable: { kind: "Variable", name: { kind: "Name", value: "bid" } },
+          type: {
+            kind: "NonNullType",
+            type: {
+              kind: "NamedType",
+              name: { kind: "Name", value: "SubmitBidInput" },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "submitBid" },
+            arguments: [
+              {
+                kind: "Argument",
+                name: { kind: "Name", value: "bid" },
+                value: {
+                  kind: "Variable",
+                  name: { kind: "Name", value: "bid" },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                { kind: "Field", name: { kind: "Name", value: "success" } },
+                { kind: "Field", name: { kind: "Name", value: "message" } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<SubmitBidMutation, SubmitBidMutationVariables>;
 export const IsChatEnabledDocument = {
   kind: "Document",
   definitions: [

@@ -42,6 +42,10 @@ const documents = {
     types.CreateAdminDocument,
   "\n  mutation DeactivateAdmin($userId: String!) {\n    deactivateAdmin(userId: $userId) {\n      success\n      message\n    }\n  }\n":
     types.DeactivateAdminDocument,
+  "\n  query getItemBidsById($itemId: String!) {\n    getItemBidsById(itemId: $itemId) {\n      bidId\n      itemId\n      userId\n      amount\n      createdAt\n    }\n  }\n":
+    types.GetItemBidsByIdDocument,
+  "\n  mutation submitBid($bid: SubmitBidInput!) {\n    submitBid(bid: $bid) {\n      success\n      message\n    }\n  }\n":
+    types.SubmitBidDocument,
   "\n  query isChatEnabled {\n    isChatEnabled\n  }\n":
     types.IsChatEnabledDocument,
   "\n  query getCurrentConversation($conversationId: String!) {\n    getCurrentConversation(conversationId: $conversationId) {\n      chatId\n      userId\n      sender\n      message\n      createdAt\n    }\n  }\n":
@@ -176,6 +180,18 @@ export function graphql(
 export function graphql(
   source: "\n  mutation DeactivateAdmin($userId: String!) {\n    deactivateAdmin(userId: $userId) {\n      success\n      message\n    }\n  }\n",
 ): (typeof documents)["\n  mutation DeactivateAdmin($userId: String!) {\n    deactivateAdmin(userId: $userId) {\n      success\n      message\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(
+  source: "\n  query getItemBidsById($itemId: String!) {\n    getItemBidsById(itemId: $itemId) {\n      bidId\n      itemId\n      userId\n      amount\n      createdAt\n    }\n  }\n",
+): (typeof documents)["\n  query getItemBidsById($itemId: String!) {\n    getItemBidsById(itemId: $itemId) {\n      bidId\n      itemId\n      userId\n      amount\n      createdAt\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(
+  source: "\n  mutation submitBid($bid: SubmitBidInput!) {\n    submitBid(bid: $bid) {\n      success\n      message\n    }\n  }\n",
+): (typeof documents)["\n  mutation submitBid($bid: SubmitBidInput!) {\n    submitBid(bid: $bid) {\n      success\n      message\n    }\n  }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
