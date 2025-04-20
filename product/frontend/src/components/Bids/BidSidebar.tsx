@@ -2,13 +2,12 @@ import { Item } from "@/gql/graphql";
 import { GET_BIDS_BY_ITEM, SUBMIT_BID_MUTATION } from "@/lib/graphql/bids";
 import { useMutation, useQuery } from "@apollo/client";
 import { useSession } from "next-auth/react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { toast } from "react-toastify";
 import { v4 as uuidv4 } from "uuid";
 import { Button } from "../ui/Button";
 import { Input } from "../ui/Input";
 import LoadingSpinner from "../ui/LoadingSpinner";
-import CountdownTimer from "./BidCountdownTimer";
 import BidCountdownTimer from "./BidCountdownTimer";
 
 function BidSidebar({ isOpen, item }: { isOpen: boolean; item: Item }) {
@@ -111,7 +110,7 @@ function BidSidebar({ isOpen, item }: { isOpen: boolean; item: Item }) {
         isOpen ? "translate-x-0" : "translate-x-full"
       }`}
     >
-      <div className="flex h-full flex-col gap-6 text-black dark:text-white">
+      <div className="flex flex-col gap-6 text-black dark:text-white">
         <h2 className="text-center text-2xl font-bold">Bid for {item.name}</h2>
 
         {item.endingTime && (
@@ -177,7 +176,7 @@ function BidSidebar({ isOpen, item }: { isOpen: boolean; item: Item }) {
           {loading && <LoadingSpinner />}
           {error && <p className="text-red-500">Could not load bid history.</p>}
           {!loading && !error && existingBids && existingBids.length > 0 ? (
-            <div className="max-h-48 space-y-2 overflow-y-auto">
+            <div className="max-h-48 space-y-2 overflow-y-auto pb-8">
               {existingBids.map(
                 (bid, index) =>
                   bid && (
