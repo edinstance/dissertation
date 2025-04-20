@@ -7,14 +7,15 @@ import backend.common.dynamodb.tables.Bids;
 import jakarta.annotation.PostConstruct;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
+import java.util.List;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import software.amazon.awssdk.enhanced.dynamodb.DynamoDbEnhancedClient;
+import software.amazon.awssdk.enhanced.dynamodb.DynamoDbIndex;
 import software.amazon.awssdk.enhanced.dynamodb.DynamoDbTable;
 import software.amazon.awssdk.enhanced.dynamodb.TableSchema;
-import software.amazon.awssdk.enhanced.dynamodb.model.Page;
 import software.amazon.awssdk.enhanced.dynamodb.model.PageIterable;
 import software.amazon.awssdk.enhanced.dynamodb.model.PutItemEnhancedRequest;
 import software.amazon.awssdk.enhanced.dynamodb.model.QueryConditional;
@@ -38,9 +39,19 @@ public class BidsDynamoService {
   private DynamoDbTable<Bids> bidsTable;
 
   /**
+   * The item id index.
+   */
+  private DynamoDbIndex<Bids> itemIdIndex;
+
+  /**
    * The number of days to retain logs in DynamoDB.
    */
   private static final long LOG_RETENTION_DAYS = 720;
+
+  /**
+   * The name of the item id index.
+   */
+  private static final String ITEM_ID_INDEX_NAME = "itemId-index";
 
   /**
    * The environment in which the application is running.
@@ -66,6 +77,7 @@ public class BidsDynamoService {
     String tableName = String.format("%s-bids", this.environment);
     try {
       this.bidsTable = enhancedClient.table(tableName, TableSchema.fromBean(Bids.class));
+      this.itemIdIndex = this.bidsTable.index(ITEM_ID_INDEX_NAME);
       AppLogger.info("Initialized DynamoDB table for: {}", tableName);
     } catch (Exception e) {
       AppLogger.error("Failed to initialize DynamoDB table", e);
@@ -123,22 +135,11 @@ public class BidsDynamoService {
     }
 
     try {
-      QueryEnhancedRequest request = QueryEnhancedRequest.builder()
-              .queryConditional(
-                      QueryConditional.keyEqualTo(
-                              k -> k.partitionValue(itemId.toString())))
-              .scanIndexForward(false)
-              .limit(1)
-              .build();
 
-      // Execute the query
-      PageIterable<Bids> pages = bidsTable.query(request);
+      Bids firstItem = getItemBids(itemId).getFirst();
 
-      // Extract the first page, we are only interested in its items
-      Page<Bids> firstPage = pages.stream().findFirst().orElse(null);
-
-      if (firstPage != null && !firstPage.items().isEmpty()) {
-        return firstPage.items().getFirst();
+      if (firstItem != null) {
+        return firstItem;
       } else {
         AppLogger.info("No bids found");
         return null;
@@ -150,6 +151,56 @@ public class BidsDynamoService {
     } catch (Exception e) {
       AppLogger.error("Unexpected error retrieving most recent bid for item: {}", e);
       return null;
+    }
+  }
+
+
+  /**
+   * This function gets the item bid history based on the itemId.
+   *
+   * @param itemId the item to search by.
+   *
+   * @return a list of the items bids.
+   */
+  public List<Bids> getItemBids(UUID itemId) {
+    if (bidsTable == null) {
+      AppLogger.error("Cannot retrieve item bids. DynamoDB table reference is not initialized.");
+      return List.of();
+    }
+    if (itemId == null) {
+      AppLogger.warn("Cannot retrieve item bids. Item ID is null.");
+      return List.of();
+    }
+
+    try {
+      QueryEnhancedRequest request = QueryEnhancedRequest.builder()
+              .queryConditional(
+                      QueryConditional.keyEqualTo(
+                              k -> k.partitionValue(itemId.toString())))
+              .scanIndexForward(false)
+              .build();
+
+      PageIterable<Bids> pages = (PageIterable<Bids>) itemIdIndex.query(request);
+
+      List<Bids> bids = pages.stream()
+              .flatMap(page -> page.items().stream())
+              .toList();
+
+      if (bids.isEmpty()) {
+        AppLogger.info("No bids found for item {}", itemId);
+      } else {
+        AppLogger.info("Retrieved {} bids for item {}", bids.size(), itemId);
+      }
+      return bids;
+
+    } catch (DynamoDbException e) {
+      AppLogger.error("DynamoDB error retrieving bids for item {}: {}",
+              itemId, e.awsErrorDetails().errorMessage(), e);
+      return List.of();
+    } catch (Exception e) {
+      AppLogger.error("Unexpected error retrieving bids for item {}: {}",
+              itemId, e.getMessage(), e);
+      return List.of();
     }
   }
 

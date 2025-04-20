@@ -1,5 +1,9 @@
 package backend.BidTests.MutationTests;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.when;
+
 import backend.bids.dto.CreateBidDto;
 import backend.bids.mutations.BidMutations;
 import backend.bids.services.BidMutationService;
@@ -9,10 +13,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 public class BidMutationTests {
@@ -26,7 +26,7 @@ public class BidMutationTests {
   private final CreateBidDto createBidDto = new CreateBidDto();
 
   @Test
-  public void testSuccessfulSubmitBid(){
+  public void testSuccessfulSubmitBid() {
     when(bidMutationService.createBid(createBidDto)).thenReturn(true);
 
     MutationResponse result = bidMutations.submitBid(createBidDto);
@@ -36,7 +36,7 @@ public class BidMutationTests {
   }
 
   @Test
-  public void testUnsuccessfulSubmitBid(){
+  public void testUnsuccessfulSubmitBid() {
     when(bidMutationService.createBid(createBidDto)).thenReturn(false);
 
     MutationResponse result = bidMutations.submitBid(createBidDto);

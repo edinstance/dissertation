@@ -65,7 +65,7 @@ public class Bids {
    *
    * @return the itemID.
    */
-  @DynamoDbSecondaryPartitionKey(indexNames = "itemId")
+  @DynamoDbSecondaryPartitionKey(indexNames = "itemId-index")
   @DynamoDbAttribute("itemId")
   public UUID getItemId() {
     return itemId;

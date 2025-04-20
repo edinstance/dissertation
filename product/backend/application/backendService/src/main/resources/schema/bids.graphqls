@@ -1,4 +1,7 @@
 
+extend type Query {
+    getItemBidsById(itemId: String): [Bid]
+}
 extend type Mutation {
     submitBid(bid: SubmitBidInput): MutationResponse
 }

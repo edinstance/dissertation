@@ -48,8 +48,8 @@ public class BidMutationService {
    * @param bidKafkaHelpers the bid kafka helpers to use.
    */
   @Autowired
-  public BidMutationService(BidHelpers bidHelpers,
-                            BidCacheHelpers bidCacheHelpers, BidKafkaHelpers bidKafkaHelpers, BidsDynamoService bidsDynamoService) {
+  public BidMutationService(BidHelpers bidHelpers, BidCacheHelpers bidCacheHelpers,
+                            BidKafkaHelpers bidKafkaHelpers, BidsDynamoService bidsDynamoService) {
     this.bidKafkaHelpers = bidKafkaHelpers;
     this.bidHelpers = bidHelpers;
     this.bidCacheHelpers = bidCacheHelpers;
