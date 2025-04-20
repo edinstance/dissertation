@@ -1,5 +1,6 @@
 package backend.BidTests.ServiceTests;
 
+import backend.bids.dynamodb.BidsDynamoService;
 import backend.bids.helpers.BidCacheHelpers;
 import backend.bids.helpers.BidHelpers;
 import backend.bids.helpers.BidKafkaHelpers;
@@ -17,6 +18,9 @@ public class SetupBidMutationServiceTests {
 
   @Mock
   public BidKafkaHelpers bidKafkaHelpers;
+
+  @Mock
+  public BidsDynamoService bidsDynamoService;
 
   @InjectMocks
   public BidMutationService bidMutationService;

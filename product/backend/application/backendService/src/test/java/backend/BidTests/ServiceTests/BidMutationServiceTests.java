@@ -106,6 +106,7 @@ public class BidMutationServiceTests extends SetupBidMutationServiceTests {
                     eq(1000L),
                     eq(0),
                     any());
+    verify(bidsDynamoService, times(1)).writeBid(bidDto);
     verify(bidCacheHelpers, times(1)).updateCachedHighestBid(itemId, bidDto.getAmount());
   }
 

@@ -3,6 +3,7 @@ package backend.bids.services;
 import static backend.common.config.kafka.KafkaTopics.BID_TOPIC;
 
 import backend.bids.dto.CreateBidDto;
+import backend.bids.dynamodb.BidsDynamoService;
 import backend.bids.helpers.BidCacheHelpers;
 import backend.bids.helpers.BidHelpers;
 import backend.bids.helpers.BidKafkaHelpers;
@@ -35,6 +36,11 @@ public class BidMutationService {
   private final BidKafkaHelpers bidKafkaHelpers;
 
   /**
+   * The bids dynamo service to use.
+   */
+  private final BidsDynamoService bidsDynamoService;
+
+  /**
    * Constructor for the mutation service.
    *
    * @param bidHelpers the bid helpers to use.
@@ -43,10 +49,11 @@ public class BidMutationService {
    */
   @Autowired
   public BidMutationService(BidHelpers bidHelpers,
-                            BidCacheHelpers bidCacheHelpers, BidKafkaHelpers bidKafkaHelpers) {
+                            BidCacheHelpers bidCacheHelpers, BidKafkaHelpers bidKafkaHelpers, BidsDynamoService bidsDynamoService) {
     this.bidKafkaHelpers = bidKafkaHelpers;
     this.bidHelpers = bidHelpers;
     this.bidCacheHelpers = bidCacheHelpers;
+    this.bidsDynamoService = bidsDynamoService;
   }
 
   /**
@@ -88,6 +95,7 @@ public class BidMutationService {
       bidKafkaHelpers.attemptSend(BID_TOPIC, bidDto.getBidId().toString(),
               bidDto, 3, 1000, 0, resultFuture);
 
+      bidsDynamoService.writeBid(bidDto);
       bidCacheHelpers.updateCachedHighestBid(bidDto.getItemId(), bidDto.getAmount());
 
       return true;
