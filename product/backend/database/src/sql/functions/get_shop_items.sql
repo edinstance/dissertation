@@ -14,7 +14,8 @@ RETURNS TABLE (
     stock INT,
     category VARCHAR,
     images JSONB,
-    seller_id UUID
+    seller_id UUID,
+    final_price DECIMAL
 ) AS $$
 BEGIN
     -- Validate that _order_by is a valid column in the items table
@@ -40,7 +41,8 @@ BEGIN
             i.stock,
             i.category,
             i.images,
-            i.seller_id
+            i.seller_id,
+            i.final_price
         FROM items i
         WHERE is_active = true
         ORDER BY %I %s

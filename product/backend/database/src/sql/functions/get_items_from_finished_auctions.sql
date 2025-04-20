@@ -10,7 +10,8 @@ RETURNS TABLE (
     stock INT,
     category VARCHAR,
     images JSONB,
-    seller_id UUID
+    seller_id UUID,
+    final_price DECIMAL
 ) AS $$
 BEGIN
     RETURN QUERY
@@ -28,6 +29,7 @@ BEGIN
         i.stock,
         i.category,
         i.images,
-        i.seller_id;
+        i.seller_id,
+        i.final_price;
 END;
 $$ LANGUAGE plpgsql;

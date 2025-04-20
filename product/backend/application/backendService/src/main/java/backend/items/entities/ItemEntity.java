@@ -71,6 +71,12 @@ public class ItemEntity {
   private BigDecimal price;
 
   /**
+   * The item's price.
+   */
+  @Column(name = "final_price")
+  private BigDecimal finalPrice;
+
+  /**
    * The item's stock quantity.
    */
   @Column(name = "stock", nullable = false)
