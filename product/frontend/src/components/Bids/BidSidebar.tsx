@@ -102,7 +102,7 @@ function BidSidebar({ isOpen, item }: { isOpen: boolean; item: Item }) {
       }`}
     >
       <div className="flex h-full flex-col gap-6 text-black dark:text-white">
-        <h2 className="text-center text-2xl font-bold">Bid</h2>
+        <h2 className="text-center text-2xl font-bold">Bid for {item.name}</h2>
 
         {loading && <div className="text-center">Loading bid info...</div>}
         {error && (
