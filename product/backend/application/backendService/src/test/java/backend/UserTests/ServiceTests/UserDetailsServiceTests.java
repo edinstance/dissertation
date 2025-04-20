@@ -1,5 +1,6 @@
 package backend.UserTests.ServiceTests;
 
+import backend.common.helpers.AuthHelpers;
 import backend.users.entities.UserDetailsEntity;
 import backend.users.entities.UserEntity;
 import backend.users.helpers.UserHelpers;
@@ -16,7 +17,9 @@ import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.params.SetParams;
 import java.util.UUID;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.anyString;
 import static org.mockito.Mockito.eq;
@@ -32,6 +35,9 @@ public class UserDetailsServiceTests {
 
   @Mock
   private UserHelpers userHelpers;
+
+  @Mock
+  private AuthHelpers authHelpers;
 
   @Mock
   private JedisPool jedisPool;
@@ -112,5 +118,17 @@ public class UserDetailsServiceTests {
     verify(jedisPool, times(1)).getResource();
     verify(jedis, times(1))
             .set(eq("user:" + userId), anyString(), any(SetParams.class));
+  }
+
+  @Test
+  public void testCheckCurrentUserDetailsExist(){
+    when(authHelpers.getCurrentUserId()).thenReturn(userId);
+    when(userDetailsRepository.existsById(userId)).thenReturn(true);
+    assertTrue(userDetailsService.checkCurrentUserDetailsExist());
+    verify(userDetailsRepository, times(1)).existsById(userId);
+
+    when(userDetailsRepository.existsById(userId)).thenReturn(false);
+    assertFalse(userDetailsService.checkCurrentUserDetailsExist());
+    verify(userDetailsRepository, times(2)).existsById(userId);
   }
 }
