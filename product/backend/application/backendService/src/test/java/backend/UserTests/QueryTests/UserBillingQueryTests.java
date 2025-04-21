@@ -1,27 +1,18 @@
 package backend.UserTests.QueryTests;
 
-import backend.users.dto.UserBillingInput;
-import backend.users.dto.UserDetailsInput;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
 import backend.users.entities.UserBillingEntity;
-import backend.users.entities.UserDetailsEntity;
-import backend.users.entities.UserEntity;
-import backend.users.mappers.UserDetailsMapper;
-import backend.users.mutations.UserBillingMutations;
-import backend.users.mutations.UserDetailsMutations;
 import backend.users.queries.UserBillingQueries;
 import backend.users.services.UserBillingService;
-import backend.users.services.UserDetailsService;
+import java.util.UUID;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
-import java.util.UUID;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 @SpringBootTest
 public class UserBillingQueryTests {
@@ -36,16 +27,16 @@ public class UserBillingQueryTests {
 
   @Test
   public void testGetUserBilling() {
-   when(userBillingService.getUserBilling()).thenReturn(userBillingEntity);
+    when(userBillingService.getUserBilling()).thenReturn(userBillingEntity);
 
-   UserBillingEntity result = userBillingQueries.getUserBilling();
+    UserBillingEntity result = userBillingQueries.getUserBilling();
 
-   assertNotNull(result);
-   assertEquals(result.getUserId(), userBillingEntity.getUserId());
-   assertEquals(result.getAccountId(), userBillingEntity.getAccountId());
-   assertEquals(result.getCustomerId(), userBillingEntity.getCustomerId());
+    assertNotNull(result);
+    assertEquals(result.getUserId(), userBillingEntity.getUserId());
+    assertEquals(result.getAccountId(), userBillingEntity.getAccountId());
+    assertEquals(result.getCustomerId(), userBillingEntity.getCustomerId());
 
-   verify(userBillingService).getUserBilling();
+    verify(userBillingService).getUserBilling();
   }
 
 

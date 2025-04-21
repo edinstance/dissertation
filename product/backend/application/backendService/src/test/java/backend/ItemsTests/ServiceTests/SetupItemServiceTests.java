@@ -1,6 +1,5 @@
 package backend.ItemsTests.ServiceTests;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import backend.common.dto.PaginationInput;
 import backend.common.dto.SortInput;
 import backend.common.helpers.AuthHelpers;
@@ -10,6 +9,13 @@ import backend.items.helpers.ItemCacheHelpers;
 import backend.items.repositories.ItemRepository;
 import backend.items.services.ItemService;
 import backend.users.entities.UserEntity;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import java.math.BigDecimal;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
+import java.util.UUID;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -17,12 +23,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
-import java.math.BigDecimal;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
 
 @ExtendWith(MockitoExtension.class)
 public class SetupItemServiceTests {

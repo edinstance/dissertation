@@ -1,11 +1,12 @@
 package backend.ItemsTests.ServiceTests;
 
-import backend.common.dto.PaginationInput;
-import org.junit.jupiter.api.Test;
-import java.util.List;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+
+import backend.common.dto.PaginationInput;
+import java.util.List;
+import org.junit.jupiter.api.Test;
 
 public class GetShopItemsTestsItem extends SetupItemServiceTests {
 

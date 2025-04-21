@@ -1,15 +1,16 @@
 package backend.ItemsTests.ServiceTests;
 
-import backend.common.dto.PaginationInput;
-import backend.common.dto.SortInput;
-import backend.common.types.SortDirection;
-import backend.items.dto.SearchedItemsResponse;
-import org.junit.jupiter.api.Test;
-import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+
+import backend.common.dto.PaginationInput;
+import backend.common.dto.SortInput;
+import backend.common.types.SortDirection;
+import backend.items.dto.SearchedItemsResponse;
+import java.util.List;
+import org.junit.jupiter.api.Test;
 
 public class SearchForItemsTestsItem extends SetupItemServiceTests {
 

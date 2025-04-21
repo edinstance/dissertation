@@ -1,11 +1,12 @@
 package backend.ItemsTests.TypesTests;
 
-import backend.items.types.ItemSortOptions;
-import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import backend.items.types.ItemSortOptions;
+import org.junit.jupiter.api.Test;
 
 class ItemSortOptionsTests {
 

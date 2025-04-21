@@ -1,13 +1,14 @@
 package backend.ItemsTests.dtoTests;
 
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
 import backend.common.helpers.Pagination;
 import backend.common.helpers.Sorting;
 import backend.items.dto.SearchedItemsResponse;
 import backend.items.entities.ItemEntity;
+import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import java.util.List;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class SearchedItemsResponseTests {
 

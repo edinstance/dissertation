@@ -1,11 +1,12 @@
 package backend.CommonTests.HelperTests;
 
 
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
 import backend.common.helpers.Sorting;
 import backend.common.types.SortDirection;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class SortingTests {
 

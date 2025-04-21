@@ -1,10 +1,11 @@
 package backend.ChatTests.ServiceTests;
 
-import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+
+import org.junit.jupiter.api.Test;
 
 public class ClearCurrentChatTests extends SetupChatServiceTests {
 

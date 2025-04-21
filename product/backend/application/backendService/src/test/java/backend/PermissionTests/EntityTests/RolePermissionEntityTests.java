@@ -1,5 +1,8 @@
 package backend.PermissionTests.EntityTests;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
 import backend.permissions.entities.ActionsEntity;
 import backend.permissions.entities.PermissionsEntity;
 import backend.permissions.entities.ResourcesEntity;
@@ -9,11 +12,9 @@ import backend.permissions.entities.ids.RolePermissionId;
 import backend.permissions.types.Actions;
 import backend.permissions.types.GrantType;
 import backend.permissions.types.Resources;
+import java.util.UUID;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import java.util.UUID;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class RolePermissionEntityTests {
 

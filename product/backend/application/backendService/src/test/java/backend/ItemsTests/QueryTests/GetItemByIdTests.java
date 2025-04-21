@@ -1,8 +1,9 @@
 package backend.ItemsTests.QueryTests;
 
+import static org.mockito.Mockito.when;
+
 import backend.items.entities.ItemEntity;
 import org.junit.jupiter.api.Test;
-import static org.mockito.Mockito.when;
 
 public class GetItemByIdTests extends SetupQueryTests {
 

@@ -1,21 +1,5 @@
 package backend.UserTests.ServiceTests;
 
-import backend.common.helpers.AuthHelpers;
-import backend.users.entities.UserDetailsEntity;
-import backend.users.entities.UserEntity;
-import backend.users.helpers.UserHelpers;
-import backend.users.repositories.UserDetailsRepository;
-import backend.users.services.UserDetailsService;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
-import redis.clients.jedis.Jedis;
-import redis.clients.jedis.JedisPool;
-import redis.clients.jedis.params.SetParams;
-import java.util.UUID;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -26,6 +10,23 @@ import static org.mockito.Mockito.eq;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+
+import backend.common.helpers.AuthHelpers;
+import backend.users.entities.UserDetailsEntity;
+import backend.users.entities.UserEntity;
+import backend.users.helpers.UserHelpers;
+import backend.users.repositories.UserDetailsRepository;
+import backend.users.services.UserDetailsService;
+import java.util.UUID;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+import redis.clients.jedis.Jedis;
+import redis.clients.jedis.JedisPool;
+import redis.clients.jedis.params.SetParams;
 
 @ExtendWith(MockitoExtension.class)
 public class UserDetailsServiceTests {
@@ -121,7 +122,7 @@ public class UserDetailsServiceTests {
   }
 
   @Test
-  public void testCheckCurrentUserDetailsExist(){
+  public void testCheckCurrentUserDetailsExist() {
     when(authHelpers.getCurrentUserId()).thenReturn(userId);
     when(userDetailsRepository.existsById(userId)).thenReturn(true);
     assertTrue(userDetailsService.checkCurrentUserDetailsExist());

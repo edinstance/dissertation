@@ -1,8 +1,19 @@
 package backend.BidTests.HelperTests;
 
+import static backend.bids.helpers.BidCacheHelpers.ITEM_CURRENT_BID_CACHE_EXPIRY_SECONDS;
+import static backend.bids.helpers.BidCacheHelpers.ITEM_CURRENT_BID_KEY_FORMAT;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
 import backend.bids.dynamodb.BidsDynamoService;
 import backend.bids.helpers.BidHelpers;
 import backend.common.dynamodb.tables.Bids;
+import java.math.BigDecimal;
+import java.util.UUID;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -10,15 +21,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
-
-import java.math.BigDecimal;
-import java.util.UUID;
-
-import static backend.bids.helpers.BidCacheHelpers.ITEM_CURRENT_BID_CACHE_EXPIRY_SECONDS;
-import static backend.bids.helpers.BidCacheHelpers.ITEM_CURRENT_BID_KEY_FORMAT;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class BidHelpersTests {
@@ -100,7 +102,6 @@ public class BidHelpersTests {
     verify(jedis).get(cacheKey);
     verify(bidsDynamoService).getMostRecentBid(itemId);
   }
-
 
 
   @Test

@@ -1,11 +1,11 @@
 package backend.UserTests.EntityTests;
 
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
 import backend.users.entities.UserBillingEntity;
+import java.util.UUID;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import java.util.UUID;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class UserBillingEntityTests {
 

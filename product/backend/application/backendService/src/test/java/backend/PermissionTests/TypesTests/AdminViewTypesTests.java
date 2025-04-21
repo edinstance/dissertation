@@ -1,10 +1,11 @@
 package backend.PermissionTests.TypesTests;
 
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
 import backend.permissions.types.AdminViewTypes;
 import backend.permissions.types.ViewTypes;
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.assertInstanceOf;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class AdminViewTypesTests {
 

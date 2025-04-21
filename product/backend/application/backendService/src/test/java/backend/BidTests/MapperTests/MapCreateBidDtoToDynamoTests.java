@@ -1,18 +1,19 @@
 package backend.BidTests.MapperTests;
 
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+
 import backend.bids.dto.CreateBidDto;
 import backend.bids.mappers.MapCreateBidDtoToDynamo;
 import backend.common.dynamodb.tables.Bids;
-import org.junit.jupiter.api.Test;
 import java.math.BigDecimal;
 import java.util.UUID;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
+import org.junit.jupiter.api.Test;
 
 public class MapCreateBidDtoToDynamoTests {
 
   @Test
-  public void testBidsDtoNull(){
+  public void testBidsDtoNull() {
     assertNull(MapCreateBidDtoToDynamo.mapBidDtoToDynamo(null));
   }
 

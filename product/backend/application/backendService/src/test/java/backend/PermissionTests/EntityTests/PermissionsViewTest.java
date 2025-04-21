@@ -1,13 +1,14 @@
 package backend.PermissionTests.EntityTests;
 
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
 import backend.permissions.entities.PermissionView;
 import backend.permissions.entities.ids.PermissionViewId;
 import backend.permissions.types.Actions;
 import backend.permissions.types.GrantType;
 import backend.permissions.types.Resources;
-import org.junit.jupiter.api.Test;
 import java.util.UUID;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import org.junit.jupiter.api.Test;
 
 public class PermissionsViewTest {
 
