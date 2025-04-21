@@ -76,4 +76,11 @@
                         stripComments="false" />
         </changeSet>
 
+        <changeSet id="user_billing_dates_trigger" author="zlac370" runOnChange="false">
+                <sqlFile path="../../src/sql/triggers/user_billing_trigger.sql"
+                        relativeToChangelogFile="true"
+                        splitStatements="false"
+                        stripComments="false" />
+        </changeSet>
+
 </databaseChangeLog>
