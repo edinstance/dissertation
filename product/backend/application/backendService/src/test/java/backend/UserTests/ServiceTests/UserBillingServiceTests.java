@@ -1,8 +1,10 @@
 package backend.UserTests.ServiceTests;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.never;
@@ -10,6 +12,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import backend.common.dto.MutationResponse;
 import backend.common.helpers.AuthHelpers;
 import backend.users.dto.UserBillingInput;
 import backend.users.entities.UserBillingEntity;
@@ -68,14 +71,10 @@ class UserBillingServiceTests {
   public void testSaveUserBilling() {
     when(authHelpers.getCurrentUserId()).thenReturn(userId);
     when(jedisPool.getResource()).thenReturn(jedis);
-    when(userBillingRepository.saveUserBilling(userId, accountId, customerId)).thenReturn(entity);
 
-    UserBillingEntity result = userBillingService.saveUserBilling(input);
+    boolean result = userBillingService.saveUserBilling(input);
 
-    assertNotNull(result);
-    assertEquals(userId, result.getUserId());
-    assertEquals(accountId, result.getAccountId());
-    assertEquals(customerId, result.getCustomerId());
+    assertTrue(result);
 
     verify(jedis).del("user:" + userId + ":billing");
   }
@@ -84,14 +83,10 @@ class UserBillingServiceTests {
   public void testSaveUserBillingError() {
     when(authHelpers.getCurrentUserId()).thenReturn(userId);
     when(jedisPool.getResource()).thenThrow(new RuntimeException());
-    when(userBillingRepository.saveUserBilling(userId, accountId, customerId)).thenReturn(entity);
+    boolean result = userBillingService.saveUserBilling(input);
 
-    UserBillingEntity result = userBillingService.saveUserBilling(input);
+    assertTrue(result);
 
-    assertNotNull(result);
-    assertEquals(userId, result.getUserId());
-    assertEquals(accountId, result.getAccountId());
-    assertEquals(customerId, result.getCustomerId());
 
     verify(jedis, never()).del("user:" + userId + ":billing");
   }
@@ -101,7 +96,7 @@ class UserBillingServiceTests {
     when(authHelpers.getCurrentUserId()).thenReturn(userId);
     when(jedisPool.getResource()).thenReturn(jedis);
     when(jedis.get("user:" + userId + ":billing")).thenReturn(objectMapper.writeValueAsString(entity));
-    when(mockObjectMapper.convertValue(any(), eq(UserBillingEntity.class)))
+    when(mockObjectMapper.readValue(objectMapper.writeValueAsString(entity), UserBillingEntity.class))
             .thenReturn(entity);
 
     UserBillingEntity result = userBillingService.getUserBilling();

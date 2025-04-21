@@ -2,9 +2,11 @@ package backend.UserTests.MutationTests;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import backend.common.dto.MutationResponse;
 import backend.users.dto.UserBillingInput;
 import backend.users.entities.UserBillingEntity;
 import backend.users.mutations.UserBillingMutations;
@@ -29,14 +31,12 @@ public class UserBillingMutationTests {
 
   @Test
   public void testSaveUserBilling() {
-    when(userBillingService.saveUserBilling(userBillingInput)).thenReturn(userBillingEntity);
+    when(userBillingService.saveUserBilling(userBillingInput)).thenReturn(true);
 
-    UserBillingEntity result = userBillingMutations.saveUserBilling(userBillingInput);
+    MutationResponse result = userBillingMutations.saveUserBilling(userBillingInput);
 
     assertNotNull(result);
-    assertEquals(result.getUserId(), userBillingEntity.getUserId());
-    assertEquals(result.getAccountId(), userBillingEntity.getAccountId());
-    assertEquals(result.getCustomerId(), userBillingEntity.getCustomerId());
+    assertTrue(result.isSuccess());
 
     verify(userBillingService).saveUserBilling(userBillingInput);
   }
