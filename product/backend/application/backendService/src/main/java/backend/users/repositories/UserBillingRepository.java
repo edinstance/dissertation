@@ -26,6 +26,6 @@ public interface UserBillingRepository extends JpaRepository<UserBillingEntity, 
   UserBillingEntity saveUserBilling(
           @Param("userId") UUID userId,
           @Param("accountId") String accountId,
-          @Param("customerID") String customerId
+          @Param("customerId") String customerId
   );
 }
