@@ -17,7 +17,7 @@ public interface UserBillingRepository extends JpaRepository<UserBillingEntity, 
    *
    * @param userId     the users billing to update.
    * @param accountId  the account id.
-   * @param customerId the customer id
+   * @param customerId the customer id.
    */
   @Modifying
   @Query(value = "SELECT * FROM insert_or_update_user_billing(" +

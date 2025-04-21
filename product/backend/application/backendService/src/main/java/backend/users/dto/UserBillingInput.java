@@ -21,7 +21,7 @@ public class UserBillingInput {
   private String customerId;
 
   /**
-   * Default constructor
+   * Default constructor.
    */
   public UserBillingInput() {
   }
