@@ -2,7 +2,7 @@
 extend type Mutation {
     createUser(userInput: UserInput): User
     saveUserDetails(id: String!, detailsInput: UserDetailsInput): User
-    saveUserBilling(userBillingInput: UserBillingInput): UserBilling
+    saveUserBilling(userBillingInput: UserBillingInput): MutationResponse
     deleteUser: MutationResponse
     deactivateUser(id: String!): MutationResponse @admin
 }
@@ -29,6 +29,7 @@ input UserDetailsInput {
 }
 
 input UserBillingInput {
+    userId: String
     accountId: String
     customerId: String
 }

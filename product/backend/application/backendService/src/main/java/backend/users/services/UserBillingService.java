@@ -63,9 +63,20 @@ public class UserBillingService {
    *
    * @return the new entity.
    */
-  public UserBillingEntity saveUserBilling(
+  public boolean saveUserBilling(
           final UserBillingInput userBillingInput) {
-    UUID userId = authHelpers.getCurrentUserId();
+
+    UUID userId;
+
+    AppLogger.info("Saving user billing information", userBillingInput);
+
+
+    if (userBillingInput.getUserId() != null) {
+      userId = UUID.fromString(userBillingInput.getUserId());
+    } else {
+      userId = authHelpers.getCurrentUserId();
+    }
+
     AppLogger.info(String.format("Saving user billing %s", userId));
 
     try (Jedis jedis = jedisPool.getResource()) {
@@ -73,8 +84,11 @@ public class UserBillingService {
     } catch (Exception e) {
       AppLogger.error("Error saving user billing", e);
     }
-    return userBillingRepository.saveUserBilling(userId,
+
+    userBillingRepository.saveUserBilling(userId,
             userBillingInput.getAccountId(), userBillingInput.getCustomerId());
+
+    return true;
   }
 
   /**
@@ -91,7 +105,7 @@ public class UserBillingService {
       if (cachedBilling != null) {
         AppLogger.info(String.format("Found user billing %s in cache", cachedBilling));
 
-        return objectMapper.convertValue(cachedBilling, UserBillingEntity.class);
+        return objectMapper.readValue(cachedBilling, UserBillingEntity.class);
       }
       UserBillingEntity userBillingEntity = userBillingRepository.findById(userId).orElse(null);
 

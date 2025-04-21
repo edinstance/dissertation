@@ -56,4 +56,16 @@ public class UserBillingEntity {
     this.accountId = accountId;
     this.customerId = customerId;
   }
+
+  /**
+   * Constructor for the billing entity.
+   *
+   * @param userId the user id.
+   * @param customerId the customer id.
+   */
+  public UserBillingEntity(final UUID userId,
+                            final String customerId) {
+    this.userId = userId;
+    this.customerId = customerId;
+  }
 }
