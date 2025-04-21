@@ -54,7 +54,7 @@ async function createUser({
 
     const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string);
 
-    await stripe.customers.create({
+    const stripeResult = await stripe.customers.create({
       email,
       name,
       metadata: {
@@ -62,7 +62,7 @@ async function createUser({
       },
     });
 
-    return { success: true, id };
+    return { success: true, id, customerId: stripeResult.id };
   } catch (error) {
     console.error("Error in fetch:", error);
     return {

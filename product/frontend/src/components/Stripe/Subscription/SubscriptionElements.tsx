@@ -7,9 +7,7 @@ import {
   useElements,
   useStripe,
 } from "@stripe/react-stripe-js";
-import { Appearance } from "@stripe/stripe-js";
-import { useTheme } from "next-themes";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Button } from "../../ui/Button";
 
 /**
@@ -23,7 +21,7 @@ import { Button } from "../../ui/Button";
  */
 export default function SubscriptionElements() {
   const userResponse = useQuery(GET_USER);
-  const user = userResponse?.data?.getUser;  
+  const user = userResponse?.data?.getUser;
 
   const stripe = useStripe();
   const elements = useElements();

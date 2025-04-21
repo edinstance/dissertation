@@ -377,6 +377,7 @@ export type Mutation = {
   reportBug?: Maybe<MutationResponse>;
   revokeAdminPermission?: Maybe<MutationResponse>;
   saveItem?: Maybe<Item>;
+  saveUserBilling?: Maybe<MutationResponse>;
   saveUserDetails?: Maybe<User>;
   submitBid?: Maybe<MutationResponse>;
 };
@@ -433,6 +434,10 @@ export type MutationSaveItemArgs = {
   itemInput?: InputMaybe<ItemInput>;
 };
 
+export type MutationSaveUserBillingArgs = {
+  userBillingInput?: InputMaybe<UserBillingInput>;
+};
+
 export type MutationSaveUserDetailsArgs = {
   detailsInput?: InputMaybe<UserDetailsInput>;
   id: Scalars["String"]["input"];
@@ -487,6 +492,7 @@ export type PermissionViewId = {
 export type Query = {
   __typename?: "Query";
   _service: _Service;
+  checkCurrentUserDetailsExist?: Maybe<Scalars["Boolean"]["output"]>;
   getAdminPermissionsByAdminId?: Maybe<Array<Maybe<Permission>>>;
   getAllAdminPermissions?: Maybe<Array<Maybe<PermissionView>>>;
   getAllAdmins?: Maybe<Array<Maybe<Admin>>>;
@@ -500,6 +506,7 @@ export type Query = {
   getItemsByUser?: Maybe<SearchedItemsResponse>;
   getShopItems?: Maybe<SearchedItemsResponse>;
   getUser?: Maybe<User>;
+  getUserBilling?: Maybe<UserBilling>;
   getUserStats?: Maybe<UserStats>;
   isChatEnabled?: Maybe<Scalars["Boolean"]["output"]>;
   searchForItems?: Maybe<SearchedItemsResponse>;
@@ -592,6 +599,19 @@ export type User = {
   items?: Maybe<Array<Maybe<Item>>>;
   name?: Maybe<Scalars["String"]["output"]>;
   status?: Maybe<Scalars["String"]["output"]>;
+};
+
+export type UserBilling = {
+  __typename?: "UserBilling";
+  accountId?: Maybe<Scalars["String"]["output"]>;
+  customerId?: Maybe<Scalars["String"]["output"]>;
+  userId: Scalars["String"]["output"];
+};
+
+export type UserBillingInput = {
+  accountId?: InputMaybe<Scalars["String"]["input"]>;
+  customerId?: InputMaybe<Scalars["String"]["input"]>;
+  userId?: InputMaybe<Scalars["String"]["input"]>;
 };
 
 export type UserDetails = {
@@ -1233,6 +1253,50 @@ export type ReportBugMutation = {
   } | null;
 };
 
+export type GetUserQueryVariables = Exact<{ [key: string]: never }>;
+
+export type GetUserQuery = {
+  __typename?: "Query";
+  getUser?: {
+    __typename?: "User";
+    id: string;
+    email: string;
+    name?: string | null;
+    status?: string | null;
+    details?: {
+      __typename?: "UserDetails";
+      id: string;
+      contactNumber?: string | null;
+      houseName?: string | null;
+      addressStreet?: string | null;
+      addressCity?: string | null;
+      addressCounty?: string | null;
+      addressPostcode?: string | null;
+    } | null;
+  } | null;
+};
+
+export type GetUserBillingQueryVariables = Exact<{ [key: string]: never }>;
+
+export type GetUserBillingQuery = {
+  __typename?: "Query";
+  getUserBilling?: {
+    __typename?: "UserBilling";
+    userId: string;
+    accountId?: string | null;
+    customerId?: string | null;
+  } | null;
+};
+
+export type CheckCurrentUserDetailsExistQueryVariables = Exact<{
+  [key: string]: never;
+}>;
+
+export type CheckCurrentUserDetailsExistQuery = {
+  __typename?: "Query";
+  checkCurrentUserDetailsExist?: boolean | null;
+};
+
 export type CreateUserMutationVariables = Exact<{
   input: UserInput;
 }>;
@@ -1265,29 +1329,6 @@ export type SaveUserDetailsMutation = {
   } | null;
 };
 
-export type GetUserQueryVariables = Exact<{ [key: string]: never }>;
-
-export type GetUserQuery = {
-  __typename?: "Query";
-  getUser?: {
-    __typename?: "User";
-    id: string;
-    email: string;
-    name?: string | null;
-    status?: string | null;
-    details?: {
-      __typename?: "UserDetails";
-      id: string;
-      contactNumber?: string | null;
-      houseName?: string | null;
-      addressStreet?: string | null;
-      addressCity?: string | null;
-      addressCounty?: string | null;
-      addressPostcode?: string | null;
-    } | null;
-  } | null;
-};
-
 export type DeleteUserMutationVariables = Exact<{ [key: string]: never }>;
 
 export type DeleteUserMutation = {
@@ -1306,6 +1347,19 @@ export type DeactivateUserMutationVariables = Exact<{
 export type DeactivateUserMutation = {
   __typename?: "Mutation";
   deactivateUser?: {
+    __typename?: "MutationResponse";
+    success?: boolean | null;
+    message?: string | null;
+  } | null;
+};
+
+export type SaveUserBillingMutationVariables = Exact<{
+  input: UserBillingInput;
+}>;
+
+export type SaveUserBillingMutation = {
+  __typename?: "Mutation";
+  saveUserBilling?: {
     __typename?: "MutationResponse";
     success?: boolean | null;
     message?: string | null;
@@ -3131,6 +3185,117 @@ export const ReportBugDocument = {
     },
   ],
 } as unknown as DocumentNode<ReportBugMutation, ReportBugMutationVariables>;
+export const GetUserDocument = {
+  kind: "Document",
+  definitions: [
+    {
+      kind: "OperationDefinition",
+      operation: "query",
+      name: { kind: "Name", value: "getUser" },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "getUser" },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                { kind: "Field", name: { kind: "Name", value: "id" } },
+                { kind: "Field", name: { kind: "Name", value: "email" } },
+                { kind: "Field", name: { kind: "Name", value: "name" } },
+                { kind: "Field", name: { kind: "Name", value: "status" } },
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "details" },
+                  selectionSet: {
+                    kind: "SelectionSet",
+                    selections: [
+                      { kind: "Field", name: { kind: "Name", value: "id" } },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "contactNumber" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "houseName" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "addressStreet" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "addressCity" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "addressCounty" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "addressPostcode" },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<GetUserQuery, GetUserQueryVariables>;
+export const GetUserBillingDocument = {
+  kind: "Document",
+  definitions: [
+    {
+      kind: "OperationDefinition",
+      operation: "query",
+      name: { kind: "Name", value: "getUserBilling" },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "getUserBilling" },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                { kind: "Field", name: { kind: "Name", value: "userId" } },
+                { kind: "Field", name: { kind: "Name", value: "accountId" } },
+                { kind: "Field", name: { kind: "Name", value: "customerId" } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<GetUserBillingQuery, GetUserBillingQueryVariables>;
+export const CheckCurrentUserDetailsExistDocument = {
+  kind: "Document",
+  definitions: [
+    {
+      kind: "OperationDefinition",
+      operation: "query",
+      name: { kind: "Name", value: "CheckCurrentUserDetailsExist" },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "checkCurrentUserDetailsExist" },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  CheckCurrentUserDetailsExistQuery,
+  CheckCurrentUserDetailsExistQueryVariables
+>;
 export const CreateUserDocument = {
   kind: "Document",
   definitions: [
@@ -3289,68 +3454,6 @@ export const SaveUserDetailsDocument = {
   SaveUserDetailsMutation,
   SaveUserDetailsMutationVariables
 >;
-export const GetUserDocument = {
-  kind: "Document",
-  definitions: [
-    {
-      kind: "OperationDefinition",
-      operation: "query",
-      name: { kind: "Name", value: "getUser" },
-      selectionSet: {
-        kind: "SelectionSet",
-        selections: [
-          {
-            kind: "Field",
-            name: { kind: "Name", value: "getUser" },
-            selectionSet: {
-              kind: "SelectionSet",
-              selections: [
-                { kind: "Field", name: { kind: "Name", value: "id" } },
-                { kind: "Field", name: { kind: "Name", value: "email" } },
-                { kind: "Field", name: { kind: "Name", value: "name" } },
-                { kind: "Field", name: { kind: "Name", value: "status" } },
-                {
-                  kind: "Field",
-                  name: { kind: "Name", value: "details" },
-                  selectionSet: {
-                    kind: "SelectionSet",
-                    selections: [
-                      { kind: "Field", name: { kind: "Name", value: "id" } },
-                      {
-                        kind: "Field",
-                        name: { kind: "Name", value: "contactNumber" },
-                      },
-                      {
-                        kind: "Field",
-                        name: { kind: "Name", value: "houseName" },
-                      },
-                      {
-                        kind: "Field",
-                        name: { kind: "Name", value: "addressStreet" },
-                      },
-                      {
-                        kind: "Field",
-                        name: { kind: "Name", value: "addressCity" },
-                      },
-                      {
-                        kind: "Field",
-                        name: { kind: "Name", value: "addressCounty" },
-                      },
-                      {
-                        kind: "Field",
-                        name: { kind: "Name", value: "addressPostcode" },
-                      },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode<GetUserQuery, GetUserQueryVariables>;
 export const DeleteUserDocument = {
   kind: "Document",
   definitions: [
@@ -3428,4 +3531,59 @@ export const DeactivateUserDocument = {
 } as unknown as DocumentNode<
   DeactivateUserMutation,
   DeactivateUserMutationVariables
+>;
+export const SaveUserBillingDocument = {
+  kind: "Document",
+  definitions: [
+    {
+      kind: "OperationDefinition",
+      operation: "mutation",
+      name: { kind: "Name", value: "SaveUserBilling" },
+      variableDefinitions: [
+        {
+          kind: "VariableDefinition",
+          variable: {
+            kind: "Variable",
+            name: { kind: "Name", value: "input" },
+          },
+          type: {
+            kind: "NonNullType",
+            type: {
+              kind: "NamedType",
+              name: { kind: "Name", value: "UserBillingInput" },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "saveUserBilling" },
+            arguments: [
+              {
+                kind: "Argument",
+                name: { kind: "Name", value: "userBillingInput" },
+                value: {
+                  kind: "Variable",
+                  name: { kind: "Name", value: "input" },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                { kind: "Field", name: { kind: "Name", value: "success" } },
+                { kind: "Field", name: { kind: "Name", value: "message" } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  SaveUserBillingMutation,
+  SaveUserBillingMutationVariables
 >;

@@ -1,5 +1,13 @@
 import Stripe from "stripe";
 
+if (!process.env.STRIPE_SECRET_KEY) {
+  throw new Error("Stripe secret key is not configured.");
+}
+const stripe = new Stripe(
+  "sk_test_51QNhlTGlnq0aqIkWUh4pGdNEkLo6qGgkXU885vaJexq15ykuThU9JDTxo77RTjCqNxRP6QkW30y7cZEIOLEpn6KD00uBKttude",
+);
+export default stripe;
+
 /**
  * Finds a Stripe customer by their user ID.
  *
@@ -9,8 +17,6 @@ import Stripe from "stripe";
 export async function findCustomerByUserId(
   userId: string,
 ): Promise<Stripe.Customer | null> {
-  const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string);
-
   const customers = await stripe.customers.search({
     query: `metadata['userId']: '${userId}'`,
   });
@@ -29,7 +35,6 @@ export async function findCustomerByUserId(
 async function getCustomerSubscriptions(
   customerId: string,
 ): Promise<Stripe.Subscription[]> {
-  const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string);
   const subscriptions = await stripe.subscriptions.list({
     customer: customerId,
     status: "all", // To get all subscription statuses
@@ -66,13 +71,9 @@ function findExistingSubscription(
  * @param userId - The user ID associated with the customer.
  * @returns A promise that resolves to the most recent valid subscription for the user, or null if not found.
  */
-export async function findExistingSubscriptionByUserId(
-  userId: string,
+export async function findExistingSubscriptionByCustomerId(
+  customerId: string,
 ): Promise<Stripe.Subscription | null> {
-  const customer = await findCustomerByUserId(userId);
-  if (customer) {
-    const subscriptions = await getCustomerSubscriptions(customer.id);
-    return findExistingSubscription(subscriptions);
-  }
-  return null;
+  const subscriptions = await getCustomerSubscriptions(customerId);
+  return findExistingSubscription(subscriptions);
 }

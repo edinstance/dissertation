@@ -1,7 +1,4 @@
-import {
-  findCustomerByUserId,
-  findExistingSubscriptionByUserId,
-} from "@/utils/stripe";
+import stripe, { findExistingSubscriptionByCustomerId } from "@/utils/stripe";
 import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
 
@@ -18,10 +15,13 @@ import Stripe from "stripe";
  */
 export async function POST(request: NextRequest) {
   try {
-    const { userId } = await request.json();
+    const { customerId } = await request.json();
 
-    if (!userId) {
-      return NextResponse.json({ error: "Missing userId" }, { status: 400 });
+    if (!customerId) {
+      return NextResponse.json(
+        { error: "Missing customer id" },
+        { status: 400 },
+      );
     }
 
     const priceId = process.env.STRIPE_PRICE_ID;
@@ -32,18 +32,9 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const customer = await findCustomerByUserId(userId);
-    if (!customer) {
-      return NextResponse.json(
-        { error: "Customer not found" },
-        { status: 404 },
-      );
-    }
-
-    const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string);
-
     // Check for existing subscription
-    const existingSubscription = await findExistingSubscriptionByUserId(userId);
+    const existingSubscription =
+      await findExistingSubscriptionByCustomerId(customerId);
 
     if (existingSubscription) {
       // Handle specific statuses of the existing subscription
@@ -55,7 +46,7 @@ export async function POST(request: NextRequest) {
       if (existingSubscription.status === "canceled") {
         // Reactivate the subscription and return client_secret
         const newSubscription = await stripe.subscriptions.create({
-          customer: customer.id,
+          customer: customerId,
           items: [{ price: priceId }],
           payment_behavior: "default_incomplete",
           payment_settings: { save_default_payment_method: "on_subscription" },
@@ -82,10 +73,8 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ message: "Subscription is already active." });
     }
 
-    // No existing subscription, create a new one
-
     const newSubscription = await stripe.subscriptions.create({
-      customer: customer.id,
+      customer: customerId,
       items: [{ price: priceId }],
       payment_behavior: "default_incomplete",
       payment_settings: { save_default_payment_method: "on_subscription" },

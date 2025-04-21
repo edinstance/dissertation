@@ -1,7 +1,11 @@
-import SubscriptionForm from "@/components/Stripe/Subscription/SubscriptionForm";
+"use client";
+import { isUserSubscribed } from "@/actions/userSubscriptions";
+import SubscriptionFormWrapper from "@/components/Stripe/Subscription/SubscriptionFormWrapper";
 import { UnsubscribeButton } from "@/components/Stripe/Subscription/UnsubscribeButton";
-import { auth } from "@/server/auth";
-import { findExistingSubscriptionByUserId } from "@/utils/stripe";
+import { GET_USER_BILLING } from "@/lib/graphql/users";
+import { useQuery } from "@apollo/client";
+import { useEffect, useState } from "react";
+import Stripe from "stripe";
 
 /**
  * CheckoutPage component for managing user subscriptions.
@@ -13,17 +17,26 @@ import { findExistingSubscriptionByUserId } from "@/utils/stripe";
  *
  * @returns A promise that resolves to the rendered CheckoutPage component.
  */
-export default async function CheckoutPage() {
-  const stripeKey = process.env.STRIPE_PUBLISHABLE_KEY!;
-  const session = await auth();
+export default function CheckoutPage() {
+  const [existingSubscription, setExistingSubscription] =
+    useState<Stripe.Subscription | null>(null);
 
-  const userId = session?.user?.id;
+  const userBilling = useQuery(GET_USER_BILLING);
+  const customerId = userBilling.data?.getUserBilling?.customerId;
 
-  const existingSubscription = userId
-    ? await findExistingSubscriptionByUserId(userId)
-    : null;
+  useEffect(() => {
+    const checkSubscription = async () => {
+      try {
+        const res = await isUserSubscribed({ customerId: customerId || "" });
+        setExistingSubscription(res.subscription ?? null);
+      } catch (error) {
+        console.error("Error checking subscription:", error);
+      }
+    };
 
-  console.log("Existing subscription:", existingSubscription);
+    checkSubscription();
+  }, [customerId]);
+
   return (
     <div className="pt-8 text-black dark:text-white">
       {existingSubscription?.status == "active" ? (
@@ -43,11 +56,11 @@ export default async function CheckoutPage() {
             ).toLocaleDateString()}
           </p>
           <div className="pt-4">
-            {userId && <UnsubscribeButton userId={userId} />}
+            <UnsubscribeButton />
           </div>
         </div>
       ) : (
-        <SubscriptionForm stripeKey={stripeKey}></SubscriptionForm>
+        <SubscriptionFormWrapper />
       )}
     </div>
   );
