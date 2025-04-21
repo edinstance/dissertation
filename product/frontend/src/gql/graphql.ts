@@ -503,6 +503,7 @@ export type Query = {
   getCurrentConversation?: Maybe<Array<Maybe<Chat>>>;
   getItemBidsById?: Maybe<Array<Maybe<Bid>>>;
   getItemById?: Maybe<Item>;
+  getItemSellerAccountId?: Maybe<Scalars["String"]["output"]>;
   getItemsByUser?: Maybe<SearchedItemsResponse>;
   getShopItems?: Maybe<SearchedItemsResponse>;
   getUser?: Maybe<User>;
@@ -526,6 +527,10 @@ export type QueryGetItemBidsByIdArgs = {
 
 export type QueryGetItemByIdArgs = {
   id: Scalars["String"]["input"];
+};
+
+export type QueryGetItemSellerAccountIdArgs = {
+  itemId: Scalars["String"]["input"];
 };
 
 export type QueryGetItemsByUserArgs = {

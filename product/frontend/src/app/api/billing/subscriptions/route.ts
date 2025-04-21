@@ -49,7 +49,7 @@ export async function POST(request: NextRequest) {
 
         return NextResponse.json({
           client_secret: updatedPaymentIntent?.client_secret,
-          subscription_id: newSubscription.id
+          subscription_id: newSubscription.id,
         });
       }
 
@@ -57,15 +57,15 @@ export async function POST(request: NextRequest) {
         // Return the client_secret to complete the subscription
         return NextResponse.json({
           client_secret: paymentIntent?.client_secret,
-          subscription_id: existingSubscription.id
+          subscription_id: existingSubscription.id,
         });
       }
 
       // If the subscription is already active
-      return NextResponse.json({ 
+      return NextResponse.json({
         message: "Subscription is already active.",
         subscription_id: existingSubscription.id,
-        status: existingSubscription.status
+        status: existingSubscription.status,
       });
     }
 
@@ -82,7 +82,7 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json({
       client_secret: paymentIntent?.client_secret,
-      subscription_id: newSubscription.id
+      subscription_id: newSubscription.id,
     });
   } catch (error: unknown) {
     console.error("Error in subscription handler:", error);
