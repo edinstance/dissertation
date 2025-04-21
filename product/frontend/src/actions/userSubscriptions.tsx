@@ -9,6 +9,7 @@ export async function isUserSubscribed({ customerId }: { customerId: string }) {
     if (!subscription) {
       return { error: "Subscription not found" };
     }
+    console.log("Subscription found:", subscription);
     if (subscription.status === "active") {
       return { isSubscribed: true, subscription };
     }

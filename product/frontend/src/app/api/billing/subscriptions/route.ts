@@ -1,18 +1,8 @@
+// File: app/api/billing/subscriptions/route.ts (for App Router)
 import stripe, { findExistingSubscriptionByCustomerId } from "@/utils/stripe";
 import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
 
-/**
- * Handles POST requests for creating or managing subscriptions.
- *
- * This function retrieves the user ID from the request, checks for an existing
- * customer and subscription, and either reactivates an existing subscription
- * or creates a new one. It returns the client secret needed for payment processing.
- *
- * @param request - The incoming request object containing the user ID.
- * @returns A promise that resolves to a NextResponse object
- * containing the client secret or an error message.
- */
 export async function POST(request: NextRequest) {
   try {
     const { customerId } = await request.json();
@@ -59,6 +49,7 @@ export async function POST(request: NextRequest) {
 
         return NextResponse.json({
           client_secret: updatedPaymentIntent?.client_secret,
+          subscription_id: newSubscription.id
         });
       }
 
@@ -66,11 +57,16 @@ export async function POST(request: NextRequest) {
         // Return the client_secret to complete the subscription
         return NextResponse.json({
           client_secret: paymentIntent?.client_secret,
+          subscription_id: existingSubscription.id
         });
       }
 
       // If the subscription is already active
-      return NextResponse.json({ message: "Subscription is already active." });
+      return NextResponse.json({ 
+        message: "Subscription is already active.",
+        subscription_id: existingSubscription.id,
+        status: existingSubscription.status
+      });
     }
 
     const newSubscription = await stripe.subscriptions.create({
@@ -86,6 +82,7 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json({
       client_secret: paymentIntent?.client_secret,
+      subscription_id: newSubscription.id
     });
   } catch (error: unknown) {
     console.error("Error in subscription handler:", error);

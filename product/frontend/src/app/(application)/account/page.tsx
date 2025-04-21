@@ -3,13 +3,19 @@ import { isUserSubscribed } from "@/actions/userSubscriptions";
 import ReportBugForm from "@/components/reports/ReportBugForm";
 import { Button } from "@/components/ui/Button";
 import Divider from "@/components/ui/Divider";
+import LoadingSpinner from "@/components/ui/LoadingSpinner";
 import Modal from "@/components/ui/Modal";
 import DeleteUserInformation from "@/components/Users/DeleteUserInformation";
-import { CHECK_USER_DETAILS, GET_USER_BILLING } from "@/lib/graphql/users";
-import { useQuery } from "@apollo/client";
+import {
+  CHECK_USER_DETAILS,
+  GET_USER_BILLING,
+  SAVE_USER_BILLING_MUTATION,
+} from "@/lib/graphql/users";
+import { useMutation, useQuery } from "@apollo/client";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 
 /**
  * Account component for managing user account settings.
@@ -25,12 +31,15 @@ export default function Account() {
   const [reportBugModalOpen, setReportBugModalOpen] = useState(false);
   const [isSubscribed, setIsSubscribed] = useState<boolean | null>(null);
   const [isLoadingSubscription, setIsLoadingSubscription] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
 
   const session = useSession();
   const userId = session.data?.user?.id;
 
   const userBilling = useQuery(GET_USER_BILLING);
   const customerId = userBilling.data?.getUserBilling?.customerId;
+
+  const [saveUserBillingMutation] = useMutation(SAVE_USER_BILLING_MUTATION);
 
   useEffect(() => {
     if (userId) {
@@ -55,10 +64,66 @@ export default function Account() {
     }
   }, [userId, customerId]);
 
+  async function handleConnectStripe() {
+    try {
+      setIsLoading(true);
+
+      const response = await fetch("/api/billing/accounts", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          accountId: userBilling.data?.getUserBilling?.accountId ?? null,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(
+          data.error?.message || "Failed to initiate onboarding.",
+        );
+      }
+
+      saveUserBillingMutation({
+        variables: {
+          input: {
+            userId: userId,
+            customerId: customerId,
+            accountId: data.accountId,
+          },
+        },
+      });
+
+      if (data.url) {
+        window.location.href = data.url;
+      } else {
+        console.error("No URL returned from Stripe:", data);
+        toast.error("Failed to redirect to Stripe. Please try again.");
+      }
+    } catch (error) {
+      console.error("Error during Stripe Connect setup:", error);
+      toast.error(
+        "An error occurred while setting up Stripe Connect. Please try again.",
+      );
+    } finally {
+      setIsLoading(false);
+    }
+  }
+
   const { data: userDetailsData, loading: userDetailsLoading } =
     useQuery(CHECK_USER_DETAILS);
 
   const userDetailsExist = userDetailsData?.checkCurrentUserDetailsExist;
+
+  if (isLoading) {
+    return (
+      <div className="flex h-screen items-center justify-center">
+        <LoadingSpinner />
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-4 pt-8 text-black dark:text-white">
@@ -67,6 +132,28 @@ export default function Account() {
         You can manage your account settings here.
       </p>
       <Divider />
+      <div className="flex items-center gap-2">
+        <span className="font-medium">Details status:</span>
+        {userDetailsLoading ? (
+          <span className="text-muted-foreground">Loading...</span>
+        ) : (
+          <div className="flex items-center gap-2">
+            <span
+              className={`font-semibold ${userDetailsExist ? "text-green-500 dark:text-green-400" : "text-amber-500 dark:text-amber-400"}`}
+            >
+              {userDetailsExist ? "Completed" : "Not Completed"}
+            </span>
+            {!userDetailsExist && (
+              <Link
+                href="/account/details"
+                className="text-primary hover:text-primary/80 underline transition-colors"
+              >
+                Fill in your details
+              </Link>
+            )}
+          </div>
+        )}
+      </div>
       <div>
         <div className="flex items-center gap-2">
           <span className="font-medium">Subscription status:</span>
@@ -91,34 +178,18 @@ export default function Account() {
           )}
         </div>
       </div>
-      <div className="flex items-center gap-2">
-        <span className="font-medium">Details status:</span>
-        {userDetailsLoading ? (
-          <span className="text-muted-foreground">Loading...</span>
-        ) : (
-          <div className="flex items-center gap-2">
-            <span
-              className={`font-semibold ${userDetailsExist ? "text-green-500 dark:text-green-400" : "text-amber-500 dark:text-amber-400"}`}
-            >
-              {userDetailsExist ? "Completed" : "Not Completed"}
-            </span>
-            {!userDetailsExist && (
-              <Link
-                href="/account/details"
-                className="text-primary hover:text-primary/80 underline transition-colors"
-              >
-                Fill in your details
-              </Link>
-            )}
-          </div>
-        )}
-      </div>
       {isSubscribed && userDetailsExist && (
         <div className="flex items-center gap-2">
           <span className="font-medium">Seller status:</span>
-          <span className="text-muted-foreground">
-            You are subscribed to the premium plan.
-          </span>
+          <Button
+            variant="outline"
+            className="text-sm"
+            onClick={handleConnectStripe}
+          >
+            {userBilling.data?.getUserBilling?.accountId
+              ? "Update account"
+              : "Connect to Stripe"}
+          </Button>
         </div>
       )}
       <Divider className="py-4" />
