@@ -2,6 +2,7 @@
 extend type Mutation {
     createUser(userInput: UserInput): User
     saveUserDetails(id: String!, detailsInput: UserDetailsInput): User
+    saveUserBilling(userBillingInput: UserBillingInput): UserBilling
     deleteUser: MutationResponse
     deactivateUser(id: String!): MutationResponse @admin
 }
@@ -9,6 +10,7 @@ extend type Mutation {
 extend type Query {
     getUser: User
     checkCurrentUserDetailsExist: Boolean
+    getUserBilling: UserBilling
 }
 
 input UserInput {
@@ -24,6 +26,11 @@ input UserDetailsInput {
     addressCity: String
     addressCounty: String
     addressPostcode: String
+}
+
+input UserBillingInput {
+    accountId: String
+    customerId: String
 }
 
 type User {
@@ -43,4 +50,10 @@ type UserDetails {
     addressCity: String
     addressCounty: String
     addressPostcode: String
+}
+
+type UserBilling {
+    userId: String!
+    accountId: String
+    customerId: String
 }
