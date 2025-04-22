@@ -31,7 +31,7 @@ public class Sorting {
   /**
    * Constructor with options.
    *
-   * @param sortBy What to sort by.
+   * @param sortBy        What to sort by.
    * @param sortDirection The direction to sort in.
    */
   public Sorting(String sortBy, SortDirection sortDirection) {

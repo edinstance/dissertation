@@ -1,9 +1,10 @@
 package backend.CommonTests.Exceptions;
 
-import backend.common.exceptions.UnauthorisedException;
-import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
+
+import backend.common.exceptions.UnauthorisedException;
+import org.junit.jupiter.api.Test;
 
 public class UnauthorisedExceptionTests {
 

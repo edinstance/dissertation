@@ -1,5 +1,7 @@
 package backend.PermissionTests.AdminTests.EntityTests;
 
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
 import backend.admin.entities.AdminEntity;
 import backend.permissions.entities.ActionsEntity;
 import backend.permissions.entities.PermissionsEntity;
@@ -8,10 +10,9 @@ import backend.permissions.entities.admin.AdminPermissionsEntity;
 import backend.permissions.entities.admin.ids.AdminPermissionsEntityId;
 import backend.permissions.types.Actions;
 import backend.permissions.types.Resources;
+import java.util.UUID;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import java.util.UUID;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class AdminPermissionsEntityTests {
 

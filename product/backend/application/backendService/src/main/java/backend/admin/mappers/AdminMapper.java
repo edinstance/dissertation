@@ -14,6 +14,7 @@ public class AdminMapper {
    * Map an AdminEntity to an Admin.
    *
    * @param adminEntity the AdminEntity to map.
+   *
    * @return the mapped Admin.
    */
   public static Admin mapAdminEntityToAdmin(AdminEntity adminEntity) {
@@ -34,6 +35,7 @@ public class AdminMapper {
    * Map a list of AdminEntity objects to a list of Admins.
    *
    * @param adminEntities the list of AdminEntity objects to map.
+   *
    * @return the list of mapped Admins.
    */
   public static List<Admin> mapAdminEntityListToAdmins(List<AdminEntity> adminEntities) {

@@ -1,9 +1,11 @@
 package backend.ChatTests.ServiceTests;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import backend.chats.dynamodb.ChatsDynamoService;
 import backend.chats.services.ChatService;
 import backend.common.helpers.AuthHelpers;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import java.text.ParseException;
+import java.util.UUID;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -11,8 +13,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
-import java.text.ParseException;
-import java.util.UUID;
 
 @ExtendWith(MockitoExtension.class)
 public class SetupChatServiceTests {

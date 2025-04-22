@@ -4,6 +4,11 @@ spring:
   profiles:
     active: prod
     # This sets the active profile to prod
+  kafka:
+    bootstrap-servers:
+    consumer:
+      group-id: bids
+
   security:
     oauth2:
       resourceserver:
@@ -23,7 +28,7 @@ redis:
 management:
   endpoints:
     web:
-      base-path: "/backend/details"
+      base-path: "/details"
       # This should be the base path for the actuator endpoints
     jmx:
       exposure:
@@ -32,9 +37,18 @@ management:
 
 dgs:
   graphql:
-    path: "/backend/graphql"
+    path: "/graphql"
     introspection:
       enabled: true
+
+kafka:
+  topics: Bids
+
+chat:
+  isEnabled: true
+  openApiKey: ""
+  openApiProjectId: ""
+  openApiOrganizationId: ""
 
 jira:
   accessToken:
@@ -42,6 +56,10 @@ jira:
   url:
   projectKey:
 # This should be the jira information for reporting bugs
+
+Stripe:
+  apiKey: ""
+#  This should be the stripe private key
 
 api:
   key:

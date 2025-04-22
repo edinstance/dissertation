@@ -36,6 +36,7 @@ public class ItemQueries {
    * Query for getting an item from an id.
    *
    * @param id the id of the item.
+   *
    * @return the item that was found.
    */
   @DgsQuery
@@ -48,6 +49,7 @@ public class ItemQueries {
    * Query for searching for items based on an input text.
    *
    * @param searchText the text to search against.
+   *
    * @return items with similar names to the search text.
    */
   @DgsQuery
@@ -76,9 +78,10 @@ public class ItemQueries {
   /**
    * This is a query to get the items of a user.
    *
-   * @param id The id of the user to search against.
-   * @param isActive If the items are active or not.
+   * @param id         The id of the user to search against.
+   * @param isActive   If the items are active or not.
    * @param pagination The pagination input.
+   *
    * @return The items and pagination information.
    */
   @DgsQuery
@@ -106,7 +109,8 @@ public class ItemQueries {
    * This query gets the shop items.
    *
    * @param pagination The pagination information.
-   * @param sorting The sorting information.
+   * @param sorting    The sorting information.
+   *
    * @return The items for the shop.
    */
   @DgsQuery
@@ -128,5 +132,25 @@ public class ItemQueries {
     }
 
     return itemService.getShopItems(pagination, sorting);
+  }
+
+  /**
+   * Query to get users won items.
+   *
+   * @param pagination pagination input.
+   *
+   * @return the users won items.
+   */
+  @DgsQuery
+  public SearchedItemsResponse getUsersWonItems(@InputArgument PaginationInput pagination) {
+
+    if (pagination == null) {
+      pagination = new PaginationInput(0, 10);
+    } else {
+      if (pagination.getSize() == 0) {
+        pagination.setSize(10);
+      }
+    }
+    return itemService.getUsersWonItems(pagination);
   }
 }

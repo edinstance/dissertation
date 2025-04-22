@@ -63,15 +63,15 @@ variable "frontend_ecr_repo" {
   type        = string
 }
 
-variable "apollo_gateway_image_tag" {
-  description = "The tag of the Apollo Gateway Docker image to deploy"
-  type        = string
-}
+# variable "apollo_gateway_image_tag" {
+#   description = "The tag of the Apollo Gateway Docker image to deploy"
+#   type        = string
+# }
 
-variable "apollo_gateway_ecr_repo" {
-  description = "The URL of the Apollo Gateway ECR repository"
-  type        = string
-}
+# variable "apollo_gateway_ecr_repo" {
+#   description = "The URL of the Apollo Gateway ECR repository"
+#   type        = string
+# }
 
 variable "backend_image_tag" {
   description = "The tag of the backend Docker image to deploy"
@@ -113,11 +113,6 @@ variable "cognito_user_pool_id_arn" {
 
 variable "stripe_publishable_key_arn" {
   description = "The arn of the Stripe publishable key"
-  type        = string
-}
-
-variable "stripe_secret_key_arn" {
-  description = "The arn of the Stripe secret key"
   type        = string
 }
 
@@ -232,8 +227,18 @@ variable "open_ai_organization_id_arn" {
   type        = string
 }
 
+variable "kafka_bootstrap_brokers" {
+  description = "The bootstrap brokers for Kafka"
+  type        = string
+}
+
 # Shared
 variable "api_key_arn" {
   description = "The arn of the API key"
+  type        = string
+}
+
+variable "stripe_secret_key_arn" {
+  description = "The arn of the Stripe secret key"
   type        = string
 }

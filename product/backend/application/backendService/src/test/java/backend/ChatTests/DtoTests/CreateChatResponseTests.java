@@ -1,11 +1,12 @@
 package backend.ChatTests.DtoTests;
 
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
 import backend.chats.dto.CreateChatResponse;
 import backend.common.dynamodb.tables.Chat;
+import java.util.UUID;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import java.util.UUID;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class CreateChatResponseTests {
 

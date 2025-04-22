@@ -10,52 +10,53 @@ import {
 import { useState } from "react";
 import { Button } from "../../ui/Button";
 
-/**
- * SubscriptionElements component for handling subscription payments.
- *
- * This component renders a form that allows users to enter their payment
- * information and billing address for subscription management. It uses
- * Stripe's PaymentElement and AddressElement to handle payment processing.
- *
- * @returns The rendered SubscriptionElements component.
- */
-export default function SubscriptionElements() {
+export default function SubscriptionElements({
+  subscriptionId,
+}: {
+  subscriptionId?: string | null;
+}) {
   const userResponse = useQuery(GET_USER);
   const user = userResponse?.data?.getUser;
-  console.log(user);
 
   const stripe = useStripe();
   const elements = useElements();
-  const [errorMessage] = useState(null);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  /**
-   * Handles the form submission for payment processing.
-   *
-   * @param event - The form submission event.
-   */
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
 
     if (!stripe || !elements) {
-      console.error("Stripe.js has not loaded.");
+      setErrorMessage("Stripe.js has not loaded.");
       return;
     }
 
     setIsSubmitting(true);
+    setErrorMessage(null);
 
-    const { error } = await stripe.confirmPayment({
-      elements,
-      confirmParams: {
-        return_url: "http://localhost:3000/account/billing",
-      },
-    });
+    try {
+      // Ensure we're not appending subscription_id if it's null or undefined
+      const returnUrl = subscriptionId
+        ? `${window.location.origin}/account/billing?subscription_id=${subscriptionId}`
+        : `${window.location.origin}/account/billing`;
 
-    if (error) {
-      console.error("Payment failed:", error.message);
+      const { error } = await stripe.confirmPayment({
+        elements,
+        confirmParams: {
+          return_url: returnUrl,
+        },
+      });
+
+      if (error) {
+        setErrorMessage(error.message || "Payment failed");
+        console.error("Payment failed:", error);
+      }
+    } catch (e) {
+      setErrorMessage("An unexpected error occurred during payment processing");
+      console.error("Stripe confirmation error:", e);
+    } finally {
+      setIsSubmitting(false);
     }
-
-    setIsSubmitting(false);
   };
 
   return (
@@ -63,7 +64,9 @@ export default function SubscriptionElements() {
       onSubmit={handleSubmit}
       className="mb-4 rounded-lg px-8 py-4 pb-8 shadow-md"
     >
-      <p className="pb-4 text-xl">Pay for your subscription</p>
+      <p className="pb-4 text-xl text-black dark:text-white">
+        Pay for your subscription
+      </p>
       <PaymentElement
         options={{
           layout: {
@@ -76,7 +79,9 @@ export default function SubscriptionElements() {
       />
 
       <div className="pt-8">
-        <p className="pb-4 text-xl">Billing Information</p>
+        <p className="pb-4 text-xl text-black dark:text-white">
+          Billing Information
+        </p>
         <AddressElement
           options={{
             mode: "billing",

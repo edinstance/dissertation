@@ -1,14 +1,15 @@
 package backend.PermissionTests.EntityTests;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
 import backend.permissions.entities.RoleEntity;
 import backend.permissions.entities.RolePermissionEntity;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
 import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.UUID;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 public class RoleEntityTests {
 

@@ -36,6 +36,7 @@ public class RolePermissionId implements java.io.Serializable {
    * A function to check if objects are the same.
    *
    * @param o the object to compare with.
+   *
    * @return the result of the comparison.
    */
   @Override

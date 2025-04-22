@@ -1,21 +1,22 @@
 package backend.ChatTests.MutationTests;
 
-import backend.chats.dto.CreateChatResponse;
-import backend.chats.mutations.ChatMutations;
-import backend.chats.services.ChatService;
-import backend.common.dto.MutationResponse;
-import backend.common.dynamodb.tables.Chat;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
-import java.util.UUID;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+
+import backend.chats.dto.CreateChatResponse;
+import backend.chats.mutations.ChatMutations;
+import backend.chats.services.ChatService;
+import backend.common.dto.MutationResponse;
+import backend.common.dynamodb.tables.Chat;
+import java.util.UUID;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
 public class ChatMutationTests {

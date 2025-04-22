@@ -9,6 +9,7 @@ public class ChatHelpers {
    * A static function that cleans the response from openAI.
    *
    * @param input the chat to clean.
+   *
    * @return the cleaned chat.
    */
   public static String cleanOpenAiChatResponse(String input) {

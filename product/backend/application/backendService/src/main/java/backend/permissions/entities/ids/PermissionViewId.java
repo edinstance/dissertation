@@ -66,6 +66,7 @@ public class PermissionViewId implements Serializable {
    * Indicates whether some other object is "equal to" this one.
    *
    * @param o the object to compare with.
+   *
    * @return true if this object is the same as the o argument; false otherwise.
    */
   @Override

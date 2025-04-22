@@ -1,14 +1,15 @@
 package backend.ChatTests.ServiceTests;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import backend.common.dynamodb.tables.Chat;
-import org.junit.jupiter.api.Test;
-import java.util.Collections;
-import java.util.List;
-import java.util.UUID;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
+
+import backend.common.dynamodb.tables.Chat;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import java.util.Collections;
+import java.util.List;
+import java.util.UUID;
+import org.junit.jupiter.api.Test;
 
 public class GetCurrentMessagesTests extends SetupChatServiceTests {
 

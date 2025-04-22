@@ -35,6 +35,7 @@ public class DevSecurityConfig {
    * access to the graphiql sandbox.</p>
    *
    * @param http the {@link HttpSecurity} to modify
+   *
    * @return the configured {@link SecurityFilterChain}
    * @throws Exception if an error occurs while configuring the filter chain
    */
@@ -48,7 +49,7 @@ public class DevSecurityConfig {
                     // Allow preflight requests to all endpoints
                     .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                     // Allow details requests
-                    .requestMatchers("/backend/details/**").permitAll()
+                    .requestMatchers("/details/**").permitAll()
                     // Allow all requests to the graphiql endpoint
                     .requestMatchers("*", "/graphiql").permitAll()
                     // All other requests must be authenticated

@@ -29,7 +29,7 @@ public class PaginationInput {
   /**
    * This constructor creates a PaginationInput with the specified details.
    *
-   * @param inputPage     The Page.
+   * @param inputPage The Page.
    * @param inputSize The size of the page.
    */
   public PaginationInput(final int inputPage, final int inputSize) {

@@ -1,18 +1,19 @@
 package backend.ItemsTests.QueryTests;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
 import backend.common.dto.PaginationInput;
 import backend.common.dto.SortInput;
 import backend.common.helpers.Pagination;
 import backend.common.helpers.Sorting;
 import backend.common.types.SortDirection;
 import backend.items.dto.SearchedItemsResponse;
+import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
-import java.util.List;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 public class GetShopItemsTests extends SetupQueryTests {
 

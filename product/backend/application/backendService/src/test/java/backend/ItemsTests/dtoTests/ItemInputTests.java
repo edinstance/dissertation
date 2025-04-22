@@ -1,13 +1,14 @@
 package backend.ItemsTests.dtoTests;
 
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
 import backend.items.dto.ItemInput;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class ItemInputTests {
 

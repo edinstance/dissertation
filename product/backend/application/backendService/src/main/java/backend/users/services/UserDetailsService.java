@@ -1,12 +1,13 @@
 package backend.users.services;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import backend.common.config.logging.AppLogger;
+import backend.common.helpers.AuthHelpers;
 import backend.users.entities.UserDetailsEntity;
 import backend.users.entities.UserEntity;
 import backend.users.helpers.UserHelpers;
 import backend.users.repositories.UserDetailsRepository;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,6 +32,11 @@ public class UserDetailsService {
   private final UserHelpers userHelpers;
 
   /**
+   * Auth helpers.
+   */
+  private final AuthHelpers authHelpers;
+
+  /**
    * Pool for accessing redis.
    */
   private final JedisPool jedisPool;
@@ -44,14 +50,17 @@ public class UserDetailsService {
    * Constructs a UserService with the specified UserRepository and UserDetails Repository.
    *
    * @param inputUserDetailsRepository The repository for accessing User details entities.
+   * @param inputAuthHelpers           The authHelper for this service.
    * @param inputUserHelpers           The userHelper for this service.
    * @param inputJedisPool             The jedis pool to interact with.
    */
   @Autowired
   public UserDetailsService(final UserDetailsRepository inputUserDetailsRepository,
-                            UserHelpers inputUserHelpers, JedisPool inputJedisPool) {
+                            UserHelpers inputUserHelpers, AuthHelpers inputAuthHelpers,
+                            JedisPool inputJedisPool) {
     this.userDetailsRepository = inputUserDetailsRepository;
     this.userHelpers = inputUserHelpers;
+    this.authHelpers = inputAuthHelpers;
     this.jedisPool = inputJedisPool;
   }
 
@@ -59,6 +68,7 @@ public class UserDetailsService {
    * Updates or creates the user details.
    *
    * @param newDetails the details to be edited.
+   *
    * @throws IllegalArgumentException error if duplicated UUId.
    */
   @Transactional
@@ -84,6 +94,15 @@ public class UserDetailsService {
     }
 
     return user;
+  }
+
+  /**
+   * This function checks if the user has created details.
+   *
+   * @return if the details exist.
+   */
+  public boolean checkCurrentUserDetailsExist() {
+    return userDetailsRepository.existsById(authHelpers.getCurrentUserId());
   }
 
 }

@@ -59,13 +59,14 @@ public class PermissionsEntity {
   /**
    * Default constructor.
    */
-  public PermissionsEntity() {}
+  public PermissionsEntity() {
+  }
 
   /**
    * Permissions constructor with options.
    *
-   * @param resource the resource of the permissions.
-   * @param action the actions the permission grants.
+   * @param resource    the resource of the permissions.
+   * @param action      the actions the permission grants.
    * @param description the description of the permissions.
    */
   public PermissionsEntity(ResourcesEntity resource, ActionsEntity action, String description) {

@@ -1,20 +1,21 @@
 package backend.UserTests.MutationTests;
 
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
 import backend.users.dto.UserDetailsInput;
 import backend.users.entities.UserDetailsEntity;
 import backend.users.entities.UserEntity;
 import backend.users.mappers.UserDetailsMapper;
 import backend.users.mutations.UserDetailsMutations;
 import backend.users.services.UserDetailsService;
+import java.util.UUID;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
-import java.util.UUID;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 @SpringBootTest
 public class UserDetailsMutationTests {

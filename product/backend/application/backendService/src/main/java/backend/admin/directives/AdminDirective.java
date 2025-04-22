@@ -53,6 +53,7 @@ public class AdminDirective implements SchemaDirectiveWiring {
    * the admin checks.
    *
    * @param environment the graphql environment.
+   *
    * @return the original field definition and the modified field data fetcher.
    */
   @Override

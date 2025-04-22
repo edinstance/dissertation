@@ -1,10 +1,11 @@
 package backend.UserTests.dtoTests;
 
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
 import backend.users.dto.UserInput;
+import java.util.UUID;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import java.util.UUID;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class UserInputTests {
 

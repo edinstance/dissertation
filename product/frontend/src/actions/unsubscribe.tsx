@@ -1,6 +1,6 @@
 "use server";
 
-import { findExistingSubscriptionByUserId } from "@/utils/stripe";
+import { findExistingSubscriptionByCustomerId } from "@/utils/stripe";
 import Stripe from "stripe";
 
 /**
@@ -13,10 +13,10 @@ import Stripe from "stripe";
  * @param params - The parameters for the unsubscribe operation.
  * @returns A promise that resolves to an object indicating the result of the operation.
  */
-export async function unsubscribe({ id }: { id: string }) {
+export async function unsubscribe({ customerId }: { customerId: string }) {
   try {
     // Fetch the existing subscription
-    const subscription = await findExistingSubscriptionByUserId(id);
+    const subscription = await findExistingSubscriptionByCustomerId(customerId);
     if (!subscription) {
       return { error: "Subscription not found" };
     }

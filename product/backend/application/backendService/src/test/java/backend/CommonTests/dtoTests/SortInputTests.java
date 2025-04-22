@@ -1,10 +1,11 @@
 package backend.CommonTests.dtoTests;
 
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
 import backend.common.dto.SortInput;
 import backend.common.types.SortDirection;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class SortInputTests {
 

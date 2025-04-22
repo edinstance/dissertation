@@ -17,8 +17,8 @@ public class PermissionKey {
    * A constructor for the permission key.
    *
    * @param associatedUserId the user id.
-   * @param resource the resource.
-   * @param action the action.
+   * @param resource         the resource.
+   * @param action           the action.
    */
   public PermissionKey(UUID associatedUserId, Resources resource, Actions action) {
     this.associatedUserId = associatedUserId;
@@ -30,6 +30,7 @@ public class PermissionKey {
    * An override of the equals' method.
    *
    * @param o the object to compare.
+   *
    * @return if the objects are equal.
    */
   @Override

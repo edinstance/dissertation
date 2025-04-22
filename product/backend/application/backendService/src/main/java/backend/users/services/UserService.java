@@ -1,7 +1,5 @@
 package backend.users.services;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import backend.common.config.logging.AppLogger;
 import backend.common.helpers.AuthHelpers;
 import backend.permissions.authorizers.AdminAuthorizer;
@@ -10,6 +8,8 @@ import backend.permissions.types.AdminViewTypes;
 import backend.permissions.types.Resources;
 import backend.users.entities.UserEntity;
 import backend.users.repositories.UserRepository;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.Optional;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -65,6 +65,7 @@ public class UserService {
    * Creates a new user.
    *
    * @param newUser the user to be created.
+   *
    * @return the created user.
    * @throws IllegalArgumentException error if duplicated UUId.
    * @throws RuntimeException         if json processing fails.
@@ -95,6 +96,7 @@ public class UserService {
    * Retrieves a user entity by its ID.
    *
    * @param id The ID of the user.
+   *
    * @return The user entity.
    */
   public UserEntity getUserById(UUID id) {

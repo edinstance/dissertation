@@ -1,11 +1,11 @@
 package backend.items.mutations;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import backend.common.config.logging.AppLogger;
 import backend.items.dto.ItemInput;
 import backend.items.entities.ItemEntity;
 import backend.items.mappers.ItemMapper;
 import backend.items.services.ItemService;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.netflix.graphql.dgs.DgsComponent;
 import com.netflix.graphql.dgs.DgsMutation;
 import com.netflix.graphql.dgs.InputArgument;
@@ -31,7 +31,7 @@ public class ItemMutations {
    * Constructor for initialising the UserMutations with the input services.
    *
    * @param inputItemService The item service to be used by this component.
-   * @param inputItemMapper The itemMapper to be used.
+   * @param inputItemMapper  The itemMapper to be used.
    */
   public ItemMutations(final ItemService inputItemService,
                        final ItemMapper inputItemMapper) {

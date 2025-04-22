@@ -1,9 +1,10 @@
 package backend.ChatTests.ServiceTests;
 
-import org.junit.jupiter.api.Test;
-import org.springframework.test.util.ReflectionTestUtils;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import org.junit.jupiter.api.Test;
+import org.springframework.test.util.ReflectionTestUtils;
 
 public class IsEnabledTests extends SetupChatServiceTests {
 

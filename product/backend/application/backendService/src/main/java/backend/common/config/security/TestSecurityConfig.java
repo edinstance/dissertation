@@ -33,6 +33,7 @@ public class TestSecurityConfig {
    * and request authorization.</p>
    *
    * @param http the {@link HttpSecurity} to modify
+   *
    * @return the configured {@link SecurityFilterChain}
    * @throws Exception if an error occurs while configuring the filter chain
    */
@@ -46,7 +47,7 @@ public class TestSecurityConfig {
                     // The healthcheck requests need
                     // authentication so that the authenticated
                     // routes can be tested
-                    .requestMatchers("/backend/details/**").permitAll()
+                    .requestMatchers("/details/**").permitAll()
                     // All other requests are permitted
                     .anyRequest().permitAll()
             )

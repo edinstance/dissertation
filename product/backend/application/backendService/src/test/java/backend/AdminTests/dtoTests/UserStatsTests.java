@@ -1,9 +1,10 @@
 package backend.AdminTests.dtoTests;
 
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
 import backend.admin.dto.UserStats;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class UserStatsTests {
 

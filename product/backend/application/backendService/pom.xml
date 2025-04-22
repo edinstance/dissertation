@@ -25,6 +25,7 @@
         <checkstyle.version>10.20.1</checkstyle.version>
         <log4j.version>2.24.3</log4j.version>
         <openapi.version>1.2.0</openapi.version>
+        <stripe.version>29.0.0</stripe.version>
     </properties>
 
     <dependencies>
@@ -50,6 +51,12 @@
             <artifactId>spring-boot-starter-data-jpa</artifactId>
         </dependency>
 
+        <!-- Kafka -->
+        <dependency>
+            <groupId>org.springframework.kafka</groupId>
+            <artifactId>spring-kafka</artifactId>
+        </dependency>
+
         <!-- Netflix DGS -->
         <dependency>
             <groupId>com.netflix.graphql.dgs</groupId>
@@ -61,17 +68,23 @@
             <scope>test</scope>
         </dependency>
 
+        <!-- OpenAI -->
         <dependency>
             <groupId>com.openai</groupId>
             <artifactId>openai-java</artifactId>
             <version>${openapi.version}</version>
         </dependency>
 
+        <dependency>
+            <groupId>com.stripe</groupId>
+            <artifactId>stripe-java</artifactId>
+            <version>${stripe.version}</version>
+        </dependency>
+
         <!-- PostgreSQL -->
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
-            <scope>runtime</scope>
         </dependency>
 
         <!-- H2 -->
@@ -88,6 +101,7 @@
             <version>5.2.0</version>
         </dependency>
 
+        <!-- AWS SDK -->
         <dependency>
             <groupId>software.amazon.awssdk</groupId>
             <artifactId>dynamodb-enhanced</artifactId>

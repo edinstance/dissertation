@@ -69,5 +69,12 @@
                         stripComments="false" />
         </changeSet>
 
+        <changeSet id="insert_or_update_user_billing" author="zlac370" runOnChange="false">
+                <sqlFile path="../../src/sql/procedures/insert_or_update_user_billing.sql"
+                        relativeToChangelogFile="true"
+                        splitStatements="false"
+                        stripComments="false" />
+        </changeSet>
+
 
 </databaseChangeLog>

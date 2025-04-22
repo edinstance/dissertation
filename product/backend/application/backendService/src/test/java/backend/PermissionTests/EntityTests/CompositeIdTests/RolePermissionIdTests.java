@@ -1,11 +1,11 @@
 package backend.PermissionTests.EntityTests.CompositeIdTests;
 
-import backend.permissions.entities.ids.RolePermissionId;
-import org.junit.jupiter.api.Test;
-import java.util.UUID;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
+
+import backend.permissions.entities.ids.RolePermissionId;
+import java.util.UUID;
+import org.junit.jupiter.api.Test;
 
 public class RolePermissionIdTests {
 

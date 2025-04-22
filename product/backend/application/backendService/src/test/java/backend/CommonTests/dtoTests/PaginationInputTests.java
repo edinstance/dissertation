@@ -1,9 +1,10 @@
 package backend.CommonTests.dtoTests;
 
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
 import backend.common.dto.PaginationInput;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class PaginationInputTests {
 

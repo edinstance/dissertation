@@ -149,6 +149,7 @@ public class AdminPermissionsService {
    *
    * @param adminId      the id of the admin.
    * @param permissionId the id of the permission.
+   *
    * @return true if the permission was revoked, false otherwise.
    */
   public boolean revokeAdminPermission(final UUID adminId,
@@ -180,6 +181,7 @@ public class AdminPermissionsService {
    *
    * @param adminId      the id of the admin.
    * @param permissionId the id of the permission.
+   *
    * @return true if the permission was granted, false otherwise.
    */
   public boolean grantAdminPermissions(final UUID adminId,

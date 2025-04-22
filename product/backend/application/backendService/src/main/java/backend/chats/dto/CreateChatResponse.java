@@ -24,12 +24,13 @@ public class CreateChatResponse {
   /**
    * Default constructor.
    */
-  public CreateChatResponse() {}
+  public CreateChatResponse() {
+  }
 
   /**
    * Constructor with details.
    *
-   * @param chat the chat.
+   * @param chat     the chat.
    * @param response the response.
    */
   public CreateChatResponse(Chat chat, Chat response) {

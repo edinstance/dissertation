@@ -49,13 +49,14 @@ public class RoleEntity {
   /**
    * Default constructor.
    */
-  public RoleEntity() {}
+  public RoleEntity() {
+  }
 
   /**
    * Constructor with options.
    *
-   * @param id the id of the role.
-   * @param roleName the name.
+   * @param id          the id of the role.
+   * @param roleName    the name.
    * @param description the description.
    */
   public RoleEntity(UUID id, String roleName, String description) {

@@ -18,6 +18,7 @@ public interface PermissionViewRepository extends JpaRepository
    * This method gets all the admin permissions.
    *
    * @param viewType the view type.
+   *
    * @return all the admin permissions.
    */
   @Query(
@@ -32,6 +33,7 @@ public interface PermissionViewRepository extends JpaRepository
    * This method gets the admin permissions for a specific admin.
    *
    * @param viewType the view type.
+   *
    * @return all the admin permissions.
    */
   @Query(
@@ -40,5 +42,5 @@ public interface PermissionViewRepository extends JpaRepository
           nativeQuery = true
   )
   List<PermissionView> getAdminPermissionsById(@Param("userId") UUID adminId,
-                                              @Param("viewType") String viewType);
+                                               @Param("viewType") String viewType);
 }

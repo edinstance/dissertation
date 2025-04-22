@@ -1,5 +1,10 @@
 package backend.PermissionTests.AuthorizerTests;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.when;
+
 import backend.admin.entities.AdminEntity;
 import backend.admin.repositories.AdminRepository;
 import backend.permissions.authorizers.AdminAuthorizer;
@@ -11,20 +16,16 @@ import backend.permissions.types.AdminViewTypes;
 import backend.permissions.types.GrantType;
 import backend.permissions.types.Resources;
 import backend.permissions.types.ViewTypes;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 public class AdminAuthorizerTests {
