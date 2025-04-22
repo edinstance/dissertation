@@ -116,11 +116,6 @@ variable "stripe_publishable_key_arn" {
   type        = string
 }
 
-variable "stripe_secret_key_arn" {
-  description = "The arn of the Stripe secret key"
-  type        = string
-}
-
 variable "stripe_price_id_arn" {
   description = "The arn of the Stripe price id"
   type        = string
@@ -232,8 +227,18 @@ variable "open_ai_organization_id_arn" {
   type        = string
 }
 
+variable "kafka_bootstrap_brokers" {
+  description = "The bootstrap brokers for Kafka"
+  type        = string
+}
+
 # Shared
 variable "api_key_arn" {
   description = "The arn of the API key"
+  type        = string
+}
+
+variable "stripe_secret_key_arn" {
+  description = "The arn of the Stripe secret key"
   type        = string
 }

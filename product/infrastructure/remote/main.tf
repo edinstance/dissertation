@@ -63,11 +63,11 @@ module "ecs" {
   environment = var.environment
 
   # ECR
-  frontend_ecr_repo        = module.frontend_ecr.repository_url
-  backend_ecr_repo         = module.backend_ecr.repository_url
+  frontend_ecr_repo = module.frontend_ecr.repository_url
+  backend_ecr_repo  = module.backend_ecr.repository_url
   # apollo_gateway_ecr_repo  = module.apollo_gateway_ecr.repository_url
-  frontend_image_tag       = var.frontend_image_tag
-  backend_image_tag        = var.backend_image_tag
+  frontend_image_tag = var.frontend_image_tag
+  backend_image_tag  = var.backend_image_tag
   # apollo_gateway_image_tag = var.apollo_gateway_image_tag
 
   # IAM
@@ -117,6 +117,7 @@ module "ecs" {
   open_ai_key_arn             = module.ssm.open_ai_key_arn
   open_ai_project_id_arn      = module.ssm.open_ai_project_id_arn
   open_ai_organization_id_arn = module.ssm.open_ai_organization_id_arn
+  kafka_bootstrap_brokers     = module.kafka.bootstrap_brokers
 }
 
 # Networking
@@ -258,12 +259,12 @@ module "cicd" {
   # CodeDeploy
   ecs_cluster_name = module.ecs.ecs_cluster_name
 
-  frontend_ecs_service_name       = module.ecs.frontend_ecs_service_name
-  backend_ecs_service_name        = module.ecs.backend_ecs_service_name
+  frontend_ecs_service_name = module.ecs.frontend_ecs_service_name
+  backend_ecs_service_name  = module.ecs.backend_ecs_service_name
   # apollo_gateway_ecs_service_name = module.ecs.apollo_gateway_ecs_service_name
 
-  frontend_alb_listener_arn       = module.ecs.frontend_alb_listener_arn
-  backend_alb_listener_arn        = module.ecs.backend_alb_listener_arn
+  frontend_alb_listener_arn = module.ecs.frontend_alb_listener_arn
+  backend_alb_listener_arn  = module.ecs.backend_alb_listener_arn
   # apollo_gateway_alb_listener_arn = module.ecs.apollo_gateway_alb_listener_arn
 
   frontend_alb_target_group_blue_name  = module.ecs.frontend_alb_target_group_blue_name
@@ -292,4 +293,12 @@ module "s3" {
 resource "aws_codeconnections_connection" "codeconnection" {
   name          = "code connection"
   provider_type = var.code_connect_src
+}
+
+module "kafka" {
+  source = "./modules/kafka"
+
+  environment       = var.environment
+  subnet_ids        = module.networking.private_subnet_ids
+  security_group_id = module.networking.kafka_sg_id
 }

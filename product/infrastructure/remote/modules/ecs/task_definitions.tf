@@ -223,6 +223,12 @@ resource "aws_ecs_task_definition" "backend_task" {
           awslogs-stream-prefix = "ecs"
         }
       }
+      enviroment = [
+        {
+          name  = "KAFKA_BOOTSTRAP_SERVERS"
+          value = var.kafka_bootstrap_brokers
+        }
+      ]
       secrets = [
         {
           name      = "SPRING_ACTIVE_PROFILE"
