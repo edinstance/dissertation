@@ -1,9 +1,9 @@
 package backend.reporting.config.jira;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import backend.common.config.logging.AppLogger;
 import backend.users.entities.UserEntity;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
@@ -70,6 +70,7 @@ public class JiraClient {
    *
    * @param email       the email of the account to use.
    * @param accessToken the access token of the account to use.
+   *
    * @return a base64 authentication header.
    */
   public String createAuthHeader(final String email, final String accessToken) {
@@ -113,6 +114,7 @@ public class JiraClient {
    * @param title   the title of the ticket.
    * @param user    the user that reported the bug.
    * @param message the message the user added.
+   *
    * @return json value of the information.
    * @throws JsonProcessingException if there is a json processing error.
    */

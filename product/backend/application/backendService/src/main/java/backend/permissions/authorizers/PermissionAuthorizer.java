@@ -19,10 +19,11 @@ public interface PermissionAuthorizer {
   /**
    * Checks if a user has permission to access a resource.
    *
-   * @param userId the user id.
+   * @param userId   the user id.
    * @param resource the resource.
-   * @param action the action.
+   * @param action   the action.
    * @param viewType the view type.
+   *
    * @return {@code true} if the user has permission, {@code false} otherwise.
    */
   boolean authorize(UUID userId, Resources resource, Actions action,
@@ -34,6 +35,7 @@ public interface PermissionAuthorizer {
    * It ensures that if there is a DENY permission, it will override any GRANT permissions.
    *
    * @param permissions the list of permissions.
+   *
    * @return the new list of effective permissions.
    */
   default List<PermissionView> getEffectivePermissions(List<PermissionView> permissions) {

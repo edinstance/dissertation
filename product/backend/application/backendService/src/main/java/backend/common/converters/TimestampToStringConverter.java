@@ -19,6 +19,7 @@ public class TimestampToStringConverter implements AttributeConverter<String, Ti
    * Converts a String attribute to a Timestamp for storing in the database.
    *
    * @param attribute The String attribute to convert.
+   *
    * @return The converted Timestamp, or null if the attribute is null or empty.
    * @throws IllegalArgumentException if the String cannot be parsed into a Timestamp.
    */
@@ -39,6 +40,7 @@ public class TimestampToStringConverter implements AttributeConverter<String, Ti
    * Converts a Timestamp from the database to a String attribute.
    *
    * @param dbData The Timestamp from the database.
+   *
    * @return The converted String, or null if the dbData is null.
    */
   @Override

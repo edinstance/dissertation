@@ -45,6 +45,7 @@ public class DynamoDbConfig {
    * Creates a DynamoDB enhanced client.
    *
    * @param dynamoDbClient the default DynamoDB client.
+   *
    * @return the DynamoDB enhanced client.
    */
   @Bean

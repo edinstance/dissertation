@@ -62,7 +62,7 @@ public class RolePermissionEntity {
   /**
    * Role permissions constructor with options.
    *
-   * @param role the role.
+   * @param role       the role.
    * @param permission the permission.
    */
   public RolePermissionEntity(RoleEntity role, PermissionsEntity permission,

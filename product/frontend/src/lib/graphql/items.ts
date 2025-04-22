@@ -106,6 +106,7 @@ export const GET_ITEMS_BY_USER_QUERY = graphql(`
         description
         isActive
         stock
+        finalPrice
       }
       pagination {
         total
@@ -115,6 +116,27 @@ export const GET_ITEMS_BY_USER_QUERY = graphql(`
     }
   }
 `);
+
+export const GET_USERS_WON_ITEMS = graphql(`
+  query GetUsersWonItems($pagination: PaginationInput) {
+    getUsersWonItems(pagination: $pagination) {
+      items {
+        id
+        name
+        description
+        isActive
+        stock
+        finalPrice
+      }
+      pagination {
+        total
+        page
+        size
+      }
+    }
+  }
+`);
+
 export const SAVE_ITEM_MUTATION = graphql(`
   mutation SaveItem($itemInput: ItemInput!) {
     saveItem(itemInput: $itemInput) {

@@ -32,9 +32,10 @@ public enum ItemSortOptions {
   }
 
   /**
-   *This method is used to get the ItemSortOptions value from a string.
+   * This method is used to get the ItemSortOptions value from a string.
    *
    * @param value the string that is being passed in.
+   *
    * @return the ItemSortOptions value of the string.
    */
   public static ItemSortOptions stringToSortOption(String value) {

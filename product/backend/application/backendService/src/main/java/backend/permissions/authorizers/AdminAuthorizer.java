@@ -48,6 +48,7 @@ public class AdminAuthorizer implements PermissionAuthorizer {
    * @param resource the resource.
    * @param action   the action.
    * @param viewType the view type.
+   *
    * @return if the user is authorized.
    */
   @Override

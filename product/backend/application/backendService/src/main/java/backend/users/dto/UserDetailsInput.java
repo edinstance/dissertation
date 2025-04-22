@@ -58,8 +58,8 @@ public class UserDetailsInput {
    */
   public UserDetailsInput(final String contactNumber,
                           final String houseName, final String addressStreet,
-                        final String addressCity, final String addressCounty,
-                        final String addressPostcode) {
+                          final String addressCity, final String addressCounty,
+                          final String addressPostcode) {
     this.contactNumber = contactNumber;
     this.houseName = houseName;
     this.addressStreet = addressStreet;

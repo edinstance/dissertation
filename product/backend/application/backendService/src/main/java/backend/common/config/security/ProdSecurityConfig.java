@@ -41,6 +41,7 @@ public class ProdSecurityConfig {
    * request authorization, and JWT token validation.</p>
    *
    * @param http the {@link HttpSecurity} to modify
+   *
    * @return the configured {@link SecurityFilterChain}
    * @throws Exception if an error occurs while configuring the filter chain
    */
@@ -54,7 +55,7 @@ public class ProdSecurityConfig {
                     // Allow preflight requests to all endpoints
                     .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                     // Allow details requests
-                    .requestMatchers("/backend/details/**").permitAll()
+                    .requestMatchers("/details/**").permitAll()
                     // All other requests must be authenticated
                     .anyRequest().authenticated()
             )

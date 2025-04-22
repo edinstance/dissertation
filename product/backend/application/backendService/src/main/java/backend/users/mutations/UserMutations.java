@@ -45,6 +45,7 @@ public class UserMutations {
    * GraphQL mutation to create a new user.
    *
    * @param userInput The input data for the new user.
+   *
    * @return The created UserEntity.
    */
   @DgsMutation

@@ -1,12 +1,13 @@
 package backend.UserTests.MapperTests;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
 import backend.users.dto.UserDetailsInput;
 import backend.users.entities.UserDetailsEntity;
 import backend.users.mappers.UserDetailsMapper;
-import org.junit.jupiter.api.Test;
 import java.util.UUID;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import org.junit.jupiter.api.Test;
 
 public class UserDetailsMapperTests {
 

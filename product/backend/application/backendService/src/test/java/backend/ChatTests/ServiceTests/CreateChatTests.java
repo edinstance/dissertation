@@ -1,9 +1,5 @@
 package backend.ChatTests.ServiceTests;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import backend.common.dynamodb.tables.Chat;
-import org.junit.jupiter.api.Test;
-import org.mockito.ArgumentCaptor;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -13,6 +9,11 @@ import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+
+import backend.common.dynamodb.tables.Chat;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentCaptor;
 
 public class CreateChatTests extends SetupChatServiceTests {
 

@@ -1,11 +1,12 @@
 package backend.PermissionTests.EntityTests;
 
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
 import backend.permissions.entities.ResourcesEntity;
 import backend.permissions.types.Resources;
+import java.util.UUID;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import java.util.UUID;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class ResourcesEntityTests {
 

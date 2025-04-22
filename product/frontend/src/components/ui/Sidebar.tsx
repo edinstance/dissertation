@@ -1,7 +1,11 @@
 "use client";
 
 import { cn } from "@/lib/utils";
-import { PlusIcon, ShoppingBagIcon } from "@heroicons/react/24/outline";
+import {
+  PlusIcon,
+  ShoppingBagIcon,
+  ShoppingCartIcon,
+} from "@heroicons/react/24/outline";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -9,12 +13,17 @@ const sidebarLinks = [
   {
     name: "Shop",
     href: "/shop",
-    icon: ShoppingBagIcon,
+    icon: ShoppingCartIcon,
   },
   {
     name: "Items",
     href: "/items",
     icon: PlusIcon,
+  },
+  {
+    name: "Won Items",
+    href: "/items/won",
+    icon: ShoppingBagIcon,
   },
 ];
 

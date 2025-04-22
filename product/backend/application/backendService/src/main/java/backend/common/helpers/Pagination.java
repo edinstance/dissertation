@@ -46,8 +46,8 @@ public class Pagination {
   /**
    * Constructor with all variables.
    *
-   * @param page The page.
-   * @param size The size of the page.
+   * @param page  The page.
+   * @param size  The size of the page.
    * @param total The total amount of pages.
    */
   public Pagination(int page, int size, int total) {

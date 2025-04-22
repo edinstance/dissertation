@@ -21,7 +21,8 @@ RETURNS TABLE (
     stock INT,
     category VARCHAR,
     images JSONB,
-    seller_id UUID
+    seller_id UUID,
+    final_price DECIMAL
 ) AS $$ BEGIN
 
  IF NOT EXISTS (
@@ -46,9 +47,11 @@ RETURNS TABLE (
             i.stock,
             i.category,
             i.images,
-            i.seller_id
+            i.seller_id,
+            i.final_price
         FROM items i
         WHERE similarity(i.name, $1) > 0.3
+        AND is_active = true
         ORDER BY %I %s
         LIMIT $2 OFFSET $3', 
         order_by,

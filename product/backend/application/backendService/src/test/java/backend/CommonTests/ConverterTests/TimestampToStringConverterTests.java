@@ -1,12 +1,13 @@
 package backend.CommonTests.ConverterTests;
 
-import backend.common.converters.TimestampToStringConverter;
-import org.junit.jupiter.api.Test;
-import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+
+import backend.common.converters.TimestampToStringConverter;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import org.junit.jupiter.api.Test;
 
 public class TimestampToStringConverterTests {
 

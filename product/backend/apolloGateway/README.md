@@ -1,6 +1,6 @@
 # Apollo gateway
 
-This is a gateway for routing requets to the backend services.
+This is a gateway for routing requets to the backend services. This is currently not being used but when the backend is split into seperate services it will federate them.
 
 ## Running
 

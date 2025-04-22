@@ -35,12 +35,13 @@ public class UserDetailsDataFetcher {
    * Retrieves the user details for a user.
    *
    * @param dfe The data fetching environment.
+   *
    * @return The user details.
    */
   @DgsData(parentType = "User", field = "details")
   public UserDetailsEntity getUserDetails(@NotNull DgsDataFetchingEnvironment dfe) {
     UserEntity user = dfe.getSource();
-    
+
     if (user == null) {
       AppLogger.error("UserDetailsDataFetcher.getUserDetails() returned null");
       throw new IllegalArgumentException("User not found");

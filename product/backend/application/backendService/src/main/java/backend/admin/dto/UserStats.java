@@ -26,8 +26,8 @@ public class UserStats {
   /**
    * Constructor with all the information.
    *
-   * @param total the total amount of users.
-   * @param newUserTotal the total of new users.
+   * @param total            the total amount of users.
+   * @param newUserTotal     the total of new users.
    * @param deletedUserTotal the total of deleted users.
    */
   public UserStats(long total, long newUserTotal, long deletedUserTotal) {

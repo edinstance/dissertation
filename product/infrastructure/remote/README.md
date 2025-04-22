@@ -10,3 +10,7 @@ terraform init \
           -backend-config="username=${GITLAB_USERNAME}" \
           -backend-config="password=${GITLAB_TOKEN}"
 ```
+
+## Apollo Gateway
+
+The apollo gateway is currently not being used so it has been commented out, it will be used in the future so it was not deleted.

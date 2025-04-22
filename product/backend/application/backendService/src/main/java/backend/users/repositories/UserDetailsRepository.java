@@ -15,12 +15,12 @@ public interface UserDetailsRepository extends JpaRepository<UserDetailsEntity, 
   /**
    * This query creates or updates user details.
    *
-   * @param userId The id of the user to update.
-   * @param contactNumber The value of their contact number.
-   * @param houseName The value of their house name.
-   * @param addressStreet The value of their street.
-   * @param addressCity The value of their city.
-   * @param addressCounty The value of their county.
+   * @param userId          The id of the user to update.
+   * @param contactNumber   The value of their contact number.
+   * @param houseName       The value of their house name.
+   * @param addressStreet   The value of their street.
+   * @param addressCity     The value of their city.
+   * @param addressCounty   The value of their county.
    * @param addressPostCode The value of their postcode .
    */
   @Modifying

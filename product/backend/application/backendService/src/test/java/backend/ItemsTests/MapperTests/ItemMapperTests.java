@@ -1,22 +1,23 @@
 package backend.ItemsTests.MapperTests;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.when;
+
 import backend.common.helpers.AuthHelpers;
 import backend.items.dto.ItemInput;
 import backend.items.entities.ItemEntity;
 import backend.items.mappers.ItemMapper;
 import backend.users.entities.UserEntity;
 import backend.users.helpers.UserHelpers;
+import java.math.BigDecimal;
+import java.util.Date;
+import java.util.List;
+import java.util.UUID;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import java.math.BigDecimal;
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 public class ItemMapperTests {

@@ -50,8 +50,8 @@ public class ResourcesEntity {
   /**
    * Resource entity constructor with options.
    *
-   * @param id the id of the resource.
-   * @param resource the resource.
+   * @param id          the id of the resource.
+   * @param resource    the resource.
    * @param description the description of the resource.
    */
   public ResourcesEntity(UUID id, Resources resource, String description) {

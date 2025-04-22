@@ -1,8 +1,9 @@
 package backend.CommonTests.TypeTests;
 
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
 import backend.common.types.SortDirection;
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class SortDirectionTests {
 

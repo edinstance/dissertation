@@ -82,6 +82,7 @@ public class PermissionsService {
    * @param actionDescription     the description of the action.
    * @param resource              the resource associated with the permission.
    * @param resourceDescription   the description of the resource.
+   *
    * @return true if the permission was created, false otherwise.
    */
   public boolean createPermission(

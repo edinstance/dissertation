@@ -1,12 +1,13 @@
 package backend.CommonTests.DynamodbTests.TableTests;
 
-import backend.common.dynamodb.tables.Chat;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import java.time.Instant;
-import java.util.UUID;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+
+import backend.common.dynamodb.tables.Chat;
+import java.time.Instant;
+import java.util.UUID;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class ChatTests {
 

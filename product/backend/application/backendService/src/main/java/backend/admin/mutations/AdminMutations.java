@@ -36,6 +36,7 @@ public class AdminMutations {
    * A mutation to create an admin.
    *
    * @param userId the user to turn into an admin.
+   *
    * @return a mutation response based on the outcome.
    */
   @DgsMutation
@@ -49,6 +50,7 @@ public class AdminMutations {
    * A mutation to promote an admin to a super admin.
    *
    * @param userId the admin id to turn into a super admin .
+   *
    * @return a mutation response based on the outcome.
    */
   @DgsMutation
@@ -66,6 +68,7 @@ public class AdminMutations {
    * A mutation to deactivate an admin.
    *
    * @param userId the admin id of the admin to deactivate.
+   *
    * @return a mutation response based on the outcome.
    */
   @DgsMutation

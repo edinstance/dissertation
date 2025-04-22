@@ -143,7 +143,7 @@ public class Chat {
    * @param sender         the sender of the message.
    */
   public Chat(UUID conversationId, UUID chatId,
-                  UUID userId, String createdAt, String sender) {
+              UUID userId, String createdAt, String sender) {
     this.conversationId = conversationId;
     this.chatId = chatId;
     this.userId = userId;

@@ -1,12 +1,12 @@
 package backend.chats.services;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import backend.chats.dto.CreateChatResponse;
 import backend.chats.dynamodb.ChatsDynamoService;
 import backend.chats.helpers.ChatHelpers;
 import backend.common.config.logging.AppLogger;
 import backend.common.dynamodb.tables.Chat;
 import backend.common.helpers.AuthHelpers;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.openai.client.OpenAIClient;
 import com.openai.client.okhttp.OpenAIOkHttpClient;
 import com.openai.models.ChatModel;

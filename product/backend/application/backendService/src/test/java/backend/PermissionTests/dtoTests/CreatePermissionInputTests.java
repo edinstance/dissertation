@@ -1,12 +1,13 @@
 package backend.PermissionTests.dtoTests;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
 import backend.permissions.dto.CreatePermissionInput;
 import backend.permissions.types.Actions;
 import backend.permissions.types.Resources;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class CreatePermissionInputTests {
 

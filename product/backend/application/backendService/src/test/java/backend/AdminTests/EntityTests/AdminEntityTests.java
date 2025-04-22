@@ -1,14 +1,15 @@
 package backend.AdminTests.EntityTests;
 
-import backend.admin.entities.AdminEntity;
-import backend.users.entities.UserEntity;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
-import java.util.UUID;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import backend.admin.entities.AdminEntity;
+import backend.users.entities.UserEntity;
+import java.util.UUID;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 public class AdminEntityTests {
 

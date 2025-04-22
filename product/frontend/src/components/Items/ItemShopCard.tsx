@@ -29,7 +29,7 @@ function ItemShopCard({ item }: { item: Item }) {
         </p>
       </CardContent>
       <CardFooter className="flex justify-end p-4 pt-0">
-        <Button variant="outline" onClick={() => null}>
+        <Button variant="outline" href={`/shop/${item.id}`}>
           Details
           <InformationCircleIcon className="ml-2 h-4 w-4" />
         </Button>

@@ -1,13 +1,14 @@
 package backend.PermissionTests.AdminTests.EntityTests;
 
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
 import backend.admin.entities.AdminEntity;
 import backend.permissions.entities.RoleEntity;
 import backend.permissions.entities.admin.AdminRolesEntity;
 import backend.permissions.entities.admin.ids.AdminRolesEntityId;
+import java.util.UUID;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import java.util.UUID;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class AdminRolesEntityTests {
 

@@ -53,6 +53,16 @@ export type Admin = {
   userId: Scalars["String"]["output"];
 };
 
+export type Bid = {
+  __typename?: "Bid";
+  amount?: Maybe<Scalars["Float"]["output"]>;
+  bidId?: Maybe<Scalars["String"]["output"]>;
+  createdAt?: Maybe<Scalars["String"]["output"]>;
+  itemId?: Maybe<Scalars["String"]["output"]>;
+  paymentMethod?: Maybe<Scalars["String"]["output"]>;
+  userId?: Maybe<Scalars["String"]["output"]>;
+};
+
 export type Chat = {
   __typename?: "Chat";
   chatId: Scalars["String"]["output"];
@@ -326,6 +336,7 @@ export type Item = {
   category?: Maybe<Scalars["String"]["output"]>;
   description?: Maybe<Scalars["String"]["output"]>;
   endingTime?: Maybe<Scalars["String"]["output"]>;
+  finalPrice?: Maybe<Scalars["Float"]["output"]>;
   id?: Maybe<Scalars["String"]["output"]>;
   images?: Maybe<Array<Maybe<Scalars["String"]["output"]>>>;
   isActive?: Maybe<Scalars["Boolean"]["output"]>;
@@ -368,7 +379,9 @@ export type Mutation = {
   reportBug?: Maybe<MutationResponse>;
   revokeAdminPermission?: Maybe<MutationResponse>;
   saveItem?: Maybe<Item>;
+  saveUserBilling?: Maybe<MutationResponse>;
   saveUserDetails?: Maybe<User>;
+  submitBid?: Maybe<MutationResponse>;
 };
 
 export type MutationClearCurrentConversationArgs = {
@@ -423,9 +436,17 @@ export type MutationSaveItemArgs = {
   itemInput?: InputMaybe<ItemInput>;
 };
 
+export type MutationSaveUserBillingArgs = {
+  userBillingInput?: InputMaybe<UserBillingInput>;
+};
+
 export type MutationSaveUserDetailsArgs = {
   detailsInput?: InputMaybe<UserDetailsInput>;
   id: Scalars["String"]["input"];
+};
+
+export type MutationSubmitBidArgs = {
+  bid?: InputMaybe<SubmitBidInput>;
 };
 
 export type MutationResponse = {
@@ -473,6 +494,7 @@ export type PermissionViewId = {
 export type Query = {
   __typename?: "Query";
   _service: _Service;
+  checkCurrentUserDetailsExist?: Maybe<Scalars["Boolean"]["output"]>;
   getAdminPermissionsByAdminId?: Maybe<Array<Maybe<Permission>>>;
   getAllAdminPermissions?: Maybe<Array<Maybe<PermissionView>>>;
   getAllAdmins?: Maybe<Array<Maybe<Admin>>>;
@@ -481,11 +503,14 @@ export type Query = {
   getCurrentAdmin?: Maybe<Admin>;
   getCurrentAdminPermissions?: Maybe<Array<Maybe<PermissionView>>>;
   getCurrentConversation?: Maybe<Array<Maybe<Chat>>>;
+  getItemBidsById?: Maybe<Array<Maybe<Bid>>>;
   getItemById?: Maybe<Item>;
   getItemsByUser?: Maybe<SearchedItemsResponse>;
   getShopItems?: Maybe<SearchedItemsResponse>;
   getUser?: Maybe<User>;
+  getUserBilling?: Maybe<UserBilling>;
   getUserStats?: Maybe<UserStats>;
+  getUsersWonItems?: Maybe<SearchedItemsResponse>;
   isChatEnabled?: Maybe<Scalars["Boolean"]["output"]>;
   searchForItems?: Maybe<SearchedItemsResponse>;
 };
@@ -496,6 +521,10 @@ export type QueryGetAdminPermissionsByAdminIdArgs = {
 
 export type QueryGetCurrentConversationArgs = {
   conversationId: Scalars["String"]["input"];
+};
+
+export type QueryGetItemBidsByIdArgs = {
+  itemId?: InputMaybe<Scalars["String"]["input"]>;
 };
 
 export type QueryGetItemByIdArgs = {
@@ -511,6 +540,10 @@ export type QueryGetItemsByUserArgs = {
 export type QueryGetShopItemsArgs = {
   pagination?: InputMaybe<PaginationInput>;
   sorting?: InputMaybe<SortInput>;
+};
+
+export type QueryGetUsersWonItemsArgs = {
+  pagination?: InputMaybe<PaginationInput>;
 };
 
 export type QuerySearchForItemsArgs = {
@@ -558,13 +591,12 @@ export type Sorting = {
   sortDirection?: Maybe<SortDirection>;
 };
 
-export type Subscription = {
-  __typename?: "Subscription";
-  chatSubscription?: Maybe<Chat>;
-};
-
-export type SubscriptionChatSubscriptionArgs = {
-  conversationId: Scalars["String"]["input"];
+export type SubmitBidInput = {
+  amount?: InputMaybe<Scalars["Float"]["input"]>;
+  bidId?: InputMaybe<Scalars["String"]["input"]>;
+  itemId?: InputMaybe<Scalars["String"]["input"]>;
+  paymentMethod?: InputMaybe<Scalars["String"]["input"]>;
+  userId?: InputMaybe<Scalars["String"]["input"]>;
 };
 
 export type User = {
@@ -575,6 +607,19 @@ export type User = {
   items?: Maybe<Array<Maybe<Item>>>;
   name?: Maybe<Scalars["String"]["output"]>;
   status?: Maybe<Scalars["String"]["output"]>;
+};
+
+export type UserBilling = {
+  __typename?: "UserBilling";
+  accountId?: Maybe<Scalars["String"]["output"]>;
+  customerId?: Maybe<Scalars["String"]["output"]>;
+  userId: Scalars["String"]["output"];
+};
+
+export type UserBillingInput = {
+  accountId?: InputMaybe<Scalars["String"]["input"]>;
+  customerId?: InputMaybe<Scalars["String"]["input"]>;
+  userId?: InputMaybe<Scalars["String"]["input"]>;
 };
 
 export type UserDetails = {
@@ -929,6 +974,35 @@ export type DeactivateAdminMutation = {
   } | null;
 };
 
+export type GetItemBidsByIdQueryVariables = Exact<{
+  itemId: Scalars["String"]["input"];
+}>;
+
+export type GetItemBidsByIdQuery = {
+  __typename?: "Query";
+  getItemBidsById?: Array<{
+    __typename?: "Bid";
+    bidId?: string | null;
+    itemId?: string | null;
+    userId?: string | null;
+    amount?: number | null;
+    createdAt?: string | null;
+  } | null> | null;
+};
+
+export type SubmitBidMutationVariables = Exact<{
+  bid: SubmitBidInput;
+}>;
+
+export type SubmitBidMutation = {
+  __typename?: "Mutation";
+  submitBid?: {
+    __typename?: "MutationResponse";
+    success?: boolean | null;
+    message?: string | null;
+  } | null;
+};
+
 export type IsChatEnabledQueryVariables = Exact<{ [key: string]: never }>;
 
 export type IsChatEnabledQuery = {
@@ -1137,6 +1211,33 @@ export type GetItemsByUserQuery = {
       description?: string | null;
       isActive?: boolean | null;
       stock?: number | null;
+      finalPrice?: number | null;
+    } | null> | null;
+    pagination?: {
+      __typename?: "Pagination";
+      total?: number | null;
+      page?: number | null;
+      size?: number | null;
+    } | null;
+  } | null;
+};
+
+export type GetUsersWonItemsQueryVariables = Exact<{
+  pagination?: InputMaybe<PaginationInput>;
+}>;
+
+export type GetUsersWonItemsQuery = {
+  __typename?: "Query";
+  getUsersWonItems?: {
+    __typename?: "SearchedItemsResponse";
+    items?: Array<{
+      __typename?: "Item";
+      id?: string | null;
+      name?: string | null;
+      description?: string | null;
+      isActive?: boolean | null;
+      stock?: number | null;
+      finalPrice?: number | null;
     } | null> | null;
     pagination?: {
       __typename?: "Pagination";
@@ -1187,6 +1288,50 @@ export type ReportBugMutation = {
   } | null;
 };
 
+export type GetUserQueryVariables = Exact<{ [key: string]: never }>;
+
+export type GetUserQuery = {
+  __typename?: "Query";
+  getUser?: {
+    __typename?: "User";
+    id: string;
+    email: string;
+    name?: string | null;
+    status?: string | null;
+    details?: {
+      __typename?: "UserDetails";
+      id: string;
+      contactNumber?: string | null;
+      houseName?: string | null;
+      addressStreet?: string | null;
+      addressCity?: string | null;
+      addressCounty?: string | null;
+      addressPostcode?: string | null;
+    } | null;
+  } | null;
+};
+
+export type GetUserBillingQueryVariables = Exact<{ [key: string]: never }>;
+
+export type GetUserBillingQuery = {
+  __typename?: "Query";
+  getUserBilling?: {
+    __typename?: "UserBilling";
+    userId: string;
+    accountId?: string | null;
+    customerId?: string | null;
+  } | null;
+};
+
+export type CheckCurrentUserDetailsExistQueryVariables = Exact<{
+  [key: string]: never;
+}>;
+
+export type CheckCurrentUserDetailsExistQuery = {
+  __typename?: "Query";
+  checkCurrentUserDetailsExist?: boolean | null;
+};
+
 export type CreateUserMutationVariables = Exact<{
   input: UserInput;
 }>;
@@ -1219,29 +1364,6 @@ export type SaveUserDetailsMutation = {
   } | null;
 };
 
-export type GetUserQueryVariables = Exact<{ [key: string]: never }>;
-
-export type GetUserQuery = {
-  __typename?: "Query";
-  getUser?: {
-    __typename?: "User";
-    id: string;
-    email: string;
-    name?: string | null;
-    status?: string | null;
-    details?: {
-      __typename?: "UserDetails";
-      id: string;
-      contactNumber?: string | null;
-      houseName?: string | null;
-      addressStreet?: string | null;
-      addressCity?: string | null;
-      addressCounty?: string | null;
-      addressPostcode?: string | null;
-    } | null;
-  } | null;
-};
-
 export type DeleteUserMutationVariables = Exact<{ [key: string]: never }>;
 
 export type DeleteUserMutation = {
@@ -1260,6 +1382,19 @@ export type DeactivateUserMutationVariables = Exact<{
 export type DeactivateUserMutation = {
   __typename?: "Mutation";
   deactivateUser?: {
+    __typename?: "MutationResponse";
+    success?: boolean | null;
+    message?: string | null;
+  } | null;
+};
+
+export type SaveUserBillingMutationVariables = Exact<{
+  input: UserBillingInput;
+}>;
+
+export type SaveUserBillingMutation = {
+  __typename?: "Mutation";
+  saveUserBilling?: {
     __typename?: "MutationResponse";
     success?: boolean | null;
     message?: string | null;
@@ -1997,6 +2132,113 @@ export const DeactivateAdminDocument = {
   DeactivateAdminMutation,
   DeactivateAdminMutationVariables
 >;
+export const GetItemBidsByIdDocument = {
+  kind: "Document",
+  definitions: [
+    {
+      kind: "OperationDefinition",
+      operation: "query",
+      name: { kind: "Name", value: "getItemBidsById" },
+      variableDefinitions: [
+        {
+          kind: "VariableDefinition",
+          variable: {
+            kind: "Variable",
+            name: { kind: "Name", value: "itemId" },
+          },
+          type: {
+            kind: "NonNullType",
+            type: {
+              kind: "NamedType",
+              name: { kind: "Name", value: "String" },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "getItemBidsById" },
+            arguments: [
+              {
+                kind: "Argument",
+                name: { kind: "Name", value: "itemId" },
+                value: {
+                  kind: "Variable",
+                  name: { kind: "Name", value: "itemId" },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                { kind: "Field", name: { kind: "Name", value: "bidId" } },
+                { kind: "Field", name: { kind: "Name", value: "itemId" } },
+                { kind: "Field", name: { kind: "Name", value: "userId" } },
+                { kind: "Field", name: { kind: "Name", value: "amount" } },
+                { kind: "Field", name: { kind: "Name", value: "createdAt" } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  GetItemBidsByIdQuery,
+  GetItemBidsByIdQueryVariables
+>;
+export const SubmitBidDocument = {
+  kind: "Document",
+  definitions: [
+    {
+      kind: "OperationDefinition",
+      operation: "mutation",
+      name: { kind: "Name", value: "submitBid" },
+      variableDefinitions: [
+        {
+          kind: "VariableDefinition",
+          variable: { kind: "Variable", name: { kind: "Name", value: "bid" } },
+          type: {
+            kind: "NonNullType",
+            type: {
+              kind: "NamedType",
+              name: { kind: "Name", value: "SubmitBidInput" },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "submitBid" },
+            arguments: [
+              {
+                kind: "Argument",
+                name: { kind: "Name", value: "bid" },
+                value: {
+                  kind: "Variable",
+                  name: { kind: "Name", value: "bid" },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                { kind: "Field", name: { kind: "Name", value: "success" } },
+                { kind: "Field", name: { kind: "Name", value: "message" } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<SubmitBidMutation, SubmitBidMutationVariables>;
 export const IsChatEnabledDocument = {
   kind: "Document",
   definitions: [
@@ -2810,6 +3052,10 @@ export const GetItemsByUserDocument = {
                         name: { kind: "Name", value: "isActive" },
                       },
                       { kind: "Field", name: { kind: "Name", value: "stock" } },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "finalPrice" },
+                      },
                     ],
                   },
                 },
@@ -2833,6 +3079,92 @@ export const GetItemsByUserDocument = {
     },
   ],
 } as unknown as DocumentNode<GetItemsByUserQuery, GetItemsByUserQueryVariables>;
+export const GetUsersWonItemsDocument = {
+  kind: "Document",
+  definitions: [
+    {
+      kind: "OperationDefinition",
+      operation: "query",
+      name: { kind: "Name", value: "GetUsersWonItems" },
+      variableDefinitions: [
+        {
+          kind: "VariableDefinition",
+          variable: {
+            kind: "Variable",
+            name: { kind: "Name", value: "pagination" },
+          },
+          type: {
+            kind: "NamedType",
+            name: { kind: "Name", value: "PaginationInput" },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "getUsersWonItems" },
+            arguments: [
+              {
+                kind: "Argument",
+                name: { kind: "Name", value: "pagination" },
+                value: {
+                  kind: "Variable",
+                  name: { kind: "Name", value: "pagination" },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "items" },
+                  selectionSet: {
+                    kind: "SelectionSet",
+                    selections: [
+                      { kind: "Field", name: { kind: "Name", value: "id" } },
+                      { kind: "Field", name: { kind: "Name", value: "name" } },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "description" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "isActive" },
+                      },
+                      { kind: "Field", name: { kind: "Name", value: "stock" } },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "finalPrice" },
+                      },
+                    ],
+                  },
+                },
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "pagination" },
+                  selectionSet: {
+                    kind: "SelectionSet",
+                    selections: [
+                      { kind: "Field", name: { kind: "Name", value: "total" } },
+                      { kind: "Field", name: { kind: "Name", value: "page" } },
+                      { kind: "Field", name: { kind: "Name", value: "size" } },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  GetUsersWonItemsQuery,
+  GetUsersWonItemsQueryVariables
+>;
 export const SaveItemDocument = {
   kind: "Document",
   definitions: [
@@ -2978,6 +3310,117 @@ export const ReportBugDocument = {
     },
   ],
 } as unknown as DocumentNode<ReportBugMutation, ReportBugMutationVariables>;
+export const GetUserDocument = {
+  kind: "Document",
+  definitions: [
+    {
+      kind: "OperationDefinition",
+      operation: "query",
+      name: { kind: "Name", value: "getUser" },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "getUser" },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                { kind: "Field", name: { kind: "Name", value: "id" } },
+                { kind: "Field", name: { kind: "Name", value: "email" } },
+                { kind: "Field", name: { kind: "Name", value: "name" } },
+                { kind: "Field", name: { kind: "Name", value: "status" } },
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "details" },
+                  selectionSet: {
+                    kind: "SelectionSet",
+                    selections: [
+                      { kind: "Field", name: { kind: "Name", value: "id" } },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "contactNumber" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "houseName" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "addressStreet" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "addressCity" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "addressCounty" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "addressPostcode" },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<GetUserQuery, GetUserQueryVariables>;
+export const GetUserBillingDocument = {
+  kind: "Document",
+  definitions: [
+    {
+      kind: "OperationDefinition",
+      operation: "query",
+      name: { kind: "Name", value: "getUserBilling" },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "getUserBilling" },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                { kind: "Field", name: { kind: "Name", value: "userId" } },
+                { kind: "Field", name: { kind: "Name", value: "accountId" } },
+                { kind: "Field", name: { kind: "Name", value: "customerId" } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<GetUserBillingQuery, GetUserBillingQueryVariables>;
+export const CheckCurrentUserDetailsExistDocument = {
+  kind: "Document",
+  definitions: [
+    {
+      kind: "OperationDefinition",
+      operation: "query",
+      name: { kind: "Name", value: "CheckCurrentUserDetailsExist" },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "checkCurrentUserDetailsExist" },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  CheckCurrentUserDetailsExistQuery,
+  CheckCurrentUserDetailsExistQueryVariables
+>;
 export const CreateUserDocument = {
   kind: "Document",
   definitions: [
@@ -3136,68 +3579,6 @@ export const SaveUserDetailsDocument = {
   SaveUserDetailsMutation,
   SaveUserDetailsMutationVariables
 >;
-export const GetUserDocument = {
-  kind: "Document",
-  definitions: [
-    {
-      kind: "OperationDefinition",
-      operation: "query",
-      name: { kind: "Name", value: "getUser" },
-      selectionSet: {
-        kind: "SelectionSet",
-        selections: [
-          {
-            kind: "Field",
-            name: { kind: "Name", value: "getUser" },
-            selectionSet: {
-              kind: "SelectionSet",
-              selections: [
-                { kind: "Field", name: { kind: "Name", value: "id" } },
-                { kind: "Field", name: { kind: "Name", value: "email" } },
-                { kind: "Field", name: { kind: "Name", value: "name" } },
-                { kind: "Field", name: { kind: "Name", value: "status" } },
-                {
-                  kind: "Field",
-                  name: { kind: "Name", value: "details" },
-                  selectionSet: {
-                    kind: "SelectionSet",
-                    selections: [
-                      { kind: "Field", name: { kind: "Name", value: "id" } },
-                      {
-                        kind: "Field",
-                        name: { kind: "Name", value: "contactNumber" },
-                      },
-                      {
-                        kind: "Field",
-                        name: { kind: "Name", value: "houseName" },
-                      },
-                      {
-                        kind: "Field",
-                        name: { kind: "Name", value: "addressStreet" },
-                      },
-                      {
-                        kind: "Field",
-                        name: { kind: "Name", value: "addressCity" },
-                      },
-                      {
-                        kind: "Field",
-                        name: { kind: "Name", value: "addressCounty" },
-                      },
-                      {
-                        kind: "Field",
-                        name: { kind: "Name", value: "addressPostcode" },
-                      },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode<GetUserQuery, GetUserQueryVariables>;
 export const DeleteUserDocument = {
   kind: "Document",
   definitions: [
@@ -3275,4 +3656,59 @@ export const DeactivateUserDocument = {
 } as unknown as DocumentNode<
   DeactivateUserMutation,
   DeactivateUserMutationVariables
+>;
+export const SaveUserBillingDocument = {
+  kind: "Document",
+  definitions: [
+    {
+      kind: "OperationDefinition",
+      operation: "mutation",
+      name: { kind: "Name", value: "SaveUserBilling" },
+      variableDefinitions: [
+        {
+          kind: "VariableDefinition",
+          variable: {
+            kind: "Variable",
+            name: { kind: "Name", value: "input" },
+          },
+          type: {
+            kind: "NonNullType",
+            type: {
+              kind: "NamedType",
+              name: { kind: "Name", value: "UserBillingInput" },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "saveUserBilling" },
+            arguments: [
+              {
+                kind: "Argument",
+                name: { kind: "Name", value: "userBillingInput" },
+                value: {
+                  kind: "Variable",
+                  name: { kind: "Name", value: "input" },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                { kind: "Field", name: { kind: "Name", value: "success" } },
+                { kind: "Field", name: { kind: "Name", value: "message" } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  SaveUserBillingMutation,
+  SaveUserBillingMutationVariables
 >;

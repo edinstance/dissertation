@@ -1,14 +1,15 @@
 package backend.UserTests.HelperTests;
 
+import static org.mockito.Mockito.when;
+
 import backend.users.entities.UserEntity;
 import backend.users.helpers.UserHelpers;
 import backend.users.services.UserService;
+import java.util.UUID;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
-import java.util.UUID;
-import static org.mockito.Mockito.when;
 
 @SpringBootTest
 public class UserHelpersTests {
