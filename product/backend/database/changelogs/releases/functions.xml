@@ -117,4 +117,18 @@
                         stripComments="false" />
         </changeSet>
 
+         <changeSet id="get_users_won_items" author="zlac370" runOnChange="false">
+                <sqlFile path="../../src/sql/functions/get_users_won_items.sql"
+                        relativeToChangelogFile="true"
+                        splitStatements="false"
+                        stripComments="false" />
+        </changeSet>
+
+         <changeSet id="get_users_won_items_pages" author="zlac370" runOnChange="false">
+                <sqlFile path="../../src/sql/functions/get_users_won_items_pages.sql"
+                        relativeToChangelogFile="true"
+                        splitStatements="false"
+                        stripComments="false" />
+        </changeSet>
+
 </databaseChangeLog>
