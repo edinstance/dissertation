@@ -26,20 +26,23 @@ export default function Items() {
     size: 9,
   });
 
-  const { loading, refetch } = useQuery<
+  const { loading, data, refetch } = useQuery<
     GetItemsByUserQuery,
     GetItemsByUserQueryVariables
   >(GET_ITEMS_BY_USER_QUERY, {
     variables: {
       id: session.data?.user?.id,
       isActive: itemsActive,
-      pagination: { size: pagination?.size ?? 2, page: pagination?.page ?? 0 },
+      pagination: { size: pagination.size, page: pagination.page },
     },
     skip: !session.data?.user?.id,
-    onCompleted: (data) => {
-      const items = data.getItemsByUser?.items;
-      if (items) {
-        const validItems = items
+  });
+
+  useEffect(() => {
+    if (data?.getItemsByUser) {
+      const fetchedItems = data.getItemsByUser.items;
+      if (fetchedItems) {
+        const validItems = fetchedItems
           .filter((item): item is NonNullable<typeof item> => item !== null)
           .map((item) => ({
             id: item.id || "",
@@ -47,19 +50,17 @@ export default function Items() {
             description: item.description || "",
             isActive: item.isActive || false,
             stock: item.stock || 0,
+            finalPrice: item.finalPrice || null,
           }));
 
         setItems(validItems);
-        setPagination(
-          data.getItemsByUser?.pagination || {
-            total: 1,
-            page: 0,
-            size: 9,
-          },
-        );
       }
-    },
-  });
+
+      if (data.getItemsByUser.pagination) {
+        setPagination(data.getItemsByUser.pagination);
+      }
+    }
+  }, [data]);
 
   useEffect(() => {
     if (session.data?.user?.id) {
@@ -105,7 +106,7 @@ export default function Items() {
           </div>
         ) : items.length !== 0 ? (
           <>
-            <ItemOverviewGrid items={items} />
+            <ItemOverviewGrid items={items} isActive={itemsActive} />
             {pagination && (
               <Pagination
                 total={pagination.total ?? 1}

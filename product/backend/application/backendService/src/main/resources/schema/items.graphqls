@@ -8,6 +8,7 @@ extend type Query {
     getItemById(id: String!): Item
     getItemsByUser(id: String!, isActive: Boolean, pagination: PaginationInput): SearchedItemsResponse
     getShopItems(pagination: PaginationInput, sorting: SortInput): SearchedItemsResponse
+    getUsersWonItems(pagination: PaginationInput): SearchedItemsResponse
 }
 
 type SearchedItemsResponse {
@@ -35,6 +36,7 @@ type Item {
     isActive: Boolean
     endingTime: String
     price: Float
+    finalPrice: Float
     stock: Int
     category: String
     images: [String]

@@ -21,7 +21,8 @@ CREATE OR REPLACE FUNCTION insert_or_update_item (
     stock INT,
     category VARCHAR,
     images JSONB,
-    seller_id UUID
+    seller_id UUID,
+    final_price DECIMAL
 ) AS $$
 BEGIN 
     -- Check if the seller_id exists in the users table
@@ -43,7 +44,7 @@ BEGIN
             images = _images,
             seller_id = _seller_id
         WHERE items.item_id = _item_id
-        RETURNING items.item_id, items.name, items.description, items.is_active, items.ending_time, items.price, items.stock, items.category, items.images, items.seller_id;
+        RETURNING items.item_id, items.name, items.description, items.is_active, items.ending_time, items.price, items.stock, items.category, items.images, items.seller_id, items.final_price;
     ELSE
         -- Insert a new item if _item_id is NULL
         RETURN QUERY
@@ -68,7 +69,7 @@ BEGIN
             _images,
             _seller_id
         )
-        RETURNING items.item_id, items.name, items.description, items.is_active, items.ending_time, items.price, items.stock, items.category, items.images, items.seller_id;
+        RETURNING items.item_id, items.name, items.description, items.is_active, items.ending_time, items.price, items.stock, items.category, items.images, items.seller_id, items.final_price;
     END IF;
 END;
 $$ LANGUAGE plpgsql;

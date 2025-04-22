@@ -1,54 +1,15 @@
-import SubscriptionForm from "@/components/Stripe/Subscription/SubscriptionForm";
-import { UnsubscribeButton } from "@/components/Stripe/Subscription/UnsubscribeButton";
-import { auth } from "@/server/auth";
-import { findExistingSubscriptionByUserId } from "@/utils/stripe";
+import SubscriptionInformation from "@/components/Stripe/Subscription/SubscriptionInformation";
 
-/**
- * CheckoutPage component for managing user subscriptions.
- *
- * This component checks if the user has an existing subscription. If the user
- * has an active subscription, it displays the subscription details and an option
- * to unsubscribe. If not, it renders the SubscriptionForm for the user to create
- * a new subscription.
- *
- * @returns A promise that resolves to the rendered CheckoutPage component.
- */
-export default async function CheckoutPage() {
-  const stripeKey = process.env.STRIPE_PUBLISHABLE_KEY!;
-  const session = await auth();
+export default function CheckoutPage() {
+  const stripeKey = process.env.STRIPE_PUBLISHABLE_KEY;
 
-  const userId = session?.user?.id;
+  if (!stripeKey) {
+    throw new Error("Stripe publishable key is not defined");
+  }
 
-  const existingSubscription = userId
-    ? await findExistingSubscriptionByUserId(userId)
-    : null;
-
-  console.log("Existing subscription:", existingSubscription);
   return (
-    <div className="pt-8">
-      {existingSubscription?.status == "active" ? (
-        <div>
-          <h1 className="text-xl font-bold">Your Subscription</h1>
-          <p>Status: {existingSubscription?.status}</p>
-          <p>
-            Start Date:{" "}
-            {new Date(
-              existingSubscription?.start_date * 1000,
-            ).toLocaleDateString()}
-          </p>
-          <p>
-            Next Billing Date:{" "}
-            {new Date(
-              existingSubscription.current_period_end * 1000,
-            ).toLocaleDateString()}
-          </p>
-          <div className="pt-4">
-            {userId && <UnsubscribeButton userId={userId} />}
-          </div>
-        </div>
-      ) : (
-        <SubscriptionForm stripeKey={stripeKey}></SubscriptionForm>
-      )}
+    <div className="pt-8 text-black dark:text-white">
+      <SubscriptionInformation stripeKey={stripeKey} />
     </div>
   );
 }

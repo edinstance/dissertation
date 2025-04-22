@@ -69,6 +69,27 @@ variable "backend_alb_target_group_green_name" {
   type        = string
 }
 
+
+# variable "apollo_gateway_ecs_service_name" {
+#   description = "The name of the ECS service for the Apollo Gateway"
+#   type        = string
+# }
+
+# variable "apollo_gateway_alb_listener_arn" {
+#   description = "The ARN of the ALB listener for the apollo gateway"
+#   type        = string
+# }
+
+# variable "apollo_gateway_alb_target_group_blue_name" {
+#   description = "The name of the blue target group for the apollo gateway ALB"
+#   type        = string
+# }
+
+# variable "apollo_gateway_alb_target_group_green_name" {
+#   description = "The name of the green target group for the apollo gateway ALB"
+#   type        = string
+# }
+
 variable "ecs_cluster_name" {
   description = "The name of the ECS cluster"
   type        = string

@@ -61,7 +61,7 @@ export default function CreateItem() {
       setValue("description", item.description || "");
       setValue("category", item.category || "");
       setValue("price", item.price || 0);
-      setValue("stock", item.stock || 0);
+      setValue("stock", 1);
       setValue(
         "images",
         item.images
@@ -114,7 +114,7 @@ export default function CreateItem() {
             description: data.description,
             endingTime: newEndingTime,
             price: Number(data.price),
-            stock: Number(data.stock),
+            stock: 1,
             category: data.category,
             images: data.images,
           },
@@ -129,7 +129,7 @@ export default function CreateItem() {
             description: data.description,
             endingTime: endingTime,
             price: Number(data.price),
-            stock: Number(data.stock),
+            stock: 1,
             category: data.category,
             images: data.images,
           },
@@ -281,9 +281,9 @@ export default function CreateItem() {
         <Divider />
         <div className="grid gap-x-8 gap-y-6 py-4 sm:grid-cols-2">
           <div className="space-y-4">
-            <h2>Pricing and Stock</h2>
+            <h2>Pricing</h2>
             <p className="text-xs text-gray-500">
-              Set the price and available stock for your item.
+              Set the price for your item.
             </p>
           </div>
           <div className="space-y-4">
@@ -297,17 +297,6 @@ export default function CreateItem() {
               />
               {errors.price && (
                 <p className="text-xs text-red-500">{errors.price.message}</p>
-              )}
-            </div>
-            <div className="min-h-12 space-y-1">
-              <Input
-                type="number"
-                placeholder="Stock"
-                {...register("stock", { required: "Stock is required" })}
-                invalid={errors?.stock ? true : false}
-              />
-              {errors.stock && (
-                <p className="text-xs text-red-500">{errors.stock.message}</p>
               )}
             </div>
           </div>

@@ -12,7 +12,8 @@ BEGIN
 
     SELECT COUNT(*) INTO total_items
     FROM items i
-    WHERE similarity(i.name, search_text) > 0.3;
+    WHERE similarity(i.name, search_text) > 0.3
+    AND is_active = true;
 
     RETURN QUERY SELECT CEIL(total_items::DECIMAL / page_size)::INT;
 END;
