@@ -1,6 +1,10 @@
 "use client";
 
-import { GET_USER, SAVE_USER_DETAILS_MUTATION } from "@/lib/graphql/users";
+import {
+  CHECK_USER_DETAILS,
+  GET_USER,
+  SAVE_USER_DETAILS_MUTATION,
+} from "@/lib/graphql/users";
 import { useMutation, useQuery } from "@apollo/client";
 import { useForm } from "react-hook-form";
 import { Button } from "../ui/Button";
@@ -29,6 +33,9 @@ export default function UserDetailsForm() {
   const { data: userData, loading: queryLoading } = useQuery(GET_USER);
   const [saveUserDetailsMutation, { loading: mutationLoading }] = useMutation(
     SAVE_USER_DETAILS_MUTATION,
+    {
+      refetchQueries: [CHECK_USER_DETAILS],
+    },
   );
 
   const loading = queryLoading || mutationLoading;

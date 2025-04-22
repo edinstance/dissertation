@@ -1,0 +1,23 @@
+{
+  "name": "apollogateway",
+  "version": "1.0.0",
+  "description": "A gateway for the backend graphql services.",
+  "scripts": {
+    "compile": "tsc",
+    "build": "npm run compile",
+    "start": "npm run compile && node dist/index.js",
+    "prettier": "prettier --write ."
+  },
+  "dependencies": {
+    "@apollo/gateway": "^2.10.1",
+    "apollo-server": "^3.13.0",
+    "dotenv": "^16.5.0",
+    "dotenv-expand": "^12.0.1",
+    "jsonwebtoken": "^9.0.2",
+    "jwks-rsa": "^3.2.0"
+  },
+  "devDependencies": {
+    "prettier": "3.5.3",
+    "prettier-plugin-organize-imports": "^4.1.0"
+  }
+}

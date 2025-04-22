@@ -14,16 +14,6 @@ variable "nextauth_secret" {
   type        = string
 }
 
-variable "nextauth_url" {
-  description = "The URL for NextAuth"
-  type        = string
-}
-
-variable "backend_graphql_endpoint" {
-  description = "The endpoint for the backend GraphQL"
-  type        = string
-}
-
 variable "frontend_cognito_client_id" {
   description = "The Cognito client ID"
   type        = string

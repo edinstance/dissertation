@@ -8,6 +8,8 @@ spring:
     graphiql:
       enabled: true
       # This enables the graphiql interface
+  kafka:
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS}
   security:
     oauth2:
       resourceserver:
@@ -40,6 +42,14 @@ management:
         include: "health"
         # This should be the actuator endpoints that you want to expose
 
+dgs:
+  graphql:
+    introspection:
+      enabled: true
+
+kafka:
+  topics: Bids
+
 chat:
   isEnabled: ${IS_CHAT_ENABLED}
   openApiKey: ${OPEN_API_KEY}
@@ -52,6 +62,10 @@ jira:
   url: ${JIRA_URL}
   projectKey: ${JIRA_PROJECT_KEY}
 # This should be the jira information for reporting bugs
+
+Stripe:
+  apiKey: ${STRIPE_SECRET_KEY}
+#  This should be the stripe private key
 
 api:
   key: ${API_KEY}

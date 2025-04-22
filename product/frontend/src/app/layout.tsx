@@ -4,6 +4,7 @@ import { Inter } from "next/font/google";
 import Header from "@/components/Header";
 import SessionProvider from "@/components/Providers/Auth";
 import { ThemeProvider } from "@/components/Providers/ThemeProvider";
+import { ToastProvider } from "@/components/Providers/ToastProvider";
 import { type Metadata } from "next";
 
 const inter = Inter({ subsets: ["latin"], display: "swap" });
@@ -33,6 +34,7 @@ export default async function RootLayout({
       <body className={`${inter.className} bg-zinc-100 dark:bg-zinc-900`}>
         <ThemeProvider>
           <SessionProvider>
+            <ToastProvider />
             <Header launched={LAUNCHED} />
             {children}
           </SessionProvider>

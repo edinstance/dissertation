@@ -14,6 +14,12 @@ spring:
         jwt:
           issuer-uri: ${TEST_COGNITO_JWT_URL}
           # This should be the cognito uri that is https://cognito-idp.<aws-region>.amazonaws.com/<cognito-pool-id>
+  kafka:
+    bootstrap-servers: localhost:9094
+    consumer:
+      group-id: my-group
+
+
   datasource:
     url: jdbc:h2:mem:test
     username: user
@@ -40,12 +46,22 @@ management:
         include: health
         # This should be the actuator endpoints that you want to expose
 
+
+kafka:
+  topics: Bids
+
 jira:
   accessToken: ""
   email: ""
   url: ""
   projectKey: ""
   # This should be the jira information for reporting bugs
+
+chat:
+  isEnabled: false
+  openApiKey: "test-key"
+  openApiProjectId: "test-project"
+  openApiOrganizationId: "test-org"
   
 api:
   key: test

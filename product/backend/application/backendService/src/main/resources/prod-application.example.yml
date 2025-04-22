@@ -4,6 +4,11 @@ spring:
   profiles:
     active: prod
     # This sets the active profile to prod
+  kafka:
+    bootstrap-servers:
+    consumer:
+      group-id: bids
+
   security:
     oauth2:
       resourceserver:
@@ -30,12 +35,31 @@ management:
         include: "health"
         # This should be the actuator endpoints that you want to expose
 
+dgs:
+  graphql:
+    path: "/graphql"
+    introspection:
+      enabled: true
+
+kafka:
+  topics: Bids
+
+chat:
+  isEnabled: true
+  openApiKey: ""
+  openApiProjectId: ""
+  openApiOrganizationId: ""
+
 jira:
   accessToken:
   email:
   url:
   projectKey:
 # This should be the jira information for reporting bugs
+
+Stripe:
+  apiKey: ""
+#  This should be the stripe private key
 
 api:
   key:
