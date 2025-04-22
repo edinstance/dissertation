@@ -287,7 +287,11 @@ resource "aws_ecs_task_definition" "backend_task" {
         {
           name      = "OPEN_API_ORGANIZATION_ID"
           valueFrom = var.open_ai_organization_id_arn
-        }
+        },
+        {
+          name      = "STRIPE_SECRET_KEY"
+          valueFrom = var.stripe_secret_key_arn
+        },
       ]
     }
   ])

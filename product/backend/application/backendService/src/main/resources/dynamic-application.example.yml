@@ -66,7 +66,7 @@ jira:
 # This should be the jira information for reporting bugs
 
 Stripe:
-  apiKey: ${STRIPE_API_KEY}
+  apiKey: ${STRIPE_SECRET_KEY}
 #  This should be the stripe private key
 
 api:
