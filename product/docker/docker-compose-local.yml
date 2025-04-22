@@ -11,6 +11,12 @@ services:
       ORIGIN_URL: http://final-project-frontend:3000
       BACKEND_SUBGRAPH_URL: http://final-project-backend:8080/graphql
 
+  localstack:
+    container_name: final-project-localstack
+    image: localstack/localstack:s3-latest
+    ports:
+      - "127.0.0.1:4566:4566"
+
   final-project-backend:
     build:
       context: ../backend/application/backendService/

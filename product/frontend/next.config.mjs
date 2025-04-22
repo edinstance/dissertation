@@ -7,6 +7,10 @@ const nextConfig = {
         protocol: "https",
         hostname: `${process.env.S3_BUCKET_NAME}.s3.amazonaws.com`,
       },
+      {
+        protocol: "http",
+        hostname: `localhost`,
+      },
     ],
   },
 };

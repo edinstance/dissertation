@@ -287,6 +287,13 @@ module "s3" {
   codedeploy_iam_role_arn   = module.iam.codedeploy_service_role_arn
 }
 
+module "shared_s3" {
+  source = "../shared/s3"
+
+  environment     = var.environment
+  allowed_origins = [var.domain]
+}
+
 # The aws_codeconnections_connection resource is created in the state PENDING. 
 # Authentication with the connection provider must be completed in the AWS Console. 
 # See the AWS documentation for details.
