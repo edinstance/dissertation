@@ -64,8 +64,10 @@ const documents = {
     types.GetShopItemsDocument,
   "\n  query GetItemById($id: String!) {\n    getItemById(id: $id) {\n      id\n      name\n      description\n      isActive\n      endingTime\n      price\n      stock\n      category\n      images\n      seller {\n        id\n        name\n        email\n      }\n    }\n  }\n":
     types.GetItemByIdDocument,
-  "\n  query GetItemsByUser(\n    $id: String!\n    $isActive: Boolean\n    $pagination: PaginationInput\n  ) {\n    getItemsByUser(id: $id, isActive: $isActive, pagination: $pagination) {\n      items {\n        id\n        name\n        description\n        isActive\n        stock\n      }\n      pagination {\n        total\n        page\n        size\n      }\n    }\n  }\n":
+  "\n  query GetItemsByUser(\n    $id: String!\n    $isActive: Boolean\n    $pagination: PaginationInput\n  ) {\n    getItemsByUser(id: $id, isActive: $isActive, pagination: $pagination) {\n      items {\n        id\n        name\n        description\n        isActive\n        stock\n        finalPrice\n      }\n      pagination {\n        total\n        page\n        size\n      }\n    }\n  }\n":
     types.GetItemsByUserDocument,
+  "\n  query GetUsersWonItems($pagination: PaginationInput) {\n    getUsersWonItems(pagination: $pagination) {\n      items {\n        id\n        name\n        description\n        isActive\n        stock\n        finalPrice\n      }\n      pagination {\n        total\n        page\n        size\n      }\n    }\n  }\n":
+    types.GetUsersWonItemsDocument,
   "\n  mutation SaveItem($itemInput: ItemInput!) {\n    saveItem(itemInput: $itemInput) {\n      id\n      name\n      description\n      isActive\n      endingTime\n      price\n      stock\n      category\n      images\n      seller {\n        id\n        name\n        email\n      }\n    }\n  }\n":
     types.SaveItemDocument,
   "\n  mutation ReportBug($title: String!, $description: String!) {\n    reportBug(title: $title, description: $description) {\n      success\n      message\n    }\n  }\n":
@@ -256,8 +258,14 @@ export function graphql(
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(
-  source: "\n  query GetItemsByUser(\n    $id: String!\n    $isActive: Boolean\n    $pagination: PaginationInput\n  ) {\n    getItemsByUser(id: $id, isActive: $isActive, pagination: $pagination) {\n      items {\n        id\n        name\n        description\n        isActive\n        stock\n      }\n      pagination {\n        total\n        page\n        size\n      }\n    }\n  }\n",
-): (typeof documents)["\n  query GetItemsByUser(\n    $id: String!\n    $isActive: Boolean\n    $pagination: PaginationInput\n  ) {\n    getItemsByUser(id: $id, isActive: $isActive, pagination: $pagination) {\n      items {\n        id\n        name\n        description\n        isActive\n        stock\n      }\n      pagination {\n        total\n        page\n        size\n      }\n    }\n  }\n"];
+  source: "\n  query GetItemsByUser(\n    $id: String!\n    $isActive: Boolean\n    $pagination: PaginationInput\n  ) {\n    getItemsByUser(id: $id, isActive: $isActive, pagination: $pagination) {\n      items {\n        id\n        name\n        description\n        isActive\n        stock\n        finalPrice\n      }\n      pagination {\n        total\n        page\n        size\n      }\n    }\n  }\n",
+): (typeof documents)["\n  query GetItemsByUser(\n    $id: String!\n    $isActive: Boolean\n    $pagination: PaginationInput\n  ) {\n    getItemsByUser(id: $id, isActive: $isActive, pagination: $pagination) {\n      items {\n        id\n        name\n        description\n        isActive\n        stock\n        finalPrice\n      }\n      pagination {\n        total\n        page\n        size\n      }\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(
+  source: "\n  query GetUsersWonItems($pagination: PaginationInput) {\n    getUsersWonItems(pagination: $pagination) {\n      items {\n        id\n        name\n        description\n        isActive\n        stock\n        finalPrice\n      }\n      pagination {\n        total\n        page\n        size\n      }\n    }\n  }\n",
+): (typeof documents)["\n  query GetUsersWonItems($pagination: PaginationInput) {\n    getUsersWonItems(pagination: $pagination) {\n      items {\n        id\n        name\n        description\n        isActive\n        stock\n        finalPrice\n      }\n      pagination {\n        total\n        page\n        size\n      }\n    }\n  }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

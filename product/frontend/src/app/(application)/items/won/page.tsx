@@ -3,46 +3,36 @@ import ItemOverviewGrid from "@/components/Items/ItemOverviewGrid";
 import { Button } from "@/components/ui/Button";
 import LoadingSpinner from "@/components/ui/LoadingSpinner";
 import Pagination from "@/components/ui/Pagination";
-import Switch from "@/components/ui/Switch";
-import {
-  GetItemsByUserQuery,
-  GetItemsByUserQueryVariables,
-  Item,
-  Pagination as PaginationType,
-} from "@/gql/graphql";
-import { GET_ITEMS_BY_USER_QUERY } from "@/lib/graphql/items";
+import { Item, Pagination as PaginationType } from "@/gql/graphql";
+import { GET_USERS_WON_ITEMS } from "@/lib/graphql/items";
 import { useQuery } from "@apollo/client";
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 
-export default function Items() {
+export default function WonItems() {
   const session = useSession();
 
   const [items, setItems] = useState<Item[]>([]);
-  const [itemsActive, setItemsActive] = useState(true);
   const [pagination, setPagination] = useState<PaginationType>({
     total: 1,
     page: 0,
     size: 9,
   });
 
-  const { loading, data, refetch } = useQuery<
-    GetItemsByUserQuery,
-    GetItemsByUserQueryVariables
-  >(GET_ITEMS_BY_USER_QUERY, {
+  const { loading, data, refetch } = useQuery(GET_USERS_WON_ITEMS, {
     variables: {
-      id: session.data?.user?.id,
-      isActive: itemsActive,
-      pagination: { size: pagination.size, page: pagination.page },
+      pagination: { size: pagination?.size ?? 2, page: pagination?.page ?? 0 },
     },
     skip: !session.data?.user?.id,
   });
 
   useEffect(() => {
-    if (data?.getItemsByUser) {
-      const fetchedItems = data.getItemsByUser.items;
-      if (fetchedItems) {
-        const validItems = fetchedItems
+    if (data?.getUsersWonItems) {
+      console.log("Won items data:", data);
+      const wonItems = data.getUsersWonItems.items;
+
+      if (wonItems) {
+        const validItems = wonItems
           .filter((item): item is NonNullable<typeof item> => item !== null)
           .map((item) => ({
             id: item.id || "",
@@ -54,10 +44,10 @@ export default function Items() {
           }));
 
         setItems(validItems);
-      }
 
-      if (data.getItemsByUser.pagination) {
-        setPagination(data.getItemsByUser.pagination);
+        if (data.getUsersWonItems.pagination) {
+          setPagination(data.getUsersWonItems.pagination);
+        }
       }
     }
   }, [data]);
@@ -65,18 +55,10 @@ export default function Items() {
   useEffect(() => {
     if (session.data?.user?.id) {
       refetch({
-        id: session.data.user.id,
-        isActive: itemsActive,
         pagination: { size: pagination.size, page: pagination.page },
       });
     }
-  }, [
-    pagination.page,
-    refetch,
-    session.data?.user?.id,
-    pagination.size,
-    itemsActive,
-  ]);
+  }, [pagination.page, refetch, session.data?.user?.id, pagination.size]);
 
   const handlePageChange = (newPage: number) => {
     setPagination((prev) => ({ ...prev, page: newPage }));
@@ -85,17 +67,7 @@ export default function Items() {
   return (
     <div className="px-8 pt-20">
       <div className="flex flex-col justify-between pb-4 md:flex-row">
-        <h1 className="text-4xl">Manage your Items</h1>
-        <div className="flex items-center">
-          <div className="flex items-center pr-2">
-            <p className="mr-2">Active</p>
-            <Switch checked={itemsActive} onCheckedChange={setItemsActive} />
-          </div>
-
-          <Button className="ml-4" href={"items/createItem"}>
-            Create a new Item
-          </Button>
-        </div>
+        <h1 className="text-4xl">Your Won Items</h1>
       </div>
       <div>
         {loading ? (
@@ -106,7 +78,7 @@ export default function Items() {
           </div>
         ) : items.length !== 0 ? (
           <>
-            <ItemOverviewGrid items={items} isActive={itemsActive} />
+            <ItemOverviewGrid items={items} isActive={false} />
             {pagination && (
               <Pagination
                 total={pagination.total ?? 1}
@@ -115,18 +87,11 @@ export default function Items() {
               />
             )}
           </>
-        ) : !itemsActive && items.length === 0 ? (
-          <div className="flex flex-col items-center justify-center pt-8">
-            <p>All of your items are currently active</p>
-            <Button className="mt-4" onClick={() => setItemsActive(true)}>
-              Return to active items
-            </Button>
-          </div>
         ) : (
           <div className="flex flex-col items-center justify-center pt-8">
-            <p>You have no items yet. Create a new one!</p>
-            <Button className="mt-4" href={"items/createItem"}>
-              Create a new Item
+            <p>You have not won any items yet. Go buy some!</p>
+            <Button className="mt-4" href={"/shop"}>
+              Buy!
             </Button>
           </div>
         )}

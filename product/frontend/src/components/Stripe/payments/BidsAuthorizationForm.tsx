@@ -19,7 +19,7 @@ const BidsAuthorizationForm = ({
 }: {
   bidAmount: number;
   itemId: string;
-  onSuccess: () => Promise<void>;
+  onSuccess: (paymentMethodId: string) => Promise<void>;
   onError: (message: string) => void;
   onCancel: () => void;
 }) => {
@@ -39,10 +39,10 @@ const BidsAuthorizationForm = ({
     setIsSubmitting(true);
     toast.info("Authorizing your payment method...");
 
-    const { error } = await stripe.confirmSetup({
+    const { error, setupIntent } = await stripe.confirmSetup({
       elements,
       confirmParams: {
-        return_url: `${window.location.origin}/shop/item/${itemId}?bid_status=pending`,
+        return_url: `${window.location.origin}/shop/item/${itemId}`,
       },
       redirect: "if_required",
     });
@@ -53,13 +53,35 @@ const BidsAuthorizationForm = ({
       onError(error.message || "Payment authorization failed.");
       setIsSubmitting(false);
     } else {
-      console.log("Stripe SetupIntent confirmed successfully.");
-      toast.dismiss();
-      try {
-        await onSuccess();
-      } catch (e) {
-        console.error("Error during onSuccess callback:", e);
-      } finally {
+      if (setupIntent && setupIntent.status === "succeeded") {
+        console.log("Stripe SetupIntent confirmed successfully:", setupIntent);
+        const paymentMethodId = setupIntent.payment_method;
+
+        if (typeof paymentMethodId === "string") {
+          console.log("Associated Payment Method ID:", paymentMethodId);
+          toast.dismiss();
+          try {
+            await onSuccess(paymentMethodId);
+          } catch (e) {
+            console.error("Error during onSuccess callback:", e);
+          }
+        } else {
+          console.error(
+            "SetupIntent succeeded but payment_method ID is missing or not a string:",
+            paymentMethodId,
+          );
+          toast.dismiss();
+          onError(
+            "Authorization succeeded but failed to retrieve payment details.",
+          );
+          setIsSubmitting(false);
+        }
+      } else {
+        console.warn("SetupIntent confirmation status:", setupIntent?.status);
+        toast.dismiss();
+        onError(
+          `Payment authorization status: ${setupIntent?.status ?? "Unknown"}.`,
+        );
         setIsSubmitting(false);
       }
     }

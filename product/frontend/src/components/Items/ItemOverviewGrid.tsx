@@ -34,7 +34,13 @@ function ItemOverviewGrid({
             </p>
             <p className="text-sm font-medium">Stock: {item.stock}</p>
           </CardContent>
-          <CardFooter className="flex justify-end p-4 pt-0">
+          <CardFooter className="flex justify-end space-x-8 p-4 pt-0">
+            {item.finalPrice && (
+              <p className="text-sm font-medium">
+                Final price: £{item?.finalPrice?.toFixed(2)}
+              </p>
+            )}
+
             {isActive && (
               <Button
                 variant="outline"

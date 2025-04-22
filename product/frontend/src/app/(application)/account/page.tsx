@@ -68,7 +68,7 @@ export default function Account() {
     try {
       setIsLoading(true);
 
-      const response = await fetch("/api/billing/accounts", {
+      const response = await fetch("/api/billing/accounts/create", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -106,6 +106,39 @@ export default function Account() {
       console.error("Error during Stripe Connect setup:", error);
       toast.error(
         "An error occurred while setting up Stripe Connect. Please try again.",
+      );
+    } finally {
+      setIsLoading(false);
+    }
+  }
+
+  async function handleLoginToStripe() {
+    try {
+      setIsLoading(true);
+
+      const response = await fetch(
+        `/api/billing/accounts/getLoginLink?accountId=${userBilling.data?.getUserBilling?.accountId ?? null}`,
+        {
+          method: "GET",
+        },
+      );
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error?.message || "Failed to get link.");
+      }
+
+      if (data.url) {
+        window.open(data.url, "_blank")?.focus();
+      } else {
+        console.error("No URL returned from Stripe:", data);
+        toast.error("Failed to redirect to Stripe. Please try again.");
+      }
+    } catch (error) {
+      console.error("Error during Stripe Connect viewing:", error);
+      toast.error(
+        "An error occurred while getting your account link. Please try again.",
       );
     } finally {
       setIsLoading(false);
@@ -181,15 +214,17 @@ export default function Account() {
       {isSubscribed && userDetailsExist && (
         <div className="flex items-center gap-2">
           <span className="font-medium">Seller status:</span>
-          <Button
-            variant="outline"
-            className="text-sm"
-            onClick={handleConnectStripe}
-          >
+          <Button className="text-sm" onClick={handleConnectStripe}>
             {userBilling.data?.getUserBilling?.accountId
               ? "Update account"
               : "Connect to Stripe"}
           </Button>
+
+          {userBilling.data?.getUserBilling?.accountId && (
+            <Button className="text-sm" onClick={handleLoginToStripe}>
+              View account
+            </Button>
+          )}
         </div>
       )}
       <Divider className="py-4" />

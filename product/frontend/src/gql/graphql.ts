@@ -59,6 +59,7 @@ export type Bid = {
   bidId?: Maybe<Scalars["String"]["output"]>;
   createdAt?: Maybe<Scalars["String"]["output"]>;
   itemId?: Maybe<Scalars["String"]["output"]>;
+  paymentMethod?: Maybe<Scalars["String"]["output"]>;
   userId?: Maybe<Scalars["String"]["output"]>;
 };
 
@@ -335,6 +336,7 @@ export type Item = {
   category?: Maybe<Scalars["String"]["output"]>;
   description?: Maybe<Scalars["String"]["output"]>;
   endingTime?: Maybe<Scalars["String"]["output"]>;
+  finalPrice?: Maybe<Scalars["Float"]["output"]>;
   id?: Maybe<Scalars["String"]["output"]>;
   images?: Maybe<Array<Maybe<Scalars["String"]["output"]>>>;
   isActive?: Maybe<Scalars["Boolean"]["output"]>;
@@ -503,12 +505,12 @@ export type Query = {
   getCurrentConversation?: Maybe<Array<Maybe<Chat>>>;
   getItemBidsById?: Maybe<Array<Maybe<Bid>>>;
   getItemById?: Maybe<Item>;
-  getItemSellerAccountId?: Maybe<Scalars["String"]["output"]>;
   getItemsByUser?: Maybe<SearchedItemsResponse>;
   getShopItems?: Maybe<SearchedItemsResponse>;
   getUser?: Maybe<User>;
   getUserBilling?: Maybe<UserBilling>;
   getUserStats?: Maybe<UserStats>;
+  getUsersWonItems?: Maybe<SearchedItemsResponse>;
   isChatEnabled?: Maybe<Scalars["Boolean"]["output"]>;
   searchForItems?: Maybe<SearchedItemsResponse>;
 };
@@ -529,10 +531,6 @@ export type QueryGetItemByIdArgs = {
   id: Scalars["String"]["input"];
 };
 
-export type QueryGetItemSellerAccountIdArgs = {
-  itemId: Scalars["String"]["input"];
-};
-
 export type QueryGetItemsByUserArgs = {
   id: Scalars["String"]["input"];
   isActive?: InputMaybe<Scalars["Boolean"]["input"]>;
@@ -542,6 +540,10 @@ export type QueryGetItemsByUserArgs = {
 export type QueryGetShopItemsArgs = {
   pagination?: InputMaybe<PaginationInput>;
   sorting?: InputMaybe<SortInput>;
+};
+
+export type QueryGetUsersWonItemsArgs = {
+  pagination?: InputMaybe<PaginationInput>;
 };
 
 export type QuerySearchForItemsArgs = {
@@ -593,6 +595,7 @@ export type SubmitBidInput = {
   amount?: InputMaybe<Scalars["Float"]["input"]>;
   bidId?: InputMaybe<Scalars["String"]["input"]>;
   itemId?: InputMaybe<Scalars["String"]["input"]>;
+  paymentMethod?: InputMaybe<Scalars["String"]["input"]>;
   userId?: InputMaybe<Scalars["String"]["input"]>;
 };
 
@@ -1208,6 +1211,33 @@ export type GetItemsByUserQuery = {
       description?: string | null;
       isActive?: boolean | null;
       stock?: number | null;
+      finalPrice?: number | null;
+    } | null> | null;
+    pagination?: {
+      __typename?: "Pagination";
+      total?: number | null;
+      page?: number | null;
+      size?: number | null;
+    } | null;
+  } | null;
+};
+
+export type GetUsersWonItemsQueryVariables = Exact<{
+  pagination?: InputMaybe<PaginationInput>;
+}>;
+
+export type GetUsersWonItemsQuery = {
+  __typename?: "Query";
+  getUsersWonItems?: {
+    __typename?: "SearchedItemsResponse";
+    items?: Array<{
+      __typename?: "Item";
+      id?: string | null;
+      name?: string | null;
+      description?: string | null;
+      isActive?: boolean | null;
+      stock?: number | null;
+      finalPrice?: number | null;
     } | null> | null;
     pagination?: {
       __typename?: "Pagination";
@@ -3022,6 +3052,10 @@ export const GetItemsByUserDocument = {
                         name: { kind: "Name", value: "isActive" },
                       },
                       { kind: "Field", name: { kind: "Name", value: "stock" } },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "finalPrice" },
+                      },
                     ],
                   },
                 },
@@ -3045,6 +3079,92 @@ export const GetItemsByUserDocument = {
     },
   ],
 } as unknown as DocumentNode<GetItemsByUserQuery, GetItemsByUserQueryVariables>;
+export const GetUsersWonItemsDocument = {
+  kind: "Document",
+  definitions: [
+    {
+      kind: "OperationDefinition",
+      operation: "query",
+      name: { kind: "Name", value: "GetUsersWonItems" },
+      variableDefinitions: [
+        {
+          kind: "VariableDefinition",
+          variable: {
+            kind: "Variable",
+            name: { kind: "Name", value: "pagination" },
+          },
+          type: {
+            kind: "NamedType",
+            name: { kind: "Name", value: "PaginationInput" },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "getUsersWonItems" },
+            arguments: [
+              {
+                kind: "Argument",
+                name: { kind: "Name", value: "pagination" },
+                value: {
+                  kind: "Variable",
+                  name: { kind: "Name", value: "pagination" },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "items" },
+                  selectionSet: {
+                    kind: "SelectionSet",
+                    selections: [
+                      { kind: "Field", name: { kind: "Name", value: "id" } },
+                      { kind: "Field", name: { kind: "Name", value: "name" } },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "description" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "isActive" },
+                      },
+                      { kind: "Field", name: { kind: "Name", value: "stock" } },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "finalPrice" },
+                      },
+                    ],
+                  },
+                },
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "pagination" },
+                  selectionSet: {
+                    kind: "SelectionSet",
+                    selections: [
+                      { kind: "Field", name: { kind: "Name", value: "total" } },
+                      { kind: "Field", name: { kind: "Name", value: "page" } },
+                      { kind: "Field", name: { kind: "Name", value: "size" } },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  GetUsersWonItemsQuery,
+  GetUsersWonItemsQueryVariables
+>;
 export const SaveItemDocument = {
   kind: "Document",
   definitions: [

@@ -1,6 +1,6 @@
 "use client";
 
-import { Item } from "@/gql/graphql";
+import { Bid, Item } from "@/gql/graphql";
 import { GET_BIDS_BY_ITEM, SUBMIT_BID_MUTATION } from "@/lib/graphql/bids";
 import { useMutation, useQuery } from "@apollo/client";
 import { Elements } from "@stripe/react-stripe-js";
@@ -34,7 +34,6 @@ function BidSidebar({
 }) {
   const session = useSession();
   const userId = session?.data?.user?.id ?? null;
-
   const { resolvedTheme } = useTheme();
 
   const [bidAmountInput, setBidAmountInput] = useState<number>(0);
@@ -48,12 +47,12 @@ function BidSidebar({
   const [isProcessingIntent, setIsProcessingIntent] = useState(false);
   const [isSubmittingBid, setIsSubmittingBid] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const itemId = item.id ?? "";
 
   const existingBidsQuery = useQuery(GET_BIDS_BY_ITEM, {
-    variables: {
-      itemId: item.id ?? "",
-    },
+    variables: { itemId },
     fetchPolicy: "cache-and-network",
+    skip: !itemId,
     onCompleted: (data) => {
       const loadedBids = data?.getItemBidsById;
       const highest = loadedBids?.at(0)?.amount ?? item.price ?? 0;
@@ -77,7 +76,7 @@ function BidSidebar({
       {
         query: GET_BIDS_BY_ITEM,
         variables: {
-          itemId: item.id ?? "",
+          itemId: itemId,
         },
       },
     ],
@@ -98,8 +97,7 @@ function BidSidebar({
       setIsSubmittingBid(false);
       setIsModalOpen(false);
     }
-  }, [isOpen, item.id]);
-
+  }, [isOpen, itemId]);
   const handleInitiateAuthorization = useCallback(async () => {
     setClientSecret(null);
     toast.dismiss();
@@ -129,8 +127,7 @@ function BidSidebar({
         body: JSON.stringify({
           customerId: bidderStripeCustomerId,
           amount: Math.round(bidAmountInput * 100),
-          itemId: item.id,
-          usage: "setup_future_usage",
+          itemId: itemId,
         }),
       });
 
@@ -155,55 +152,67 @@ function BidSidebar({
     } finally {
       setIsProcessingIntent(false);
     }
-  }, [bidAmountInput, minimumNextBid, bidderStripeCustomerId, item.id, userId]);
+  }, [bidAmountInput, minimumNextBid, bidderStripeCustomerId, itemId, userId]);
 
-  const finalizeBidSubmission = useCallback(async () => {
-    if (!userId) {
-      toast.error("User session lost. Cannot submit bid.");
-      setClientSecret(null);
-      setIsModalOpen(false);
-      throw new Error("User session lost");
-    }
-
-    setIsSubmittingBid(true);
-    toast.info("Submitting your bid...");
-
-    try {
-      const { data: mutationData, errors } = await submitBidMutation({
-        variables: {
-          bid: {
-            bidId: uuidv4(),
-            userId: userId,
-            itemId: item.id ?? "",
-            amount: bidAmountInput,
-          },
-        },
-      });
-
-      if (errors || !mutationData?.submitBid?.success) {
-        const errorMessage =
-          mutationData?.submitBid?.message ||
-          errors?.[0]?.message ||
-          "Bid submission failed.";
-        throw new Error(errorMessage);
+  const finalizeBidSubmission = useCallback(
+    async (paymentMethodId: string) => {
+      if (!userId) {
+        toast.error("User session lost. Cannot submit bid.");
+        setClientSecret(null);
+        setIsModalOpen(false);
+        throw new Error("User session lost");
+      }
+      if (!paymentMethodId) {
+        toast.error(
+          "Payment Method ID missing after authorization. Cannot submit bid.",
+        );
+        setIsModalOpen(false);
+        setClientSecret(null);
+        throw new Error("Missing PaymentMethod ID");
       }
 
-      console.log("Bid submitted via GraphQL:", mutationData);
-      toast.success("Bid submitted successfully!");
-      setClientSecret(null);
-      setIsModalOpen(false);
-    } catch (error: unknown) {
-      console.error("Error submitting bid via GraphQL:", error);
-      toast.error(
-        `Bid Submission Error: ${error instanceof Error ? error.message : "Unknown error"}`,
-      );
-      setIsModalOpen(false);
-      setClientSecret(null);
-      throw error;
-    } finally {
-      setIsSubmittingBid(false);
-    }
-  }, [userId, submitBidMutation, item.id, bidAmountInput]);
+      setIsSubmittingBid(true);
+      toast.info("Submitting your bid...");
+
+      try {
+        const { data: mutationData, errors } = await submitBidMutation({
+          variables: {
+            bid: {
+              bidId: uuidv4(),
+              userId: userId,
+              itemId: itemId,
+              amount: bidAmountInput,
+              paymentMethod: paymentMethodId,
+            },
+          },
+        });
+
+        if (errors || !mutationData?.submitBid?.success) {
+          const errorMessage =
+            mutationData?.submitBid?.message ||
+            errors?.[0]?.message ||
+            "Bid submission failed.";
+          throw new Error(errorMessage);
+        }
+
+        console.log("Bid submitted via GraphQL:", mutationData);
+        toast.success("Bid submitted successfully!");
+        setClientSecret(null);
+        setIsModalOpen(false);
+      } catch (error: unknown) {
+        console.error("Error submitting bid via GraphQL:", error);
+        toast.error(
+          `Bid Submission Error: ${error instanceof Error ? error.message : "Unknown error"}`,
+        );
+        setIsModalOpen(false);
+        setClientSecret(null);
+        throw error;
+      } finally {
+        setIsSubmittingBid(false);
+      }
+    },
+    [userId, submitBidMutation, itemId, bidAmountInput],
+  );
 
   const handleAuthorizationError = (message: string) => {
     toast.error(message);
@@ -332,7 +341,7 @@ function BidSidebar({
               className="space-y-2 overflow-y-auto pb-4"
               style={{ maxHeight: "calc(100% - 40px)" }}
             >
-              {existingBids.map(
+              {(existingBids as Bid[]).map(
                 (bid, index) =>
                   bid && (
                     <div
@@ -372,7 +381,7 @@ function BidSidebar({
             <Elements stripe={stripePromise} options={stripeElementsOptions}>
               <BidsAuthorizationForm
                 bidAmount={bidAmountInput}
-                itemId={item.id ?? ""}
+                itemId={itemId}
                 onSuccess={finalizeBidSubmission}
                 onError={handleAuthorizationError}
                 onCancel={handleCancelAuthorization}
