@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -155,8 +156,47 @@ public interface ItemRepository extends JpaRepository<ItemEntity, UUID> {
    *
    * @return the items.
    */
-
   @Query(value = "SELECT * FROM get_items_from_finished_auctions()", nativeQuery = true)
   @Transactional
   List<ItemEntity> getItemsFromFinishedAuctions();
+
+  /**
+   * This query gets the items from finished auctions.
+   *
+   * @return the items.
+   */
+  @Query(value = "UPDATE items SET final_price = :amount, "
+          + "auction_status = 'CLOSED' WHERE item_id = :itemId", nativeQuery = true)
+  @Modifying
+  @Transactional
+  int updateFinalPrice(@Param("itemId") UUID itemId, @Param("amount") BigDecimal amount);
+
+
+  /**
+   * Function to get the users won items.
+   *
+   * @param buyerId  the user id.
+   * @param page     the page.
+   * @param pageSize the size of the page.
+   *
+   * @return a list of the items.
+   */
+  @Query(value = "SELECT * FROM get_users_won_items(:buyerId, :page, :pageSize)",
+          nativeQuery = true)
+  List<ItemEntity> getUsersWonItems(@Param("buyerId") UUID buyerId,
+                                    @Param("page") int page,
+                                    @Param("pageSize") int pageSize);
+
+  /**
+   * Function to get the users won items pages.
+   *
+   * @param buyerId  the user id.
+   * @param pageSize the size of the pages.
+   *
+   * @return the amount of pages.
+   */
+  @Query(value = "SELECT * FROM get_users_won_items_pages(:buyerId, :pageSize)",
+          nativeQuery = true)
+  int getUsersWonItemsPages(@Param("buyerId") UUID buyerId,
+                            @Param("pageSize") int pageSize);
 }

@@ -33,6 +33,11 @@ public class CreateBidDto {
   private BigDecimal amount;
 
   /**
+   * The payment method.
+   */
+  private String paymentMethod;
+
+  /**
    * Default constructor.
    */
   public CreateBidDto() {
@@ -45,11 +50,13 @@ public class CreateBidDto {
    * @param itemId the item id.
    * @param amount the amount for the bid.
    */
-  public CreateBidDto(UUID userId, UUID itemId, BigDecimal amount) {
+  public CreateBidDto(UUID userId, UUID itemId,
+                      BigDecimal amount, String paymentMethod) {
     this.bidId = UUID.randomUUID();
     this.userId = userId;
     this.itemId = itemId;
     this.amount = amount;
+    this.paymentMethod = paymentMethod;
   }
 
 }

@@ -1,6 +1,7 @@
 package backend.common.dynamodb.tables;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.UUID;
 import lombok.Getter;
 import lombok.Setter;
@@ -43,6 +44,11 @@ public class Bids {
    * When the bid was created.
    */
   private String createdAt;
+
+  /**
+   * The payment method of the bid.
+   */
+  private String paymentMethod;
 
   /**
    * The time to live for dynamodb deletion.
@@ -93,6 +99,16 @@ public class Bids {
   }
 
   /**
+   * Gets the payment method.
+   *
+   * @return the payment method.
+   */
+  @DynamoDbAttribute("paymentMethod")
+  public String getPaymentMethod() {
+    return paymentMethod;
+  }
+
+  /**
    * Gets the user ID.
    *
    * @return the UserId.
@@ -126,10 +142,12 @@ public class Bids {
    * @param itemId the id of the item the bid is for.
    * @param amount the amount of the bid.
    */
-  public Bids(UUID bidId, UUID userId, UUID itemId, BigDecimal amount) {
+  public Bids(UUID bidId, UUID userId, UUID itemId,
+              BigDecimal amount, String paymentMethod) {
     this.bidId = bidId;
     this.userId = userId;
     this.itemId = itemId;
     this.amount = amount;
+    this.paymentMethod = paymentMethod;
   }
 }

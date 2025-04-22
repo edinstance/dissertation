@@ -68,6 +68,7 @@ public class BidMutationService {
       AppLogger.error("createBid called with null parameters");
       return false;
     }
+    AppLogger.info("Creating bid {}", bidDto.getPaymentMethod());
 
     BigDecimal currentHighestBid;
 

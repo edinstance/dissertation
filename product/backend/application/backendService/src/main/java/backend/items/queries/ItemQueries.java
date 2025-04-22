@@ -133,4 +133,24 @@ public class ItemQueries {
 
     return itemService.getShopItems(pagination, sorting);
   }
+
+  /**
+   * Query to get users won items.
+   *
+   * @param pagination pagination input.
+   *
+   * @return the users won items.
+   */
+  @DgsQuery
+  public SearchedItemsResponse getUsersWonItems(@InputArgument PaginationInput pagination) {
+
+    if (pagination == null) {
+      pagination = new PaginationInput(0, 10);
+    } else {
+      if (pagination.getSize() == 0) {
+        pagination.setSize(10);
+      }
+    }
+    return itemService.getUsersWonItems(pagination);
+  }
 }

@@ -22,14 +22,14 @@ public class CreateBidDtoTests {
 
   @Test
   public void testConstructor() {
-    createBidDto = new CreateBidDto(UUID.randomUUID(), UUID.randomUUID(), new BigDecimal("4.5"));
+    createBidDto = new CreateBidDto(UUID.randomUUID(), UUID.randomUUID(), new BigDecimal("4.5"), "card");
 
     assertNotNull(createBidDto);
   }
 
   @BeforeEach
   void setUp() {
-    createBidDto = new CreateBidDto(UUID.randomUUID(), UUID.randomUUID(), new BigDecimal("4.5"));
+    createBidDto = new CreateBidDto(UUID.randomUUID(), UUID.randomUUID(), new BigDecimal("4.5"), "card");
   }
 
   @Test
@@ -58,5 +58,11 @@ public class CreateBidDtoTests {
     BigDecimal amount = new BigDecimal("6.7");
     createBidDto.setAmount(amount);
     assertEquals(amount, createBidDto.getAmount());
+  }
+
+  @Test
+  public void testPaymentMethodMethods() {
+    createBidDto.setPaymentMethod("new");
+    assertEquals("new", createBidDto.getPaymentMethod());
   }
 }

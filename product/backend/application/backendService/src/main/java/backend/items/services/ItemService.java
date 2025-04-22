@@ -149,8 +149,7 @@ public class ItemService {
         AppLogger.info("Found user " + userId + " items in cache");
 
         items = objectMapper.readValue(cachedItems,
-                new TypeReference<>() {
-          }
+                new TypeReference<>() {}
         );
 
         jedis.expire(key, 300);
@@ -224,6 +223,51 @@ public class ItemService {
             itemEntity.getPrice(), itemEntity.getStock(), itemEntity.getCategory(),
             objectMapper.writeValueAsString(itemEntity.getImages()),
             authHelpers.getCurrentUserId());
+  }
+
+  /**
+   * Function to get the users won items.
+   *
+   * @param pagination the pagnitation input.
+   *
+   * @return the users won items.
+   */
+  public SearchedItemsResponse getUsersWonItems(final PaginationInput pagination) {
+    List<ItemEntity> items;
+
+    UUID userId = authHelpers.getCurrentUserId();
+
+    String key = "user:" + userId + ":won:items:page:" + pagination.getPage();
+    try (Jedis jedis = jedisPool.getResource()) {
+      String cachedItems = jedis.get(key);
+      if (cachedItems != null) {
+
+        AppLogger.info("Found user " + userId + " items in cache");
+
+        items = objectMapper.readValue(cachedItems,
+                new TypeReference<>() {}
+        );
+
+        jedis.expire(key, 300);
+      } else {
+        items = itemRepository.getUsersWonItems(userId,
+                pagination.getPage(), pagination.getSize());
+
+        AppLogger.info("Found user " + userId + " items in database");
+
+        jedis.set(key, objectMapper.writeValueAsString(items),
+                SetParams.setParams().ex(300));
+      }
+    } catch (JsonProcessingException e) {
+      AppLogger.error("Error while finding items for " + userId, e);
+      throw new RuntimeException(e);
+    }
+    AppLogger.info("Retrieved " + items.size() + " items for the user " + userId);
+
+    return new SearchedItemsResponse(items, new Pagination(pagination.getPage(),
+            pagination.getSize(),
+            itemRepository.getUsersWonItemsPages(userId, pagination.getSize())));
+
   }
 
 }

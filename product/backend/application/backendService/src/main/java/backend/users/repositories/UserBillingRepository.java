@@ -21,8 +21,8 @@ public interface UserBillingRepository extends JpaRepository<UserBillingEntity, 
    * @param customerId the customer id.
    */
   @Modifying
-  @Query(value = "CALL insert_or_update_user_billing(" +
-          ":userId, :accountId, :customerId)",
+  @Query(value = "CALL insert_or_update_user_billing("
+          + ":userId, :accountId, :customerId)",
           nativeQuery = true)
   @Transactional
   void saveUserBilling(

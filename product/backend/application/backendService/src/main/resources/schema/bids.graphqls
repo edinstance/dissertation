@@ -11,6 +11,7 @@ input SubmitBidInput {
     userId: String
     itemId: String
     amount: Float
+    paymentMethod: String
 }
 
 
@@ -20,4 +21,5 @@ type Bid {
     itemId: String
     amount: Float
     createdAt: String
+    paymentMethod: String
 }

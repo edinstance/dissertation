@@ -22,8 +22,9 @@ public class MapCreateBidDtoToDynamoTests {
     UUID userId = UUID.randomUUID();
     UUID itemId = UUID.randomUUID();
     BigDecimal amount = new BigDecimal("4.5");
+    String paymentMethod = "card";
 
-    CreateBidDto createBidDto = new CreateBidDto(userId, itemId, amount);
+    CreateBidDto createBidDto = new CreateBidDto(userId, itemId, amount, paymentMethod);
 
     Bids bid = MapCreateBidDtoToDynamo.mapBidDtoToDynamo(createBidDto);
 
@@ -33,5 +34,6 @@ public class MapCreateBidDtoToDynamoTests {
     assert bid.getUserId().equals(userId);
     assert bid.getItemId().equals(itemId);
     assert bid.getAmount().equals(amount);
+    assert bid.getPaymentMethod().equals(paymentMethod);
   }
 }

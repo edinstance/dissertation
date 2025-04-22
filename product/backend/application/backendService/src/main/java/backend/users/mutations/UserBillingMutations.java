@@ -38,7 +38,7 @@ public class UserBillingMutations {
    */
   @DgsMutation
   public MutationResponse saveUserBilling(@InputArgument UserBillingInput userBillingInput) {
-    if( userBillingService.saveUserBilling(userBillingInput)){
+    if (userBillingService.saveUserBilling(userBillingInput)) {
       return new MutationResponse(true, "User billing saved");
     }
     return new MutationResponse(false, "User billing not saved");

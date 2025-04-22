@@ -98,10 +98,9 @@ public class ItemEntity {
   /**
    * The item's seller.
    */
-  @ManyToOne(fetch = FetchType.LAZY)
+  @ManyToOne(fetch = FetchType.EAGER)
   @JoinColumn(name = "seller_id", nullable = false)
   @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-  @JsonIgnore
   private UserEntity seller;
 
   /**

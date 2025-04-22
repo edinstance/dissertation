@@ -22,7 +22,7 @@ public class BidsTests {
 
   @Test
   public void testConstructor() {
-    bid = new Bids(UUID.randomUUID(), UUID.randomUUID(), UUID.randomUUID(), new BigDecimal("4.5"));
+    bid = new Bids(UUID.randomUUID(), UUID.randomUUID(), UUID.randomUUID(), new BigDecimal("4.5"), "card");
 
     assertNotNull(bid);
     assertNotNull(bid.getBidId());

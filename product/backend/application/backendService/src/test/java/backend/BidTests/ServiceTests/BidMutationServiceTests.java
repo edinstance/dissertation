@@ -29,21 +29,21 @@ public class BidMutationServiceTests extends SetupBidMutationServiceTests {
 
   @Test
   void testNullItemId() {
-    CreateBidDto bidDto = new CreateBidDto(UUID.randomUUID(), UUID.randomUUID(), BigDecimal.TEN);
+    CreateBidDto bidDto = new CreateBidDto(UUID.randomUUID(), UUID.randomUUID(), BigDecimal.TEN, "card");
     bidDto.setAmount(BigDecimal.TEN);
     assertFalse(bidMutationService.createBid(bidDto));
   }
 
   @Test
   void testNullAmount() {
-    CreateBidDto bidDto = new CreateBidDto(UUID.randomUUID(), UUID.randomUUID(), BigDecimal.TEN);
+    CreateBidDto bidDto = new CreateBidDto(UUID.randomUUID(), UUID.randomUUID(), BigDecimal.TEN, "card");
     bidDto.setItemId(UUID.randomUUID());
     assertFalse(bidMutationService.createBid(bidDto));
   }
 
   @Test
   void testBidLessThanCurrentHighestBid() {
-    CreateBidDto bidDto = new CreateBidDto(UUID.randomUUID(), UUID.randomUUID(), BigDecimal.TEN);
+    CreateBidDto bidDto = new CreateBidDto(UUID.randomUUID(), UUID.randomUUID(), BigDecimal.TEN, "card");
     UUID itemId = UUID.randomUUID();
     bidDto.setItemId(itemId);
     bidDto.setAmount(BigDecimal.ONE);
@@ -55,7 +55,7 @@ public class BidMutationServiceTests extends SetupBidMutationServiceTests {
 
   @Test
   void testGetCurrentHighestBidThrowsException() {
-    CreateBidDto bidDto = new CreateBidDto(UUID.randomUUID(), UUID.randomUUID(), BigDecimal.TEN);
+    CreateBidDto bidDto = new CreateBidDto(UUID.randomUUID(), UUID.randomUUID(), BigDecimal.TEN, "card");
     UUID itemId = UUID.randomUUID();
     bidDto.setItemId(itemId);
     bidDto.setAmount(BigDecimal.TEN);
@@ -113,7 +113,7 @@ public class BidMutationServiceTests extends SetupBidMutationServiceTests {
 
   @Test
   void testKafkaSendThrowsException() {
-    CreateBidDto bidDto = new CreateBidDto(UUID.randomUUID(), UUID.randomUUID(), BigDecimal.TEN);
+    CreateBidDto bidDto = new CreateBidDto(UUID.randomUUID(), UUID.randomUUID(), BigDecimal.TEN, "card");
     UUID itemId = UUID.randomUUID();
     bidDto.setItemId(itemId);
     bidDto.setAmount(BigDecimal.TEN);

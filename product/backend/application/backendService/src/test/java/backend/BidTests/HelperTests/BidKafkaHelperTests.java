@@ -41,7 +41,7 @@ public class BidKafkaHelperTests {
 
   @BeforeEach
   void setUp() {
-    bidDto = new CreateBidDto(UUID.randomUUID(), UUID.randomUUID(), BigDecimal.TEN);
+    bidDto = new CreateBidDto(UUID.randomUUID(), UUID.randomUUID(), BigDecimal.TEN, "card");
     topic = "Bids";
     key = bidDto.getBidId().toString();
     maxRetries = 3;

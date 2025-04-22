@@ -100,10 +100,10 @@ public class BidsDynamoService {
 
     try {
       Instant now = Instant.now();
-      long ttlEpochSeconds = now.plus(LOG_RETENTION_DAYS, ChronoUnit.DAYS).getEpochSecond();
 
       Bids bids = MapCreateBidDtoToDynamo.mapBidDtoToDynamo(bidDto);
 
+      long ttlEpochSeconds = now.plus(LOG_RETENTION_DAYS, ChronoUnit.DAYS).getEpochSecond();
       bids.setCreatedAt(now.toString());
       bids.setTtlTimestamp(ttlEpochSeconds);
 

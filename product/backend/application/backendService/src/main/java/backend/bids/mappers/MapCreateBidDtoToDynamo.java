@@ -25,7 +25,8 @@ public class MapCreateBidDtoToDynamo {
             bidsDto.getBidId(),
             bidsDto.getUserId(),
             bidsDto.getItemId(),
-            bidsDto.getAmount()
+            bidsDto.getAmount(),
+            bidsDto.getPaymentMethod()
     );
   }
 }
