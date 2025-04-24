@@ -8,11 +8,13 @@ import {
 } from "@aws-sdk/client-s3";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 
-const S3_BUCKET = process.env.S3_BUCKET_NAME;
+const S3_BUCKET_NAME = process.env.S3_BUCKET_NAME;
+const S3_BUCKET_URL = process.env.S3_BUCKET_URL;
 
 const s3Client = new S3Client({
   region: "eu-west-2",
   forcePathStyle: true,
+  endpoint: S3_BUCKET_URL,
 });
 
 export async function getPresignedUrls(
@@ -28,7 +30,7 @@ export async function getPresignedUrls(
         const uniqueFileName = `${session.user.id}/${file.name}`;
 
         const command = new PutObjectCommand({
-          Bucket: S3_BUCKET,
+          Bucket: S3_BUCKET_NAME,
           Key: uniqueFileName,
           ContentType: file.type,
         });
@@ -39,7 +41,7 @@ export async function getPresignedUrls(
 
         return {
           presignedUrl,
-          publicUrl: `https://${S3_BUCKET}.s3.amazonaws.com/${uniqueFileName}`,
+          publicUrl: `${S3_BUCKET_URL}/${S3_BUCKET_NAME}/${uniqueFileName}`,
           key: uniqueFileName,
         };
       }),
@@ -55,7 +57,7 @@ export async function getPresignedUrls(
 export async function deleteS3Object(key: string) {
   try {
     const command = new DeleteObjectCommand({
-      Bucket: S3_BUCKET,
+      Bucket: S3_BUCKET_NAME,
       Key: key,
     });
 

@@ -38,10 +38,13 @@ You can run the application by using Docker. First move into the correct directo
 cd backendService
 ```
 
-Then build the image using this command.
+Then build the image using this command. You may need to add a build argument if it does not work.
 
 ```
 docker build -t final-project-backend .
+```
+```
+docker build --build-arg TEST_COGNITO_JWT_URL= -t final-project-backend .
 ```
 
 Then run it.
@@ -93,3 +96,7 @@ mvn  -f ./backendService checkstyle:check
 ```
 
 To configure checkstyle you can change [this file](./backendService/config/checkstyle.xml) which will change what checkstyle looks for. You can also change what checks are suppressed by editing [this file](./backendService/config/checkstyle-suppressions.xml).
+
+## Todo 
+
+Split up the backend service into seperate microservices.

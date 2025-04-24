@@ -2,7 +2,10 @@
 
 import createUser from "@/actions/sign-up";
 import { Button } from "@/components/ui/Button";
-import { CREATE_USER_MUTATION } from "@/lib/graphql/users";
+import {
+  CREATE_USER_MUTATION,
+  SAVE_USER_BILLING_MUTATION,
+} from "@/lib/graphql/users";
 import { useMutation } from "@apollo/client";
 import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/outline";
 import { signIn } from "next-auth/react";
@@ -53,6 +56,7 @@ function SignUpPage() {
   });
 
   const [createUserMutation] = useMutation(CREATE_USER_MUTATION);
+  const [saveUserBillingMutation] = useMutation(SAVE_USER_BILLING_MUTATION);
 
   /**
    * Handles form submission to create a new user.
@@ -74,7 +78,7 @@ function SignUpPage() {
       if (result.error) {
         setErrorMessage(result.error);
       } else if (result.success) {
-        createUserMutation({
+        const userResult = await createUserMutation({
           variables: {
             input: {
               id: result.id,
@@ -83,6 +87,24 @@ function SignUpPage() {
             },
           },
         });
+
+        if (userResult.errors) {
+          throw new Error("Error saving user data");
+        }
+
+        const billingResult = await saveUserBillingMutation({
+          variables: {
+            input: {
+              customerId: result.customerId,
+              userId: result.id,
+            },
+          },
+        });
+
+        if (billingResult.errors) {
+          throw new Error("Error saving billing information");
+        }
+
         const signInResult = await signIn("credentials", {
           email: signUpDetails.email,
           password: signUpDetails.password,

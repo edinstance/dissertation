@@ -3,14 +3,6 @@ output "nextauth_secret_arn" {
   value = aws_ssm_parameter.nextauth_secret.arn
 }
 
-output "nextauth_url_arn" {
-  value = aws_ssm_parameter.nextauth_url.arn
-}
-
-output "backend_graphql_endpoint_arn" {
-  value = aws_ssm_parameter.backend_graphql_endpoint.arn
-}
-
 output "frontend_cognito_client_id_arn" {
   value = aws_ssm_parameter.frontend_cognito_client_id.arn
 }

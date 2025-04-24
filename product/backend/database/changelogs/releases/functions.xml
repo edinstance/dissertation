@@ -103,4 +103,32 @@
                         stripComments="false" />
         </changeSet>
 
+        <changeSet id="get_item_price" author="zlac370" runOnChange="false">
+                <sqlFile path="../../src/sql/functions/get_item_price.sql"
+                        relativeToChangelogFile="true"
+                        splitStatements="false"
+                        stripComments="false" />
+        </changeSet>
+
+        <changeSet id="get_items_from_finished_auctions" author="zlac370" runOnChange="false">
+                <sqlFile path="../../src/sql/functions/get_items_from_finished_auctions.sql"
+                        relativeToChangelogFile="true"
+                        splitStatements="false"
+                        stripComments="false" />
+        </changeSet>
+
+         <changeSet id="get_users_won_items" author="zlac370" runOnChange="false">
+                <sqlFile path="../../src/sql/functions/get_users_won_items.sql"
+                        relativeToChangelogFile="true"
+                        splitStatements="false"
+                        stripComments="false" />
+        </changeSet>
+
+         <changeSet id="get_users_won_items_pages" author="zlac370" runOnChange="false">
+                <sqlFile path="../../src/sql/functions/get_users_won_items_pages.sql"
+                        relativeToChangelogFile="true"
+                        splitStatements="false"
+                        stripComments="false" />
+        </changeSet>
+
 </databaseChangeLog>

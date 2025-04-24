@@ -14,7 +14,8 @@ RETURNS TABLE (
     stock INT,
     category VARCHAR,
     images JSONB,
-    seller_id UUID
+    seller_id UUID,
+    final_price DECIMAL
 ) AS $$
 BEGIN
     RETURN QUERY
@@ -28,7 +29,8 @@ BEGIN
         i.stock,
         i.category,
         i.images,
-        i.seller_id
+        i.seller_id,
+        i.final_price
     FROM items i
     WHERE i.seller_id = _user_id AND i.is_active = _is_active
     ORDER BY i.last_updated_at DESC

@@ -3,17 +3,6 @@ resource "aws_ssm_parameter" "nextauth_secret" {
   type  = "String"
   value = var.nextauth_secret
 }
-resource "aws_ssm_parameter" "nextauth_url" {
-  name  = "/${var.environment}/frontend/NEXTAUTH_URL"
-  type  = "String"
-  value = var.nextauth_url
-}
-
-resource "aws_ssm_parameter" "backend_graphql_endpoint" {
-  name  = "/${var.environment}/frontend/BACKEND_GRAPHQL_ENDPOINT"
-  type  = "String"
-  value = var.backend_graphql_endpoint
-}
 
 resource "aws_ssm_parameter" "frontend_cognito_client_id" {
   name  = "/${var.environment}/frontend/COGNITO_CLIENT_ID"

@@ -41,3 +41,7 @@ output "redis_sg_id" {
 output "database_codebuild_sg_id" {
   value = aws_security_group.codebuild_database_sg.id
 }
+
+output "kafka_sg_id" {
+  value = aws_security_group.kafka_sg.id
+}
