@@ -38,10 +38,13 @@ You can run the application by using Docker. First move into the correct directo
 cd backendService
 ```
 
-Then build the image using this command.
+Then build the image using this command. You may need to add a build argument if it does not work.
 
 ```
 docker build -t final-project-backend .
+```
+```
+docker build --build-arg TEST_COGNITO_JWT_URL= -t final-project-backend .
 ```
 
 Then run it.

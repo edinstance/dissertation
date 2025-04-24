@@ -53,4 +53,12 @@
                         stripComments="false" />
         </changeSet>
 
+        <changeSet id="add_final_price_to_items" author="zlac370" runOnChange="false">
+                <sqlFile path="../../src/sql/updates/add_final_price_to_items.sql"
+                        relativeToChangelogFile="true"
+                        splitStatements="false"
+                        stripComments="false" />
+        </changeSet>
+
+
 </databaseChangeLog>
