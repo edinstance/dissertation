@@ -2,6 +2,9 @@
 
 It is split into two main sections, the [documents](./documents/) and the [product](./product/).
 
+# Documents 
+The documents section contains all the reports created throughout the project.
+
 # Product
 
 The product is comprised of the [frontend](./product/frontend/), [backend](./product/backend/), [CICD](./product/CICD/),  [Docker Containers](./product/Docker/) and the [Infrastructure](./product/infrastructure/). There are multiple ways of running this application but there are some required items. There is more detailed steps inside the respective directories but this is a higher level overview on how to run the application.
