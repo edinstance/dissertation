@@ -1,27 +1,17 @@
-import {
-  findCustomerByUserId,
-  findExistingSubscriptionByUserId,
-} from "@/utils/stripe";
+// File: app/api/billing/subscriptions/route.ts (for App Router)
+import stripe, { findExistingSubscriptionByCustomerId } from "@/utils/stripe";
 import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
 
-/**
- * Handles POST requests for creating or managing subscriptions.
- *
- * This function retrieves the user ID from the request, checks for an existing
- * customer and subscription, and either reactivates an existing subscription
- * or creates a new one. It returns the client secret needed for payment processing.
- *
- * @param request - The incoming request object containing the user ID.
- * @returns A promise that resolves to a NextResponse object
- * containing the client secret or an error message.
- */
 export async function POST(request: NextRequest) {
   try {
-    const { userId } = await request.json();
+    const { customerId } = await request.json();
 
-    if (!userId) {
-      return NextResponse.json({ error: "Missing userId" }, { status: 400 });
+    if (!customerId) {
+      return NextResponse.json(
+        { error: "Missing customer id" },
+        { status: 400 },
+      );
     }
 
     const priceId = process.env.STRIPE_PRICE_ID;
@@ -32,18 +22,9 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const customer = await findCustomerByUserId(userId);
-    if (!customer) {
-      return NextResponse.json(
-        { error: "Customer not found" },
-        { status: 404 },
-      );
-    }
-
-    const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string);
-
     // Check for existing subscription
-    const existingSubscription = await findExistingSubscriptionByUserId(userId);
+    const existingSubscription =
+      await findExistingSubscriptionByCustomerId(customerId);
 
     if (existingSubscription) {
       // Handle specific statuses of the existing subscription
@@ -55,7 +36,7 @@ export async function POST(request: NextRequest) {
       if (existingSubscription.status === "canceled") {
         // Reactivate the subscription and return client_secret
         const newSubscription = await stripe.subscriptions.create({
-          customer: customer.id,
+          customer: customerId,
           items: [{ price: priceId }],
           payment_behavior: "default_incomplete",
           payment_settings: { save_default_payment_method: "on_subscription" },
@@ -68,6 +49,7 @@ export async function POST(request: NextRequest) {
 
         return NextResponse.json({
           client_secret: updatedPaymentIntent?.client_secret,
+          subscription_id: newSubscription.id,
         });
       }
 
@@ -75,17 +57,20 @@ export async function POST(request: NextRequest) {
         // Return the client_secret to complete the subscription
         return NextResponse.json({
           client_secret: paymentIntent?.client_secret,
+          subscription_id: existingSubscription.id,
         });
       }
 
       // If the subscription is already active
-      return NextResponse.json({ message: "Subscription is already active." });
+      return NextResponse.json({
+        message: "Subscription is already active.",
+        subscription_id: existingSubscription.id,
+        status: existingSubscription.status,
+      });
     }
 
-    // No existing subscription, create a new one
-
     const newSubscription = await stripe.subscriptions.create({
-      customer: customer.id,
+      customer: customerId,
       items: [{ price: priceId }],
       payment_behavior: "default_incomplete",
       payment_settings: { save_default_payment_method: "on_subscription" },
@@ -97,6 +82,7 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json({
       client_secret: paymentIntent?.client_secret,
+      subscription_id: newSubscription.id,
     });
   } catch (error: unknown) {
     console.error("Error in subscription handler:", error);

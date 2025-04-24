@@ -6,12 +6,12 @@
     <parent>
         <groupId>finalProject</groupId>
         <artifactId>root</artifactId>
-        <version>0.0.1</version>
+        <version>1.0</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
     <artifactId>integrationTests</artifactId>
-    <version>0.0.1</version>
+    <version>1.0</version>
     <name>Integration Tests</name>
     <description>Integration tests for the final year project backend</description>
 
@@ -84,7 +84,7 @@
         <dependency>
             <groupId>finalProject</groupId>
             <artifactId>backendService</artifactId>
-            <version>0.0.1</version>
+            <version>1.0</version>
         </dependency>
     </dependencies>
 

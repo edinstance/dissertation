@@ -49,6 +49,12 @@ module "backend_ecr" {
   name = "${var.environment}-backend-ecr"
 }
 
+# module "apollo_gateway_ecr" {
+#   source = "./modules/ecr"
+
+#   name = "${var.environment}-apollo-gateway-ecr"
+# }
+
 # ECS
 module "ecs" {
   source = "./modules/ecs"
@@ -57,10 +63,12 @@ module "ecs" {
   environment = var.environment
 
   # ECR
-  frontend_ecr_repo  = module.frontend_ecr.repository_url
-  backend_ecr_repo   = module.backend_ecr.repository_url
+  frontend_ecr_repo = module.frontend_ecr.repository_url
+  backend_ecr_repo  = module.backend_ecr.repository_url
+  # apollo_gateway_ecr_repo  = module.apollo_gateway_ecr.repository_url
   frontend_image_tag = var.frontend_image_tag
   backend_image_tag  = var.backend_image_tag
+  # apollo_gateway_image_tag = var.apollo_gateway_image_tag
 
   # IAM
   ecs_task_execution_role_arn = module.iam.ecs_task_execution_role_arn
@@ -79,9 +87,7 @@ module "ecs" {
   backend_sg_id      = module.networking.backend_sg_id
 
   # Frontend enviroment variables
-  nextauth_url_arn               = module.ssm.nextauth_url_arn
   nextauth_secret_arn            = module.ssm.nextauth_secret_arn
-  backend_graphql_endpoint_arn   = module.ssm.backend_graphql_endpoint_arn
   frontend_cognito_client_id_arn = module.ssm.frontend_cognito_client_id_arn
   cognito_user_pool_id_arn       = module.ssm.cognito_user_pool_id_arn
   api_key_arn                    = module.ssm.api_key_arn
@@ -111,6 +117,7 @@ module "ecs" {
   open_ai_key_arn             = module.ssm.open_ai_key_arn
   open_ai_project_id_arn      = module.ssm.open_ai_project_id_arn
   open_ai_organization_id_arn = module.ssm.open_ai_organization_id_arn
+  kafka_bootstrap_brokers     = module.kafka.bootstrap_brokers
 }
 
 # Networking
@@ -174,9 +181,7 @@ module "ssm" {
   api_key     = var.api_key
 
   # Frontend
-  nextauth_url               = var.nextauth_url
   nextauth_secret            = var.nextauth_secret
-  backend_graphql_endpoint   = var.backend_graphql_endpoint
   frontend_cognito_client_id = module.cognito.frontend_client_id
   cognito_user_pool_id       = module.cognito.cognito_user_pool_id
   stripe_publishable_key     = var.stripe_publishable_key
@@ -192,7 +197,7 @@ module "ssm" {
   # Backend
   spring_active_profile   = var.spring_active_profile
   cognito_jwt_url         = "https://cognito-idp.${data.aws_region.current.name}.amazonaws.com/${module.cognito.cognito_user_pool_id}"
-  database_url            = "jdbc:postgresql://${module.rds.database_url}/"
+  database_url            = "jdbc:postgresql://${module.rds.database_url}"
   postgres_user           = var.postgres_user
   postgres_password       = var.postgres_password
   redis_host              = module.elasticache.redis_host
@@ -256,15 +261,20 @@ module "cicd" {
 
   frontend_ecs_service_name = module.ecs.frontend_ecs_service_name
   backend_ecs_service_name  = module.ecs.backend_ecs_service_name
+  # apollo_gateway_ecs_service_name = module.ecs.apollo_gateway_ecs_service_name
 
   frontend_alb_listener_arn = module.ecs.frontend_alb_listener_arn
   backend_alb_listener_arn  = module.ecs.backend_alb_listener_arn
+  # apollo_gateway_alb_listener_arn = module.ecs.apollo_gateway_alb_listener_arn
 
   frontend_alb_target_group_blue_name  = module.ecs.frontend_alb_target_group_blue_name
   frontend_alb_target_group_green_name = module.ecs.frontend_alb_target_group_green_name
 
   backend_alb_target_group_blue_name  = module.ecs.backend_alb_target_group_blue_name
   backend_alb_target_group_green_name = module.ecs.backend_alb_target_group_green_name
+
+  # apollo_gateway_alb_target_group_blue_name  = module.ecs.apollo_gateway_alb_target_group_blue_name
+  # apollo_gateway_alb_target_group_green_name = module.ecs.apollo_gateway_alb_target_group_green_name
 }
 
 
@@ -277,10 +287,25 @@ module "s3" {
   codedeploy_iam_role_arn   = module.iam.codedeploy_service_role_arn
 }
 
+module "shared_s3" {
+  source = "../shared/s3"
+
+  environment     = var.environment
+  allowed_origins = [var.domain]
+}
+
 # The aws_codeconnections_connection resource is created in the state PENDING. 
 # Authentication with the connection provider must be completed in the AWS Console. 
 # See the AWS documentation for details.
 resource "aws_codeconnections_connection" "codeconnection" {
   name          = "code connection"
   provider_type = var.code_connect_src
+}
+
+module "kafka" {
+  source = "./modules/kafka"
+
+  environment       = var.environment
+  subnet_ids        = module.networking.private_subnet_ids
+  security_group_id = module.networking.kafka_sg_id
 }

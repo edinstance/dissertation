@@ -6,6 +6,10 @@ This is the frontend application for this final year project. Below are the step
 
 You can either run the application locally or using Docker:
 
+### Image upload
+
+When using image upload with this you need an s3 bucket and this can be one hosted on aws or a local one using the docker compose file [here](../docker/docker-compose-local.yml).
+
 ### Locally
 
 To run locally move into this directory and first build the application then run it.

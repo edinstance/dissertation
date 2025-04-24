@@ -1,6 +1,6 @@
 
 output "database_url" {
-  value = aws_rds_cluster.database.endpoint
+  value = "${aws_rds_cluster.database.endpoint}/${var.environment}Database"
 }
 
 output "rds_secrets_arn" {

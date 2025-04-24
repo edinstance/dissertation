@@ -1,7 +1,13 @@
 "use client";
 
+import { GET_USER_BILLING } from "@/lib/graphql/users";
 import { cn } from "@/lib/utils";
-import { PlusIcon, ShoppingBagIcon } from "@heroicons/react/24/outline";
+import { useQuery } from "@apollo/client";
+import {
+  PlusIcon,
+  ShoppingBagIcon,
+  ShoppingCartIcon,
+} from "@heroicons/react/24/outline";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -9,12 +15,17 @@ const sidebarLinks = [
   {
     name: "Shop",
     href: "/shop",
-    icon: ShoppingBagIcon,
+    icon: ShoppingCartIcon,
   },
   {
     name: "Items",
     href: "/items",
     icon: PlusIcon,
+  },
+  {
+    name: "Won Items",
+    href: "/items/won",
+    icon: ShoppingBagIcon,
   },
 ];
 
@@ -29,10 +40,18 @@ const sidebarLinks = [
 export function Sidebar() {
   const pathname = usePathname();
 
+  const userBilling = useQuery(GET_USER_BILLING);
+  const accountId = userBilling.data?.getUserBilling?.accountId;
+  
+  // Filter out the Items page from sidebar links if no account ID exists
+  const filteredSidebarLinks = sidebarLinks.filter(link => 
+    link.name !== "Items" || accountId
+  );
+
   return (
     <div className="fixed left-0 top-16 z-50 h-full w-16 border-r border-gray-200 bg-white dark:border-gray-800 dark:bg-zinc-900">
       <div className="flex h-full flex-col items-center space-y-4 py-4">
-        {sidebarLinks.map((link) => (
+        {filteredSidebarLinks.map((link) => (
           <Link
             key={link.name}
             href={link.href}

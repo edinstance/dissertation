@@ -2,6 +2,8 @@
 
 import { unsubscribe } from "@/actions/unsubscribe";
 import { Button } from "@/components/ui/Button";
+import { GET_USER_BILLING } from "@/lib/graphql/users";
+import { useQuery } from "@apollo/client";
 import { useState } from "react";
 
 /**
@@ -15,19 +17,20 @@ import { useState } from "react";
  * @param className - Optional additional class names to apply to the button.
  * @returns The rendered UnsubscribeButton component.
  */
-export function UnsubscribeButton({
-  userId,
-  className,
-}: {
-  userId: string;
-  className?: string;
-}) {
+export function UnsubscribeButton({ className }: { className?: string }) {
   const [isLoading, setIsLoading] = useState(false);
+
+  const userBilling = useQuery(GET_USER_BILLING);
+  const customerId = userBilling.data?.getUserBilling?.customerId;
 
   async function handleCancel() {
     setIsLoading(true);
     try {
-      const result = await unsubscribe({ id: userId });
+      if (!customerId) {
+        console.error("Customer ID is missing");
+        return;
+      }
+      const result = await unsubscribe({ customerId: customerId });
       if (result.success) {
         window.location.reload();
       }

@@ -83,4 +83,18 @@
                         stripComments="false" />
         </changeSet>
 
+        <changeSet id="user_billing_table" author="zlac370" runOnChange="false">
+                <sqlFile path="../../src/sql/tables/user_billing.sql"
+                        relativeToChangelogFile="true"
+                        splitStatements="false"
+                        stripComments="false" />
+        </changeSet>
+
+        <changeSet id="winning_bids_table" author="zlac370" runOnChange="false">
+                <sqlFile path="../../src/sql/tables/winning_bids.sql"
+                        relativeToChangelogFile="true"
+                        splitStatements="false"
+                        stripComments="false" />
+        </changeSet>
+
 </databaseChangeLog>

@@ -1,0 +1,25 @@
+
+extend type Query {
+    getItemBidsById(itemId: String): [Bid]
+}
+extend type Mutation {
+    submitBid(bid: SubmitBidInput): MutationResponse
+}
+
+input SubmitBidInput {
+    bidId: String
+    userId: String
+    itemId: String
+    amount: Float
+    paymentMethod: String
+}
+
+
+type Bid {
+    bidId: String
+    userId: String
+    itemId: String
+    amount: Float
+    createdAt: String
+    paymentMethod: String
+}

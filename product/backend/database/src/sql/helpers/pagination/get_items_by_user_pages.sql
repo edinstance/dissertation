@@ -13,7 +13,8 @@ BEGIN
 
     SELECT COUNT(*) INTO total_items
     FROM items i
-    WHERE seller_id = _user_id AND is_active = _is_active;
+    WHERE seller_id = _user_id
+    AND is_active = _is_active;
 
     RETURN QUERY SELECT GREATEST(1, CEIL(total_items::DECIMAL / _page_size)::INT);
 END;

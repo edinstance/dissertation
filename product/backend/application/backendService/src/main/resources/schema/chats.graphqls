@@ -8,10 +8,6 @@ extend type Mutation {
     clearCurrentConversation(conversationId: String!): MutationResponse
 }
 
-extend type Subscription {
-    chatSubscription(conversationId: String!): Chat
-}
-
 type CreateChatResponse {
     chat: Chat
     response: Chat
