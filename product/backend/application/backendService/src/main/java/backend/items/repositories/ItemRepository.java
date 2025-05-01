@@ -166,7 +166,7 @@ public interface ItemRepository extends JpaRepository<ItemEntity, UUID> {
    * @return the items.
    */
   @Query(value = "UPDATE items SET final_price = :amount, "
-          + "auction_status = 'CLOSED' WHERE item_id = :itemId", nativeQuery = true)
+          + "is_active = false WHERE item_id = :itemId", nativeQuery = true)
   @Modifying
   @Transactional
   int updateFinalPrice(@Param("itemId") UUID itemId, @Param("amount") BigDecimal amount);

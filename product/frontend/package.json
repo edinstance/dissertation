@@ -5,15 +5,15 @@
   "type": "module",
   "scripts": {
     "build": "next build --turbopack",
+    "start": "next start",
     "dev": "next dev --turbopack",
     "lint": "next lint && prettier --check . && knip",
     "prettier": "prettier --write .",
-    "start": "next start",
+    "knip": "knip",
     "codegen": "graphql-codegen --config codegen.ts",
     "cy:open": "cypress open",
     "cy:run:ct": "cypress run --component",
     "cy:run:e2e": "cypress run --e2e",
-    "knip": "knip",
     "docs": "npx typedoc --options typedoc.json"
   },
   "dependencies": {
