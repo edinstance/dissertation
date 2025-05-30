@@ -4,7 +4,7 @@ stages:
 
 before_script:
   - echo "Setting up the environment..."
-  - cd ./product/backend/
+  - cd ./backend/
 
 lint_backend:
   stage: test
