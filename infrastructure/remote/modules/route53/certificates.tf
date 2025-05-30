@@ -1,10 +1,10 @@
 
 resource "aws_acm_certificate" "acm_certificate" {
-  domain_name       = var.environment == "prod" ? "${var.domain}" : "${var.environment}.${var.domain}"
+  domain_name       = var.environment == "prod" ? var.domain : "${var.environment}.${var.domain}"
   validation_method = "DNS"
 
   subject_alternative_names = [
-    "www.${var.environment == "prod" ? "${var.domain}" : "${var.environment}.${var.domain}"}",
+    "www.${var.environment == "prod" ? var.domain : "${var.environment}.${var.domain}"}",
   ]
 
   lifecycle {

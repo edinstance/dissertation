@@ -61,11 +61,11 @@ variable "backend_image_tag" {
   default     = "latest"
 }
 
-variable "apollo_gateway_image_tag" {
-  description = "The tag of the apollo gateway Docker image to deploy"
-  type        = string
-  default     = "latest"
-}
+# variable "apollo_gateway_image_tag" {
+#   description = "The tag of the apollo gateway Docker image to deploy"
+#   type        = string
+#   default     = "latest"
+# }
 
 # SSM
 variable "nextauth_secret" {

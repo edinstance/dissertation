@@ -119,7 +119,7 @@ resource "aws_iam_policy" "ecs_dynamodb_admin_logs_policy" {
           "dynamodb:BatchWriteItem",
           "dynamodb:DescribeTable"
         ]
-        Resource = "${var.admin_access_logs_table_arn}"
+        Resource = var.admin_access_logs_table_arn
       },
 
     ]
