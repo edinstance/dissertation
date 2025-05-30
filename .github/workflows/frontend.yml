@@ -52,12 +52,6 @@ jobs:
         run: |
           echo "API_KEY=Test" >> $GITHUB_ENV
 
-      - name: Build frontend Docker image for tests
-        run: docker build -t frontend-test-image .
-
-      - name: Bring up Docker Compose services
-        run: docker compose up -d
-
       - name: Cypress.io component tests
         uses: cypress-io/github-action@v6.5.0
         with:
