@@ -3,9 +3,7 @@ import Stripe from "stripe";
 if (!process.env.STRIPE_SECRET_KEY) {
   throw new Error("Stripe secret key is not configured.");
 }
-const stripe = new Stripe(
-  "sk_test_51QNhlTGlnq0aqIkWUh4pGdNEkLo6qGgkXU885vaJexq15ykuThU9JDTxo77RTjCqNxRP6QkW30y7cZEIOLEpn6KD00uBKttude",
-);
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 export default stripe;
 
 /**

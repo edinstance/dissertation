@@ -1,0 +1,24 @@
+name: Infrastructure Lint
+on:
+  pull_request:
+
+jobs:
+  lint-and-security-scan-infrastructure:
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: ./infrastructure
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup TFLint
+        uses: terraform-linters/setup-tflint@v4.1.1
+
+      - name: Initialise TFLint
+        run: tflint --init
+
+      - name: Run TFLint
+        run: tflint --recursive

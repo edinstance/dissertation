@@ -1,4 +1,3 @@
-// File: app/api/billing/subscriptions/route.ts (for App Router)
 import stripe from "@/utils/stripe";
 import { NextRequest, NextResponse } from "next/server";
 

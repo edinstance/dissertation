@@ -9,11 +9,6 @@ variable "environment" {
   }
 }
 
-variable "availability_zones" {
-  description = "The availability zones for the database"
-  type        = list(string)
-}
-
 variable "private_subnet_ids" {
   description = "The IDs of the private subnets"
   type        = list(string)
