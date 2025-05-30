@@ -42,10 +42,10 @@ export function Sidebar() {
 
   const userBilling = useQuery(GET_USER_BILLING);
   const accountId = userBilling.data?.getUserBilling?.accountId;
-  
+
   // Filter out the Items page from sidebar links if no account ID exists
-  const filteredSidebarLinks = sidebarLinks.filter(link => 
-    link.name !== "Items" || accountId
+  const filteredSidebarLinks = sidebarLinks.filter(
+    (link) => link.name !== "Items" || accountId,
   );
 
   return (
