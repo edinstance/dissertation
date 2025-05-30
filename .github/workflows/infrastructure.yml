@@ -22,5 +22,3 @@ jobs:
 
       - name: Run TFLint
         run: tflint --recursive
-
-    

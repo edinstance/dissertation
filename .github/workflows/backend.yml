@@ -4,9 +4,8 @@ on:
   pull_request:
   workflow_dispatch:
 
-    
 env:
-    TEST_COGNITO_JWT_URL: ${{ secrets.TEST_COGNITO_JWT_URL }}
+  TEST_COGNITO_JWT_URL: ${{ secrets.TEST_COGNITO_JWT_URL }}
 
 jobs:
   lint-backend:
@@ -44,13 +43,13 @@ jobs:
 
       - name: Prepare application.yml for tests
         run: |
-            echo "Copying the test-application.yml into a application.yml file..."
-            cp ./backendService/src/main/resources/test-application.example.yml ./backendService/src/main/resources/application.yml
-            cp ./backendService/src/test/resources/application.example.yml ./backendService/src/test/resources/application.yml
-            echo "Copying completed"
+          echo "Copying the test-application.yml into a application.yml file..."
+          cp ./backendService/src/main/resources/test-application.example.yml ./backendService/src/main/resources/application.yml
+          cp ./backendService/src/test/resources/application.example.yml ./backendService/src/test/resources/application.yml
+          echo "Copying completed"
 
       - name: Run unit tests
         run: |
-            echo "Running unit tests..."
-            mvn -f ./backendService/pom.xml clean test -DTEST_COGNITO_JWT_URL=$TEST_COGNITO_JWT_URL
-            echo "Unit tests passed"
+          echo "Running unit tests..."
+          mvn -f ./backendService/pom.xml clean test -DTEST_COGNITO_JWT_URL=$TEST_COGNITO_JWT_URL
+          echo "Unit tests passed"
