@@ -1,12 +1,6 @@
 stages:
   - triggers
 
-# Create a trigger for running the frontend workflow
-trigger_frontend_workflow:
-  stage: triggers
-  trigger:
-    include: product/CICD/gitlab/frontend.yml
-
 # Create a trigger for running the backend workflow
 trigger_backend_workflow:
   stage: triggers

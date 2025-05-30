@@ -3,7 +3,7 @@ on:
   pull_request:
 
 jobs:
-  lint-and-security-scan:
+  lint-and-security-scan-infrastructure:
     runs-on: ubuntu-latest
 
     defaults:
