@@ -55,7 +55,5 @@ jobs:
       - name: Cypress.io component tests
         uses: cypress-io/github-action@v6.5.0
         with:
-          wait-on: http://localhost:3000/api/health
-          wait-on-timeout: 120
           working-directory: ./frontend
           command: npm run cy:run:ct
